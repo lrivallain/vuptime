@@ -4,12 +4,10 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+Sys Admin in IT Consulting, I work mainly on VMware virtual infrastructures, "IaaS/SaaS/PaaS" and cloud computing offers for key accounts (architecture, orchestration, disaster recovery plans, trainings...).
 
-### More Information
+A bit of laziness encourage me to write a lot of #Python or #PowerShell scripts to operate.
 
-A place to include any other types of information that you'd like to include about yourself.
+### Open source
 
-### Contact me
-
-[email@domain.com](mailto:email@domain.com)
+I'm also self-interested in open-source solutions like #Docker, #OpenShift or #Django.
