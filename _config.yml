@@ -9,7 +9,7 @@ name: Ludovic Rivallain
 description: VMware sysadmin
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: https://avatars3.githubusercontent.com/u/778745?v=3&u=01ab2c88305cd62fd31d283ad98a80219ffa8021&s=400
+avatar: /images/lrivallain.png
 
 #
 # Flags below are optional
@@ -23,13 +23,13 @@ footer-links:
   flickr:
   github: lrivallain
   instagram:
-  linkedin:
+  linkedin: ludovicrivallain
   pinterest:
-  rss: 123 # just type anything here for a working RSS icon
+  rss: 123
   twitter: lrivallain
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
   youtube: # channel/<your_long_string> or user/<user-name>
-  googleplus: ludovic.rivallain # anything in your profile username that comes after plus.google.com/
+  googleplus: ludovic.rivallain
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
@@ -53,7 +53,7 @@ baseurl: ""
 # !! You don't need to change any of the configuration flags below !!
 #
 
-permalink: /:title/
+permalink: /:year/:month/:day/:title/
 
 # The release of Jekyll Now that you're using
 version: v1.2.0
@@ -76,6 +76,7 @@ sass:
 gems:
   - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
   - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
+  - jekyll-paginate # pagination support for jekill 3
 
 # Exclude these files from your production _site
 exclude:
@@ -85,4 +86,6 @@ exclude:
   - README.md
   - CNAME
 
-#theme: jekyll-theme-dinky
+theme: jekyll-theme-dinky
+
+paginate: 5

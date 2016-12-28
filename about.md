@@ -6,8 +6,8 @@ permalink: /about/
 
 Sys Admin in IT Consulting, I work mainly on VMware virtual infrastructures, "IaaS/SaaS/PaaS" and cloud computing offers for key accounts (architecture, orchestration, disaster recovery plans, trainings...).
 
-A bit of laziness encourage me to write a lot of #Python or #PowerShell scripts to operate.
+A bit of laziness encourage me to write a lot of **#Python** or **#PowerShell** scripts to operate.
 
 ### Open source
 
-I'm also self-interested in open-source solutions like #Docker, #OpenShift or #Django.
+I'm also self-interested in open-source solutions like **#Docker**, **#OpenShift** or **#Django**.
