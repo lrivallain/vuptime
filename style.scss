@@ -18,7 +18,7 @@ html {
 }
 
 body {
-	background: $white;
+  background: $white;
   font: 18px/1.4 $helvetica;
   color: $darkGray;
 }
@@ -285,15 +285,33 @@ footer {
 
 .pagination {
 	background-color: #eee;
-	margin-left: -50px;
-	margin: 30px 0;
-	padding: 10px 10px 14px;
-	padding-left: 50px;
+	padding: 10px 0px 14px;
 	border-radius: 5px;
 	position: relative;
 	box-shadow: 0 1px 5px rgba(187, 187, 187, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(187, 187, 187, 0.3);
 	color: #555;
 	text-align: center;
+}
+
+.pagination .prev {
+	text-align: left;
+	width: 33%;
+	padding-left: 10px;
+	margin-left: 0px;
+	display: inline-block;
+}
+
+.pagination .page_number {
+    display: inline-block;
+	width: 32%;
+}
+
+.pagination .next {
+	text-align: right;
+	width: 33%;
+	padding-right: 10px;
+	margin-right: 0px;
+	display: inline-block;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
