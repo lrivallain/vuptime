@@ -11,3 +11,7 @@ A bit of laziness encourage me to write a lot of **#Python** or **#PowerShell** 
 ### Open source
 
 I'm also self-interested in open-source solutions like **#Docker**, **#OpenShift** or **#Django**.
+
+### Old version of the blog
+
+An old version of this blog is available on OpenShift plateform : [blog-lrivallain.rhcloud.com](http://blog-lrivallain.rhcloud.com)
