@@ -323,3 +323,46 @@ footer {
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
 @import "svg-icons";
+
+
+
+.resume .centered {
+    text-align:center;
+}
+
+.resume .entry {
+    font-size:0.8em;
+	padding-left: 20px;
+}
+
+.resume hr {
+	border-top: 1px solid #aaa;
+	border-bottom: 0px;
+}
+
+.resume h1, .resume h2 {
+	margin-left: -20px;
+}
+
+.resume h2 {
+	color:#666;
+	margin-bottom:0px;
+}
+
+.resume h3 {
+	color: #888888;
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+.resume h3 + p {
+	margin-top:0px;
+}
+
+.resume p {
+    margin-bottom:0px;
+}
+
+.resume ul, .resume ol {
+    margin-top:5px;
+}
