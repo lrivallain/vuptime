@@ -20,4 +20,4 @@ An old version of this blog is available on OpenShift plateform : [blog-lrivalla
 
 Please refer to my [linkedin profile](https://www.linkedin.com/in/ludovicrivallain) to contact me in private.
 
-In case of mail contacts, please note my PGP key fingerprint: ``CBF2 D0FF 5BDF 1CF8 5094  4C05 C6BE 80D9 44DB 4587`` (aka **``0x44DB4587``**)
+In case of mail contacts, please note my PGP key fingerprint: 🔑 ``CBF2 D0FF 5BDF 1CF8 5094  4C05 C6BE 80D9 44DB 4587`` (aka **``0x44DB4587``**)
