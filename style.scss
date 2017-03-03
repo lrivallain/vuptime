@@ -19,7 +19,7 @@ html {
 
 body {
   background: $white;
-  font: 18px/1.4 $helvetica;
+  font: 16px/1.4 $helvetica;
   color: $darkGray;
 }
 
@@ -264,7 +264,7 @@ nav {
     border-left: 2px solid $gray;
     padding: 0.1em 1em;
     color: $gray;
-    font-size: 22px;
+    font-size: 18px;
     font-style: italic;
   }
 
@@ -275,6 +275,10 @@ nav {
   .read-more {
     text-transform: uppercase;
     font-size: 15px;
+  }
+
+  .pre {
+      font-size: 14px;
   }
 }
 
@@ -325,7 +329,9 @@ footer {
 @import "svg-icons";
 
 
-
+/*
+    Resume page
+*/
 .resume .centered {
     text-align:center;
 }
