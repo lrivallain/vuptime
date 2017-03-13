@@ -3,16 +3,23 @@ layout: page
 title: About
 ---
 
-Sys Admin in IT Consulting, I work mainly on VMware virtual infrastructures, "IaaS/SaaS/PaaS" and cloud computing offers for key accounts (architecture, orchestration, disaster recovery plans, trainings...).
+I am currently senior Virtualisation Engineer+SysAdmin in **[SII Group](http://www.groupe-sii.com)**, a French IT
+consulting company. Before that I used to work as tech leader of run/operations team of the Private Cloud offer at
+OVH hosting company.
 
-A bit of laziness encourages me to write a lot of **#Python** or **#PowerShell** scripts to operate.
+I work mainly on **VMware** virtual infrastructures, "IaaS/PaaS" cloud computing offers for key accounts
+(architecture, orchestration, disaster recovery plans, trainings…).
+
+And as I might be a little lazy sometimes, I love automation concepts and I deal with **Python**, **Powershell**
+and **Bash** scripts daily.
 
 ### Open source
 
-I'm also self-interested in open-source solutions like **#Docker**, **#OpenShift** or **#Django**.
+I'm also self-interested in open-source solutions like **#Docker** or **#OpenStack**.
 
 ### Contacts
 
 Please refer to my [linkedin profile](https://www.linkedin.com/in/ludovicrivallain) to contact me in private.
 
-In case of mail contacts, please note my PGP key fingerprint: 🔑 ``CBF2 D0FF 5BDF 1CF8 5094  4C05 C6BE 80D9 44DB 4587`` (aka **``0x44DB4587``**)
+In case of mail contacts, please note my PGP key fingerprint: 🔑 ``CBF2 D0FF 5BDF 1CF8 5094  4C05 C6BE 80D9 44DB 4587`` 
+(aka **``0x44DB4587``**)
