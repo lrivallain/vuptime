@@ -1,7 +1,6 @@
 ---
 layout: page
 title: About
-permalink: /about/
 ---
 
 Sys Admin in IT Consulting, I work mainly on VMware virtual infrastructures, "IaaS/SaaS/PaaS" and cloud computing offers for key accounts (architecture, orchestration, disaster recovery plans, trainings...).
