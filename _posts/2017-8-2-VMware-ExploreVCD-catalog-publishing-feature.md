@@ -9,6 +9,9 @@ VMware introduced in version 5.5 of vCloud Director, a feature to externaly expo
 
 This is useful to synchronize catalog between two (or more) vCloud Director instances.
 
+* Table of contents
+{:toc}
+
 # Basic usage
 
 The two following sections are extracts from the [VMware documentation about VCD Catalogs](http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.admin.doc/GUID-1A098021-07C4-44BA-AB9D-9D48FD4CA812.html).
