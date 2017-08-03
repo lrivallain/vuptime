@@ -20,6 +20,9 @@ You can use many ways to push/get file on the object-storage as the OVH manager,
 
 Here, I'll show how to use the provided swift API with Cyberduck (download it at: [cyberduck.io](https://cyberduck.io/ "CyberDuck")) to manage your uploaded files from your macOS or windows desk.
 
+* Table of contents
+{:toc}
+
 # Create your container
 
 First thing to do, is to create an OVH account, then, go to the manager: [https://www.ovh.com/manager/cloud/](https://www.ovh.com/manager/cloud/ "Manager - cloud"). Now you can create your first storage container. A container is an entity where a "public/static/private" policy can be applied.

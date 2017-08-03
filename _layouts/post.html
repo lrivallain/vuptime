@@ -13,5 +13,16 @@ layout: default
     Written on {{ page.date | date: "%B %e, %Y" }}
   </div>
 
+  <hr>
+  <span>Tags : [
+    {% for tag in page.tags %}
+      {% capture tag_name %}{{ tag }}{% endcapture %}
+      <a href="/tag/{{ tag_name }}/"><code><nobr>{{ tag_name }}</nobr></code>
+        {% if forloop.last == false %}
+          ,&nbsp;
+        {% endif %}</a>
+      {% endfor %}
+    ]</span>
+  <hr>
   {% include disqus.html %}
 </article>

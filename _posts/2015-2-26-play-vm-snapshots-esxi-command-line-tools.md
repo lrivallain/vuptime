@@ -7,6 +7,9 @@ tags: clone esx esxi linked snapshot vim-cmd vm vmware
 
 In this article, we will see how to create, commit, revert-to virtual machine snapshots from ESXi command line. We will also talk about the very useful "linked clones" that are related to the snapshot feature.
 
+* Table of contents
+{:toc}
+
 # Prerequisites
 
 You only need to have a running VM on the ESXi and to know its Vmid:

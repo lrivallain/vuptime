@@ -7,6 +7,9 @@ tags: esx esxi nested ssh virtualbox vmware
 
 For testing cases it could be very useful to host a nested (= virtualized) VMware ESXi on your desk or laptop machine. For my own needs, I had to install an ESXi on virtualbox. Here is my tutorial.
 
+* Table of contents
+{:toc}
+
 # Installation
 
 ## Prerequisites

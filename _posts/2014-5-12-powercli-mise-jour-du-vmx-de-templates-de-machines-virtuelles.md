@@ -9,6 +9,9 @@ Lorsqu'on gère plusieurs centaines de machines virtuelles, templates, virtual-a
 
 Si on travaille sur un environnement Windows et VMware, l'API "[PowerCli](https://www.vmware.com/support/developer/PowerCLI/ "Documentation de PowerCli")" est une facilité appréciable qui permet d'automatiser des tâches fastidieuses à réaliser à la main sur votre infrastructure vSphere. Le dernier exemple en date a été une demande pour modifier, rapidement, les paramètres VMX de templates de machines virtuelles. Or si la lecture de la configuration VMX d'une VM ou d'un template est aisée, l'écriture de modifications sur un template nécessite une petite pirouette que j'explique ici.
 
+* Sommaire
+{:toc}
+
 # Étape par étape
 
 ## Se connecter à vCenter

@@ -9,6 +9,9 @@ In order to fully configure a virtual machine after a clone of OVF deployment, i
 
 Today, we will focus on OVF properties.
 
+* Table of contents
+{:toc}
+
 # Presentation of OVF properties
 
 If you deploy some VM through OVF/OVA files, you are probably already familiar with OVF settings. They appear as the possibility to customize VM settings during the deployment process:

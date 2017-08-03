@@ -16,6 +16,9 @@
   </head>
 
   <body>
+	{% if site.tags != "" %}
+      {% include collecttags.html %}
+  	{% endif %}
     <div class="wrapper-masthead">
       <div class="container">
         <header class="masthead clearfix">

@@ -7,6 +7,9 @@ tags: datastore dummy esxi firewall nested ovftool vim-cmd virtualbox vmware vmx
 
 Now that we've seen [how to create a nested-ESXi](/2015/01/25/nested-esxi-virtualbox/ "Nested ESXi on Virtualbox") on virtualbox, we may need to have some content in order to test commands of procedures.
 
+* Table of contents
+{:toc}
+
 ## Local datastore
 
 ### Disk creation
