@@ -25,6 +25,9 @@ javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: 
 
 The following post shows how to add a new trusted (root and/or intermediate) certificates to the JRE cacerts keystore.
 
+* Table of contents
+{:toc}
+
 # Is you certification authority already trusted ?
 
 According to the authority that issued your certificates, get the corresponding `crt` files and their sha1 fingerprint.
