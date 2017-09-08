@@ -23,7 +23,7 @@ title: Resume
 
 *July 2016 – now (Rennes, France)*
 
-VMware Senior Consultant:
+**VMware Senior Consultant:**
 * Engineering and level 3 support:
   * vRA : vRealize Automation
   * vRO : Realize Orchestrator
@@ -32,16 +32,17 @@ VMware Senior Consultant:
   * NSX : Network Virtualization and Security
 * Intermediary for editor support request
 
-Cloud Computing Consultant:
+**Cloud Computing Consultant:**
 * Support for "On Premise → Cloud" migration
 * Providing best practices for Cloud usage
 * Information System architect
 * R&D OpenStack
 
-Trainer for (both internal and external public):
+**Trainer** for (both internal and external public):
 * Cloud Computing generic training sessions 
 * Junior VMware training sessions
 * Public Cloud	approach sessions
+* OpenStack user and administrator sessions
 
 
 ## Tech-leader private-cloud operations
