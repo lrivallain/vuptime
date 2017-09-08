@@ -134,13 +134,21 @@ Pre-sales consulting and documentation of automated platforms for validation.
 
 ## Trainings / Exams
 
+### OpenStack administrator
+
+*May 2017*
+
+### VMware vRealize Automation (7.2)
+
+*March 2017*
+
 ### VMware vCloud Director: Install, Configure, Manage (8.10)
 
 *November 2016*
 
-### VMware VCP - Install configure and manage (5.0)
+### 🏅 VMware VCP - Install configure and manage (5.0)
 
-*September 2012* 🏅
+*September 2012*
 
 ## Professional degree, Voice over IP and systems administration
 
@@ -162,10 +170,12 @@ Pre-sales consulting and documentation of automated platforms for validation.
   * ESXi, vCenter, vCSA & Operations management
   * NSX
   * vCloud Director
+  * vRealize Automation
+  * Realize Orchestrator
   * VSPP & vCAN licensings - vCloud Usage Meter
   * VMware Site Recovery Manager
 * Openstack (Nova, Neutron, Keystone, Cinder, Swift, Glance, Horizon...)
-* OpenvZ
+* OpenVZ
 * Docker & Linux LXC
 * Linux KVM and XEN
 
@@ -179,7 +189,7 @@ Pre-sales consulting and documentation of automated platforms for validation.
 
 * Bash addict
 * Powershell enthusiast
-* Python addict too (Django)
+* Python addict too (+Django)
 * Perl
 * TCL/Expect
 * Web (HTML, JS, CSS)
