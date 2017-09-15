@@ -71,7 +71,7 @@ p {
 a {
   color: $blue;
   text-decoration: none;
-	cursor: pointer;
+  cursor: pointer;
   &:hover, &:active {
     color: $blue;
   }
@@ -151,9 +151,9 @@ img {
 //
 
 .wrapper-masthead {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   background-color: #323232;
-  height: 102px;
+  height: 95px;
 }
 
 .masthead {
@@ -164,7 +164,8 @@ img {
 
 .site-avatar {
   float: left;
-  width: 375px;
+  width: 350px;
+  margin-left: -10px;
 
   @include mobile {
     float: none;
@@ -172,42 +173,12 @@ img {
     margin: 0 auto;
   }
 }
-
-/*
-.site-info {
-  float: left;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-}
-
-.site-name {
-  margin: 0;
-  color: $darkGray;
-  cursor: pointer;
-  font-family: $helveticaNeue;
-  font-weight: 300;
-  font-size: 28px;
-  letter-spacing: 1px;
-}
-
-.site-description {
-  margin: -5px 0 0 0;
-  color: $gray;
-  font-size: 16px;
-
-  @include mobile {
-    margin: 3px 0;
-  }
-}*/
 
 nav {
   float: right;
-  margin-top: 60px; // @TODO: Vertically middle align
+  margin-top: 54px; // @TODO: Vertically middle align
   font-family: $helveticaNeue;
+  margin-right: 20px;
   font-size: 18px;
 
   @include mobile {
@@ -219,7 +190,7 @@ nav {
 
   a {
     margin-left: 20px;
-    color: #aaaaaa;
+    color: #afadaf;
     text-align: right;
     font-weight: 300;
     letter-spacing: 1px;
@@ -282,20 +253,20 @@ footer {
 }
 
 .pagination {
-	background-color: #eee;
-	padding: 10px 0px 14px;
-	border-radius: 5px;
-	position: relative;
-	color: #555;
-	text-align: center;
+  background-color: #eee;
+  padding: 10px 0px 14px;
+  border-radius: 5px;
+  position: relative;
+  color: #555;
+  text-align: center;
 }
 
 .pagination .prev {
-	text-align: left;
-	width: 33%;
-	padding-left: 10px;
-	margin-left: 0px;
-	display: inline-block;
+  text-align: left;
+  width: 33%;
+  padding-left: 10px;
+  margin-left: 0px;
+  display: inline-block;
 }
 
 .pagination .page_number {
@@ -303,11 +274,11 @@ footer {
 }
 
 .pagination .next {
-	text-align: right;
-	width: 33%;
-	padding-right: 10px;
-	margin-right: 0px;
-	display: inline-block;
+  text-align: right;
+  width: 33%;
+  padding-right: 10px;
+  margin-right: 0px;
+  display: inline-block;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
@@ -319,41 +290,44 @@ footer {
     background-size: 40px;
 }
 
+.entry h1, .entry h2, .entry h3, .entry h4 {
+  color: #505050;
+}
 
 /*
     Resume page
 */
 .resume .centered {
-    text-align:center;
+  text-align:center;
 }
 
 .resume .entry {
-    font-size:0.8em;
-	padding-left: 20px;
+  font-size:0.8em;
+  padding-left: 20px;
 }
 
 .resume hr {
-	border-top: 1px solid #aaa;
-	border-bottom: 0px;
+  border-top: 1px solid #aaa;
+  border-bottom: 0px;
 }
 
 .resume h1, .resume h2 {
-	margin-left: -20px;
+  margin-left: -20px;
 }
 
 .resume h2 {
-	color:#666;
-	margin-bottom:0px;
+  color:#666;
+  margin-bottom:0px;
 }
 
 .resume h3 {
-	color: #888888;
+  color: #888888;
     margin-top:0px;
     margin-bottom:0px;
 }
 
 .resume h3 + p {
-	margin-top:0px;
+  margin-top:0px;
 }
 
 .resume p {

@@ -3,6 +3,8 @@ layout: about
 title: About
 ---
 
+This blog is maintained by **Ludovic Rivallain** : [**lri.ovh**](https://lri.ovh).
+
 I am currently senior Virtualisation Engineer+SysAdmin in **[SII Group](http://www.groupe-sii.com)**, a French IT
 consulting company. Before that I used to work as tech leader of run/operations team of the Private Cloud offer at
 OVH hosting company.
