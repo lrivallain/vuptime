@@ -27,11 +27,11 @@ footer-links:
   pinterest:
   rss: 123
   twitter: lrivallain
-  stackoverflow: users/8375999/ludovic-rivallain # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  stackoverflow: #users/8375999/ludovic-rivallain # your stackoverflow profile, e.g. "users/50476/bart-kiers"
   youtube: # channel/<your_long_string> or user/<user-name>
-  googleplus: ludovic.rivallain
+  googleplus: #ludovic.rivallain
   keybaseio:
-  mastodon: https://mastodon.social/@lrivallain
+  mastodon: #https://mastodon.social/@lrivallain
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
