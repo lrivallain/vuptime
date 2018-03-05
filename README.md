@@ -1,5 +1,5 @@
 
-# Ludovic Rivallain
-## VMware sysadmin
+# vUptime.io
+## A dev-sys-ops blog
 
-https://lrivallain.github.io/
+https://vuptime.io
