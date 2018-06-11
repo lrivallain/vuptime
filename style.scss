@@ -2,283 +2,39 @@
 ---
 
 //
-// IMPORTS
-//
+// Customizations
+// 
 
-@import "reset";
-@import "variables";
-// Syntax highlighting @import is at the bottom of this file
+body { overflow: auto; } // fix clr-issue with x-scrollbar
+.main-container { height:100% }; // fix clr issue with background
 
-/**************/
-/* BASE RULES */
-/**************/
-
-html {
-  font-size: 100%;
-}
-
-body {
-  background: $white;
-  font: 16px/1.4 $helvetica;
-  color: $darkGray;
-}
-
-.container {
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 0 10px;
-  width: 100%;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
-  color: $darkerGray;
+.date {
   font-weight: bold;
-
-  line-height: 1.7;
-  margin: 1em 0 15px;
-  padding: 0;
-
-  @include mobile {
-   line-height: 1.4;
- }
 }
 
-h1 {
-  font-size: 30px;
-  a {
-    color: inherit;
-  }
+.small {
+  font-size:0.9em;
 }
 
-h2 {
-  font-size: 24px;
+.right {
+  text-align: right;
 }
 
-h3 {
-  font-size: 20px;
-}
-
-h4 {
-  font-size: 18px;
-  color: $gray;
-}
-
-p {
-  margin: 15px 0;
-}
-
-a {
-  color: $blue;
-  text-decoration: none;
-  cursor: pointer;
-  &:hover, &:active {
-    color: $blue;
-  }
-}
-
-ul, ol {
-  margin: 15px 0;
-  padding-left: 30px;
-}
-
-ul {
-  list-style-type: disc;
-}
-
-ol {
-  list-style-type: decimal;
-}
-
-ol ul, ul ol, ul ul, ol ol {
-  margin: 0;
-}
-
-ul ul, ol ul {
-  list-style-type: circle;
-}
-
-em, i {
-  font-style: italic;
-}
-
-strong, b {
-  font-weight: bold;
+.center {
+  text-align: center;
 }
 
 img {
   max-width: 100%;
 }
 
-// Fixes images in popup boxes from Google Translate
-.gmnoprint img {
-  max-width: none;
-}
-
-.date {
-  font-style: italic;
-  color: $gray;
-}
-
-// Specify the color of the selection
-::-moz-selection {
-  color: $black;
-  background: $lightGray;
-}
-::selection {
-  color: $black;
-  background: $lightGray;
-}
-
-// Nicolas Gallagher's micro clearfix hack
-// http://nicolasgallagher.com/micro-clearfix-hack/
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-/*********************/
-/* LAYOUT / SECTIONS */
-/*********************/
-
-//
-// .masthead
-//
-
-.wrapper-masthead {
-  margin-bottom: 30px;
-  background-color: #323232;
-  height: 95px;
-}
-
-.masthead {
-  @include mobile {
-    text-align: center;
-  }
-}
-
-.site-avatar {
-  float: left;
-  width: 350px;
-  margin-left: -10px;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-}
-
-nav {
-  float: right;
-  margin-top: 54px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue;
-  margin-right: 20px;
-  font-size: 18px;
-
-  @include mobile {
-    float: none;
-    margin-top: 9px;
-    display: block;
-    font-size: 16px;
-  }
-
-  a {
-    margin-left: 20px;
-    color: #afadaf;
-    text-align: right;
-    font-weight: 300;
-    letter-spacing: 1px;
-
-    @include mobile {
-      margin: 0 10px;
-      color: $blue;
-    }
-  }
-}
-
-//
-// .main
-//
-
-.posts > .post {
-  padding-bottom: 2em;
-  border-bottom: 1px solid $lightGray;
-}
-
-.posts > .post:last-child {
-  padding-bottom: 1em;
-  border-bottom: none;
-}
-
-.post {
-  blockquote {
-    margin: 1.8em .8em;
-    border-left: 2px solid $gray;
-    padding: 0.1em 1em;
-    color: $gray;
-    font-size: 18px;
-    font-style: italic;
-  }
-
-  .comments {
-    margin-top: 10px;
-  }
-
-  .read-more {
-    text-transform: uppercase;
-    font-size: 15px;
-  }
+.comments {
+  margin-top:20px;
 }
 
 pre {
-    font-size: 14px;
-}
-
-.wrapper-footer {
-  margin-top: 50px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
-}
-
-footer {
-  padding: 20px 0;
-  text-align: center;
-}
-
-.pagination {
-  background-color: #eee;
-  padding: 10px 0px 14px;
-  border-radius: 5px;
-  position: relative;
-  color: #555;
-  text-align: center;
-}
-
-.pagination .prev {
-  text-align: left;
-  width: 33%;
-  padding-left: 10px;
-  margin-left: 0px;
-  display: inline-block;
-}
-
-.pagination .page_number {
-    display: inline-block;
-}
-
-.pagination .next {
-  text-align: right;
-  width: 33%;
-  padding-right: 10px;
-  margin-right: 0px;
-  display: inline-block;
+   padding: 12px;
+   background-color: #efefef;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
@@ -286,60 +42,3 @@ footer {
 @import "highlights";
 @import "svg-icons";
 
-.svg-icon.mastodon {
-    background-size: 40px;
-}
-
-.entry h1, .entry h2, .entry h3, .entry h4 {
-  color: #505050;
-}
-
-/*
-    Resume page
-*/
-.resume .centered {
-  text-align:center;
-}
-
-.resume .entry {
-  font-size:0.8em;
-  padding-left: 20px;
-}
-
-.resume hr {
-  border-top: 1px solid #aaa;
-  border-bottom: 0px;
-}
-
-.resume h1, .resume h2 {
-  margin-left: -20px;
-}
-
-.resume h2 {
-  color:#666;
-  margin-bottom:0px;
-}
-
-.resume h3 {
-  color: #888888;
-    margin-top:0px;
-    margin-bottom:0px;
-}
-
-.resume h3 + p {
-  margin-top:0px;
-}
-
-.resume p {
-    margin-bottom:0px;
-}
-
-.resume ul, .resume ol {
-    margin-top:5px;
-}
-
-// Utils layout
-
-.centered {
-    text-align: center;
-}

@@ -15,7 +15,7 @@ I work mainly on **VMware** virtual infrastructures, "IaaS/PaaS" cloud computing
 And as I might be a little lazy sometimes, I love automation concepts and I deal with **Python**, **Powershell**
 and **Bash** scripts daily.
 
-<p class="centered">
+<p class="center">
     <a href="https://vexpert.vmware.com/directory/1741" target="_blank">
         <img src="/images/vexpert.png" alt="vExpert logo" width="250">
     </a>

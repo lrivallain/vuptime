@@ -12,37 +12,67 @@
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="/feed.xml" />
     {% if site.google_analytics %}
     <script type="text/javascript" src="/includes/analytics.js" async></script>
-    {% endif %}
+	{% endif %}
+	<!-- Clarity UI additions -->
+	<link rel="stylesheet" href="/includes/clarity-ui/clr-icons.min.css">
+	<link rel="stylesheet" href="/includes/clarity-ui/clarity-ui.min.css">
+	<!--<link rel="stylesheet" href="/includes/clarity-ui/clarity-icons.min.css"> -->
+	<!-- <script type="text/javascript" src="/includes/clarity-ui/clarity-icons.min.js"></script> -->
+	<script type="text/javascript" src="/includes/clarity-ui/custom-elements.min.js"></script>
+	<script type="text/javascript" src="/includes/clarity-ui/clr-icons.min.js"></script>
+	<!-- EO Clarity UI additions -->
+	<link rel="stylesheet" type="text/css" href="/style.css" />
   </head>
 
   <body>
+   <div class="main-container">
 	{% if site.tags != "" %}
       {% include collecttags.html %}
   	{% endif %}
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <a href="/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-
-          <nav>
-            <a href="/">Blog</a>
-            <a href="/about/">About</a>
-          </nav>
-        </header>
+	<header class="header-6">
+      <div class="branding">
+         <a href="/" class="nav-link">
+	       <img src="/images/favicon.png" class="clr-icon" />
+           <span class="title">vUptime.io</span>
+         </a>
       </div>
-    </div>
+      <div class="header-nav">
+        <a href="/" class="active nav-link nav-text" id="link-blog">Blog</a>
+        <a href="/about" class="nav-link nav-text" id="link-about">About</a>
+      </div>
+    </header>
 
-    <div id="main" role="main" class="container">
+    <div class="content-container flex-items-xs-center">
+	 <div id="main" role="main" class="content-area col-xs-7">
       {{ content }}
-    </div>
+     </div>
 
-    <div class="wrapper-footer">
-      <div class="container">
-        <footer class="footer">
-          {% include svg-icons.html %}
-        </footer>
-      </div>
+     <div class="col-xs-3">
+        <div class="card">
+	      <div class="card-header">
+           Social medias
+		  </div>
+		  <div class="card-block center">
+            <p>
+			 {% include svg-icons.html %}
+			</p>
+	    	<p>
+             <img src="/images/vexpert-2.png" class="vexpert">
+            </p>
+		  </div>
+        </div>
+
+	    <div class="card">
+          <div class="card-header">
+           Tags
+          </div>
+          <div class="card-block">
+             {% include archive.html %}
+          </div>
+        </div>
+	 </div>
     </div>
+   </div>
   </body>
 </html>
-<link rel="stylesheet" type="text/css" href="/style.css" />
+<script type="text/javascript" src="/includes/set-active.js"></script>
