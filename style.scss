@@ -10,6 +10,13 @@ body { overflow: auto; } // fix clr-issue with x-scrollbar
 
 .date {
   font-weight: bold;
+  float:left;
+}
+
+.info {
+  display: inline-block;
+  width: 100%;
+  margin-top:0.5rem;
 }
 
 .small {
@@ -17,6 +24,7 @@ body { overflow: auto; } // fix clr-issue with x-scrollbar
 }
 
 .right {
+  float: right;
   text-align: right;
 }
 
@@ -33,8 +41,26 @@ img {
 }
 
 pre {
-   padding: 12px;
-   background-color: #efefef;
+  padding: 0.5rem;
+  background-color: #efefef;
+}
+
+.vexpert {
+  max-width:180px;
+}
+
+.post h1 {
+  font-weight: 400;
+}
+
+.post_infos, .post_entry, .comments {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+#markdown-toc {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
