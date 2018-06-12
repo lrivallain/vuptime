@@ -1,6 +1,6 @@
 ---
 layout: tagpage
-title: "Tag: rest"
-tag: rest
+title: "Tag: jre"
+tag: jre
 robots: noindex
 ---
