@@ -4,12 +4,9 @@ layout: default
 
 <div class="posts">
   {% for post in paginator.posts %}
-    <article class="post">
+    <article class="">
 
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
-	  <!--<div class="small info right date">
-        {{ post.date | date: "%B %e, %Y" }} <clr-icon shape="calendar"></clr-icon>
-	  </div>-->
 
       <div class="entry">
         {{ post.content | strip_html | truncatewords:75 }}
