@@ -42,7 +42,7 @@ img {
 
 pre {
   padding: 0.5rem;
-  background-color: #efefef;
+  background-color: #D9E4EA;
 }
 
 .vexpert {
@@ -58,9 +58,30 @@ pre {
   margin-bottom: 1rem;
 }
 
+.post_entry img {
+  border-radius: .125rem;
+  border: 1px solid #ccc;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#markdown-toc::before {
+  content: "Table of contents:";
+  font-weight: bold;
+  font-size:0.66rem;
+  margin-bottom:0.5rem;
+}
+
 #markdown-toc {
+  padding: 0.25rem;
+  border-radius: .125rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  border-left: 0.25rem solid #002538;
+  padding-left: 0.5rem;
+  background-color: #efefef;
+  width: 100%;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
