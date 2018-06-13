@@ -49,8 +49,19 @@ pre {
   max-width:180px;
 }
 
-.post h1 {
+.posts h1 {
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.posts article {
+  border-top: 1px solid #ccc;
   font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.posts article:first-child {
+  border-top: none;
 }
 
 .post_infos, .post_entry, .comments {
