@@ -69,6 +69,10 @@ pre {
   margin-bottom: 1rem;
 }
 
+.posts article .entry {
+  text-align: justify;
+}
+
 .post_entry img {
   border-radius: .125rem;
   border: 1px solid #ccc;
@@ -93,6 +97,17 @@ pre {
   padding-left: 0.5rem;
   background-color: #efefef;
   width: 100%;
+}
+
+
+// Remove title for better responsive design on smaller screens
+@media only screen and (max-width: 400px) {
+  .title {
+    display: none;
+  }
+  .header .branding, header .branding {
+     min-width: 0px;
+  }
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
