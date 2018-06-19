@@ -60,6 +60,14 @@ pre {
   margin-bottom: 0.5rem;
 }
 
+.posts article .thumb {
+  border-radius: .125rem;
+  border: 1px solid #ccc;
+  float: left;
+  max-width: 7rem;
+  margin-right: 1rem;
+}
+
 .posts article:first-child {
   border-top: none;
 }
