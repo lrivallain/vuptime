@@ -60,6 +60,14 @@ pre {
   margin-bottom: 0.5rem;
 }
 
+.posts article .thumb {
+  border-radius: .125rem;
+  border: 1px solid #ccc;
+  float: left;
+  max-width: 7rem;
+  margin-right: 1rem;
+}
+
 .posts article:first-child {
   border-top: none;
 }
@@ -88,7 +96,7 @@ pre {
   margin-bottom:0.5rem;
 }
 
-#markdown-toc {
+#markdown-toc, .filterbox {
   padding: 0.25rem;
   border-radius: .125rem;
   margin-top: 0.5rem;
@@ -99,6 +107,18 @@ pre {
   width: 100%;
 }
 
+.filterbox h4 {
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+}
+
+.kbcard .card-block {
+  text-align:justify;
+}
+
+.bookmark p {
+  margin-top: 0rem;
+}
 
 // Remove title for better responsive design on smaller screens
 @media only screen and (max-width: 400px) {

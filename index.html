@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: blog
 ---
 
 <div class="posts">
@@ -8,6 +8,11 @@ layout: default
 
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
 
+	  {% if post.thumb %}
+	  <div class="thumb">
+	    <img src="{{ post.thumb }}" alt="{{ post.title }}">
+	  </div>
+	  {% endif %}
       <div class="entry">
         {{ post.content | strip_html | truncatewords:75 }}
       </div>

@@ -10,12 +10,12 @@ layout: blog
             <clr-icon shape="calendar"></clr-icon> {{ page.date | date: "%B %e, %Y" }}
         </div>
         <div><strong>Tags:</strong> {% for tag in page.tags %} {% capture tag_name %}{{ tag }}{% endcapture %}
-            <a href="/tag/{{ tag_name }}/" class="label label-blue clickable">{{ tag_name }}</a> {% endfor %}
+            <a href="/cards_tag/{{ tag_name }}/" class="label label-blue clickable">{{ tag_name }}</a> {% endfor %}
         </div>
     </div>
 
     <div class="post_entry">
-        {{ content }}
+        {{ content | markdownify }}
     </div>
 
     <hr> {% include disqus.html %}

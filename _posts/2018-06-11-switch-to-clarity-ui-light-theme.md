@@ -3,6 +3,7 @@ layout: post
 title: Switch to Clarity UI light theme
 category: Blog
 tags: vmware design clarity css
+thumb: /images/clarity-ui/after.png
 ---
 
 As you could notice (if you don't use an RSS tool to read this blog): there is a new UI theme based on the [Clarity Design System](https://vmware.github.io/clarity/).
