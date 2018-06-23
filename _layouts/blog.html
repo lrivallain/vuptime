@@ -2,11 +2,38 @@
 layout: default
 ---
 
-<article class="page">
+<div class="content-container flex-items-xs-around">
+    <div class="content-area">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-1"></div>
+            <div id="main" role="main" class="content-area col-xs-12 col-sm-12 col-md-12 col-lg-7">
+                {{ content }}
+            </div>
 
-  <h1>{{ page.title }}</h1>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+                <div class="card">
+                    <div class="card-header">
+                        Social medias
+                    </div>
+                    <div class="card-block center">
+                        <p>
+                            {% include svg-icons.html %}
+                        </p>
+                        <p>
+                            <img src="/images/vexpert-2.png" class="vexpert">
+                        </p>
+                    </div>
+                </div>
 
-  <div class="entry">
-    {{ content }}
-  </div>
-</article>
+                <div class="card">
+                    <div class="card-header">
+                        Tags
+                    </div>
+                    <div class="card-block">
+                        {% include archive.html %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

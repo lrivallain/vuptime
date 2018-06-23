@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
     {% include meta.html %}
 
@@ -9,75 +10,39 @@
     <![endif]-->
 
     <link rel="icon" type="image/png" href="/images/favicon.png" />
-    <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="/feed.xml" />
-    {% if site.google_analytics %}
+    <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="/feed.xml" /> {% if site.google_analytics %}
     <script type="text/javascript" src="/includes/analytics.js" async></script>
-	{% endif %}
-	<!-- Clarity UI additions -->
-	<link rel="stylesheet" href="/includes/clarity-ui/clr-icons.min.css">
-	<link rel="stylesheet" href="/includes/clarity-ui/clarity-ui.min.css">
-	<!--<link rel="stylesheet" href="/includes/clarity-ui/clarity-icons.min.css"> -->
-	<!-- <script type="text/javascript" src="/includes/clarity-ui/clarity-icons.min.js"></script> -->
-	<script type="text/javascript" src="/includes/clarity-ui/custom-elements.min.js"></script>
-	<script type="text/javascript" src="/includes/clarity-ui/clr-icons.min.js"></script>
-	<!-- EO Clarity UI additions -->
-	<link rel="stylesheet" type="text/css" href="/style.css" />
-  </head>
+    {% endif %}
+    <!-- Clarity UI additions -->
+    <link rel="stylesheet" href="/includes/clarity-ui/clr-icons.min.css">
+    <link rel="stylesheet" href="/includes/clarity-ui/clarity-ui.min.css">
+    <!--<link rel="stylesheet" href="/includes/clarity-ui/clarity-icons.min.css"> -->
+    <!-- <script type="text/javascript" src="/includes/clarity-ui/clarity-icons.min.js"></script> -->
+    <script type="text/javascript" src="/includes/clarity-ui/custom-elements.min.js"></script>
+    <script type="text/javascript" src="/includes/clarity-ui/clr-icons.min.js"></script>
+    <!-- EO Clarity UI additions -->
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
 
-  <body>
-   <div class="main-container">
-	{% if site.tags != "" %}
-      {% include collecttags.html %}
-  	{% endif %}
-	<header class="header-6">
-      <div class="branding">
-         <a href="/" class="nav-link">
-	       <img src="/images/favicon.png" class="clr-icon" />
-           <span class="title">vUptime.io</span>
-         </a>
-      </div>
-      <div class="header-nav">
-        <a href="/" class="active nav-link nav-text" id="link-blog">Blog</a>
-        <a href="/about" class="nav-link nav-text" id="link-about">About</a>
-      </div>
-    </header>
-
-    <div class="content-container flex-items-xs-around">
-     <div class="content-area">
-      <div class="row">
-       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-1"></div>
-       <div id="main" role="main" class="content-area col-xs-12 col-sm-12 col-md-12 col-lg-7">
+<body>
+    <div class="main-container">
+        {% if site.tags != "" %} {% include collecttags.html %} {% endif %}
+        <header class="header-6">
+            <div class="branding">
+                <a href="/" class="nav-link">
+                    <img src="/images/favicon.png" class="clr-icon" />
+                    <span class="title">vUptime.io</span>
+                </a>
+            </div>
+            <div class="header-nav">
+                <a href="/" class="active nav-link nav-text" id="link-blog">Blog</a>
+                <a href="/about" class="nav-link nav-text" id="link-about">About</a>
+                <a href="/cards" class="nav-link nav-text" id="link-cards"><span class="badge badge-info">N</span>KB cards</a>
+            </div>
+        </header>
         {{ content }}
-       </div>
-
-       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
-        <div class="card">
-	      <div class="card-header">
-           Social medias
-		  </div>
-		  <div class="card-block center">
-            <p>
-			 {% include svg-icons.html %}
-			</p>
-	    	<p>
-             <img src="/images/vexpert-2.png" class="vexpert">
-            </p>
-		  </div>
-        </div>
-
-	    <div class="card">
-          <div class="card-header">
-           Tags
-          </div>
-          <div class="card-block">
-             {% include archive.html %}
-          </div>
-        </div>
-	   </div>
-      </div>
-     </div>
     </div>
-   </div>
-  </body>
+</body>
+
 </html>
 <script type="text/javascript" src="/includes/set-active.js"></script>
