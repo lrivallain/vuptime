@@ -11,7 +11,7 @@ layout: default
 <div class="content-container flex-items-xs-around">
     <div class="content-area">
         <p>This page is used to 'host' a personnal Knowledge Base with some short ghist, cheatsheets and bookmarked-urls.</p>
-        <pre><strong>sql> </strong>select * from KB_cards{% if page.tag %} | where tags like '%{{ page.tag }}%'{% endif %}</pre> {% if page.tags %} {% assign all_tags = page.tags | split: " " | sort %}
+        <pre><strong>sql> </strong>select * from KB_cards{% if page.tag %} where tags like '%{{ page.tag }}%'{% endif %}</pre> {% if page.tags %} {% assign all_tags = page.tags | split: " " | sort %}
         <div class="filterbox">
             <h4><clr-icon shape="filter"></clr-icon> Filter on tag:</h4> {% for atag in all_tags %}
             <a href="/cards_tag/{{ atag }}" class="label label-blue clickable small">{{ atag }}</a> {% endfor %}
