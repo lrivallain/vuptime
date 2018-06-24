@@ -1,7 +1,7 @@
 ---
 layout: card
 title: vRealize Automation 7.x – What can be downloaded from appliance "installers" folder
-tags: vmware vrealize automation
+tags: vmware vrealize automation vra
 ---
 
 If you are familiar with the vRealize Automation installation process, you probably already know that it is possible to download some usefull files from the *"installers"* page. You can access to the *"installers"* with two URLs: `https://vrava.domain/installers` (most commun URL) or `https://vrava.domain/i` (the shortcut one).
@@ -59,4 +59,3 @@ lrwxrwxrwx 1 root root   78 Apr 10 19:54 vRAIaaSAppForvSphere.zip -> /usr/lib/vc
 And to download an item, just add the file name to the `https://vrava.domain/i/` URL. For example: `https://vrava.domain/i/jre-win64.zip` to download the Java JRE content for a win64 server (like an IaaS server).
 
 As you can see, it is possible to download lot of tools or installers from this path, even if they are not available from the index page.
-

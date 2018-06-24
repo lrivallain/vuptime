@@ -1,7 +1,7 @@
 ---
 layout: card
 title: vRealize Automation – Explore IaaS objects with Linqpad
-tags: vmware vrealize automation iaas
+tags: vmware vrealize automation iaas vra
 ---
 
 Get [Linqpad](https://www.linqpad.net/) and run the setup.
