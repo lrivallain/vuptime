@@ -25,23 +25,27 @@
 </head>
 
 <body>
-    <div class="main-container">
+	<div class="main-container">
         {% if site.tags != "" %} {% include collecttags.html %} {% endif %}
-        <header class="header-6">
+        <header class="header-nav header-6" [clr-nav-level]="1">
             <div class="branding">
-                <a href="/" class="nav-link">
-                    <img src="/images/favicon.png" class="clr-icon" />
-                    <span class="title">vUptime.io</span>
-                </a>
+              <a href="/" class="nav-link">
+                <img src="/images/favicon.png" class="clr-icon" />
+                <span class="title">vUptime.io</span>
+              </a>
             </div>
             <div class="header-nav">
-                <a href="/" class="active nav-link nav-text" id="link-blog">Blog</a>
-                <a href="/about" class="nav-link nav-text" id="link-about">About</a>
-                <a href="/cards" class="nav-link nav-text" id="link-cards"><span class="badge badge-info">N</span>KB cards</a>
+              <a href="/" class="active nav-link nav-text" id="link-blog">Blog</a>
+              <a href="/about" class="nav-link nav-text" id="link-about">About</a>
+              <a href="/cards" class="nav-link nav-text" id="link-cards"><span class="badge badge-info">N</span>KB cards</a>
             </div>
         </header>
-        {{ content }}
-    </div>
+        <div class="content-container flex-items-xs-around">
+          <div class="content-area"> 
+            {{ content }}
+          </div>
+        </div>
+	</div>
 </body>
 
 </html>
