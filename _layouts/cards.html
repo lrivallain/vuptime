@@ -8,40 +8,35 @@ layout: default
     {% assign filtered-cards = site.cards %}
 {% endif %}
 
-<div class="content-container flex-items-xs-around">
-    <div class="content-area">
-        <p>This page is used to 'host' a personnal Knowledge Base with some short ghist, cheatsheets and bookmarked-urls.</p>
-        <pre><strong>sql> </strong>select * from KB_cards{% if page.tag %} where tags like '%{{ page.tag }}%'{% endif %}</pre> {% if page.tags %} {% assign all_tags = page.tags | split: " " | sort %}
-        <div class="filterbox">
-            <h4><clr-icon shape="filter"></clr-icon> Filter on tag:</h4> {% for atag in all_tags %}
-            <a href="/cards_tag/{{ atag }}" class="label label-blue clickable small">{{ atag }}</a> {% endfor %}
+<p>This page is used to 'host' a personnal Knowledge Base with some short ghist, cheatsheets and bookmarked-urls.</p>
+<pre><strong>sql> </strong>select * from KB_cards{% if page.tag %} where tags like '%{{ page.tag }}%'{% endif %}</pre> {% if page.tags %} {% assign all_tags = page.tags | split: " " | sort %}
+<div class="filterbox">
+    <h4><clr-icon shape="filter"></clr-icon> Filter on tag:</h4> {% for atag in all_tags %}
+    <a href="/cards_tag/{{ atag }}" class="label label-blue clickable small">{{ atag }}</a> {% endfor %}
+</div>
+{% else %}
+<a class="btn btn-primary" href="{{ site.baseurl }}/cards" class="">
+    <clr-icon shape="undo" title="Back to KB cards list"></clr-icon> All KB cards
+</a>
+{% endif %}
+<div class="card-columns">
+    {% for card in filtered-cards %}
+    <div class="card kbcard">
+        <div class="card-header">
+            {% if card.tags contains "bookmark" %}
+            <span>{{ card.title }}</span> {% else %}
+            <a href="{{ card.url }}">{{ card.title }}</a> {% endif %}
         </div>
-        {% else %}
-        <a class="btn btn-primary" href="{{ site.baseurl }}/cards" class="">
-            <clr-icon shape="undo" title="Back to KB cards list"></clr-icon> All KB cards
-        </a>
-        {% endif %}
-        <div class="card-columns">
-            {% for card in filtered-cards %}
-            <div class="card kbcard">
-                <div class="card-header">
-                    {% if card.tags contains "bookmark" %}
-                    <span>{{ card.title }}</span> {% else %}
-                    <a href="{{ card.url }}">{{ card.title }}</a> {% endif %}
-                </div>
-                <div class="card-block {% if card.tags contains "bookmark" %}bookmark{% endif %}">
-                    {% if card.tags contains "bookmark" %} {{ card.content | markdownify }} {% else %} {{ card.content | markdownify | strip_html | truncatewords:75 }} {% endif %}
-                </div>
-                <div class="card-footer">
-                    {% for tag in card.tags %}
-                    <a href="/cards_tag/{{ tag }}" class="label label-blue clickable small">{{ tag }}</a> {% endfor %}
-                </div>
-            </div>
-            {% endfor %}
+        <div class="card-block {% if card.tags contains "bookmark" %}bookmark{% endif %}">
+            {% if card.tags contains "bookmark" %} {{ card.content | markdownify }} {% else %} {{ card.content | markdownify | strip_html | truncatewords:75 }} {% endif %}
+        </div>
+        <div class="card-footer">
+            {% for tag in card.tags %}
+            <a href="/cards_tag/{{ tag }}" class="label label-blue clickable small">{{ tag }}</a> {% endfor %}
         </div>
     </div>
+    {% endfor %}
 </div>
-
 
 {% if paginator.total_pages > 1 %}
 <!-- Pagination links -->
