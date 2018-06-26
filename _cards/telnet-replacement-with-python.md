@@ -1,7 +1,7 @@
 ---
 layout: card
 title: Replace telnet with a python script
-tags: linux python
+tags: linux python gist
 date: 2018-06-26
 ---
 
