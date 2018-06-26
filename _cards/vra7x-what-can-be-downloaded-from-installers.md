@@ -2,6 +2,7 @@
 layout: card
 title: vRealize Automation 7.x – What can be downloaded from appliance "installers" folder
 tags: vmware vrealize automation vra
+date: 2018-06-20
 ---
 
 If you are familiar with the vRealize Automation installation process, you probably already know that it is possible to download some usefull files from the *"installers"* page. You can access to the *"installers"* with two URLs: `https://vrava.domain/installers` (most commun URL) or `https://vrava.domain/i` (the shortcut one).

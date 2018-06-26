@@ -8,7 +8,7 @@ layout: default
     {% assign filtered-cards = site.cards %}
 {% endif %}
 
-<p>This page is used to 'host' a personnal Knowledge Base with some short ghist, cheatsheets and bookmarked-urls.</p>
+<p>This page is used to 'host' a personnal Knowledge Base with some short gists, cheatsheets and bookmarked-urls.</p>
 <pre><strong>sql> </strong>select * from KB_cards{% if page.tag %} where tags like '%{{ page.tag }}%'{% endif %}</pre> {% if page.tags %} {% assign all_tags = page.tags | split: " " | sort %}
 <div class="filterbox">
     <h4><clr-icon shape="filter"></clr-icon> Filter on tag:</h4> {% for atag in all_tags %}
