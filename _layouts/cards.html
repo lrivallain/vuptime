@@ -3,19 +3,22 @@ layout: default
 ---
 
 {% if page.tag %}
-    {% assign filtered-cards = site.cards | where:"tags",page.tag %}
+  {% assign filtered-cards = site.cards | where:"tags",page.tag %}
 {% else %}
-    {% assign filtered-cards = site.cards %}
+  {% assign filtered-cards = site.cards %}
 {% endif %}
 
 <p>This page is used to 'host' a personnal Knowledge Base with some short gists, cheatsheets and bookmarked-urls.</p>
+<div class="card-rss-icon">
+  <a href="{{ site.baseurl }}/feed_cards.xml" title="RSS feed for KB cards"><i class="svg-icon rss" alt="RSS feed for KB cards"></i></a>
+</div>
 <pre><strong>sql> </strong>select * from KB_cards{% if page.tag %} where tags like '%{{ page.tag }}%'{% endif %}</pre> {% if page.tags %} {% assign all_tags = page.tags | split: " " | sort %}
 <div class="filterbox">
     <h4><clr-icon shape="filter"></clr-icon> Filter on tag:</h4> {% for atag in all_tags %}
-    <a href="/cards_tag/{{ atag }}" class="label label-blue clickable small">{{ atag }}</a> {% endfor %}
+    <a href="/cards_tag/{{ atag }}" class="label label-blue clickable small" title="Filter on {{ atag }} tag">{{ atag }}</a> {% endfor %}
 </div>
 {% else %}
-<a class="btn btn-primary" href="{{ site.baseurl }}/cards" class="">
+<a class="btn btn-primary" href="{{ site.baseurl }}/cards" title="Back to KB cards list">
     <clr-icon shape="undo" title="Back to KB cards list"></clr-icon> All KB cards
 </a>
 {% endif %}
@@ -25,14 +28,18 @@ layout: default
         <div class="card-header">
             {% if card.tags contains "bookmark" %}
             <span>{{ card.title }}</span> {% else %}
-            <a href="{{ card.url }}">{{ card.title }}</a> {% endif %}
+            <a href="{{ card.url }}" title="Read more of this KB card">{{ card.title }}</a> {% endif %}
         </div>
         <div class="card-block {% if card.tags contains "bookmark" %}bookmark{% endif %}">
-            {% if card.tags contains "bookmark" %} {{ card.content | markdownify }} {% else %} {{ card.content | markdownify | strip_html | truncatewords:75 }} {% endif %}
+          {% if card.tags contains "bookmark" %}
+            {{ card.content | markdownify }}
+          {% else %}
+            {{ card.content | markdownify | strip_html | truncatewords:75 }}
+          {% endif %}
         </div>
         <div class="card-footer">
             {% for tag in card.tags %}
-            <a href="/cards_tag/{{ tag }}" class="label label-blue clickable small">{{ tag }}</a> {% endfor %}
+            <a href="/cards_tag/{{ tag }}" class="label label-blue clickable small" title="Filter on {{ atag }} tag">{{ tag }}</a> {% endfor %}
         </div>
     </div>
     {% endfor %}
@@ -44,14 +51,14 @@ layout: default
 <nav class="subnav">
     <div class="prev">
         {% if paginator.previous_page %}
-        <a href="{{ paginator.previous_page_path }}" class="previous">
+        <a href="{{ paginator.previous_page_path }}" class="previous" title="Display the previous page">
           <button class="btn btn-sm">◀ Previous</button>
         </a> {% endif %}
     </div>
     <div class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</div>
     <div class="next">
         {% if paginator.next_page %}
-        <a href="{{ paginator.next_page_path }}" class="next">
+        <a href="{{ paginator.next_page_path }}" class="next" title="Display the next page">
           <button class="btn btn-primary btn-sm">Next ▶</button>
         </a> {% endif %}
     </div>
