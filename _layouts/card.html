@@ -1,26 +1,60 @@
 ---
-layout: blog
+layout: default
 ---
 
-<article class="card post">
-    <div class="card-header">
-		{{ page.title }}
-	</div>
-	<div class="card-block">
-      <div class="post_infos">
-        <div>
-            <strong>Published:</strong>
-            <clr-icon shape="calendar"></clr-icon> {{ page.date | date: "%B %e, %Y" }}
-        </div>
-        <div><strong>Tags:</strong> {% for tag in page.tags %} {% capture tag_name %}{{ tag }}{% endcapture %}
-            <a href="/cards_tag/{{ tag_name }}/" class="label label-blue clickable">{{ tag_name }}</a> {% endfor %}
-        </div>
-      </div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-1"></div>
+    <div id="main" role="main" class="content-area col-xs-12 col-sm-12 col-md-12 col-lg-7">
+      <a class="btn btn-primary" href="{{ site.baseurl }}/cards" title="Back to KB cards list">
+        <clr-icon shape="undo" title="Back to KB cards list"></clr-icon> All KB cards
+      </a>
 
-      <div class="post_entry">
-        {{ content | markdownify }}
-      </div>
+      <article class="card post">
+        <div class="card-header">
+          {{ page.title }}
+        </div>
+        <div class="card-block">
+          <div class="post_infos">
+            <div>
+              <strong>Published:</strong>
+              <clr-icon shape="calendar"></clr-icon> {{ page.date | date: "%B %e, %Y" }}
+            </div>
+            <div><strong>Tags:</strong> {% for tag in page.tags %} {% capture tag_name %}{{ tag }}{% endcapture %}
+              <a href="/cards_tag/{{ tag_name }}/" class="label label-blue clickable">{{ tag_name }}</a> {% endfor %}
+            </div>
+          </div>
 
-      <hr> {% include disqus.html %}
-	</div>
-</article>
+          <div class="post_entry">
+            {{ content | markdownify }}
+          </div>
+
+          <hr> {% include disqus.html %}
+	    </div>
+      </article>
+    </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+    <div class="card">
+      <div class="card-header">
+         Social medias
+      </div>
+      <div class="card-block center">
+        <p>
+          {% include svg-icons.html %}
+        </p>
+        <p>
+          <img src="/images/vexpert-2.png" class="vexpert">
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        KB cards tags
+      </div>
+      <div class="card-block">
+        {% include cards_tags.html %}
+      </div>
+    </div>
+  </div>
+</div>

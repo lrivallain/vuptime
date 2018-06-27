@@ -1,0 +1,6 @@
+{% assign cards_page = site.pages | where: "title","KB cards" | first %}
+{% assign all_tags = cards_page.tags | split: " " | sort %}
+
+{% for tag in all_tags %}
+  <a href="/cards_tag/{{ tag }}/" class="label label-blue clickable">{{ tag }}</a>
+{% endfor %}

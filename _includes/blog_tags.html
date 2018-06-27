@@ -9,5 +9,5 @@
 {% for temptag in sortedtemptags %}
  {% assign tagitems = temptag | split: '#' %}
  {% capture tagname %}{{ tagitems[1] }}{% endcapture %}
- <a href="/tag/{{ tagname }}/" class="label label-blue clickable">{{ tagname }}</a>
+ <a href="/tag/{{ tagname }}/" class="label label-blue clickable">{{ tagname }} <span class="badge badge-light-blue">{{ site.tags[tagname].size }}</span></a>
 {% endfor %}
