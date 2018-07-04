@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Switch to Clarity UI light theme
+author: lrivallain
 category: Blog
 tags: vmware design clarity css
 thumb: /images/clarity-ui/after.png
@@ -11,8 +12,8 @@ As you could notice (if you don't use an RSS tool to read this blog): there is a
 To compare before/after:
 <link rel="stylesheet" href="/includes/cocoen/cocoen.min.css">
 <div class="cocoen">
-  <img src="/images/clarity-ui/before.png" alt="Before" title="Before" width="400">
-  <img src="/images/clarity-ui/after.png"  alt="After"  title="After"  width="400">
+  <img src="/images/clarity-ui/before.png" alt="Before" title="Before">
+  <img src="/images/clarity-ui/after.png"  alt="After"  title="After">
 </div>
 
 <script src="/includes/cocoen/cocoen.min.js"></script>

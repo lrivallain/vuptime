@@ -1,6 +1,7 @@
 ---
 layout: post
 title: VMware - Use GuestInfo variables to customize a guest OS
+author: lrivallain
 category: VMWare
 tags: customization guestinfo guestos powercli template vmware vmx
 ---

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Openstack - Migrate keystone endpoint URL
+author: lrivallain
 category: Openstack
 tags: openstack keystone endpoint
 ---

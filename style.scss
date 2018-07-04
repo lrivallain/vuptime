@@ -14,18 +14,29 @@ body { overflow: auto; } // fix clr-issue with x-scrollbar
 }
 
 .info {
-  display: inline-block;
   width: 100%;
   margin-top:0.5rem;
+  position: relative;
 }
 
-.small {
+.block {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.small-info {
   font-size:0.9em;
 }
 
-.right {
+.right-block {
   float: right;
   text-align: right;
+}
+
+.left-block {
+  position: absolute;
+  top: 50%;
+  transform: translateY(50%);
 }
 
 .center {
@@ -54,10 +65,11 @@ pre {
   margin-top: 0.5rem;
 }
 
-.posts article {
+.posts article, .pagination {
   border-top: 1px solid #ccc;
   font-weight: 400;
   margin-bottom: 0.5rem;
+  clear: both;
 }
 
 .posts article .thumb {
@@ -74,7 +86,15 @@ pre {
 
 .post_infos, .post_entry, .comments {
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+.post_infos, .post_entry, {
+  border-bottom: 1px solid #ccc;
+}
+
+.small-info ul, .post_infos ul {
+  list-style-type: none;
 }
 
 .posts article .entry {
@@ -132,7 +152,7 @@ pre {
     display: none;
   }
   .header .branding, header .branding {
-     min-width: 0px;
+    min-width: 0px;
   }
 }
 

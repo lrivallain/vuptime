@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Ansible/VMware modules - first steps
+author: lrivallain
 category: VMware
 tags: vmware ansible module tutorial
 ---

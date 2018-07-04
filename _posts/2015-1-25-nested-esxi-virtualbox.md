@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Nested VMware ESXi with virtualbox
+author: lrivallain
 category: VMWare
 tags: esx esxi nested ssh virtualbox vmware
 ---

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: OVH Cloud - Object Storage with cyberduck
+author: lrivallain
 category: Cloud
 tags: cloud cyberduck object ovh public storage swift
 ---

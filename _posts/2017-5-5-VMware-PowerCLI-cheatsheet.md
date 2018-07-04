@@ -1,6 +1,7 @@
 ---
 layout: post
 title: VMware - PowerCLI 6.5.1 Cheat Sheet
+author: lrivallain
 category: VMware
 tags: vmware powercli cheatsheet sii
 ---

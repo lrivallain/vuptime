@@ -1,6 +1,7 @@
 ---
 layout: card
 title: vRealize Automation – Explore IaaS objects with Linqpad
+author: lrivallain
 tags: vmware vrealize automation iaas vra
 date: 2018-06-21
 ---

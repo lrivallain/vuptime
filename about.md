@@ -3,31 +3,30 @@ layout: about
 title: About
 ---
 
-This blog is maintained by **Ludovic Rivallain** : [**lri.ovh**](https://lri.ovh).
+This blog is maintained by [**Ludovic Rivallain**](#lrivallain) but also hosts contributions from [**Jérémy Rossignol**](#jrossignol) and [**Antoine Harlaut**](#aharlaut).
 
-I am currently senior Virtualisation Engineer+SysAdmin in **[SII Group](http://www.groupe-sii.com)**, a French IT
-consulting company. Before that I used to work as tech leader of run/operations team of the Private Cloud offer at
-OVH hosting company.
-
-I work mainly on **VMware** virtual infrastructures, "IaaS/PaaS" cloud computing offers for key accounts
-(architecture, orchestration, disaster recovery plans, trainings…).
-
-And as I might be a little lazy sometimes, I love automation concepts and I deal with **Python**, **Powershell**
-and **Bash** scripts daily.
-
-<p class="center">
-    <a href="https://vexpert.vmware.com/directory/1741" target="_blank">
-        <img src="/images/vexpert.png" alt="vExpert logo" width="250">
-    </a>
-</p>
-
-### Open source
-
-I'm also self-interested in open-source solutions like **#Docker** or **#OpenStack**.
-
-### Contacts
-
-Please refer to my [linkedin profile](https://www.linkedin.com/in/ludovicrivallain) to contact me in private.
-
-In case of mail contacts, please note my PGP key fingerprint: 🔑 ``CBF2 D0FF 5BDF 1CF8 5094  4C05 C6BE 80D9 44DB 4587`` 
-(aka **``0x44DB4587``**)
+{% for author in site.data.authors %}
+<div class="card" id="{{ author.nick }}">
+    <div class="card-header">
+        {{ author.display_name }}
+    </div>
+    <div class="card-block">
+        {% capture author_include %}{% include {{ author.nick }}.md %}{% endcapture %}
+        {{ author_include | markdownify }}
+    </div>
+    <div class="card-footer">
+      {% if author.blog %}    
+        <a href="{{ author.blog }}" title="Visit blog"><i class="svg-icon blog"></i></a>
+      {% endif %}
+      {% if author.linkedin %}
+        <a href="https://www.linkedin.com/in/{{ author.linkedin }}" title="Visit Linkedin profile"><i class="svg-icon linkedin"></i></a>
+      {% endif %}
+      {% if author.twitter %}
+        <a href="https://www.twitter.com/{{ author.twitter }}" title="Visit Twitter profile"><i class="svg-icon twitter"> </i></a>
+      {% endif %}
+      {% if author.github %}
+        <a href="github.com/{{ author.github }}" title="Visit Github profile"><i class="svg-icon github">  </i></a>
+      {% endif %}
+    </div>
+</div>
+{% endfor %}

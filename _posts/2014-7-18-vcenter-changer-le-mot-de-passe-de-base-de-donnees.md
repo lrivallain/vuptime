@@ -1,6 +1,7 @@
 ---
 layout: post
 title: vCenter - changer le mot de passe de base de données
+author: lrivallain
 category: VMWare
 tags: database dbuser password vcenter vmware
 ---

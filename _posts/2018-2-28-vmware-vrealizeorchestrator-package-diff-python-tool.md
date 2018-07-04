@@ -2,6 +2,7 @@
 layout: post
 title: VMware vRealize orchestrator package diff python tool
 category: VMware
+author: lrivallain
 tags: vmware orchestrator vrealize python diff script
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Openstack - Deploy training labs
+author: lrivallain
 category: Openstack
 tags: script openstack training helper
 ---

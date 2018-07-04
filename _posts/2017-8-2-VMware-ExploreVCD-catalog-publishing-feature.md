@@ -1,6 +1,7 @@
 ---
 layout: post
 title: VMware - Explore vCloud Director catalog publishing feature
+author: lrivallain
 category: VMware
 tags: vmware curl catalog vcloud vcd
 ---
