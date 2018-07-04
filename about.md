@@ -3,7 +3,7 @@ layout: about
 title: About
 ---
 
-This blog is maintained by [**Ludovic Rivallain**](#lrivallain) but also hosts contributions from [**Jérémy Rossignol**](#jrossignol) and [**Antoine Harlaut**](#aharlaut).
+This blog is maintained by [**Ludovic Rivallain**](#lrivallain){% comment %} but also hosts contributions from [**Jérémy Rossignol**](#jrossignol) and [**Antoine Harlaut**](#aharlaut){% endcomment %}.
 
 {% for author in site.data.authors %}
 <div class="card" id="{{ author.nick }}">
