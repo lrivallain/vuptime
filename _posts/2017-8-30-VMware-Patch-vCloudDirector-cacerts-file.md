@@ -1,6 +1,7 @@
 ---
 layout: post
 title: VMware - Patch the vCloud Director cacerts file
+author: lrivallain
 category: VMware
 tags: vmware vcd vcloud java jre certificate
 ---

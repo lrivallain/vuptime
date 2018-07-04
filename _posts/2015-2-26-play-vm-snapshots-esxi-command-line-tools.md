@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Play with VM snapshots and linked-clones with ESXi command line tools
+author: lrivallain
 category: VMWare
 tags: clone esx esxi linked snapshot vim-cmd vm vmware
 ---

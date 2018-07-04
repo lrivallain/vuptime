@@ -1,6 +1,7 @@
 ---
 layout: card
 title: vRealize Automation 7.x – What can be downloaded from appliance "installers" folder
+author: lrivallain
 tags: vmware vrealize automation vra
 date: 2018-06-20
 ---

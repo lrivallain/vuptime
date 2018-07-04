@@ -1,6 +1,7 @@
 ---
 layout: post
 title: VMware - Dive into OVF properties
+author: lrivallain
 category: VMware
 tags: script linux vmware ovf customization
 ---

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Password factory
+author: lrivallain
 category: Bash
 tags: script linux security bash
 ---

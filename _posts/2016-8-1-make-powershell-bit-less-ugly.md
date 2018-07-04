@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Make powershell a bit less ugly
+author: lrivallain
 category: PowerShell
 tags: powershell script windows
 ---

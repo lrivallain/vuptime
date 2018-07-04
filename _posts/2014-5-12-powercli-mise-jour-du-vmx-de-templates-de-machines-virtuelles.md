@@ -1,6 +1,7 @@
 ---
 layout: post
 title: PowerCli - Mise à jour du VMX de templates de machines virtuelles
+author: lrivallain
 category: VMWare PowerShell
 tags: powercli powershell template vmware vmx
 ---
