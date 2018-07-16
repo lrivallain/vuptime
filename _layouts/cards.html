@@ -3,9 +3,9 @@ layout: default
 ---
 
 {% if page.tag %}
-  {% assign filtered-cards = (site.cards | where:"tags",page.tag | sort: 'date') | reverse %}
+  {% assign filtered-cards = site.cards | where:"tags",page.tag | sort: 'date' | reverse %}
 {% else %}
-  {% assign filtered-cards = (site.cards | sort: 'date') | reverse %}
+  {% assign filtered-cards = site.cards | sort: 'date' | reverse %}
 {% endif %}
 
 <p>This page is used to 'host' a personnal Knowledge Base with some short gists, cheatsheets and bookmarked-urls.</p>

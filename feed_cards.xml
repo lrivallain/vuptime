@@ -7,7 +7,7 @@ layout: null
       <title>{{ site.name }} – KB cards</title>
       <description>{{ site.description }}</description>
       <link>{{ site.url }}</link>
-    {% assign sorted = (site.cards | sort: 'date') | reverse %}
+    {% assign sorted = site.cards | sort: 'date' | reverse %}
     {% for post in sorted %}
       {% unless post.draft %}
         <item>
