@@ -78,6 +78,7 @@ pre {
   float: left;
   max-width: 7rem;
   margin-right: 1rem;
+  padding: 0.25rem;
 }
 
 .posts article:first-child {
@@ -107,6 +108,20 @@ pre {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+blockquote {
+  padding: 0.5rem;
+  font-style: italic;
+  margin-left: 1rem;
+  border-left: 2px solid #002538;
+  background-color: #efefef;
+  border-radius: .125rem;
+  margin-right: 0px;
+}
+
+blockquote p {
+	margin-top: 0px;
 }
 
 #markdown-toc::before {
