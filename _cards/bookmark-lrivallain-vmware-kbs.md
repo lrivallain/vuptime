@@ -14,4 +14,4 @@ Networking:
 vRealize Automation:
 
 * [Search
-Upgrading vRA from 6.2.5/7.x to 7.4 fails due to duplicate entities in vRO DB] (https://kb.vmware.com/s/article/54982)
+Upgrading vRA from 6.2.5/7.x to 7.4 fails due to duplicate entities in vRO DB](https://kb.vmware.com/s/article/54982)
