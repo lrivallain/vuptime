@@ -2,7 +2,7 @@
 Working at **[SII Group](http://www.groupe-sii.com)** as contractor for a french cloud provider, I've got 3 years of experience on System & Virtualization.
 I'm currently focusing on Automation products such as **vRealize Automation** & **vRealize Orchestrator**. 
 
-Passionate by scripting, I'm using **Python** and **Powershell** daily to automate action on the "IaaS" platforms.
+Passionate by scripting, I'm using **Python** and **Powershell** daily to automate actions on the "IaaS" platforms.
 
 
 ### Contacts
