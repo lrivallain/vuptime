@@ -55,7 +55,7 @@ Alias=my-custom-service.service
 
 # Starting the custom service
 
-The custom service can be now launched with the following command:
+The custom service can be now launched with the following command :
 
 ```bash
 $ service my-custom-service start
