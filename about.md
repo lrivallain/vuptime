@@ -3,7 +3,7 @@ layout: about
 title: About
 ---
 
-This blog is maintained by [**Ludovic Rivallain**](#lrivallain){% comment %} but also hosts contributions from [**Jérémy Rossignol**](#jrossignol) and [**Antoine Harlaut**](#aharlaut){% endcomment %}.
+This blog is maintained by [**Ludovic Rivallain**](#lrivallain) but also hosts contributions from {% comment %}[**Jérémy Rossignol**](#jrossignol) and {% endcomment %}[**Antoine Harlaut**](#aharlaut).
 
 {% for author in site.data.authors %}
 <div class="card" id="{{ author.nick }}">
@@ -30,3 +30,5 @@ This blog is maintained by [**Ludovic Rivallain**](#lrivallain){% comment %} but
     </div>
 </div>
 {% endfor %}
+
+[Status page 📈](https://status.vuptime.io/)
