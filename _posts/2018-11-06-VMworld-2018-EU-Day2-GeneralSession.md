@@ -7,13 +7,15 @@ tags: vmware vmworld french
 thumb: /images/vmworld2018.jpg
 ---
 
+* [Vidéo](https://videos.vmworld.com/global/2018/videoplayer/26843)
+
 Pour le second jour, nous commençons, comme la majorité des personnes qui sont au VMworld, par assister à la General Session: une *v-Keynote*.
 
 **Jean-Pierre Brulard** - Vice-président et directeur général, Europe, Moyen-Orient et Afrique (EMEA) -  commence la session en annonçant que nous sommes 10 000 présents… C'est vrai que la salle est bondée pour le VMworld des 20 ans de VMware et les 10 ans de la filiale EVMware et les 10 ans de la filiale Européenne.
 
 Arrive ensuite **Pat Gelsinger**, VMware CEO et visionnaire du cloud en général, pour animer la majeure partie de la session.
 
-Depuis 20 ans, VMware a bien changé, et son environnement aussi. A propos de NSX, Pat ose lancer un 
+Depuis 20 ans, VMware a bien changé, et son environnement aussi. A propos de NSX, Pat ose lancer un:
 
 > Networking will never be the same again
 
@@ -26,6 +28,7 @@ VMware annonce ensuite la disponibilité de VMware Cloud Foundation 3.5. Un outi
 Rapide présentation d'Amazon RDS sur une infrastructure VMware, où qu'elle soit, avec l'ajout, dans la console AWS, de Custom  AZ. On voit bien le rapprochement qui s'opère en ce moment entre le monde du public et du private cloud avec des produits croisés.
 
 Retour de Ray sur scène pour une triple démonstration:
+
 * Moderniser les applications à l'aide du cloud IBM (un gros partenaire de VMware)
 * Un scénario de *disaster recovery* basé sur VMware on AWS et la gestion de l'elastic DRS qui commande ou libère pour vous des hosts en cas de changement de consommations de resources.
 * CloudHealth, un outil de gestion de coûts qui permet d'analyser les différents comptes chez vos clouds provider et peut être d'économiser de l'argent en ajustant la taille de vos réservations, d'instances.
