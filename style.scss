@@ -184,8 +184,27 @@ blockquote p {
   }
 }
 
+// Add left marging in lists
+ul, ol {
+  padding-left: 15px;
+}
+
+// Bold for numbers in lists
+ol {
+  list-style: none;
+  counter-reset: vcounter;
+}
+
+ol li {
+  counter-increment: vcounter;
+}
+
+ol li::before {
+  content: counter(vcounter) ". ";
+  font-weight: bold;
+}
+
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
 @import "svg-icons";
-
