@@ -7,7 +7,7 @@ tags: vmware vcloud director vcd python rabbitmq extension sii opensource
 thumb: /images/lumext-for-vcd/preview_userlisting.png
 ---
 
-This post is the English translation of the one published on [blog.groupe-sii.com](https://blog.groupe-sii.com/) to present a new kind of development activities in SII Group: the extension of the *VMware vCloud Director* portal.
+This post is the English translation of the one published on [blog.groupe-sii.com](https://blog.groupe-sii.com/etendre-les-capacites-du-portail-vmware-vcloud-director/) to present a new kind of development activities in SII Group: the extension of the *VMware vCloud Director* portal.
 
 The post will explain the concept that enables the extension of this VMware product to add new functionalities to the native portal and to provide a consistent user experience to final customers.
 
