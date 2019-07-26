@@ -144,6 +144,6 @@ $KEYTOOL_BIN \
 # Apply certificates to the services
 
 ```bash
-$VCLOUD_HOME/bin/cell-management-tool certificates -j -k  /opt/vmware/vcloud-director/data/transfer/$KS_PATH -w $KS_PASSWORD
+$VCLOUD_HOME/bin/cell-management-tool certificates -j -k $KS_PATH -w $KS_PASSWORD
 service vmware-vcd restart
 ```
