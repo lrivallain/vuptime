@@ -4,7 +4,6 @@ title: New release of VMware vRealize Orchestrator package diff tool
 category: VMware
 author: lrivallain
 tags: vmware orchestrator vrealize python diff script
-thumb: /images/lumext-for-vcd/preview_userlisting.png
 ---
 
 About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: [vRO Package Diff](/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/). Initial version was a simple python script accepting 2 files as arguments and without any input controls.
