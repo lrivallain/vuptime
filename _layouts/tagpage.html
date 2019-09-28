@@ -2,26 +2,46 @@
 layout: blog
 ---
 <div class="posts">
-    <h1>Tag: {{ page.tag }}</h1> {% for post in site.tags[page.tag] %}
-    <article class="post">
-
+    <h1>Tag: {{ page.tag }}</h1>
+    {% for post in site.tags[page.tag] %}
+      <article class="">
         <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
-        <div class="small date">
-            <clr-icon shape="calendar"></clr-icon> {{ post.date | date: "%B %e, %Y" }}
+        {% if post.thumb %}
+        <div class="thumb">
+            <img src="{{ post.thumb }}" alt="{{ post.title }}">
         </div>
-
+        {% endif %}
         <div class="entry">
             {{ post.content | strip_html | truncatewords:75 }}
         </div>
-
-        <div class="right">
-            {% for tag in post.tags %}
-            <a href="/tag/{{ tag }}/" class="label label-blue clickable small">{{ tag }}</a> {% endfor %}
+        <div class="info">
+            <div class="block left-block">
+                <a class="btn btn-primary" href="{{ site.baseurl }}{{ post.url }}" class="read-more">
+                    <clr-icon shape="cursor-arrow" title="Read more"></clr-icon> Read More
+                </a>
+            </div>
+            <div class="small-info block right-block">
+                <ul style="display: inline-block;">
+                    <li>
+                        <clr-icon shape="calendar"></clr-icon> {{ post.date | date: "%B %e, %Y" }}
+                    </li>
+                    <li>
+                        <clr-icon shape="user"></clr-icon>
+                        {% for author in site.data.authors %}
+                        {% if post.author == author.nick %}
+                        <a href="/about/#{{ author.nick }}" title="Details about author">{{ author.display_name }}</a>
+                        {% break %}
+                        {% endif %}
+                        {% endfor %}
+                    </li>
+                    <li class="post-tags">
+                        {% for tag in post.tags %}
+                        <a href="/tag/{{ tag }}/" class="label label-blue clickable small">{{ tag }}</a>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
         </div>
-
-        <a class="btn btn-primary" href="{{ site.baseurl }}{{ post.url }}" class="read-more">
-            <clr-icon shape="cursor-arrow" title="Read more"></clr-icon> Read More
-        </a>
-    </article>
+      </article>
     {% endfor %}
 </div>

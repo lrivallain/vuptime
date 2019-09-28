@@ -31,14 +31,14 @@ layout: blog
                 {% endif %}
               {% endfor %}
             </li>
-
-          <li>
-			{% for tag in post.tags %}
-			  <a href="/tag/{{ tag }}/" class="label label-blue clickable small">{{ tag }}</a>
-            {% endfor %}
-          </li>
+            <li class="post-tags">
+              {% for tag in post.tags %}
+                <a href="/tag/{{ tag }}/" class="label label-blue clickable small">{{ tag }}</a>
+              {% endfor %}
+            </li>
+          </ul>
         </div>
-	  </div>
+	    </div>
     </article>
   {% endfor %}
 </div>
@@ -63,5 +63,3 @@ layout: blog
       </div>
   </nav>
 {% endif %}
-
-

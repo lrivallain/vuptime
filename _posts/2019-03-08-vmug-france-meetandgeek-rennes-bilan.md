@@ -31,4 +31,4 @@ La soirée a aussi été *marquée* par l'effervescence de la *vCommunauté* mon
 
 ⚽ Et comme tout bon Rennais qui se respecte, nous suivions d'un oeil attentif le match **Rennes-Arsenal** en huitièmes de finale (aller) de l'Europa League. Match qui a été logiquement remporté 3-1 par Rennes! Vive la galette-saucisse! ⚽
 
-Merci en tout cas à toute la vCommunauté Française et Rennaise, et en particulier à [Frédéric](https://twitter.com/fredG_work), [Jérémy](/about/#jrossignol), SII Ouest et les autres collègues m'aillant aidé à organiser se petit événement!
+Merci en tout cas à toute la vCommunauté Française et Rennaise, et en particulier à [Frédéric](https://twitter.com/fredG_work), [Jérémy](/about/#jrossignol), SII Ouest et les autres collègues m'aillant aidé à organiser ce petit événement!
