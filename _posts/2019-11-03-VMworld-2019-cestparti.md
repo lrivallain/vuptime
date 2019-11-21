@@ -17,7 +17,7 @@ Tout d'abord, VMware étant plutôt en pointe en matière d'innovation, d'acquis
 
 ## Réseautage et communautés
 
-Ensuite, le VMworld est un formidable moment de partage et de réseautage. Si vous voulez rencontrer des passionnés de virtulisation, de SDN, d'hyperconvergence etc., ils y sont probablement. 
+Ensuite, le VMworld est un formidable moment de partage et de réseautage. Si vous voulez rencontrer des passionnés de virtulisation, de SDN, d'hyperconvergence etc., ils y sont probablement.
 
 C'est une bonne occasion aussi de rencontrer ses clients dans un environnement différents des échanges plus traditionnels du quotidien professionnel.
 
@@ -26,3 +26,5 @@ Enfin, vous pouvez aussi trouver le temps de partager de bons moments conviviaux
 # À demain !
 
 Arrivée prévue ce soir aux alentours de minuit sur Barcelone, puis une petite nuit avant d'attaquer la première journée, celle des partenaires. Rdv demain donc.
+
+![Logo VMworld 2019](/images/vmworld2019.png)
