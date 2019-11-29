@@ -11,6 +11,9 @@ Plus que quelques heures avant de décoller en direction de Barcelone avec 2 col
 
 Au-delà de l'aspect *VMware "pur"*, les intérêts d'assister à cet évènement sont multiples.
 
+* Sommaire
+{:toc}
+
 ## Veille technologique
 
 Tout d'abord, VMware étant plutôt en pointe en matière d'innovation, d'acquisitions et de stratégie, c'est une bonne occasion de voir l'état du marché de l'infrastructure et du cloud-computing, tout en pouvant anticiper aussi les changements prédis (et pour le moment, force est de constaté que VMware vise plutôt juste dans cette anticipation).
