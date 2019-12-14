@@ -3,10 +3,10 @@ layout: post
 title: Interact with the vRealize Automation IaaS objects on vRealize Orchestrator
 author: aharlaut
 category: VMWare
-tags: vmware vra vro iaas modelmanager javascript
+tags: vmware vra vro iaas vrealize orchestrator automation modelmanager javascript
 ---
 
-As described on another [blog post](https://vuptime.io/cards/vra-linqpad-explore-iaas-objects/), vRA IaaS objects can be gathered using the model manager.
+As described on another [blog post](cards/vra-linqpad-explore-iaas-objects/), vRA IaaS objects can be gathered using the model manager.
 This article will show you how to interact with this kind of object using ``vRealize Orchestrator``.
 
 On this first sample, we are trying to get a virtual machine named ``TESTVM02`` on the model manager.
@@ -55,7 +55,7 @@ Great ! Once the virtual machine captured, we can access to all its properties.
 For instance, we need to know the vCPU and RAM configured on the virtual machine.
 The request is simple, we'll use the method ``get_property`` on the object  ``VCAC:Entity``
 
-You just need to get the correspoding properties names:
+You just need to get the corresponding properties names:
 ![Image](/images/iaas_vro/model_manager_vm_request.png)
 
 
@@ -74,6 +74,10 @@ Everything is working well, but now we also want to display the virtual machine 
 There is a property name called ``VMDiskHardware`` but not directly accessible because this is a child object of ``VirtualMachine``.
 
 Using LINQPAD, we can access to this property by using the method ``expand``
+
+```c#
+VirtualMachine.expand("VMDiskHardware").Where (v => v.VirtualMachineName == "TESTVM02")
+```
 
 ![Image](/images/iaas_vro/model_manager_vm_disks.png)
 
