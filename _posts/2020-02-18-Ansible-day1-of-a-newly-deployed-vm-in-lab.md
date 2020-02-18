@@ -7,7 +7,7 @@ tags: ansible devops
 thumb: /images/ansible.png
 ---
 
-Ansible is a great tool for someone as lazy as I can be and it helps me daily to automatize some regular or time consuming tasks.
+Ansible is [a great tool for someone as lazy as I can be](/2018/02/07/ansible-vmware_modules_-_first_steps/) and it helps me daily to automatize some regular or time consuming tasks.
 
 Ansible way to manage remote resources Linux based OS is mainly based on SSH protocol when it deals with OS or application customization/settings/configuration. By using public-key authentication mechanism it is possible to avoid using password and being prompt for every action.
 
