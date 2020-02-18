@@ -4,6 +4,7 @@ title: Ansible/Day 1 of a newly deployed VM in my home lab
 author: lrivallain
 category: Ansible
 tags: ansible devops
+thumb: /images/ansible.png
 ---
 
 Ansible is a great tool for someone as lazy as I can be and it helps me daily to automatize some regular or time consuming tasks.
