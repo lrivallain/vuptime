@@ -1,6 +1,6 @@
 ---
 layout: post
-title: REST ❤ Swagger, 2 minutes to create an API SDK ⏱ - Codegen Demo
+title: REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1
 author: lrivallain
 category: Automation
 tags: rest swagger devops codegen api vcenter vcloud vmware
