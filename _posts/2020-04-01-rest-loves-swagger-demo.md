@@ -39,7 +39,7 @@ In a second post, I will demonstrate how to build/use SDK for VMware products: v
 
 ### Docker
 
-Firs, we need a docker setup (in order to avoid installing localy, the codegen software). I won't explain how to install and configure a docker host, this is not the point of the post.
+First, we need a docker setup (in order to avoid installing locally, the codegen software). I won't explain how to install and configure a docker host, this is not the point of the post.
 
 We get the docker image of Swagger Codegen:
 
@@ -60,7 +60,7 @@ ls codegen/ # should output "in out"
 
 ### Python
 
-We will create some python modules for test. I suggest to use a virtualenv if you whant to proceed the same tests and to install some dependencies:
+We will create some python modules for test. I suggest to use a virtualenv if you want to proceed the same tests and to install some dependencies:
 
 ```bash
 wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/requirements.txt
@@ -76,7 +76,7 @@ A part of this post will provide a Go module. Install Go runtime to be able to t
 
 ## Available languages
 
-Codegen supports tons of output languages. To demonstrate it, we can user the following command:
+Codegen supports tons of output languages. To demonstrate it, we can use the following command:
 
 (The `sed` part is only to prettify the ouput)
 

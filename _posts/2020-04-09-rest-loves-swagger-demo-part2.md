@@ -16,7 +16,7 @@ As this post is following the steps made in the [part 1](/2020/04/01/rest-loves-
 
 ## Pre-requisites
 
-Same as previous post + we will rely on some environment variables to get some local settings:
+Same as previous post + we will rely on some environment variables to set some local settings:
 
 ```bash
 echo "Exporting vCenter env..."
@@ -83,7 +83,7 @@ auth_str = basic_auth_str(_username, _password)
 client = vc_client.ApiClient(configuration)
 ```
 
-So we import our new `vc_client` module, we setup the target hostname, the authentication settings.
+So we import our new `vc_client` module, we setup the target hostname and the authentication settings.
 
 ### Get a new session
 
