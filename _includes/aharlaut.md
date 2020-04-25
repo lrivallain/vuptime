@@ -5,7 +5,12 @@ I'm currently focusing on Automation products such as **vRealize Automation** & 
 Passionate by scripting, I'm using **Python** and **Powershell** daily to automate actions on the "IaaS" platforms.
 
 
+<p class="center">
+    <a href="https://vexpert.vmware.com/directory/5293" target="_blank">
+        <img src="/images/vexpert.png" alt="vExpert logo" width="250">
+    </a>
+</p>
+
 ### Contacts
 
 Here is my [linkedin profile](https://www.linkedin.com/in/antoine-harlaut-a1b6baa5) to contact me.
-

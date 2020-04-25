@@ -6,7 +6,7 @@ I work mainly on **VMware** based virtual infrastructures, "IaaS/PaaS" cloud com
 And as I might be a little lazy sometimes, I love automation concepts and I deal with **Python**, **Powershell**
 and/or **Bash** scripts daily.
 
-My **resume**: [**lri.ovh**](https://lri.ovh)
+My **resume**: [**ludovic.rivallain.fr**](https://ludovic.rivallain.fr)
 
 <p class="center">
     <a href="https://vexpert.vmware.com/directory/1741" target="_blank">
