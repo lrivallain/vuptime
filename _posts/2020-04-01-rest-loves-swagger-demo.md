@@ -9,7 +9,7 @@ thumb: /images/rest-loves-swagger/APIEverywhereMeme.png
 
 On March 30<sup>th</sup>, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without writing any code.
 
-Slide deck is published (only in french, sorry) here: [https://vupti.me/rls](vupti.me/rls).
+Slide deck is published (only in french, sorry) here: [vupti.me/rls](https://vupti.me/rls).
 
 As said in the slide deck, this presentation was greatly inspired by a VMworld session: [{CODE2216E} The art of code that writes code](https://videos.vmworld.com/global/2019?q=The%2520Art%2520of%2520Code%2520That%2520Writes%2520Code) (Kyle Ruddy @ VMware Inc.). I cannot encourage you enough to see the replay if you did not do it yet.
 
