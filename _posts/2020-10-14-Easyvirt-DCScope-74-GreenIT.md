@@ -15,7 +15,7 @@ Thanks a lot to [@MartinDargent](https://twitter.com/martindargent) for this inv
 
 The major new feature in the new 7.4 version it the addition of a new **Green IT** tab (still in Beta). This new capability of DC Scope can be linked to the initial purpose of DC Scope to avoid wasting resources by monitoring the consumption of VMware ESXi servers, providing recommendation and estimating the future behaviour. Now, users can also monitor the green-efficiency of their DataCenter and Desktop stock.
 
-By making a partnership with [**Quantis**](https://quantis-intl.com/) (French leader of [**LCA** (*Life Cycle Assessment*)](https://en.wikipedia.org/wiki/Life-cycle_assessment) consulting), is now able to provide back the DC administrators, reliable metrics about:
+By making a partnership with [**Quantis**](https://quantis-intl.com/) (a leading sustainability and [**LCA** (*Life Cycle Assessment*)](https://en.wikipedia.org/wiki/Life-cycle_assessment) Swiss consultancy), is now able to provide back the DC administrators, reliable metrics about:
 
 * [Embodied energy](https://en.wikipedia.org/wiki/Embodied_energy): raw-material production, manufacture, transport, distribution, use and disposal.
 * Energy consumption over time (that was already collected for both servers and per-VM)
@@ -53,4 +53,4 @@ As we globally said to Martin, this new tab is a great thing in order to make ou
 
 The shortcoming of the current implementation of the feature is the complexity involved in the some settings of DC configuration to improve the *Green IT score*: PUE and CO² efficiency of a datacenter could be complicated to determine in some context (on-premise, multi-sites etc.).
 
-As it is still a *Beta* feature, I am confident that Easyvirt will find way to improve this part of the admin-experience in a near future.
+As it is still a *Beta* feature, I am confident that Easyvirt will find way to improve this part of the admin-experience in a near future: by the way, they are looking for feedback to evolve this feature.
