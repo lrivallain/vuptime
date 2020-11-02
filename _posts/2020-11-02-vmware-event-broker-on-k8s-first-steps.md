@@ -4,14 +4,14 @@ title: VMware Event Broker (aka VEBA) on Kubernetes – First steps
 category: VMware
 author: lrivallain
 tags: vmware veba kubernetes event-driven
-thumb: /images/veba-first-steps/###############################################
+thumb: /images/veba-first-steps/veba_otto_the_orca_md.png
 ---
 
 In the following post, we will discover how to deploy the VMware Event Broker services (VEBA) within an existing Kubernetes (K8S) cluster and use it to add/edit custom attributes information to virtual machines.
 
 The goal of the VEBA deployment is to be able to listen for events in the VMware vCenter infrastructure and to run specific tasks when filtered events occurs: it is the [*event driven automation*](https://octo.vmware.com/vsphere-power-event-driven-automation/) concept.
 
-To be accurate, VEBA stands for "VMware Event Broker Appliance": a Photon OS based virtual machine, available in OVA format, with an embedded small K8S cluster to support the "VMware Event Broker" services.
+To be accurate, VEBA stands for **"VMware Event Broker Appliance"**: a Photon OS based virtual machine, available in OVA format, with an embedded small K8S cluster to support the **"VMware Event Broker"** services.
 In the following post, I re-use an existing K8S cluster to support the "VMware Event Broker" services but I will use the VEBA acronym to simplify the redaction: even if I do not use the appliance deployment method.
 
 If you need more details about VEB(A), the official website if well documented: [vmweventbroker.io](https://vmweventbroker.io/) and lot of other use-cases are listed: notification, automation, integration, remediation, audit, analytics…
@@ -162,7 +162,7 @@ echo "export OPENFAAS_URL=http://"$(kubectl -n openfaas describe pods $(kubectl 
 The above command output give you the command to run, to setup the `OPENFAAS_URL` environment variable. This variable then can be used as an endpoint by the `faas-cli` tool.
 
 ```bash
-export OPENFAAS_URL=https:/<node ip>:31112
+export OPENFAAS_URL=https://<node ip>:31112
 ```
 
 And to login:
@@ -306,9 +306,8 @@ Now we need to pull the OpenFaaS language template for the specified `lang` in o
 ```bash
 faas template store pull python3
 ```
-> In fact, this command will pull all (12) the languages templates from the `openfaas` registry, not only the one you are looking for.
 
-```
+> In fact, this command will pull all (12) the languages templates from the `openfaas` registry, not only the one you are looking for.
 
 We are ready to deploy our *Function-as-a-Service*:
 
