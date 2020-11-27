@@ -171,6 +171,11 @@ echo "Acquire::http::proxy \"http://W.X.Y.Z:3128\";" >> /etc/apt/apt.conf
 export HTTP_PROXY="W.X.Y.Z:3128"
 export HTTPS_PROXY="W.X.Y.Z:3128"
 export NO_PROXY=".vlab.lcl,192.168.0.0/16,127.0.0.1,localhost"
+echo "[Service]
+Environment=\"HTTP_PROXY=http://W.X.Y.Z:3128\"
+Environment=\"HTTPS_PROXY=http://W.X.Y.Z:3128\"
+Environment=\"NO_PROXY=.vlab.lcl,192.168.0.0/16,127.0.0.1,localhost\"
+" >> /etc/systemd/system/docker.service.d/override.conf
 ```
 
 Save+quit etc. And we re-run the CSE initialisation command:
