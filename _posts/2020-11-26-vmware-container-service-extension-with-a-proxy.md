@@ -201,7 +201,7 @@ ubuntu-16.04_k8-1.18_weave-2.6.5           1                    Yes      Yes
 In the next steps, if you use Python version 3.8 (you can check it by running ` python3 -V` command), you may have an issue with an error message like:
 
 ```bash
- vcd cse template list
+vcd cse template list
 Usage: vcd cse template list [OPTIONS]
 Try "vcd cse template list -h" for help.
 
