@@ -1,15 +1,15 @@
 ---
 layout: post
-title: VMware Event Broker (aka VEBA) on Kubernetes – First steps
+title: VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps
 category: VMware
 author: lrivallain
 tags: vmware veba kubernetes event-driven
 thumb: /images/veba-first-steps/veba_otto_the_orca_md.png
 ---
 
-> **Warning**: Since the publication of VEBA 0.5.0, the development team provides a `helm` chart deployment method. According to this, I made a re-edition of this post to provide a new setup workflow: [VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps](/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/)
+> This post is a re-edition of a previous one: [VMware Event Broker (aka VEBA) on Kubernetes – First steps](2020/11/02/vmware-event-broker-on-k8s-first-steps/), update to be applicable to the new 0.5.0 release of *VEBA*, including the support of `helm` chart deployment.
 
-In the following post, we will discover how to deploy the VMware Event Broker services (VEBA) within an existing Kubernetes (K8S) cluster and use it to add/edit custom attributes information to virtual machines.
+In the following post, we will (re)discover how to deploy the VMware Event Broker services (VEBA) within an existing Kubernetes (K8S) cluster and use it to add/edit custom attributes information to virtual machines.
 
 The goal of the VEBA deployment is to be able to listen for events in the VMware vCenter infrastructure and to run specific tasks when filtered events occurs: it is the [*event driven automation*](https://octo.vmware.com/vsphere-power-event-driven-automation/) concept.
 
@@ -39,10 +39,11 @@ As announced at VMworld2020 (**VEBA and the Power of Event-Driven Automation –
 
 The *Event Stream Processor* is in charge of handling the event propagated by the *VMware Event Router* to the appropriate automation tasks that are configured to run for the specific type of event.
 
-As the time I write this post, 2 processors are available:
+As the time I write this post, 3 processors are available:
 
 * [Amazon EventBridge](https://aws.amazon.com/eventbridge/): to run on AWS *serverless* event services, your automation tasks.
 * [OpenFaaS®](https://www.openfaas.com/): An open-source project to run *Function as a Service* (FaaS) automation task over a K8S deployment.
+* [KNative](https://knative.dev/) **NEW in 0.5.0**: a Google-sponsored industry-wide project to extends Kubernetes to provide developers with a set of tools that simplify the process of deploying and managing event-driven applications that can run anywhere.
 
 In my setup, I use the OpenFaaS processor.
 
@@ -79,6 +80,14 @@ Client Version: v1.19.3
 Server Version: v1.19.2
 ```
 
+### `helm` cli
+
+The `helm` cli will provide a simple way to deploy both OpenFaaS and VEBA stacks:
+
+```bash
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | sudo bash
+```
+
 ### `faas-cli`
 
 The [`faas-cli`](https://github.com/openfaas/faas-cli) requirement is linked to the usage of the OpenFaaS processor in the following setup.
@@ -91,97 +100,166 @@ curl -sSL https://cli.openfaas.com | sudo sh
 
 > You can also use an alternative installation method described in the [`faas-cli` project GitHub repository](https://github.com/openfaas/faas-cli).
 
-## VEBA deployment on Kubernetes
 
-The VEBA deployment on K8S is quite simple and does not require a lot of configuration.
-
-### Get the VEBA code and dependencies
+## OpenFaaS deployment
 
 ```bash
-git clone https://github.com/vmware-samples/vcenter-event-broker-appliance
-cd vcenter-event-broker-appliance/vmware-event-router/hack
-git clone https://github.com/openfaas/faas-netes -b "0.9.2"  --single-branch
+kubectl create ns openfaas
+kubectl create ns openfaas-fn
+helm repo add openfaas https://openfaas.github.io/faas-netes
+helm repo update
+helm upgrade openfaas --install openfaas/openfaas \
+  --namespace openfaas \
+  --set functionNamespace=openfaas-fn \
+  --set generateBasicAuth=true
 ```
 
-### Deploy VEBA to your Kubernetes cluster
-
-VEBA team provide a setup script to handle the deployment:
+You can check the deployment status by running:
 
 ```bash
-bash create_k8s_config.sh
+kubectl -n openfaas get deployments -l "release=openfaas, app=openfaas"
 ```
 
-You will be prompted to provide some settings there:
+Once deployed, you can get the generated password and the endpoint URL by:
 
-* vCenter Server FQDN
-* vCenter Server Username and password
-* Deploy OpenFaaS: [y|n]: In my setup, **y**es, I want to deploy an *OpenFaaS* instance
-* OpenFaaS Admin Password: The password to configure for the `admin` account of *OpenFaaS* instance
+```bash
+# Get password
+export OF_PASS=$(echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode))
+echo $OF_PASS
 
-Then you are prompted to review the settings and in order to proceed the VEBA deployment.
+# Get URI
+echo "export OPENFAAS_URL=http://"$(kubectl -n openfaas describe pods $(kubectl -n openfaas get pods | grep "gateway-" | awk '{print $1}') | grep "^Node:" | awk -F "/" '{print $2}')":31112"
+```
+
+### Ingress access to OpenFaaS
+
+If you want to access with a friendly URI to your OpenFaaS instance, you can use an ingress like the following one:
+
+1. Create a DNS record for your new openfaas fqdn then
+2. Create the following file:
+
+```bash
+mkdir openfaas
+vi openfaas/ingress.yml
+```
+
+```yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: openfaas-gateway-ingress
+  namespace: openfaas
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: openfaas.vlab.lcl
+    http:
+      paths:
+      - backend:
+          serviceName: gateway
+          servicePort: 8080
+```
+
+Deploy it:
+
+```bash
+kubectl apply -f ingress.yml
+kubectl get ingress -n openfaas
+echo "export OPENFAAS_URL=http://$(kubectl get ingress -n openfaas 2>/dev/null| grep "gateway-" | awk '{print $3}')"
+```
 
 ### Check the deployment
-
-Few minutes later, you should have a new VEBA deployment:
-
-```bash
-kubectl get pods -n vmware
-# You should get a running pod
-NAME                                   READY   STATUS    RESTARTS   AGE
-vmware-event-router-859b97c894-bxx94   1/1     Running   0          25m
-```
-
-This pod, in the `vmware` is the [*VMware Event Router*](#VMware%20Event%20Router) as explained previously in this post.
 
 If you requested the OpenFaaS deployment, you now have a set of pods in the `openfaas` namespace:
 
 ```bash
 kubectl get pods -n openfaas
 # You should get a new set of running pods
-NAME                                 READY   STATUS    RESTARTS   AGE
-alertmanager-66556574f7-g225s        1/1     Running   0          27m
-basic-auth-plugin-86995c9c5f-2zs4r   1/1     Running   0          27m
-faas-idler-7dbbcb48bb-tjhrg          1/1     Running   3          27m
-gateway-5c4c48545d-hdshr             2/2     Running   2          27m
-nats-6ff956f47c-hlqwx                1/1     Running   0          27m
-prometheus-857c769b7-mcsmt           1/1     Running   0          27m
-queue-worker-7b5756c9c4-wv9ml        1/1     Running   3          27m
+NAME                                READY   STATUS    RESTARTS   AGE
+basic-auth-plugin-bc899c574-6hzhf   1/1     Running   0          18h
+nats-7d86c64647-nj9mm               1/1     Running   0          18h
+queue-worker-5d8986f858-cql9c       1/1     Running   1          18h
+alertmanager-677f4db47f-s92xs       1/1     Running   0          18h
+prometheus-7797994d65-74pvn         1/1     Running   0          18h
+gateway-7f6d9cb855-xptmw            2/2     Running   0          18h
+faas-idler-7f66c658bf-gs98m         1/1     Running   3          18h
 ```
-
-> It may take a couple of minutes in order to get all pods in a running state. Be patient.
 
 ### Login to your OpenFaaS cli and UI
 
 #### Login to `faas-cli`
 
-
-We now need to get the OpenFaaS URI to use the `faas-cli` client. The following one-liner should provide you the appropriate information:
-
-```bash
-echo "export OPENFAAS_URL=http://"$(kubectl -n openfaas describe pods $(kubectl -n openfaas get pods | grep "gateway-" | awk '{print $1}') | grep "^Node:" | awk -F "/" '{print $2}')":31112"
-```
-
-The above command output give you the command to run, to setup the `OPENFAAS_URL` environment variable. This variable then can be used as an endpoint by the `faas-cli` tool.
+We now need to get the OpenFaaS URI to use the `faas-cli` client:
 
 ```bash
-export OPENFAAS_URL=https://<node ip>:31112
-```
-
-And to login:
-
-```bash
-echo '**YourPassword**' | faas-cli login --password-stdin
+echo $OF_PASS | faas-cli login --password-stdin
 ```
 
 > A warning will recommend you to use an HTTPS endpoint instead of the HTTP one: let's ignore it for the moment.
 
-At least, you should get a message like: "credentials saved for admin `http://<node ip>:31112"` meaning that you successfully configured your `faas-cli` client.
+At least, you should get a message like: "credentials saved for admin `http://openfaas.vlab.lcl"` meaning that you successfully configured your `faas-cli` client.
 
 #### Login to the UI
 
 Use the same URL to login with the `admin` account to the web UI and you should get something like that:
 
 ![Empty OpenFaaS UI](/images/veba-first-steps/empty_OpenFaaS_UI.png)
+
+## VEBA deployment on Kubernetes
+
+The VEBA deployment on K8S is quite simple and does not require a lot of configuration.
+
+### Prepare an override file
+
+Prepare an `override.yml` file to provide to veba its deployment settings:
+
+```bash
+mkdir veba
+vim veba/override.yml
+```
+
+```yaml
+eventrouter:
+  config:
+    logLevel: debug
+  vcenter:
+    address: https://vcsa.vlab.lcl
+    username: administrator@vsphere.local
+    password: ---------
+    insecure: false # ignore TLS certs ?
+  openfaas:
+    address: http://openfaas.vlab.lcl
+    basicAuth: true
+    username: admin
+    password: ---------
+```
+
+### Deploy VEBA to your Kubernetes cluster
+
+VEBA team provides a *helm* chart to handle the deployment:
+
+```bash
+helm repo add vmware-veba https://projects.registry.vmware.com/chartrepo/veba
+helm repo update
+helm install -n vc-veba --create-namespace vc-veba vmware-veba/event-router -f veba/override.yml
+kubectl -n vc-veba logs deploy/router -f
+```
+
+You should get logs from the startup of the envent router pod.
+
+### Check the deployment
+
+Few minutes later, you should have a new VEBA deployment:
+
+```bash
+kubectl get pods -n vc-veba
+# You should get a running pod
+NAME                                   READY   STATUS    RESTARTS   AGE
+vmware-event-router-859b97c894-bxx94   1/1     Running   0          25m
+```
+
+This pod, in the `vmware` is the [*VMware Event Router*](#VMware%20Event%20Router) as explained previously in this post.
 
 ## First function
 
@@ -217,11 +295,13 @@ cd veba-sample-custom-attribute/
 This description file is used by VEBA to create the function run on our function-processor.
 
 ```yaml
+version: 1.0
 provider:
   name: openfaas
-  gateway: http://<node ip>:31112
+  gateway: http://openfaas.vlab.lcl
 functions:
   vm-creation-attr:
+    namespace: openfaas-fn
     lang: python3
     handler: ./handler
     image: lrivallain/veba-vc-vm-creation-attr
@@ -236,7 +316,8 @@ functions:
 
 As you see, we specify here the:
 
-* OpenFaaS URI (the one in `OPENFAAS_URL`)
+* OpenFaaS URI gateway (the one in `OPENFAAS_URL`)
+* The target namespace: `openfaas-fn`
 * A language type: `python3`
 * The function folder: `./handler`
 * A base image to run the function: `lrivallain/veba-vc-vm-creation-attr`
@@ -318,7 +399,7 @@ faas-cli deploy -f stack.yml
 # Output
 Deploying: vm-creation-attr.
 Deployed. 202 Accepted.
-URL: http://10.6.30.114:31112/function/vm-creation-attr.openfaas-fn
+URL: http://openfaas.vlab.lcl/function/vm-creation-attr.openfaas-fn
 ```
 
 We can check that a new pod is now part of the `openfaas-fn` namespace:
