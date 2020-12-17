@@ -253,6 +253,11 @@ You should get logs from the startup of the envent router pod.
 Few minutes later, you should have a new VEBA deployment:
 
 ```bash
+kubectl -n vc-veba get deployments
+# You should get a ready router
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+router   1/1     1            1           18h
+
 kubectl get pods -n vc-veba
 # You should get a running pod
 NAME                                   READY   STATUS    RESTARTS   AGE
