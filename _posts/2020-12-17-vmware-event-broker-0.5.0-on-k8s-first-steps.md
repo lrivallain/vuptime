@@ -23,7 +23,7 @@ If you need more details about VEB(A), the official website if well documented: 
 
 ## VMware Event Broker components
 
-![VEBA Architecture](/images/veba-first-steps/veba-architecture.png)
+![VEBA Architecture](/images/veba-first-steps/veba-architecture-v0.5.0.png)
 
 ### VMware Event Router
 
