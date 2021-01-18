@@ -49,3 +49,17 @@ http "https://vcd.vlab.lcl/api/query?type=vm&filter=isVAppTemplate==false;name==
     "X-VMWARE-VCLOUD-TENANT-CONTEXT: <org id>" \
     "Authorization: Bearer $VCD_TOKEN"
 ```
+
+## NSX-V
+
+NSX-V API requires basic-auth but does not provide a specific endpoint to create a session. Nevermind you can use the following command to create a HTTPie session, named `nsx`, and test it. 
+
+Then other API call will not require the authentication credentials (just the mention of the session to use).
+
+```bash
+# login
+http https://nsxmgr.vlab.lcl/api/2.0/services/usermgmt/user/admin --session=nsx -a 'admin:VMware1!'
+
+# Show DFW config
+http https://nsxmgr.vlab.lcl/api/4.0/firewall/globalroot-0/config "Accept: application/json" --session=nsx
+```
