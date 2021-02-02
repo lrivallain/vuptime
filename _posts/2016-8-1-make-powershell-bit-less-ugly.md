@@ -19,4 +19,4 @@ Here are some customizations I do when I need to use Powershell from a Windows O
   * Background: 50;50;50
   * Others: unchanged
 
-{% include lightbox.html src="{{ site.baseurl }}/images/powershelllessugly.png" title="PowerShell" %}
+{% include lightbox.html src="/images/powershelllessugly.png" title="PowerShell" %}
