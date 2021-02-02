@@ -30,4 +30,4 @@ Enfin, vous pouvez aussi trouver le temps de partager de bons moments conviviaux
 
 Arrivée prévue ce soir aux alentours de minuit sur Barcelone, puis une petite nuit avant d'attaquer la première journée, celle des partenaires. Rdv demain donc.
 
-![Logo VMworld 2019](/images/vmworld2019.png)
+{% include lightbox.html src="/images/vmworld2019.png" title="Logo VMworld 2019" %}

@@ -34,7 +34,7 @@ The publication perimeter for a custom extension can be set according to the pla
   * All organizations at the same time
   * Only some selected organizations
 
-![Example of the choice for extension's publication](/images/lumext-for-vcd/vcd_extensionpublish.png)
+{% include lightbox.html src="/images/lumext-for-vcd/vcd_extensionpublish.png" title="Example of the choice for extension's publication" %}
 
 ### Extend vCD's UI
 
@@ -42,7 +42,7 @@ Probably the most obvious benefit of the extensibility feature of vCloud Directo
 
 This includes the addition of a customized item in the main navigation menu:
 
-![Example of navigation menu extension](/images/lumext-for-vcd/vcd_extensionmenu.png)
+{% include lightbox.html src="/images/lumext-for-vcd/vcd_extensionmenu.png" title="Example of navigation menu extension" %}
 
 It also includes the ability to add custom pages to display the content of extension(s). As those pages are loaded inside the vCD UI, it is recommended to reuse style and components of the native interface to offer an unified user experience (*UX*).
 
@@ -62,7 +62,7 @@ To handle the extension related customized requests, a backend server is necessa
 
 For our example:
 
-![Used paths for requests on Coffee extension](/images/lumext-for-vcd/architecture_overview.png)
+{% include lightbox.html src="/images/lumext-for-vcd/architecture_overview.png" title="Used paths for requests on Coffee extension" %}
 
 1. The user initiates a request (through the UI or directly through the exposed API extension).
 1. vCD compiles this request to an AMQP message with an extension-specific routing key fro the RabbitMQ server.
@@ -134,15 +134,15 @@ The **LUMExt** user interface is fully integrated to the vCD portal and is based
 
 The main navigation menu is supplemented with a new link to access to the **LUMExt** pages.
 
-![Main navigation menu](/images/lumext-for-vcd/preview_menu.png)
+{% include lightbox.html src="/images/lumext-for-vcd/preview_menu.png" title="Main navigation menu" %}
 
 By default, LDAP based users list is displayed:
 
-![LUMExt, users list](/images/lumext-for-vcd/preview_userlisting.png)
+{% include lightbox.html src="/images/lumext-for-vcd/preview_userlisting.png" title="LUMExt, users list" %}
 
 In the following screenshot, it is interesting to notice that only the middle part is developed for the extension. Navigation menu on top and tasks list on the bottom are vCD natives (and cannot be modified).
 
-![LUMExt, users list - Zoning](/images/lumext-for-vcd/preview_userlisting_zoning_en.png)
+{% include lightbox.html src="/images/lumext-for-vcd/preview_userlisting_zoning_en.png" title="LUMExt, users list - Zoning" %}
 
 To create a new user, some form fields are requested:
 
@@ -154,7 +154,7 @@ To create a new user, some form fields are requested:
 
 The data are sent to the backend and store in the LDAP server in appropriate directory fields.
 
-![LUMExt, user creation](/images/lumext-for-vcd/preview_usercreation.png)
+{% include lightbox.html src="/images/lumext-for-vcd/preview_usercreation.png" title="LUMExt, user creation" %}
 
 **LUMExt** UI also provides user edition and user deletion and a specific wizard for password reset operation.
 

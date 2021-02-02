@@ -41,15 +41,15 @@ In virtualbox, create a new virtual machine with following settings:
 
 When virtual machine is created, edit settings to set 2 vCPU cores:
 
-![Edit VM CPU settings](/images/ESXiVirtualBox/ESXiVirtualBox01.png "Edit VM CPU settings")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox01.png" title="Edit VM CPU settings" %}
 
 Then mount the iso file to the DVD device:
 
-![Add ISO file to the virtual machine](/images/ESXiVirtualBox/ESXiVirtualBox02.png "Add ISO file to the virtual machine")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox02.png" title="Add ISO file to the virtual machine" %}
 
 Then you can edit the network settings (I need to use the existing local network so I used "bridged adapter" setting:
 
-![Change network adapter settings](/images/ESXiVirtualBox/ESXiVirtualBox03.png "Change network adapter settings")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox03.png" title="Change network adapter settings" %}
 
 Then save changes in configuration and start virtual machine.
 
@@ -57,7 +57,7 @@ Then save changes in configuration and start virtual machine.
 
 ESXi installer will be automatically started on the virtual machine. During the process, installer will load some libraries and modules and check the available "hardware" on the virtual machine. According to the hardware settings, it could take some time before the first human action:
 
-![First human action in ESXi installation process](/images/ESXiVirtualBox/ESXiVirtualBox04.png "First human action in ESXi installation process")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox04.png" title="First human action in ESXi installation process" %}
 
 ### (optional) Bypassing the minimal requirements check
 
@@ -65,7 +65,7 @@ If you give less than minimal requirements to your nested ESXi virtual machine. 
 
 Then login with "root" and no password:
 
-![Login to the ESXi console](/images/ESXiVirtualBox/ESXiVirtualBox05.png "Login to the ESXi console")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox05.png" title="Login to the ESXi console" %}
 
 When logged in:
 
@@ -81,7 +81,7 @@ You'll need to find the following line (simple way is to type [ESC]+``/MEM_MIN``
 
 Change the "4" according to the number of GB you can give to your machine:
 
-![Bypassing min-memory check](/images/ESXiVirtualBox/ESXiVirtualBox06.png "Bypassing min-memory check")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox06.png" title="Bypassing min-memory check" %}
 
 Save file and exit: [ESC]+``:wq!``
 
@@ -98,18 +98,18 @@ Then go back to the installer mode: [ALT]+[F2]
 *   [F11] to accept EULA
 *   Select the vbox disk for system installation and press [Enter]:
 
-![Select boot device](/images/ESXiVirtualBox/ESXiVirtualBox07.png "Select boot device")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox07.png" title="Select boot device" %}
 
 *   Select a keyboard layout according to your computer and press [Enter]
 *   Enter a password and confirm
 *   Then wait for hardware checking process
 *   Installer will warn you about one or more hardware settings but should let you finish the installation process by pressing [Enter]:
 
-![Last step of installation process](/images/ESXiVirtualBox/ESXiVirtualBox08.png "Last step of installation process")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox08.png" title="Last step of installation process" %}
 
 *   Press [F11] to start installation on disk.
 
-![Installation in progress](/images/ESXiVirtualBox/ESXiVirtualBox09.png "Installation in progress")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox09.png" title="Installation in progress" %}
 
 When ended, you can restart the virtual machine and enjoy your new ESXi installation.
 
@@ -123,15 +123,15 @@ If you use the bridge network adapter and don't have a DHCP server, you may have
 
 When ESXi is started, press [ALT]+[F2] to open "edit settings" panel and login:
 
-![Login to the ESXi console](/images/ESXiVirtualBox/ESXiVirtualBox10.png "Login to the ESXi console")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox10.png" title="Login to the ESXi console" %}
 
 Select ``Configure Management network``:
 
-![Configure management network](/images/ESXiVirtualBox/ESXiVirtualBox12.png "Configure management network")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox12.png" title="Configure management network" %}
 
 Edit IP settings according to your LAN or your needs:
 
-![Change IP settings](/images/ESXiVirtualBox/ESXiVirtualBox11.png "Change IP settings")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox11.png" title="Change IP settings" %}
 
 Once it's done, press [ESC] then [Y] to validate and apply changes.
 
@@ -139,11 +139,11 @@ Once it's done, press [ESC] then [Y] to validate and apply changes.
 
 To simplify the access to the ESXi command line tools, I use the embedded SSH server. To enable it:
 
-![Enable SSH server in troubleshooting options](/images/ESXiVirtualBox/ESXiVirtualBox13.png "Enable SSH server in troubleshooting options")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox13.png" title="Enable SSH server in troubleshooting options" %}
 
 Then enable SSH server by selecting ``Enable SSH`` and pressing [Enter]:
 
-![Enable SSH server](/images/ESXiVirtualBox/ESXiVirtualBox14.png "Enable SSH server")
+{% include lightbox.html src="/images/ESXiVirtualBox/ESXiVirtualBox14.png" title="Enable SSH server" %}
 
 Now you can login to your server by ssh:
 

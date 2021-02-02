@@ -23,7 +23,7 @@ If you need more details about VEB(A), the official website if well documented: 
 
 ## VMware Event Broker components
 
-![VEBA Architecture](/images/veba-first-steps/veba-architecture-v0.5.0.png)
+{% include lightbox.html src="/images/veba-first-steps/veba-architecture-v0.5.0.png" title="VEBA Architecture" %}
 
 ### VMware Event Router
 
@@ -204,7 +204,7 @@ At least, you should get a message like: "credentials saved for admin `http://op
 
 Use the same URL to login with the `admin` account to the web UI and you should get something like that:
 
-![Empty OpenFaaS UI](/images/veba-first-steps/empty_OpenFaaS_UI.png)
+{% include lightbox.html src="/images/veba-first-steps/empty_OpenFaaS_UI.png" title="Empty OpenFaaS UI" %}
 
 ## VEBA deployment on Kubernetes
 
@@ -278,7 +278,7 @@ A way I found to handle this, is to set *Custom Attributes* to the VM objects in
 * `event-last_poweredon`: To store the last powered on date
 * `event-owner`: To store the user that created the VM
 
-![Custom attributes created for this function](/images/veba-first-steps/custom_attributes.png)
+{% include lightbox.html src="/images/veba-first-steps/custom_attributes.png" title="Custom attributes created for this function" %}
 
 ### Function files/folders structure
 
@@ -339,7 +339,7 @@ The handler folder is made of:
 * A `function/` subfolder:
   * The `handler.py` file contains the code run each time the function is triggered
   * The `requirements.txt` file contains some function specific dependencies.
-* The `Dockerfile` used to build the base image: `lrivallain/veba-vc-vm-creation-attr`: ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lrivallain/veba-vc-vm-creation-attr)
+* The `Dockerfile` used to build the base image: `lrivallain/veba-vc-vm-creation-attr`: {% include lightbox.html src="https://img.shields.io/docker/cloud/build/lrivallain/veba-vc-vm-creation-attr" title="Docker Cloud Build Status" %}
 
 ### `vcconfig.yaml`
 
@@ -368,7 +368,7 @@ You need to setup your VCSA instance, credentials and the name of custom attribu
 
 The script currently does not handle the custom attribute creation so you need to create them before using the function:
 
-![Custom attributes](/images/veba-first-steps/custom_attributes.png)
+{% include lightbox.html src="/images/veba-first-steps/custom_attributes.png" title="Custom attributes" %}
 
 ## Deploy our function
 
@@ -427,7 +427,7 @@ vm-creation-attr                0               1
 
 The same in UI (need a refresh):
 
-![First Function deployed in the OpenFaaS UI](/images/veba-first-steps/first-function-ready-UI.png)
+{% include lightbox.html src="/images/veba-first-steps/first-function-ready-UI.png" title="First Function deployed in the OpenFaaS UI" %}
 
 ## Invoke function
 
@@ -467,21 +467,21 @@ Both outputs are very similar, so you can use the one that is the more convenien
 
 In the case of a VM creation, we have the following output:
 
-![Logs for the VM creation event](/images/veba-first-steps/logs-vm-creation.png)
+{% include lightbox.html src="/images/veba-first-steps/logs-vm-creation.png" title="Logs for the VM creation event" %}
 
 And the attributes are populated according to the expected behavior:
 
-![Attributes for the VM creation event](/images/veba-first-steps/attributes-vm-creation.png)
+{% include lightbox.html src="/images/veba-first-steps/attributes-vm-creation.png" title="Attributes for the VM creation event" %}
 
 #### VM powered-On
 
 If we power On a VM:
 
-![Logs for the VM poweredOn event](/images/veba-first-steps/logs-vm-poweredon.png)
+{% include lightbox.html src="/images/veba-first-steps/logs-vm-poweredon.png" title="Logs for the VM poweredOn event" %}
 
 And the attributes are populated according to the expected behavior:
 
-![Attributes for the VM poweredOn event](/images/veba-first-steps/attributes-vm-poweredon.png)
+{% include lightbox.html src="/images/veba-first-steps/attributes-vm-poweredon.png" title="Attributes for the VM poweredOn event" %}
 
 
 ## Conclusion

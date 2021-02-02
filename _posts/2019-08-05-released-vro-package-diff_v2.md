@@ -21,7 +21,7 @@ Today, I publish a v2 of the tool with the following changes:
 - Documentation is hosted on [vro-package-diff.readthedocs.io](https://vro-package-diff.readthedocs.io)
 - [Travis pipeline](https://travis-ci.org/lrivallain/vro-package-diff/)
 
-![Sample output of vro-diff-package](/images/vro-diff-package/vro-diff-package_v2.png)
+{% include lightbox.html src="/images/vro-diff-package/vro-diff-package_v2.png" title="Sample output of vro-diff-package" %}
 
 ## Install the new version
 

@@ -17,7 +17,7 @@ tags: cloud cyberduck object ovh public storage swift
 
 You can use many ways to push/get file on the object-storage as the OVH manager, the Openstack's Horizon Manager or a swift compatible client:
 
-![OVH.com Cloud Object Storage Schema]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_00.png "OVH.com Cloud Object Storage Schema")© OVH.com
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_00.png" title="OVH.com Cloud Object Storage Schema" %}© OVH.com
 
 Here, I'll show how to use the provided swift API with Cyberduck (download it at: [cyberduck.io](https://cyberduck.io/ "CyberDuck")) to manage your uploaded files from your macOS or windows desk.
 
@@ -30,9 +30,9 @@ First thing to do, is to create an OVH account, then, go to the manager: [https:
 
 Example, for a backup container, we chose a private type policy.
 
-![Create a container]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_01.png "Create a container")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_01.png" title="Create a container" %}
 
-![Create a container]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_02.png "Create a container")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_02.png" title="Create a container" %}
 
 Now it should be displayed on container list. You can push file through the manager, but it's not an easy way to daily manage files on your new storage location.
 
@@ -42,29 +42,29 @@ Now you need to create credentials in order to connect through a swift client. I
 
 Click on "_Openstack_" tab on Manager and create a new user:
 
-![Create an user]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_03.png "Create an user")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_03.png" title="Create an user" %}
 
 You only need to provide a description as username and password are randomly generated:
 
-![Enter a description]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_04.png "Enter a description")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_04.png" title="Enter a description" %}
 
 Then you have to remember credentials as it the only time you'll be able to see it:
 
-![Note credentials]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_05.png "Note credentials")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_05.png" title="Note credentials" %}
 
 ## Get other informations
 
 From that point, you should be able to join the Horizon manager for next step:
 
-![Click on link to join horizon manager]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_06.png "Click on link to join horizon manager")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_06.png" title="Click on link to join horizon manager" %}
 
 And log-in with credentials created previously:
 
-![Log-in]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_11.png "Log-in")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_11.png" title="Log-in" %}
 
 In "_Access&Security_" tab, select the "_API Access_" and download the OpenStack RC file:
 
-![Openstack RC file download]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_08.png "Openstack RC file download")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_08.png" title="Openstack RC file download" %}
 
 In the downloaded file you will need:
 
@@ -82,12 +82,12 @@ On cyberduck, select a new connection with "swift" type and enter :
 *   Username => OS_TENANT_ID : OS_USERNAME _(do not forget the ":" sign between both informations)_
 *   Prompted password => the password of the OS_USERNAME
 
-![Cyberduck settings]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_09.png "Cyberduck settings")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_09.png" title="Cyberduck settings" %}
 
 ## Push a file
 
 Once you are connected you can download and push file easily :
 
-![Push a file]({{ site.baseurl }}/images/swift_ovhcloud/swift_ovhcloud_10.png "Push a file")
+{% include lightbox.html src="/images/swift_ovhcloud/swift_ovhcloud_10.png" title="Push a file" %}
 
 Great, your first file is pushed on the OVH public cloud !

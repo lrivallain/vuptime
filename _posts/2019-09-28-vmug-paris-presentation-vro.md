@@ -17,7 +17,7 @@ Une nouvelle édition du vMUG Paris s'achevait jeudi soir autour d'une vBeer mé
 
 > Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)
 
-![Logo vMUG France](/images/frvmug-09-2019-paris.png){:width="200px"}
+{% include lightbox.html src="/images/frvmug-09-2019-paris.png" title="Logo vMUG France" %}{:width="200px"}
 
 [@Antoine_hlt](/about/#aharlaut) et [moi-même](/about/#lrivallain) présentions en fin d'après midi, un produit mal connu du portfolio VMware: *vRealize Orchestrator*. Pour ne rien cacher, la présentation était l'argement inspirée de la [présentation que j'avais réalisé à Rennes](/2019/03/08/vmug-france-meetandgeek-rennes-bilan/) il y a quelques mois à l'occasion du *meet&geek* organisé à **SII Ouest**.
 
@@ -47,4 +47,4 @@ Quelques photos de la journée:
 
 Et parce que je le trouve vraiment très beau, le logo de cette année:
 
-![fr-mug-09-2019-paris_logo](/images/fr-mug-09-2019-paris_logo.jpg)
+{% include lightbox.html src="/images/fr-mug-09-2019-paris_logo.jpg" title="fr-mug-09-2019-paris_logo" %}

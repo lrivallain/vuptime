@@ -12,7 +12,7 @@ This article will show you how to interact with this kind of object using ``vRea
 On this first sample, we are trying to get a virtual machine named ``TESTVM02`` on the model manager.
 The VirtualMachine object has a property called ``VirtualMachineName`` that we can used to filter the virtual machine by its name.
 
-![Image](/images/iaas_vro/model_manager_vm.png)
+{% include lightbox.html src="/images/iaas_vro/model_manager_vm.png" title="Image" %}
 
 Here is the javascript code in order to get this virtual machine machine.
 It will return a object of type [VCAC:Entity](http://www.vroapi.com/Class/vCAC/7.2.0/VCACEntity).
@@ -49,14 +49,14 @@ else{
 ```
 Workflow in action : 
 
-![Image](/images/iaas_vro/workflow_iaas_get_vm.png)
+{% include lightbox.html src="/images/iaas_vro/workflow_iaas_get_vm.png" title="Image" %}
 
 Great ! Once the virtual machine captured, we can access to all its properties.
 For instance, we need to know the vCPU and RAM configured on the virtual machine.
 The request is simple, we'll use the method ``get_property`` on the object  ``VCAC:Entity``
 
 You just need to get the corresponding properties names:
-![Image](/images/iaas_vro/model_manager_vm_request.png)
+{% include lightbox.html src="/images/iaas_vro/model_manager_vm_request.png" title="Image" %}
 
 
 
@@ -68,7 +68,7 @@ var vmRam = vm.getProperty('VMTotalMemoryMB');
 System.log('The virtual machine '+vmName+' is configured '+vmVcpu+' vCPU and '+vmRam+' RAM');
 ```
 
-![Image](/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png)
+{% include lightbox.html src="/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png" title="Image" %}
 
 Everything is working well, but now we also want to display the virtual machine hard-disks.
 There is a property name called ``VMDiskHardware`` but not directly accessible because this is a child object of ``VirtualMachine``.
@@ -79,7 +79,7 @@ Using LINQPAD, we can access to this property by using the method ``expand``
 VirtualMachines.Expand("VMDiskHardware").Where (v => v.VirtualMachineName == "TESTVM02")
 ```
 
-![Image](/images/iaas_vro/model_manager_vm_disks.png)
+{% include lightbox.html src="/images/iaas_vro/model_manager_vm_disks.png" title="Image" %}
 
 With vRO, we have to use the the method ``get_link`` of the corresponding ``VCAC:Entity``
 This method has 2 parameters :
@@ -97,13 +97,13 @@ for each(var vmDisk in vmDisks){
 }
 ```
 
-![Image](/images/iaas_vro/workflow_iaas_get_vm_disks.png)
+{% include lightbox.html src="/images/iaas_vro/workflow_iaas_get_vm_disks.png" title="Image" %}
 
 Perfect ! We can now request the IaaS database in order to get a lot of usefull information to extend the use on vRealize Automation.
 
 To end this blog post, here is another sample to get the VirtualMachine created after a defined date :
 
-![Image](/images/iaas_vro/model_manager_vm_date.png)
+{% include lightbox.html src="/images/iaas_vro/model_manager_vm_date.png" title="Image" %}
 
 ```javascript
 // Inputs : startDate : Date; vcacHost : vCAC:vCACHOST
@@ -134,7 +134,6 @@ else{
 	System.log(message);
 }
 ```
-![Image](/images/iaas_vro/workflow_iaas_get_vm_by_date.png)
+{% include lightbox.html src="/images/iaas_vro/workflow_iaas_get_vm_by_date.png" title="Image" %}
 
 You are now ready the use the IaaS object directly in vRO ;)
-

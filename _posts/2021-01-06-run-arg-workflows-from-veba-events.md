@@ -34,7 +34,7 @@ This work relies on an OpenFaaS function: [veba-to-argo-fn](https://github.com/l
 
 This OpenFaaS function is a simple *forwarder* (or *proxy*) to execute a pre-definied [Worklow Template](https://argoproj.github.io/argo/workflow-templates/) by providing the incoming cloud-event as an input parameter of the Workflow excecution.
 
-![VEBA to Argo](/images/argo/veba-to-argo-fn.png)
+{% include lightbox.html src="/images/argo/veba-to-argo-fn.png" title="VEBA to Argo" %}
 
 ### Pre-requisites
 
@@ -190,11 +190,11 @@ Argo provide an UI to have a quick-view on the content status.
 
 Here is the view of an echoer instance:
 
-![echoer instance in the UI](/images/argo/echoer-ui.png)
+{% include lightbox.html src="/images/argo/echoer-ui.png" title="echoer instance in the UI" %}
 
 and a view of the *printed* logs:
 
-![echoer instance in the UI](/images/argo/echoer-ui-logs.png)
+{% include lightbox.html src="/images/argo/echoer-ui-logs.png" title="echoer instance in the UI" %}
 
 ### Retries
 

@@ -8,7 +8,7 @@ tags: openstack keystone endpoint
 
 After a DNS record change for the controller node of our lab OpenStack infrastructure, Horizon client was still displaying the old endpoint DNS hostname in the ``API access``.
 
-![Old API access settings](/images/MigrateOpenstackKeystoneUrl/before.png "Old API access settings")
+{% include lightbox.html src="/images/MigrateOpenstackKeystoneUrl/before.png" title="Old API access settings" %}
 
 This information is coming from the keystone database, so we need to proceed a c
 
@@ -82,4 +82,4 @@ service memcached restart
 
 Now the endpoint displayed from the horizon portal is updated with the new URL :
 
-![New API access settings](/images/MigrateOpenstackKeystoneUrl/after.png "New API access settings")
+{% include lightbox.html src="/images/MigrateOpenstackKeystoneUrl/after.png" title="New API access settings" %}

@@ -10,7 +10,7 @@ I have recently published a draft tool to provide a table-formated diff of two v
 
 Project is available on [GitHub project](https://github.com/lrivallain/vro-package-diff/) and will evolve in futur to support more package item's types and to provide better information about differences.
 
-![Sample of output](/images/vro-diff-package/vro-package-diff-sample.png)
+{% include lightbox.html src="/images/vro-diff-package/vro-package-diff-sample.png" title="Sample of output" %}
 
 ## Installation
 

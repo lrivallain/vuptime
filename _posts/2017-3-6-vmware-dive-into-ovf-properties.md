@@ -17,7 +17,7 @@ Today, we will focus on OVF properties.
 
 If you deploy some VM through OVF/OVA files, you are probably already familiar with OVF settings. They appear as the possibility to customize VM settings during the deployment process:
 
-![OVF properties deploy](/images/dive_into_ovf/ovf_properties_deploy.png "OVF properties deploy")
+{% include lightbox.html src="/images/dive_into_ovf/ovf_properties_deploy.png" title="OVF properties deploy" %}
 
 Typical OVF properties include: Network settings (IP address, netmask, gateway...), users configuration (username, password). As properties are not restrictives, it is possible to create custom keys to manage any other kind of customization.
 
@@ -69,7 +69,7 @@ When you create a new template for OVF export, it is possible to create/edit/del
 
 From vSphere Web client -> Edit Settings of a VM -> vApp Options: In Authoring section, it is possible to give a name/version/url to describe your future OVF and to manage properties:
 
-![OVF properties edition](/images/dive_into_ovf/ovf_properties_edition.png "OVF properties edition")
+{% include lightbox.html src="/images/dive_into_ovf/ovf_properties_edition.png" title="OVF properties edition" %}
 
 In the edition/creation wizard, the most useful fields are:
 * **Label**: How is named the parameter when user is prompted to fill its value
@@ -77,7 +77,7 @@ In the edition/creation wizard, the most useful fields are:
 * **Category**: a way to order parts of the customization form fields by grouping properties together
 * **Description**: to give more information about the purpose of the field to end users
 
-![OVF properties fields](/images/dive_into_ovf/ovf_properties_fields.png "OVF properties fields")
+{% include lightbox.html src="/images/dive_into_ovf/ovf_properties_fields.png" title="OVF properties fields" %}
 
 It is possible to choose between 2 types of properties:
 * **Static propertie**: Values will be configured by user or will be fixed by the default ones.
@@ -92,11 +92,11 @@ Then you can choose between sub-types:
 * (external) IP address
 * ...
 
-![OVF properties sub-types](/images/dive_into_ovf/ovf_properties_subtypes.png "OVF properties sub-types")
+{% include lightbox.html src="/images/dive_into_ovf/ovf_properties_subtypes.png" title="OVF properties sub-types" %}
 
 You can also set default value, or some requirements (like the minimal/maximal length of a string):
 
-![OVF properties options](/images/dive_into_ovf/ovf_properties_options.png "OVF properties options")
+{% include lightbox.html src="/images/dive_into_ovf/ovf_properties_options.png" title="OVF properties options" %}
 
 # Edit VM properties values
 
@@ -104,7 +104,7 @@ As we saw previously, a user deploying an OVF coming from export of VM where pro
 
 it is also possible to edit properties values of an already deployed VM: From vSphere Web client -> Edit Settings of a VM -> vApp Options.
 
-![OVF properties values edition on VM](/images/dive_into_ovf/ovf_values_edition.png "OVF values edition on VM")
+{% include lightbox.html src="/images/dive_into_ovf/ovf_values_edition.png" title="OVF properties values edition on VM" %}
 
 In this case, you may have to run 'again' some GuestOS glue code to take the change into account.
 
@@ -112,7 +112,7 @@ In this case, you may have to run 'again' some GuestOS glue code to take the cha
 
 When you configure an OVF environment, you can choose between CD-ROM and VMware-tools methods to transport information into the virtual machine:
 
-![OVF transport method](/images/dive_into_ovf/ovf_transport_method.png "OVF transport method")
+{% include lightbox.html src="/images/dive_into_ovf/ovf_transport_method.png" title="OVF transport method" %}
 
 ## VMware tools
 

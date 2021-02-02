@@ -27,7 +27,7 @@ Quelques photos prises par Frédéric, notre **vMUG Leader** local de l'étape:
 
 La soirée a aussi été *marquée* par l'effervescence de la *vCommunauté* mondiale autour de l'annonce des **vExperts** 2019. L'occasion pour moi de trinquer à ma seconde ★★ en bonne compagnie!
 
-![vExpert 2019](/images/vexpert-2.png){:width="250px"}
+{% include lightbox.html src="/images/vexpert-2.png" title="vExpert 2019" %}{:width="250px"}
 
 ⚽ Et comme tout bon Rennais qui se respecte, nous suivions d'un oeil attentif le match **Rennes-Arsenal** en huitièmes de finale (aller) de l'Europa League. Match qui a été logiquement remporté 3-1 par Rennes! Vive la galette-saucisse! ⚽
 

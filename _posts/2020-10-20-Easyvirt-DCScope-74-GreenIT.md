@@ -20,7 +20,7 @@ By making a partnership with [**Quantis**](https://quantis-intl.com/) (a leading
 * [Embodied energy](https://en.wikipedia.org/wiki/Embodied_energy): raw-material production, manufacture, transport, distribution, use and disposal.
 * Energy consumption over time (that was already collected for both servers and per-VM)
 
-![Green IT Dashboard](/images/dcscope74/dcscope01.png)
+{% include lightbox.html src="/images/dcscope74/dcscope01.png" title="Green IT Dashboard" %}
 
 This new dashboard provide multiples informations about:
 
@@ -31,11 +31,11 @@ This new dashboard provide multiples informations about:
 
 This tab also provides an **energy-efficiency** score per server with both theoretical (*TEE*) and measured (*CEE*) one.
 
-![energy-efficiency score](/images/dcscope74/dcscope02.png)
+{% include lightbox.html src="/images/dcscope74/dcscope02.png" title="energy-efficiency score" %}
 
 **Energy optimization** suggestions are also available to estimate the electric consumption impact if you remove some servers from the current infrastructure.
 
-![Energy optimization](/images/dcscope74/dcscope03.png)
+{% include lightbox.html src="/images/dcscope74/dcscope03.png" title="Energy optimization" %}
 
 Last but not least, it is also possible to simulate the replacement of existing servers versus new ones by estimating:
 
@@ -45,7 +45,7 @@ Last but not least, it is also possible to simulate the replacement of existing 
 * TEE (Theoretical Energy Efficiency)
 * The cost per VM of the replacement
 
-![Replacement simulator](/images/dcscope74/dcscope04.png)
+{% include lightbox.html src="/images/dcscope74/dcscope04.png" title="Replacement simulator" %}
 
 ## Conclusion
 

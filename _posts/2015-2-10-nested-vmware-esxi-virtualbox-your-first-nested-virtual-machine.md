@@ -19,11 +19,11 @@ To create a local datastore, you'll have to add a new virtual disk to your neste
 
 First step is to create a SATA disk controller:
 
-![Add a SATA controller](/images/NestedVirtualMachine/NestedVirtualMachine01.png "Add a SATA controller")
+{% include lightbox.html src="/images/NestedVirtualMachine/NestedVirtualMachine01.png" title="Add a SATA controller" %}
 
 Next, create a new disk on the SATA controller:
 
-![Add a new disk](/images/NestedVirtualMachine/NestedVirtualMachine02.png "Add a new disk")
+{% include lightbox.html src="/images/NestedVirtualMachine/NestedVirtualMachine02.png" title="Add a new disk" %}
 
 I've choose to set:
 
@@ -31,7 +31,7 @@ I've choose to set:
 *   10GB
 *   Dynamic allocation
 
-![My additional disk settings](/images/NestedVirtualMachine/NestedVirtualMachine03.png "My additional disk settings")
+{% include lightbox.html src="/images/NestedVirtualMachine/NestedVirtualMachine03.png" title="My additional disk settings" %}
 
 When the vdisk is connected, ESXi started, get it's name before creating a VMFS file system. Name should be something close to ``_/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBxcxxxxxxxxxxxxxxx__``
 
@@ -354,4 +354,4 @@ And you just need a VNC client software to access to your VM console with follow
 *   server port : port you choose for VNC settings on the VM
 *   password : VNC password on VM settings
 
-![VNC access to a virtual machine](/images/NestedVirtualMachine/NestedVirtualMachineVNC.png "VNC access to a virtual machine")
+{% include lightbox.html src="/images/NestedVirtualMachine/NestedVirtualMachineVNC.png" title="VNC access to a virtual machine" %}

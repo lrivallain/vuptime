@@ -19,4 +19,4 @@ Nous ferons partager cet évènement au travers de nos comptes Twitter ([@lrival
 
 Et pour tout ceux qui seront sur place, nous ne refusons jamais de prendre une vBeer!
 
-*PS:* nous aurons aussi des stickers du site, n'hésitez pas: ![vuptime-stickers](/images/vuptime-stickers.jpg)
+*PS:* nous aurons aussi des stickers du site, n'hésitez pas: {% include lightbox.html src="/images/vuptime-stickers.jpg" title="vuptime-stickers" %}

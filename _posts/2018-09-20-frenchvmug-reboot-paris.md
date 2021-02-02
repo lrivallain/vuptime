@@ -69,4 +69,4 @@ Merci aussi à SII, mon employeur, qui m'a permi d'assister à cet event!
 
 Et la photo de famille:
 
-![Photo de famille](/images/frvmug-09-2018-paris.jpg)
+{% include lightbox.html src="/images/frvmug-09-2018-paris.jpg" title="Photo de famille" %}

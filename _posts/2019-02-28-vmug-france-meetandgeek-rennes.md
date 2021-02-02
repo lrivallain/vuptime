@@ -15,4 +15,4 @@ Rejoignez nous sur le **[Slack VMUG](https://vmugfrance.slack.com/)**, Channel `
 
 A cette occasion nous vous proposons un petit retour d'expérience sur l'usage de *vRealize Orchestrator*.
 
-![Meet&Geek Rennais](/images/meetandgeek-mars2019.png)
+{% include lightbox.html src="/images/meetandgeek-mars2019.png" title="Meet&Geek Rennais" %}

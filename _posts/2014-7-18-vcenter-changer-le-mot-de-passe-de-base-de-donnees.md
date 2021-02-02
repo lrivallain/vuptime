@@ -18,7 +18,7 @@ Puis chercher le chemin: ``HKEY_LOCAL_MACHINE\SOFTWARE\VMware, Inc.\VMware Virtu
 
 Dans ce dossier du registre, sont stockées les informations relatives à la connexion à la base de données du service vCenter.
 
-![Changement de l'utilisateur de bdd pour le service vCenter](/images/vCenter_changeDBsettings_user.png "Changement de l'utilisateur de bdd pour le service vCenter")
+{% include lightbox.html src="/images/vCenter_changeDBsettings_user.png" title="Changement de l'utilisateur de bdd pour le service vCenter" %}
 
 Il suffit de mettre à jour la valeur nommée "2" avec votre éventuel nouvel utilisateur de base de données (et de relancer votre service après avoir mis à jour le mot de passe).
 

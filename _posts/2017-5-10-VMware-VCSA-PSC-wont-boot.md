@@ -12,7 +12,7 @@ It's really stable and I appreciate to use it daily and to replace the windows b
 
 Here is a screenshot of the PSC console during the boot sequence:
 
-![PSC console during the boot sequence](/images/psc-wont-boot-1.png "PSC console during the boot sequence")
+{% include lightbox.html src="/images/psc-wont-boot-1.png" title="PSC console during the boot sequence" %}
 
 When logging with root credentials, I wasn't able to start services (as network) but I was able to manually set an IP address to the ethernet interface.
 
@@ -22,7 +22,7 @@ It tooks me quite a lot of time, searching in logs, to find out the root cause:
 journalctl -xb
 ```
 
-![The root cause](/images/psc-wont-boot-2.png "The root cause")
+{% include lightbox.html src="/images/psc-wont-boot-2.png" title="The root cause" %}
 
 ``/dev/mapper/log_vg-log`` partition was in error during the boot filesystem check.
 
