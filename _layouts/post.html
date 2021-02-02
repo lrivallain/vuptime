@@ -11,7 +11,7 @@ layout: blog
                 <clr-icon shape="calendar"></clr-icon> {{ page.date | date: "%B %e, %Y" }}
             </li>
             <li>
-			    <strong>Author:</strong>
+                <strong>Author:</strong>
                 <clr-icon shape="user"></clr-icon>
                 {% for author in site.data.authors %}
                     {% if page.author == author.nick %}
