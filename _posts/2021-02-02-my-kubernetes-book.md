@@ -24,7 +24,7 @@ At the begining, I started a small wiki for my own usage to keep some useful com
 
 So I started a new side project to this blog: **My Kubernetes Book**: [https://k8s-book.vupti.me/](https://k8s-book.vupti.me/)
 
-{% include lightbox.html src="/images/my-k8s-book.png" title="Screenshot of 'My Kubernetes Book' %}
+{% include lightbox.html src="/images/my-k8s-book.png" title="Screenshot of My Kubernetes Book" %}
 
 > This is not a substitution to official projects documentation, just a quick way for me to get the information I need.
 
