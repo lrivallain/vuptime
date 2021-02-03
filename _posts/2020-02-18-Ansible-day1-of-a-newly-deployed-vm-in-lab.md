@@ -51,6 +51,7 @@ For system out of production (testing purpose), I do not make the above check an
 
 I use the following Ansible tasks to do so:
 
+{% raw  %}
 ```yaml
 tasks:
 - name: Remove any existing fingerprints from known_hosts
@@ -68,6 +69,7 @@ tasks:
     ssh-keyscan {{ inventory_hostname_short }} >> $HOME/.ssh/known_hosts
     ssh-keyscan {{ inventory_hostname }} >> $HOME/.ssh/known_hosts
 ```
+{% endraw %}
 
 Applied to a specific inventory or host group, it will remove existing key from the `known_hosts` file and add it again based on the result of a `ssh-keyscan`.
 
@@ -87,6 +89,7 @@ Here is a quick(&dirty) explanation of the process:
 
 If you don't use a `cloud-init` based clone or server creation, you can use an Ansible playbook to push keys to the target server:
 
+{% raw  %}
 ```yaml
 tasks:
 - name: Upload ssh key
@@ -97,6 +100,7 @@ tasks:
     manage_dir: yes
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 ```
+{% endraw %}
 
 And if there is no already deployed authorized key to enable Ansible user to connect to your instance, you can use a one-shot `--ask-pass` option to run your playbook:
 
@@ -117,6 +121,7 @@ ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml
 
 When using editor's appliance (like VMware's ones), you may need to reconfigure the password expiration for the `root` account. For lab and testing purposes, I fully disable the expiration policy with the following tasks:
 
+{% raw  %}
 ```yaml
 tasks:
   - name: "Check expiration for {{ admin_user }} password"
@@ -128,6 +133,7 @@ tasks:
     shell: "chage -M -1 {{ admin_user }}"
     when: pw_invalid_expiration.stdout != ''
 ```
+{% endraw %}
 
 ## Shell idle timeout
 

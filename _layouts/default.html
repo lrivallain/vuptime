@@ -1,57 +1,61 @@
 <!DOCTYPE html>
 <html>
+  <head>
+      <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
+      {% include meta.html %}
 
-<head>
-    <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
-    {% include meta.html %}
+      <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
 
-    <!--[if lt IE 9]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+      <link rel="icon" type="image/png" href="/images/favicon.png" />
+      <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="/feed.xml" /> {% if site.google_analytics %}
+      <script type="text/javascript" src="/includes/analytics.js" async></script>
+      {% endif %}
+      <!-- Clarity UI additions -->
+      <link rel="stylesheet" href="/includes/clarity-ui/clr-icons.min.css">
+      <link rel="stylesheet" href="/includes/clarity-ui/clarity-ui.min.css">
+      <!--<link rel="stylesheet" href="/includes/clarity-ui/clarity-icons.min.css"> -->
+      <!-- <script type="text/javascript" src="/includes/clarity-ui/clarity-icons.min.js"></script> -->
+      <script type="text/javascript" src="/includes/clarity-ui/custom-elements.min.js"></script>
+      <script type="text/javascript" src="/includes/clarity-ui/clr-icons.min.js"></script>
+      <!-- EO Clarity UI additions -->
+      <link rel="stylesheet" type="text/css" href="/style.css" />
+      <!-- Add jQuery library -->
+      <script type="text/javascript" src="/includes/jquery.min.js"></script>
+      <!-- Add fancyBox -->
+      <link rel="stylesheet" href="/includes/fancybox/source/jquery.fancybox.css" type="text/css" media="screen" />
+      <script type="text/javascript" src="/includes/fancybox/source/jquery.fancybox.pack.js"></script>
+  </head>
 
-    <link rel="icon" type="image/png" href="/images/favicon.png" />
-    <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="/feed.xml" /> {% if site.google_analytics %}
-    <script type="text/javascript" src="/includes/analytics.js" async></script>
-    {% endif %}
-    <!-- Clarity UI additions -->
-    <link rel="stylesheet" href="/includes/clarity-ui/clr-icons.min.css">
-    <link rel="stylesheet" href="/includes/clarity-ui/clarity-ui.min.css">
-    <!--<link rel="stylesheet" href="/includes/clarity-ui/clarity-icons.min.css"> -->
-    <!-- <script type="text/javascript" src="/includes/clarity-ui/clarity-icons.min.js"></script> -->
-    <script type="text/javascript" src="/includes/clarity-ui/custom-elements.min.js"></script>
-    <script type="text/javascript" src="/includes/clarity-ui/clr-icons.min.js"></script>
-    <!-- EO Clarity UI additions -->
-    <link rel="stylesheet" type="text/css" href="/style.css" />
-    <!-- Add jQuery library -->
-    <script type="text/javascript" src="/includes/jquery.min.js"></script>
-    <!-- Add fancyBox -->
-    <link rel="stylesheet" href="/includes/fancybox/source/jquery.fancybox.css" type="text/css" media="screen" />
-    <script type="text/javascript" src="/includes/fancybox/source/jquery.fancybox.pack.js"></script>
-</head>
-
-<body>
-	<div class="main-container">
-        {% if site.tags != "" %} {% include collecttags.html %} {% endif %}
-        <header class="header-nav header-6" [clr-nav-level]="1">
-            <div class="branding">
-              <a href="/" class="nav-link">
-                <img src="/images/favicon.png" class="clr-icon" />
-                <span class="title">vUptime.io</span>
-              </a>
+  <body>
+    <div class="main-container">
+          {% if site.tags != "" %} {% include collecttags.html %} {% endif %}
+          <header class="header-nav header-6" [clr-nav-level]="1">
+              <div class="branding">
+                <a href="/" class="nav-link">
+                  <img src="/images/favicon.png" class="clr-icon" />
+                  <span class="title">vUptime.io</span>
+                </a>
+              </div>
+              <div class="header-nav">
+                <a href="/" class="active nav-link nav-text" id="link-blog">
+                  Blog
+                </a>
+                <a href="/cards" class="nav-link nav-text" id="link-cards">
+                  KB cards
+                </a>
+                <a href="https://k8s-book.vupti.me/" class="nav-link nav-text" id="link-book">
+                  <span class="badge badge-info">N</span>My K8S Book</a>
+                <a href="/about" class="nav-link nav-text" id="link-about">About</a>
+              </div>
+          </header>
+          <div class="content-container flex-items-xs-around">
+            <div class="content-area">
+              {{ content }}
             </div>
-            <div class="header-nav">
-              <a href="/" class="active nav-link nav-text" id="link-blog">Blog</a>
-              <a href="/cards" class="nav-link nav-text" id="link-cards"><span class="badge badge-info">N</span>KB cards</a>
-			        <a href="/about" class="nav-link nav-text" id="link-about">About</a>
-            </div>
-        </header>
-        <div class="content-container flex-items-xs-around">
-          <div class="content-area"> 
-            {{ content }}
           </div>
-        </div>
-	</div>
-</body>
-
+    </div>
+  </body>
 </html>
 <script type="text/javascript" src="/includes/set-active.js"></script>
