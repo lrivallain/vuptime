@@ -25,7 +25,7 @@ This blog is maintained by [**Ludovic Rivallain**](#lrivallain) but also hosts c
         <a href="https://www.twitter.com/{{ author.twitter }}" title="Visit Twitter profile"><i class="svg-icon twitter"> </i></a>
       {% endif %}
       {% if author.github %}
-        <a href="github.com/{{ author.github }}" title="Visit Github profile"><i class="svg-icon github">  </i></a>
+        <a href="https://github.com/{{ author.github }}" title="Visit Github profile"><i class="svg-icon github">  </i></a>
       {% endif %}
     </div>
 </div>
