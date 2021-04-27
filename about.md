@@ -31,4 +31,4 @@ This blog is maintained by [**Ludovic Rivallain**](#lrivallain) but also hosts c
 </div>
 {% endfor %}
 
-[Status page 📈](https://status.vuptime.io/)
+[Status page 📈](https://stats.uptimerobot.com/K1DpTO1N)
