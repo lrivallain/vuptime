@@ -5,6 +5,8 @@ category: VMware
 author: lrivallain
 tags: vmware veba kubernetes event-driven knative
 thumb: /images/veba-first-steps/knative-logo.png
+splash: /images/splash/desktop-jonathan-kemper.jpg
+splash_credits: Jonathan Kemper @ unsplash.com
 ---
 
 As mentioned in some previous posts ([here](https://vuptime.io/2020/11/02/vmware-event-broker-on-k8s-first-steps/) or [here](https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/)), I do not deploy the instance-based packaging of the [VMware Event Router](https://vmweventbroker.io/): aka VEBA. I prefer to reuse existing Kubernetes cluster(s) to host the `vmware event router` and the associated functions.
@@ -158,3 +160,8 @@ kn version
 # Part 2: Deploy VMware Event Broker
 
 See you in [**Part 2**](/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2) to deploy the VMware Event Broker and some functions.
+
+
+## Credits
+
+Title photo by [Jonathan Kemper](https://unsplash.com/@jupp) on [Unsplash](https://unsplash.com/photos/H488ymQgIgM)

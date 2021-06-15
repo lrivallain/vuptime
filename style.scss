@@ -81,6 +81,12 @@ pre {
   padding: 0.25rem;
 }
 
+.post .post_infos .splash img {
+  border-radius: .5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
 .posts article:first-child {
   border-top: none;
 }

@@ -5,6 +5,8 @@ category: VMware
 author: lrivallain
 tags: vmware veba kubernetes event-driven knative
 thumb: /images/veba-first-steps/knative-logo.png
+splash: /images/splash/desktop-james-harrison.jpg
+splash_credits: James Harrison @ unsplash.com
 ---
 
 This post is the second part of a small series about *VMware Event Broker on Kubernetes with Knative functions*.
@@ -315,3 +317,7 @@ As you can see, the function is acting as a serverless one: when needed, the app
 You can easily change values of `autoscaling.knative.dev/maxScale: "1"` and `autoscaling.knative.dev/minScale: "0"` according to your needs: for example, with `minScale: "1"`: at least one pod will always remain listening for events: This could improve the time to execute an action it there is no pod to spawn after an inactivity period.
 
 So, considering that the service provider is *knative*, our functions are acting like serverless ones and the management component is in charge of scaling (up and down to 0), the components running our application code, according to the incoming requests: This enable all the benefits of serverless applications and of-course, its drawbacks.
+
+## Credits
+
+Title photo by [James Harrison](https://unsplash.com/@jstrippa) on [Unsplash](https://unsplash.com/photos/vpOeXr5wmR4)

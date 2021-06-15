@@ -25,6 +25,11 @@ layout: blog
                 <a href="/tag/{{ tag_name }}/" class="label label-blue clickable">{{ tag_name }}</a> {% endfor %}
             </li>
         </ul>
+        {% if page.splash %}
+        <div class="splash">
+            <img src="{{ page.splash }}" alt="{{ page.splash_credits }}" title="{{ page.splash_credits }}">
+        </div>
+        {% endif %}
     </div>
 
     <div class="post_entry">
