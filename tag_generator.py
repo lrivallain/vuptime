@@ -93,7 +93,7 @@ def generate_tags(post_dir,tag_dir,layout):
         f.write(write_str)
         f.close()
     print("Tags generated, count", total_tags.__len__())
-    return total_tags
+    return sorted(total_tags)
 
 
 # Generate tag for posts
