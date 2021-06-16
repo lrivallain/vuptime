@@ -30,5 +30,15 @@ This blog is maintained by [**Ludovic Rivallain**](#lrivallain) but also hosts c
     </div>
 </div>
 {% endfor %}
+<div class="card" id="copyright">
+  <div class="card-header">
+    © 2014 - 2021 – Copyright notice
+  </div>
+  <div class="card-block">
+      <p>Except where otherwise noted, all data and written content are licensed under the <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)</a>.</p>
+      <p><b>Exclusions</b>: Some illustrations and commercial logos are and remains the entire property of the respective publishers and cannot be considered under the CC BY-NC 4.0 license.</p>
+      <p>This website is powered-by <a href="https://jekyllrb.com/">Jekyll</a> and the <a href="https://github.com/dlinsley/jekyll-clarity">jekyll-clarity</a> theme.</p>
+  </div>
+</div>
 
 [Status page 📈](https://stats.uptimerobot.com/K1DpTO1N)

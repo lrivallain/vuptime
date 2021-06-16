@@ -8,6 +8,15 @@
 body { overflow: auto; } // fix clr-issue with x-scrollbar
 .main-container { height:100% }; // fix clr issue with background
 
+footer {
+  text-align:center;
+  padding-bottom: 1rem;
+}
+
+.main-container .content-container .content-area {
+  padding-bottom: 0rem;
+}
+
 .date {
   font-weight: bold;
   float:left;

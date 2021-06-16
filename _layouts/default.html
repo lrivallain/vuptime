@@ -30,31 +30,34 @@
 
   <body>
     <div class="main-container">
-          {% if site.tags != "" %} {% include collecttags.html %} {% endif %}
-          <header class="header-nav header-6" [clr-nav-level]="1">
-              <div class="branding">
-                <a href="/" class="nav-link">
-                  <img src="/images/favicon.png" class="clr-icon" />
-                  <span class="title">vUptime.io</span>
-                </a>
-              </div>
-              <div class="header-nav">
-                <a href="/" class="active nav-link nav-text" id="link-blog">
-                  Blog
-                </a>
-                <a href="/cards" class="nav-link nav-text" id="link-cards">
-                  KB cards
-                </a>
-                <a href="https://k8s-book.vupti.me/" class="nav-link nav-text" id="link-book">
-                  <span class="badge badge-info">N</span>My K8S Book</a>
-                <a href="/about" class="nav-link nav-text" id="link-about">About</a>
-              </div>
-          </header>
-          <div class="content-container flex-items-xs-around">
-            <div class="content-area">
-              {{ content }}
-            </div>
+      {% if site.tags != "" %} {% include collecttags.html %} {% endif %}
+      <header class="header-nav header-6" [clr-nav-level]="1">
+          <div class="branding">
+            <a href="/" class="nav-link">
+              <img src="/images/favicon.png" class="clr-icon" />
+              <span class="title">vUptime.io</span>
+            </a>
           </div>
+          <div class="header-nav">
+            <a href="/" class="active nav-link nav-text" id="link-blog">
+              Blog
+            </a>
+            <a href="/cards" class="nav-link nav-text" id="link-cards">
+              KB cards
+            </a>
+            <a href="https://k8s-book.vupti.me/" class="nav-link nav-text" id="link-book">
+              <span class="badge badge-info">N</span>My K8S Book</a>
+            <a href="/about" class="nav-link nav-text" id="link-about">About</a>
+          </div>
+      </header>
+      <div class="content-container flex-items-xs-around">
+        <div class="content-area">
+          {{ content }}
+        </div>
+      </div>
+      <footer>
+        <a href="/about#copyright">© 2014 - 2021 – Copyright notice</a>
+      </footer>
     </div>
   </body>
 </html>
