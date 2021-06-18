@@ -1,4 +1,4 @@
-baseurl: vuptime.io
+baseurl: https://vuptime.io
 copyright: Ludovic Rivallain and blog co-authors
 paginate: 10
 theme: hugo-clarity
