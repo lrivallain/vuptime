@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vmug on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/vmug/</link><description>Recent content in vmug on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sat, 28 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/vmug/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMUG Paris, Septembre 2019, Slides de notre présentation vRO</title><link>https://vuptime.io/post/2019-09-28-vmug-paris-presentation-vro/</link><pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/09/28/vmug-paris-presentation-vro/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vmug on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/vmug/</link><description>Recent content in vmug on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sat, 28 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/vmug/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMUG Paris, Septembre 2019, Slides de notre présentation vRO</title><link>vuptime.io/post/2019-09-28-vmug-paris-presentation-vro/</link><pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate><guid>/2019/09/28/vmug-paris-presentation-vro/</guid><description>
 &lt;p>Une nouvelle édition du vMUG Paris s'achevait jeudi soir autour d'une vBeer méritée par tous:&lt;/p>
 &lt;ul>
 &lt;li>Les &lt;strong>organisateurs&lt;/strong> tout d'abord: merci à eux pour cet évènement très réussi une nouvelle fois !&lt;/li>
@@ -10,12 +10,12 @@
 &lt;blockquote>
 &lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>
 &lt;/blockquote>
-&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png"/>&lt;figcaption>
+&lt;p>&lt;figure>&lt;img src="vuptime.io/images/frvmug-09-2019-paris.png"/>&lt;figcaption>
 &lt;h4>Logo vMUG France&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 {:width=&amp;quot;200px&amp;quot;}&lt;/p>
-&lt;p>&lt;a href="https://vuptime.io/about/#aharlaut">@Antoine_hlt&lt;/a> et &lt;a href="https://vuptime.io/about/#lrivallain">moi-même&lt;/a> présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em>vRealize Orchestrator&lt;/em>. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/">présentation que j'avais réalisé à Rennes&lt;/a> il y a quelques mois à l'occasion du &lt;em>meet&amp;amp;geek&lt;/em> organisé à &lt;strong>SII Ouest&lt;/strong>.&lt;/p>
+&lt;p>&lt;a href="vuptime.io/about/#aharlaut">@Antoine_hlt&lt;/a> et &lt;a href="vuptime.io/about/#lrivallain">moi-même&lt;/a> présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em>vRealize Orchestrator&lt;/em>. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/">présentation que j'avais réalisé à Rennes&lt;/a> il y a quelques mois à l'occasion du &lt;em>meet&amp;amp;geek&lt;/em> organisé à &lt;strong>SII Ouest&lt;/strong>.&lt;/p>
 &lt;p>Nous avions aussi préparé une petite démonstration basé sur le déploiement d'un noeud &lt;em>Kubernetes&lt;/em>.&lt;/p>
 &lt;blockquote>
 &lt;p>Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p>
@@ -32,10 +32,10 @@
 &lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">[SUPER TALK] Special guest for our &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 2019, &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> talk us about “vSphere ESXi past, present and future” Are you ready ? &lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/MyVMUG?ref_src=twsrc%5Etfw">@MyVMUG&lt;/a> &lt;a href="https://twitter.com/VMware?ref_src=twsrc%5Etfw">@VMware&lt;/a> &lt;a href="https://twitter.com/DuncanYB?ref_src=twsrc%5Etfw">@DuncanYB&lt;/a> &lt;a href="https://twitter.com/FrankDenneman?ref_src=twsrc%5Etfw">@FrankDenneman&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/hashtag/vExpert?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vExpert&lt;/a> &lt;a href="https://t.co/8fPwW4iuUS">pic.twitter.com/8fPwW4iuUS&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177148685031002112?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">&lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 😎🤟😜Thank you to sponsors, speakers and vmuggers for making our event possible ! Amazing day with amazing people 😘&lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/ovh_fr?ref_src=twsrc%5Etfw">@ovh_fr&lt;/a> &lt;a href="https://twitter.com/woueb?ref_src=twsrc%5Etfw">@woueb&lt;/a> &lt;a href="https://twitter.com/cqchu?ref_src=twsrc%5Etfw">@cqchu&lt;/a> &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw">@antoine_hlt&lt;/a> &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://twitter.com/erwanquelin?ref_src=twsrc%5Etfw">@erwanquelin&lt;/a> &lt;a href="https://twitter.com/Kevin_Pcc_ovh?ref_src=twsrc%5Etfw">@Kevin_Pcc_ovh&lt;/a> &lt;a href="https://twitter.com/Ash2501?ref_src=twsrc%5Etfw">@Ash2501&lt;/a> &lt;a href="https://twitter.com/tonton_hub?ref_src=twsrc%5Etfw">@tonton_hub&lt;/a> &lt;a href="https://twitter.com/Gso_ski?ref_src=twsrc%5Etfw">@Gso_ski&lt;/a> &lt;a href="https://t.co/a6dV59yUcR">pic.twitter.com/a6dV59yUcR&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177250467535040512?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;p>Et parce que je le trouve vraiment très beau, le logo de cette année:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/fr-mug-09-2019-paris_logo.jpg"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/fr-mug-09-2019-paris_logo.jpg"/>&lt;figcaption>
 &lt;h4>fr-mug-09-2019-paris_logo&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>VMUG France - Meet&amp;Geek Rennais, le bilan</title><link>https://vuptime.io/post/2019-03-08-vmug-france-meetandgeek-rennes-bilan/</link><pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/</guid><description>
+&lt;/figure></description></item><item><title>VMUG France - Meet&amp;Geek Rennais, le bilan</title><link>vuptime.io/post/2019-03-08-vmug-france-meetandgeek-rennes-bilan/</link><pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate><guid>/2019/03/08/vmug-france-meetandgeek-rennes-bilan/</guid><description>
 &lt;p>Quelques Rennais, membres de la &lt;strong>vCommunity&lt;/strong> se sont réunis dans les locaux de &lt;strong>SII Ouest&lt;/strong> hier soir pour partager quelques &lt;strong>vBeers&lt;/strong> et &lt;em>vPizza&lt;/em> dans une ambiance bon enfant.&lt;/p>
 &lt;p>C'était une très belle occasion de rencontrer quelques personnes, de discuter des postes de chacun, de l'usage des produits VMware dans d'autres contextes.&lt;/p>
 &lt;p>Les slides du &lt;em>Rex&lt;/em> sur l'usage de vRealize Orchestrator sont disponibles sur le &lt;em>Github&lt;/em> du groupe SII: &lt;a href="https://groupe-sii.github.io/rex-vro-meetngeek/">groupe-sii.github.io/rex-vro-meetngeek&lt;/a> (et les sources &lt;a href="https://github.com/groupe-sii/rex-vro-meetngeek/">ici&lt;/a>).&lt;/p>
@@ -48,21 +48,21 @@
 &lt;blockquote class="twitter-tweet" data-lang="fr">&lt;p lang="fr" dir="ltr">&lt;a href="https://twitter.com/hashtag/BZH?src=hash&amp;amp;ref_src=twsrc%5Etfw">#BZH&lt;/a> c’est notre 1er Meet&amp;amp;Geek Breton - Merci pour votre accueil &lt;a href="https://twitter.com/sii_ouest?ref_src=twsrc%5Etfw">@sii_ouest&lt;/a> super 👍 REX autour de &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> automatisation - Thx to &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://t.co/nPuPoo9lt5">pic.twitter.com/nPuPoo9lt5&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1103730799415910401?ref_src=twsrc%5Etfw">7 mars 2019&lt;/a>&lt;/blockquote>
 &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;p>La soirée a aussi été &lt;em>marquée&lt;/em> par l'effervescence de la &lt;em>vCommunauté&lt;/em> mondiale autour de l'annonce des &lt;strong>vExperts&lt;/strong> 2019. L'occasion pour moi de trinquer à ma seconde ★★ en bonne compagnie!&lt;/p>
-&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/vexpert-2.png"/>&lt;figcaption>
+&lt;p>&lt;figure>&lt;img src="vuptime.io/images/vexpert-2.png"/>&lt;figcaption>
 &lt;h4>vExpert 2019&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 {:width=&amp;quot;250px&amp;quot;}&lt;/p>
 &lt;p>⚽ Et comme tout bon Rennais qui se respecte, nous suivions d'un oeil attentif le match &lt;strong>Rennes-Arsenal&lt;/strong> en huitièmes de finale (aller) de l'Europa League. Match qui a été logiquement remporté 3-1 par Rennes! Vive la galette-saucisse! ⚽&lt;/p>
-&lt;p>Merci en tout cas à toute la vCommunauté Française et Rennaise, et en particulier à &lt;a href="https://twitter.com/fredG_work">Frédéric&lt;/a>, &lt;a href="https://vuptime.io/about/#jrossignol">Jérémy&lt;/a>, SII Ouest et les autres collègues m'aillant aidé à organiser ce petit événement!&lt;/p></description></item><item><title>VMUG France - Meet&amp;Geek Rennais le 7 mars 2019</title><link>https://vuptime.io/post/2019-02-28-vmug-france-meetandgeek-rennes/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/02/28/vmug-france-meetandgeek-rennes/</guid><description>
+&lt;p>Merci en tout cas à toute la vCommunauté Française et Rennaise, et en particulier à &lt;a href="https://twitter.com/fredG_work">Frédéric&lt;/a>, &lt;a href="vuptime.io/about/#jrossignol">Jérémy&lt;/a>, SII Ouest et les autres collègues m'aillant aidé à organiser ce petit événement!&lt;/p></description></item><item><title>VMUG France - Meet&amp;Geek Rennais le 7 mars 2019</title><link>vuptime.io/post/2019-02-28-vmug-france-meetandgeek-rennes/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>/2019/02/28/vmug-france-meetandgeek-rennes/</guid><description>
 &lt;p>La communauté Rennaise des utilisateurs de solutions VMware se réunit à Rennes le &lt;strong>7 mars 2019, à partir de 18h30&lt;/strong>.&lt;/p>
 &lt;p>Rdv dans les locaux de &lt;strong>SII Ouest&lt;/strong>: 5e étage, Hall B, Le Newton, 3 bis Avenue de Belle Fontaine à Cesson Sévigné.&lt;/p>
 &lt;p>Rejoignez nous sur le &lt;strong>&lt;a href="https://vmugfrance.slack.com/">Slack VMUG&lt;/a>&lt;/strong>, Channel &lt;code>#vmug-rennes&lt;/code> pour discuter avant ou après cette rencontre.&lt;/p>
 &lt;p>A cette occasion nous vous proposons un petit retour d'expérience sur l'usage de &lt;em>vRealize Orchestrator&lt;/em>.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/meetandgeek-mars2019.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/meetandgeek-mars2019.png"/>&lt;figcaption>
 &lt;h4>Meet&amp;amp;Geek Rennais&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>https://vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/09/20/frenchvmug-reboot-paris/</guid><description>
+&lt;/figure></description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>/2018/09/20/frenchvmug-reboot-paris/</guid><description>
 &lt;blockquote>
 &lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>
 &lt;/blockquote>
@@ -108,7 +108,7 @@
 &lt;p>Je crois que l'enthousiasme autour de cet évent se lit dans le billet ci-dessus mais au cas où, je le dis explicitement: &lt;em>à refaire&lt;/em>. Un grand merci aux organisateurs pour cette très belle journée (et ce sublime T-shirt).&lt;/p>
 &lt;p>Merci aussi à SII, mon employeur, qui m'a permi d'assister à cet event!&lt;/p>
 &lt;p>Et la photo de famille:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2018-paris.jpg"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/frvmug-09-2018-paris.jpg"/>&lt;figcaption>
 &lt;h4>Photo de famille&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item></channel></rss>

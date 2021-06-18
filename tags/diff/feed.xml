@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>diff on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/diff/</link><description>Recent content in diff on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 05 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/diff/feed.xml" rel="self" type="application/rss+xml"/><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>https://vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/08/05/released-vro-package-diff_v2/</guid><description>
-&lt;p>About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: &lt;a href="https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/">vRO Package Diff&lt;/a>. Initial version was a simple python script accepting 2 files as arguments and without any input controls.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>diff on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/diff/</link><description>Recent content in diff on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 05 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/diff/feed.xml" rel="self" type="application/rss+xml"/><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>/2019/08/05/released-vro-package-diff_v2/</guid><description>
+&lt;p>About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: &lt;a href="vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/">vRO Package Diff&lt;/a>. Initial version was a simple python script accepting 2 files as arguments and without any input controls.&lt;/p>
 &lt;p>Today, I publish a v2 of the tool with the following changes:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>vro-package-diff&lt;/code> is now a Pypi hosted project: &lt;a href="https://pypi.org/project/vro-package-diff/">vro-package-diff&lt;/a> and so, can be installed with &lt;code>pip install&lt;/code> command.&lt;/li>
@@ -16,7 +16,7 @@
 &lt;li>Documentation is hosted on &lt;a href="https://vro-package-diff.readthedocs.io">vro-package-diff.readthedocs.io&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://travis-ci.org/lrivallain/vro-package-diff/">Travis pipeline&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vro-diff-package/vro-diff-package_v2.png"/>&lt;figcaption>
 &lt;h4>Sample output of vro-diff-package&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -49,10 +49,10 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The script will exit with the number of items with a conflict situation.&lt;/p>
 &lt;p>This &lt;code>-–test&lt;/code> option can be usefull to implement CI/CD pipelines to compare, then upload(if there is no conflict) vRO packages.&lt;/p>
 &lt;h3 id="contributions">Contributions&lt;/h3>
-&lt;p>This tool needs vRO users to be tested and improved based on feedback and &lt;a href="https://github.com/lrivallain/vro-package-diff/graphs/contributors">contributions&lt;/a>: Feel free to &lt;a href="https://github.com/lrivallain/vro-package-diff/issues/new">open issue&lt;/a> or &lt;a href="https://github.com/lrivallain/vro-package-diff/compare">create pull request&lt;/a>.&lt;/p></description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>https://vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/</guid><description>
+&lt;p>This tool needs vRO users to be tested and improved based on feedback and &lt;a href="https://github.com/lrivallain/vro-package-diff/graphs/contributors">contributions&lt;/a>: Feel free to &lt;a href="https://github.com/lrivallain/vro-package-diff/issues/new">open issue&lt;/a> or &lt;a href="https://github.com/lrivallain/vro-package-diff/compare">create pull request&lt;/a>.&lt;/p></description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/</guid><description>
 &lt;p>I have recently published a draft tool to provide a table-formated diff of two vRealize Orchestrator packages.&lt;/p>
 &lt;p>Project is available on &lt;a href="https://github.com/lrivallain/vro-package-diff/">GitHub project&lt;/a> and will evolve in futur to support more package item's types and to provide better information about differences.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vro-diff-package/vro-package-diff-sample.png"/>&lt;figcaption>
 &lt;h4>Sample of output&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

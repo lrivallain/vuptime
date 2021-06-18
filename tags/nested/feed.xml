@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>nested on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/nested/</link><description>Recent content in nested on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 10 Feb 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/nested/feed.xml" rel="self" type="application/rss+xml"/><item><title>Nested VMware ESXi with virtualbox - Your first nested-virtual-machine</title><link>https://vuptime.io/post/2015-02-10-nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</link><pubDate>Tue, 10 Feb 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/02/10/nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</guid><description>
-&lt;p>Now that we've seen &lt;a href="https://vuptime.io/2015/01/25/nested-esxi-virtualbox/" title="Nested ESXi on Virtualbox">how to create a nested-ESXi&lt;/a> on virtualbox, we may need to have some content in order to test commands of procedures.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>nested on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/nested/</link><description>Recent content in nested on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 10 Feb 2015 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/nested/feed.xml" rel="self" type="application/rss+xml"/><item><title>Nested VMware ESXi with virtualbox - Your first nested-virtual-machine</title><link>vuptime.io/post/2015-02-10-nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</link><pubDate>Tue, 10 Feb 2015 00:00:00 +0000</pubDate><guid>/2015/02/10/nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</guid><description>
+&lt;p>Now that we've seen &lt;a href="vuptime.io/2015/01/25/nested-esxi-virtualbox/" title="Nested ESXi on Virtualbox">how to create a nested-ESXi&lt;/a> on virtualbox, we may need to have some content in order to test commands of procedures.&lt;/p>
 &lt;h2 id="local-datastore">Local datastore&lt;/h2>
 &lt;h3 id="disk-creation">Disk creation&lt;/h3>
 &lt;p>To create a local datastore, you'll have to add a new virtual disk to your nested ESXi:&lt;/p>
 &lt;p>First step is to create a SATA disk controller:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"/>&lt;figcaption>
 &lt;h4>Add a SATA controller&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Next, create a new disk on the SATA controller:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"/>&lt;figcaption>
 &lt;h4>Add a new disk&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -19,7 +19,7 @@
 &lt;li>10GB&lt;/li>
 &lt;li>Dynamic allocation&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"/>&lt;figcaption>
 &lt;h4>My additional disk settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -290,10 +290,10 @@ $ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ru
 &lt;li>server port : port you choose for VNC settings on the VM&lt;/li>
 &lt;li>password : VNC password on VM settings&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"/>&lt;figcaption>
 &lt;h4>VNC access to a virtual machine&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>Nested VMware ESXi with virtualbox</title><link>https://vuptime.io/post/2015-01-25-nested-esxi-virtualbox/</link><pubDate>Sun, 25 Jan 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/01/25/nested-esxi-virtualbox/</guid><description>
+&lt;/figure></description></item><item><title>Nested VMware ESXi with virtualbox</title><link>vuptime.io/post/2015-01-25-nested-esxi-virtualbox/</link><pubDate>Sun, 25 Jan 2015 00:00:00 +0000</pubDate><guid>/2015/01/25/nested-esxi-virtualbox/</guid><description>
 &lt;p>For testing cases it could be very useful to host a nested (= virtualized) VMware ESXi on your desk or laptop machine. For my own needs, I had to install an ESXi on virtualbox. Here is my tutorial.&lt;/p>
 &lt;h1 id="installation">Installation&lt;/h1>
 &lt;h2 id="prerequisites">Prerequisites&lt;/h2>
@@ -319,31 +319,31 @@ $ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ru
 &lt;li>Size: 1GB&lt;/li>
 &lt;/ul>
 &lt;p>When virtual machine is created, edit settings to set 2 vCPU cores:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox01.png"/>&lt;figcaption>
 &lt;h4>Edit VM CPU settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then mount the iso file to the DVD device:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox02.png"/>&lt;figcaption>
 &lt;h4>Add ISO file to the virtual machine&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then you can edit the network settings (I need to use the existing local network so I used &amp;quot;bridged adapter&amp;quot; setting:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox03.png"/>&lt;figcaption>
 &lt;h4>Change network adapter settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then save changes in configuration and start virtual machine.&lt;/p>
 &lt;h2 id="esxi-installation-and-setup">ESXi installation and setup&lt;/h2>
 &lt;p>ESXi installer will be automatically started on the virtual machine. During the process, installer will load some libraries and modules and check the available &amp;quot;hardware&amp;quot; on the virtual machine. According to the hardware settings, it could take some time before the first human action:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox04.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox04.png"/>&lt;figcaption>
 &lt;h4>First human action in ESXi installation process&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h3 id="optional-bypassing-the-minimal-requirements-check">(optional) Bypassing the minimal requirements check&lt;/h3>
 &lt;p>If you give less than minimal requirements to your nested ESXi virtual machine. You'll we need to bypass the requirements checks to be able to install ESXi. To do so, open ESXi console by pressing [ALT]+[F1].&lt;/p>
 &lt;p>Then login with &amp;quot;root&amp;quot; and no password:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox05.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox05.png"/>&lt;figcaption>
 &lt;h4>Login to the ESXi console&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -358,7 +358,7 @@ $ vi upgrade_precheck.py
 &lt;pre>&lt;code>MEM_MIN_SIZE = (4*1024) * SIZE_MiB
 &lt;/code>&lt;/pre>
 &lt;p>Change the &amp;quot;4&amp;quot; according to the number of GB you can give to your machine:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox06.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox06.png"/>&lt;figcaption>
 &lt;h4>Bypassing min-memory check&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -374,7 +374,7 @@ $ kill –9 &amp;lt;PYTHON PROCESS ID&amp;gt;
 &lt;li>[F11] to accept EULA&lt;/li>
 &lt;li>Select the vbox disk for system installation and press [Enter]:&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox07.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox07.png"/>&lt;figcaption>
 &lt;h4>Select boot device&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -384,14 +384,14 @@ $ kill –9 &amp;lt;PYTHON PROCESS ID&amp;gt;
 &lt;li>Then wait for hardware checking process&lt;/li>
 &lt;li>Installer will warn you about one or more hardware settings but should let you finish the installation process by pressing [Enter]:&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox08.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox08.png"/>&lt;figcaption>
 &lt;h4>Last step of installation process&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;ul>
 &lt;li>Press [F11] to start installation on disk.&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox09.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox09.png"/>&lt;figcaption>
 &lt;h4>Installation in progress&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -401,29 +401,29 @@ $ kill –9 &amp;lt;PYTHON PROCESS ID&amp;gt;
 &lt;h2 id="ip-settings">IP settings&lt;/h2>
 &lt;p>If you use the bridge network adapter and don't have a DHCP server, you may have to set the IP settings to the ESXi:&lt;/p>
 &lt;p>When ESXi is started, press [ALT]+[F2] to open &amp;quot;edit settings&amp;quot; panel and login:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox10.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox10.png"/>&lt;figcaption>
 &lt;h4>Login to the ESXi console&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Select &lt;code>Configure Management network&lt;/code>:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox12.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox12.png"/>&lt;figcaption>
 &lt;h4>Configure management network&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Edit IP settings according to your LAN or your needs:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox11.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox11.png"/>&lt;figcaption>
 &lt;h4>Change IP settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Once it's done, press [ESC] then [Y] to validate and apply changes.&lt;/p>
 &lt;h2 id="ssh-server">SSH Server&lt;/h2>
 &lt;p>To simplify the access to the ESXi command line tools, I use the embedded SSH server. To enable it:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox13.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox13.png"/>&lt;figcaption>
 &lt;h4>Enable SSH server in troubleshooting options&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then enable SSH server by selecting &lt;code>Enable SSH&lt;/code> and pressing [Enter]:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox14.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox14.png"/>&lt;figcaption>
 &lt;h4>Enable SSH server&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

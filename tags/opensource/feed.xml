@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>opensource on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/opensource/</link><description>Recent content in opensource on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 06 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/opensource/feed.xml" rel="self" type="application/rss+xml"/><item><title>Extending VMware vCloud Director functionalities</title><link>https://vuptime.io/post/2019-05-06-extending-vcloud-director-functionalities/</link><pubDate>Mon, 06 May 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/05/06/extending-vcloud-director-functionalities/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>opensource on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/opensource/</link><description>Recent content in opensource on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 06 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/opensource/feed.xml" rel="self" type="application/rss+xml"/><item><title>Extending VMware vCloud Director functionalities</title><link>vuptime.io/post/2019-05-06-extending-vcloud-director-functionalities/</link><pubDate>Mon, 06 May 2019 00:00:00 +0000</pubDate><guid>/2019/05/06/extending-vcloud-director-functionalities/</guid><description>
 &lt;p>This post is the English translation of the one published on &lt;a href="https://blog.groupe-sii.com/etendre-les-capacites-du-portail-vmware-vcloud-director/">blog.groupe-sii.com&lt;/a> to present a new kind of development activities in SII Group: the extension of the &lt;em>VMware vCloud Director&lt;/em> portal.&lt;/p>
 &lt;p>The post will explain the concept that enables the extension of this VMware product to add new functionalities to the native portal and to provide a consistent user experience to final customers.&lt;/p>
 &lt;h2 id="introduction-to-vmware-vcloud-director">Introduction to VMware vCloud Director&lt;/h2>
@@ -21,14 +21,14 @@
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/vcd_extensionpublish.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/lumext-for-vcd/vcd_extensionpublish.png"/>&lt;figcaption>
 &lt;h4>Example of the choice for extension&amp;#39;s publication&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h3 id="extend-vcds-ui">Extend vCD's UI&lt;/h3>
 &lt;p>Probably the most obvious benefit of the extensibility feature of vCloud Director is the capacity to integrate in a single user interface (&lt;em>UI&lt;/em>), new sections to give access to added features.&lt;/p>
 &lt;p>This includes the addition of a customized item in the main navigation menu:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/vcd_extensionmenu.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/lumext-for-vcd/vcd_extensionmenu.png"/>&lt;figcaption>
 &lt;h4>Example of navigation menu extension&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -43,7 +43,7 @@
 &lt;/blockquote>
 &lt;p>To handle the extension related customized requests, a backend server is necessary. This server can be hosted on a dedicated host (or the vCD server (&lt;em>cell&lt;/em>) but not recommended) and can be written in any language of your choice (Python, Java, Node etc.). Messages received by vCD on the extension path (&lt;code>coffee&lt;/code>) will be forwarded to an intermediate RabbitMQ server to be consumed by the extension backend. Once the request content is processed, response content is sent to the AMQP server and consumed by vCD to provide an answer.&lt;/p>
 &lt;p>For our example:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/architecture_overview.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/lumext-for-vcd/architecture_overview.png"/>&lt;figcaption>
 &lt;h4>Used paths for requests on Coffee extension&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -119,17 +119,17 @@
 &lt;h3 id="ui">UI&lt;/h3>
 &lt;p>The &lt;strong>LUMExt&lt;/strong> user interface is fully integrated to the vCD portal and is based on the same UI components (&lt;em>Angular&lt;/em>) and the same graphic charter (based on open-source &lt;a href="https://clarity.design/">Clarity&lt;/a> framework from VMware).&lt;/p>
 &lt;p>The main navigation menu is supplemented with a new link to access to the &lt;strong>LUMExt&lt;/strong> pages.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_menu.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/lumext-for-vcd/preview_menu.png"/>&lt;figcaption>
 &lt;h4>Main navigation menu&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>By default, LDAP based users list is displayed:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_userlisting.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/lumext-for-vcd/preview_userlisting.png"/>&lt;figcaption>
 &lt;h4>LUMExt, users list&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>In the following screenshot, it is interesting to notice that only the middle part is developed for the extension. Navigation menu on top and tasks list on the bottom are vCD natives (and cannot be modified).&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_userlisting_zoning_en.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/lumext-for-vcd/preview_userlisting_zoning_en.png"/>&lt;figcaption>
 &lt;h4>LUMExt, users list - Zoning&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -142,7 +142,7 @@
 &lt;li>Description (optional)&lt;/li>
 &lt;/ul>
 &lt;p>The data are sent to the backend and store in the LDAP server in appropriate directory fields.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_usercreation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/lumext-for-vcd/preview_usercreation.png"/>&lt;figcaption>
 &lt;h4>LUMExt, user creation&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

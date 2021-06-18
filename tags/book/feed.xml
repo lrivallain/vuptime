@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>book on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/book/</link><description>Recent content in book on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 02 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/book/feed.xml" rel="self" type="application/rss+xml"/><item><title>My Kubernetes Book</title><link>https://vuptime.io/post/2021-02-02-my-kubernetes-book/</link><pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/02/02/my-kubernetes-book/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>book on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/book/</link><description>Recent content in book on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 02 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/book/feed.xml" rel="self" type="application/rss+xml"/><item><title>My Kubernetes Book</title><link>vuptime.io/post/2021-02-02-my-kubernetes-book/</link><pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate><guid>/2021/02/02/my-kubernetes-book/</guid><description>
 &lt;p>I recently started my journey to the Kubernetes world, switching from theory knowledge to practical use-cases for customers.&lt;/p>
 &lt;p>This is a wonderful new technical area to discover with a lot of &lt;strong>new&lt;/strong>:&lt;/p>
 &lt;ul>
@@ -12,7 +12,7 @@
 &lt;p>Of course, I am far-far-away to master those new competencies but I learn more and more on a daily basis.&lt;/p>
 &lt;p>At the begining, I started a small wiki for my own usage to keep some useful commands, tips, how-to documentations. But I know think that this content may help others to centralize some re-usable content.&lt;/p>
 &lt;p>So I started a new side project to this blog: &lt;strong>My Kubernetes Book&lt;/strong>: &lt;a href="https://k8s-book.vupti.me/">https://k8s-book.vupti.me/&lt;/a>&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/my-k8s-book.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/my-k8s-book.png"/>&lt;figcaption>
 &lt;h4>Screenshot of My Kubernetes Book&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

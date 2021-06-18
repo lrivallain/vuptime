@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>easyvirt on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/easyvirt/</link><description>Recent content in easyvirt on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/easyvirt/feed.xml" rel="self" type="application/rss+xml"/><item><title>Easyvirt – DCScope 7.4 – Green IT Beta feature</title><link>https://vuptime.io/post/2020-10-20-easyvirt-dcscope-74-greenit/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/10/20/Easyvirt-DCScope-74-GreenIT/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>easyvirt on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/easyvirt/</link><description>Recent content in easyvirt on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/easyvirt/feed.xml" rel="self" type="application/rss+xml"/><item><title>Easyvirt – DCScope 7.4 – Green IT Beta feature</title><link>vuptime.io/post/2020-10-20-easyvirt-dcscope-74-greenit/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>/2020/10/20/Easyvirt-DCScope-74-GreenIT/</guid><description>
 &lt;p>With some french vMUG members, we add the opportunity to assist to a demonstration of the new features of &lt;a href="https://www.easyvirt.com/en/dcscope-operations-management/">&lt;strong>DC Scope&lt;/strong>&lt;/a> 7.4 from the French company: &lt;a href="https://www.easyvirt.com/en/">&lt;strong>Easyvirt&lt;/strong>&lt;/a>.&lt;/p>
 &lt;p>Thanks a lot to &lt;a href="https://twitter.com/martindargent">@MartinDargent&lt;/a> for this invitation and the nice demo.&lt;/p>
 &lt;h2 id="green-it-beta">Green IT (&lt;em>Beta&lt;/em>)&lt;/h2>
@@ -8,7 +8,7 @@
 &lt;li>&lt;a href="https://en.wikipedia.org/wiki/Embodied_energy">Embodied energy&lt;/a>: raw-material production, manufacture, transport, distribution, use and disposal.&lt;/li>
 &lt;li>Energy consumption over time (that was already collected for both servers and per-VM)&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dcscope74/dcscope01.png"/>&lt;figcaption>
 &lt;h4>Green IT Dashboard&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -20,12 +20,12 @@
 &lt;li>&lt;strong>kWh evolution&lt;/strong>: Electrical consumption over time.&lt;/li>
 &lt;/ul>
 &lt;p>This tab also provides an &lt;strong>energy-efficiency&lt;/strong> score per server with both theoretical (&lt;em>TEE&lt;/em>) and measured (&lt;em>CEE&lt;/em>) one.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dcscope74/dcscope02.png"/>&lt;figcaption>
 &lt;h4>energy-efficiency score&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>&lt;strong>Energy optimization&lt;/strong> suggestions are also available to estimate the electric consumption impact if you remove some servers from the current infrastructure.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dcscope74/dcscope03.png"/>&lt;figcaption>
 &lt;h4>Energy optimization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -37,7 +37,7 @@
 &lt;li>TEE (Theoretical Energy Efficiency)&lt;/li>
 &lt;li>The cost per VM of the replacement&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope04.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dcscope74/dcscope04.png"/>&lt;figcaption>
 &lt;h4>Replacement simulator&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

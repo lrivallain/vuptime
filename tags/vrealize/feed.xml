@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vrealize on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/vrealize/</link><description>Recent content in vrealize on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Fri, 13 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/vrealize/feed.xml" rel="self" type="application/rss+xml"/><item><title>Interact with the vRealize Automation IaaS objects on vRealize Orchestrator</title><link>https://vuptime.io/post/2019-12-13-use-iaas-object-in-vro/</link><pubDate>Fri, 13 Dec 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/12/13/use-iaas-object-in-vro/</guid><description>
-&lt;p>As described on another &lt;a href="https://vuptime.io/cards/vra-linqpad-explore-iaas-objects/">blog post&lt;/a>, vRA IaaS objects can be gathered using the model manager.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vrealize on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/vrealize/</link><description>Recent content in vrealize on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Fri, 13 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/vrealize/feed.xml" rel="self" type="application/rss+xml"/><item><title>Interact with the vRealize Automation IaaS objects on vRealize Orchestrator</title><link>vuptime.io/post/2019-12-13-use-iaas-object-in-vro/</link><pubDate>Fri, 13 Dec 2019 00:00:00 +0000</pubDate><guid>/2019/12/13/use-iaas-object-in-vro/</guid><description>
+&lt;p>As described on another &lt;a href="vuptime.io/cards/vra-linqpad-explore-iaas-objects/">blog post&lt;/a>, vRA IaaS objects can be gathered using the model manager.
 This article will show you how to interact with this kind of object using &lt;code>vRealize Orchestrator&lt;/code>.&lt;/p>
 &lt;p>On this first sample, we are trying to get a virtual machine named &lt;code>TESTVM02&lt;/code> on the model manager.
 The VirtualMachine object has a property called &lt;code>VirtualMachineName&lt;/code> that we can used to filter the virtual machine by its name.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/iaas_vro/model_manager_vm.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -38,7 +38,7 @@ It will return a object of type &lt;a href="http://www.vroapi.com/Class/vCAC/7.2
 &lt;span class="ln">27&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">28&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Workflow in action :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/iaas_vro/workflow_iaas_get_vm.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -46,7 +46,7 @@ It will return a object of type &lt;a href="http://www.vroapi.com/Class/vCAC/7.2
 For instance, we need to know the vCPU and RAM configured on the virtual machine.
 The request is simple, we'll use the method &lt;code>get_property&lt;/code> on the object &lt;code>VCAC:Entity&lt;/code>&lt;/p>
 &lt;p>You just need to get the corresponding properties names:
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_request.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/iaas_vro/model_manager_vm_request.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -56,7 +56,7 @@ The request is simple, we'll use the method &lt;code>get_property&lt;/code> on t
 &lt;span class="ln">3&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmVcpu&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMCPUs&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmRam&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMTotalMemoryMB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">5&lt;/span>&lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;The virtual machine &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; is configured &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmVcpu&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; vCPU and &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmRam&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; RAM&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png"/>&lt;figcaption>
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="vuptime.io/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -64,7 +64,7 @@ The request is simple, we'll use the method &lt;code>get_property&lt;/code> on t
 There is a property name called &lt;code>VMDiskHardware&lt;/code> but not directly accessible because this is a child object of &lt;code>VirtualMachine&lt;/code>.&lt;/p>
 &lt;p>Using LINQPAD, we can access to this property by using the method &lt;code>expand&lt;/code>&lt;/p>
 &lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-c#" data-lang="c#">&lt;span class="ln">1&lt;/span>&lt;span class="n">VirtualMachines&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Expand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;VMDiskHardware&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Where&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">v&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">VirtualMachineName&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="s">&amp;#34;TESTVM02&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_disks.png"/>&lt;figcaption>
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="vuptime.io/images/iaas_vro/model_manager_vm_disks.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -81,13 +81,13 @@ This method has 2 parameters :&lt;/p>
 &lt;span class="ln">5&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">diskName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; is configured with &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">diskSize&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; GB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">6&lt;/span>
 &lt;span class="ln">7&lt;/span>&lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_disks.png"/>&lt;figcaption>
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="vuptime.io/images/iaas_vro/workflow_iaas_get_vm_disks.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Perfect ! We can now request the IaaS database in order to get a lot of usefull information to extend the use on vRealize Automation.&lt;/p>
 &lt;p>To end this blog post, here is another sample to get the VirtualMachine created after a defined date :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_date.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/iaas_vro/model_manager_vm_date.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -118,12 +118,12 @@ This method has 2 parameters :&lt;/p>
 &lt;span class="ln">25&lt;/span> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;There is &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; created virtual machine after &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span>
 &lt;span class="ln">26&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">27&lt;/span>&lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_by_date.png"/>&lt;figcaption>
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="vuptime.io/images/iaas_vro/workflow_iaas_get_vm_by_date.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;p>You are now ready the use the IaaS object directly in vRO ;)&lt;/p></description></item><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>https://vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/08/05/released-vro-package-diff_v2/</guid><description>
-&lt;p>About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: &lt;a href="https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/">vRO Package Diff&lt;/a>. Initial version was a simple python script accepting 2 files as arguments and without any input controls.&lt;/p>
+&lt;p>You are now ready the use the IaaS object directly in vRO ;)&lt;/p></description></item><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>/2019/08/05/released-vro-package-diff_v2/</guid><description>
+&lt;p>About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: &lt;a href="vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/">vRO Package Diff&lt;/a>. Initial version was a simple python script accepting 2 files as arguments and without any input controls.&lt;/p>
 &lt;p>Today, I publish a v2 of the tool with the following changes:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>vro-package-diff&lt;/code> is now a Pypi hosted project: &lt;a href="https://pypi.org/project/vro-package-diff/">vro-package-diff&lt;/a> and so, can be installed with &lt;code>pip install&lt;/code> command.&lt;/li>
@@ -140,7 +140,7 @@ This method has 2 parameters :&lt;/p>
 &lt;li>Documentation is hosted on &lt;a href="https://vro-package-diff.readthedocs.io">vro-package-diff.readthedocs.io&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://travis-ci.org/lrivallain/vro-package-diff/">Travis pipeline&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vro-diff-package/vro-diff-package_v2.png"/>&lt;figcaption>
 &lt;h4>Sample output of vro-diff-package&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -173,10 +173,10 @@ This method has 2 parameters :&lt;/p>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The script will exit with the number of items with a conflict situation.&lt;/p>
 &lt;p>This &lt;code>-–test&lt;/code> option can be usefull to implement CI/CD pipelines to compare, then upload(if there is no conflict) vRO packages.&lt;/p>
 &lt;h3 id="contributions">Contributions&lt;/h3>
-&lt;p>This tool needs vRO users to be tested and improved based on feedback and &lt;a href="https://github.com/lrivallain/vro-package-diff/graphs/contributors">contributions&lt;/a>: Feel free to &lt;a href="https://github.com/lrivallain/vro-package-diff/issues/new">open issue&lt;/a> or &lt;a href="https://github.com/lrivallain/vro-package-diff/compare">create pull request&lt;/a>.&lt;/p></description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>https://vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/</guid><description>
+&lt;p>This tool needs vRO users to be tested and improved based on feedback and &lt;a href="https://github.com/lrivallain/vro-package-diff/graphs/contributors">contributions&lt;/a>: Feel free to &lt;a href="https://github.com/lrivallain/vro-package-diff/issues/new">open issue&lt;/a> or &lt;a href="https://github.com/lrivallain/vro-package-diff/compare">create pull request&lt;/a>.&lt;/p></description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/</guid><description>
 &lt;p>I have recently published a draft tool to provide a table-formated diff of two vRealize Orchestrator packages.&lt;/p>
 &lt;p>Project is available on &lt;a href="https://github.com/lrivallain/vro-package-diff/">GitHub project&lt;/a> and will evolve in futur to support more package item's types and to provide better information about differences.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vro-diff-package/vro-package-diff-sample.png"/>&lt;figcaption>
 &lt;h4>Sample of output&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

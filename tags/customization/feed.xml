@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>customization on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/customization/</link><description>Recent content in customization on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 06 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/customization/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware - Dive into OVF properties</title><link>https://vuptime.io/post/2017-03-06-vmware-dive-into-ovf-properties/</link><pubDate>Mon, 06 Mar 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/03/06/vmware-dive-into-ovf-properties/</guid><description>
-&lt;p>In order to fully configure a virtual machine after a clone of OVF deployment, it may be useful to use settings from virtualization layer in the guest OS: for example to run &lt;a href="https://vuptime.io/2014/08/15/vmware-use-guestinfo-variables-to-customize-guest-os">Guest OS customization&lt;/a> as already discussed in this blog.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>customization on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/customization/</link><description>Recent content in customization on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 06 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/customization/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware - Dive into OVF properties</title><link>vuptime.io/post/2017-03-06-vmware-dive-into-ovf-properties/</link><pubDate>Mon, 06 Mar 2017 00:00:00 +0000</pubDate><guid>/2017/03/06/vmware-dive-into-ovf-properties/</guid><description>
+&lt;p>In order to fully configure a virtual machine after a clone of OVF deployment, it may be useful to use settings from virtualization layer in the guest OS: for example to run &lt;a href="vuptime.io/2014/08/15/vmware-use-guestinfo-variables-to-customize-guest-os">Guest OS customization&lt;/a> as already discussed in this blog.&lt;/p>
 &lt;p>Today, we will focus on OVF properties.&lt;/p>
 &lt;h1 id="presentation-of-ovf-properties">Presentation of OVF properties&lt;/h1>
 &lt;p>If you deploy some VM through OVF/OVA files, you are probably already familiar with OVF settings. They appear as the possibility to customize VM settings during the deployment process:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_deploy.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dive_into_ovf/ovf_properties_deploy.png"/>&lt;figcaption>
 &lt;h4>OVF properties deploy&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -47,7 +47,7 @@
 &lt;h1 id="create-new-properties">Create new properties&lt;/h1>
 &lt;p>When you create a new template for OVF export, it is possible to create/edit/delete custom OVF properties.&lt;/p>
 &lt;p>From vSphere Web client -&amp;gt; Edit Settings of a VM -&amp;gt; vApp Options: In Authoring section, it is possible to give a name/version/url to describe your future OVF and to manage properties:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_edition.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dive_into_ovf/ovf_properties_edition.png"/>&lt;figcaption>
 &lt;h4>OVF properties edition&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -58,7 +58,7 @@
 &lt;li>&lt;strong>Category&lt;/strong>: a way to order parts of the customization form fields by grouping properties together&lt;/li>
 &lt;li>&lt;strong>Description&lt;/strong>: to give more information about the purpose of the field to end users&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_fields.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dive_into_ovf/ovf_properties_fields.png"/>&lt;figcaption>
 &lt;h4>OVF properties fields&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -77,26 +77,26 @@
 &lt;li>(external) IP address&lt;/li>
 &lt;li>...&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_subtypes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dive_into_ovf/ovf_properties_subtypes.png"/>&lt;figcaption>
 &lt;h4>OVF properties sub-types&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>You can also set default value, or some requirements (like the minimal/maximal length of a string):&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_options.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dive_into_ovf/ovf_properties_options.png"/>&lt;figcaption>
 &lt;h4>OVF properties options&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h1 id="edit-vm-properties-values">Edit VM properties values&lt;/h1>
 &lt;p>As we saw previously, a user deploying an OVF coming from export of VM where properties are set, will be prompted to fill the values of the properties.&lt;/p>
 &lt;p>it is also possible to edit properties values of an already deployed VM: From vSphere Web client -&amp;gt; Edit Settings of a VM -&amp;gt; vApp Options.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_values_edition.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dive_into_ovf/ovf_values_edition.png"/>&lt;figcaption>
 &lt;h4>OVF properties values edition on VM&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>In this case, you may have to run 'again' some GuestOS glue code to take the change into account.&lt;/p>
 &lt;h1 id="get-ovf-properties-from-the-guestos">Get OVF properties from the guestOS&lt;/h1>
 &lt;p>When you configure an OVF environment, you can choose between CD-ROM and VMware-tools methods to transport information into the virtual machine:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_transport_method.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/dive_into_ovf/ovf_transport_method.png"/>&lt;figcaption>
 &lt;h4>OVF transport method&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>French on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/french/</link><description>Recent content in French on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 01 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/french/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMworld 2020 – Récapitulatif jour 2</title><link>https://vuptime.io/post/2020-10-01-vmworld-2020-eu-day2/</link><pubDate>Thu, 01 Oct 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/10/01/VMworld-2020-EU-Day2/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>French on vUptime.io - Cloud builder(s)</title><link>vuptime.io/categories/french/</link><description>Recent content in French on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 01 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/categories/french/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMworld 2020 – Récapitulatif jour 2</title><link>vuptime.io/post/2020-10-01-vmworld-2020-eu-day2/</link><pubDate>Thu, 01 Oct 2020 00:00:00 +0000</pubDate><guid>/2020/10/01/VMworld-2020-EU-Day2/</guid><description>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>Ce n'est pas logique mais je vais conclure ce couple d'articles au sujet du VMworld avant les résumés des conférences regardées ce jour (que vous trouverez donc plus bas dans le présent article).&lt;/p>
 &lt;p>Forcément, un évènement en virtuel n'a pas la saveur d'un évènement en présentiel, surtout quand on apprécie de retrouver à cette occasion, des connaissances, des collègues, des partenaires de travail. Techniquement, j'aurais tout aussi bien pu regarder hors de la période du VMworld, les sessions, qui étaient déjà enregistrées et diffusées à la demande et non en live. Je précise &amp;quot;techniquement&amp;quot; car je suis à peu près certain que si je n'avais pas utiliser ces deux jours pour regarder ces sessions, je n'aurais jamais trouvé ou prit le temps ensuite de le faire, à cette échelle.&lt;/p>
@@ -27,7 +27,7 @@
 &lt;p>C'est d'ailleurs un critère de choix évoqué lorsqu'on a la possibilité d'automatiser une tâche à l'aide de vRO ou d'ABX. vRO s'en sort forcément mieux pour des tâches complexes ou fortement liées à des composants variés via sa notion de plugins, de workflows enchaînant des actions pouvant êtres très variées. ABX s'adapte toutefois mieux à des tâches rapides, légères et simples et ses actions peuvent aussi être chaînées (presqu'à la manière d'un framework vRO) et c'est un produit plus orienté cloud que on-premise.&lt;/p>
 &lt;p>La seconde partie de la présentation concerne &lt;code>Code Stream&lt;/code>, le produit de &lt;em>pipelines DevOps&lt;/em> de VMware. Bon nombre de &lt;em>endpoints&lt;/em> sont disponibles mais finalement la présentation s'attarde sur l'intégration de vRO et Docker dans &lt;code>Code Stream&lt;/code> pour les tâches de CI.&lt;/p>
 &lt;p>Enfin, Francisco propose une démonstration: à partir d'une recommandation de &lt;em>Skyline Advisor&lt;/em> à propros d'une menace potentielle liée aux failles &lt;em>Spectre/Meltdown&lt;/em> présente sur l'infrastructure, déclencher une interaction avec vRO: déclencher un workflow qui permettra de résoudre la situation (ici il s'agit de mettre à jour le virtual-hardware de la machine). Puis la démonstration utilise &lt;code>Code Stream&lt;/code> et un pipeline complexe afin de valider tous les impacts potentiels de cette action de remédiation.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/HCMB2254_codestream_demo.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2020/HCMB2254_codestream_demo.png"/>&lt;figcaption>
 &lt;h4>Demo CodeStream&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -56,7 +56,7 @@
 &lt;p>Ces contraintes semblent importantes mais en réalité, ce vieil outil est tout de même très pratique pour diagnostiquer des problèmes réseau et est presque, incontournable. Forcément, un outil de 35 ans va être limité à appréhender les évolutions récentes du contenu qui passe sur les réseaux: HTTP/2, SSL presque partout, volumes démultipliés... c'est possible, mais ça devient complexe.&lt;/p>
 &lt;p>De nouveau outils lui font à présent concurrence pour mieux appréhender ses limites et contraintes: vRealize Network Insight par exemple permet de faire bien plus de chose, via des échantillonnage, de l'apprentissage, des sondes positionnées sur des segments multiples, de la conservation de métriques...&lt;/p>
 &lt;p>Avec les logs de VMware NSX-T &lt;em>Advanced Load Balancer&lt;/em> (ex AVI) il est aussi possible de collecter des informations très intéressantes au moment de diagnostique un souci qui pourrait être lié au réseau, sur une application. C'est l'objet de la démonstration qui suit et qui vise à montrer la manière de détecter, au sein d'un pool applicatif, de potentiels erreurs ou problèmes de performances. Frocément, ce produit permet de faire énormément plus de chose que &lt;code>tcpdump&lt;/code>, notamment si on veut mesurer l'état d'une application distribuée, au delà de l'état d'une simple connection réseau.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/VCNC1920_avi_demo.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2020/VCNC1920_avi_demo.png"/>&lt;figcaption>
 &lt;h4>Demo AVI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -79,7 +79,7 @@
 &lt;/ul>
 &lt;p>Ensuite la présentation aborde &lt;em>Tanzu Application Service&lt;/em> et notamment la partie réseau et sécurité: comment sont provisionnés les segments réseau, les routeurs T1, l’interconnexion via le T0, la création de nouveaux segments réseaux par tenant (Org).&lt;/p>
 &lt;p>Avec &lt;em>vSphere with Tanzu&lt;/em> (vSphere 7) il devient possible de mixer &lt;code>pods&lt;/code> et machine virtuelles au sein d'un &lt;code>namespace&lt;/code> ce qui rend plus cohérent l'administration générale, tout en rendant un peu complexe, la liste de couches d'infrastructures impliquées:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/VCNC1163_vsphere_with_tanzu.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2020/VCNC1163_vsphere_with_tanzu.png"/>&lt;figcaption>
 &lt;h4>VCNC1163 vSphere with Tanzu&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -95,7 +95,7 @@
 &lt;/ul>
 &lt;p>La solution de base pour une architecture standardisée de SDDC chez VMware s'appelle &lt;em>&amp;quot;Cloud Foundation&amp;quot;&lt;/em>. Basée sur la recommandation d'utiliser des nœuds matériels &lt;em>'vSAN ready'&lt;/em>, cette manière de concevoir et déployer un socle standard d'architecture permet de s'affranchir des &lt;em>silos de complexité&lt;/em> généré par des choix opérés au fil de l'eau, des besoin, des projets, des changements d'avis.&lt;/p>
 &lt;p>Grace à des tests poussés coté VMware, vous avez une sorte de garantie vis à vis d'une association de produits et de versions:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/HCI2519_VCF_products.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2020/HCI2519_VCF_products.png"/>&lt;figcaption>
 &lt;h4>HCI2519 VCF products&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -110,10 +110,10 @@
 &lt;p>Bien sûr, Cloud Foundation propose aussi d'aider pour gérer le cycle de vie des composants déployés: notamment pour mettre à jour les composants, les certificats SSL.&lt;/p>
 &lt;p>Les API (et le &lt;em>Developer Center&lt;/em>) disponibles sur vCF permettent d'automatiser certaines opérations sans même passer par l'interface graphique.&lt;/p>
 &lt;p>Enfin, on nous présente la notion de &lt;em>True Hybrid Cloud&lt;/em>, une promesse de VCF pour que vous puissiez envisager de migrer toute ou partie de votre SDDC vers des providers compatibles (on pense forcément à VMware on AWS!) à l'aide de HCX.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/vmworld2020.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2020/vmworld2020.png"/>&lt;figcaption>
 &lt;h4>VMworld 2020&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>VMworld 2020 – Récapitulatif jour 1</title><link>https://vuptime.io/post/2020-09-30-vmworld-2020-eu-day1/</link><pubDate>Wed, 30 Sep 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/09/30/VMworld-2020-EU-Day1/</guid><description>
+&lt;/figure></description></item><item><title>VMworld 2020 – Récapitulatif jour 1</title><link>vuptime.io/post/2020-09-30-vmworld-2020-eu-day1/</link><pubDate>Wed, 30 Sep 2020 00:00:00 +0000</pubDate><guid>/2020/09/30/VMworld-2020-EU-Day1/</guid><description>
 &lt;h2 id="introduction">Introduction&lt;/h2>
 &lt;p>Cette année le VMworld a une saveur une peu particulière. Habituellement, 2 VMwords (un US et un EU) tiennent place chaque année avec plusieurs milliers de personnes réunies sous un même toit pendant 3 ou 4 jours. Forcément, cette année, ce format n'a pas été possible au regard de la pandémie actuellement en cours et VMware a choisi de ne faire qu'un unique évènement virtuel, qui plus est, globalement gratuit.&lt;/p>
 &lt;p>Pour ma part, je n'ai pas pris de pass &lt;em>premium&lt;/em> (pourtant accessible financièrement parlant) car j'ai pas remarqué un intérêt majeur me concernant vis à vis du pass gratuit permettant déjà l'accès à un nombre incalculable de conférences très intéressantes.&lt;/p>
@@ -227,17 +227,17 @@
 &lt;/ul>
 &lt;p>Concernant Cloud Director, j'apprends que finalement ce composant, même dans sa nouvelle forme d'appliance est finalement limité en nombre d'instance: 3 max dans le cluster de BDD et ensuite chaque nouvelle appliance en plus génère beaucoup d'accès à la base qui peuvent impacter les performances globales ressenties.&lt;/p>
 &lt;p>Pour ma part je suis malgré tout un peu déçu que cette présentation ne soit pas descendu plus en détails dans les entrailles d'une vraie mise en situation avec des retours d'expérience. Probablement que la valeur du niveau de technicité de cette présentation (300) a été placé un peu haut au regard du contenu.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/vmworld2020.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2020/vmworld2020.png"/>&lt;figcaption>
 &lt;h4>VMworld 2020&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>VMworld 2019 – Récapitulatif jour 4</title><link>https://vuptime.io/post/2019-11-07-vmworld-2019-eu-day4/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/07/VMworld-2019-EU-Day4/</guid><description>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day4_VMwareFrance.png"/>&lt;figcaption>
+&lt;/figure></description></item><item><title>VMworld 2019 – Récapitulatif jour 4</title><link>vuptime.io/post/2019-11-07-vmworld-2019-eu-day4/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>/2019/11/07/VMworld-2019-EU-Day4/</guid><description>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2019/day4_VMwareFrance.png"/>&lt;figcaption>
 &lt;h4>Photo Booth SII Île de France&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h2 id="deploying-the-vmware-cloud-provider-platform-hbi2767be">Deploying the VMware Cloud Provider Platform &lt;code>[HBI2767BE]&lt;/code>&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speaker(s):
 &lt;ul>
 &lt;li>&lt;strong>Eiad AlAqqad&lt;/strong>, VCPP Lead Solution Architect, VMware&lt;/li>
@@ -280,7 +280,7 @@
 &lt;p>Pour ma part j'aimerais bien tester ce type de produit mais les occasions sont rare et j'ai bien peur que par manque de souplesse, il faille sortir des sentiers battus très rapidement pour contenter les besoins spécifiques de nos clients &lt;em>cloud providers&lt;/em>.&lt;/p>
 &lt;h2 id="60-minutes-of-non-uniform-memory-architecture-hbi2278be">60 Minutes of Non-Uniform Memory Architecture &lt;code>[HBI2278BE]&lt;/code>&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speaker(s):
 &lt;ul>
 &lt;li>&lt;strong>Frank Denneman&lt;/strong>, Chief Technologist, CPBU, VMware&lt;/li>
@@ -344,14 +344,14 @@
 &lt;ul>
 &lt;li>Kubernetes managé sur &lt;em>AWS, GCP, Azure, AlibabaCloud&lt;/em> mais aussi &lt;em>on premise&lt;/em> sur une &lt;a href="https://cloud.netapp.com/kubernetes-service">appliance hardware dédiée&lt;/a>.&lt;/li>
 &lt;li>Du stockage pour Kubernetes (&lt;em>persistent volumes&lt;/em>)&lt;/li>
-&lt;/ul></description></item><item><title>VMworld 2019 – Récapitulatif jour 3</title><link>https://vuptime.io/post/2019-11-06-vmworld-2019-eu-day3/</link><pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/06/VMworld-2019-EU-Day3/</guid><description>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day3_VMWorldFest_2.gif"/>&lt;figcaption>
+&lt;/ul></description></item><item><title>VMworld 2019 – Récapitulatif jour 3</title><link>vuptime.io/post/2019-11-06-vmworld-2019-eu-day3/</link><pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate><guid>/2019/11/06/VMworld-2019-EU-Day3/</guid><description>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2019/day3_VMWorldFest_2.gif"/>&lt;figcaption>
 &lt;h4>Photo Booth avec des Toulousains&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h2 id="delivering-custom-services-through-vcloud-director-extensibility-hbi1855be">Delivering Custom Services Through vCloud Director Extensibility &lt;code>[HBI1855BE]&lt;/code>&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speaker(s):
 &lt;ul>
 &lt;li>&lt;strong>Nick de Kuijer&lt;/strong>, Cloud Architect, Simac IT NL&lt;/li>
@@ -361,13 +361,13 @@
 &lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29337">Vidéo&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>Je ne vais pas le cacher, c'était la présentation que j'attendais le plus de ce VMworld! Étant donné que je travaille sur le sujet de l'extensibilité de vCloud Director depuis plus d'un an (voir le post à ce sujet &lt;a href="https://vuptime.io/2019/05/06/extending-vcloud-director-functionalities/">Extending VMware vCloud Director functionalities&lt;/a>), j'avais de hautes attentes concernant les méthodes utilisées par d'autres personnes pour réaliser le même type d'extensions d'UI et d'API.&lt;/p>
+&lt;p>Je ne vais pas le cacher, c'était la présentation que j'attendais le plus de ce VMworld! Étant donné que je travaille sur le sujet de l'extensibilité de vCloud Director depuis plus d'un an (voir le post à ce sujet &lt;a href="vuptime.io/2019/05/06/extending-vcloud-director-functionalities/">Extending VMware vCloud Director functionalities&lt;/a>), j'avais de hautes attentes concernant les méthodes utilisées par d'autres personnes pour réaliser le même type d'extensions d'UI et d'API.&lt;/p>
 &lt;p>La présentation a commencé avec une description générale du concept d'extension des API et de l'UI du portail. Et de citer quelques exemples de use-case (notamment avec la très belle intégration réalisée par &lt;strong>Avamar&lt;/strong>). Il y a aussi eu une annonce d'un nouveau framework permettant la création d'intégrations plus poussées des extensions (notamment la possibilité d'ajouter des actions contextuelles sur des objets de l'inventaire) et plus facile à mettre en œuvre.&lt;/p>
 &lt;p>Nous avons eu ensuite une démonstration un peu plus technique d'un &lt;em>Backend as a Service&lt;/em> qui n'a pas été très clairement expliquée à mon avis.&lt;/p>
 &lt;p>Enfin, Nick de Kuijer, Cloud Architect @ &lt;a href="https://www.simac.com/en/itnl">Simac IT&lt;/a> 🇳🇱 a démontré un exemple d'extension permettant la mise à disposition des logs Firewall NSX dans le portail vCD, pour les utilisateurs. Leur permettant ainsi de pouvoir analyser si une requête est légitimement bloquée ou pas. Puis un mécanisme de déploiement de VM personnalisé permettant d'adapter la zone de disponibilité, le type d'instance…&lt;/p>
 &lt;h2 id="evolving-vrealize-automation-hbo1323be">Evolving vRealize Automation &lt;code>[HBO1323BE]&lt;/code>&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speaker(s):
 &lt;ul>
 &lt;li>&lt;strong>Chris McClanahan&lt;/strong>, Staff Technical Marketing Architect, VMware&lt;/li>
@@ -393,7 +393,7 @@
 &lt;p>VMware indique clairement que cette version 8.0 est une version qui n'est pas à mettre en production car elle manque de maturité. Il faudra donc attendre au moins la version 8.1, premier semestre 2020. La migration de quelques données de plateformes 7.5 ou 7.5 ne sera elle disponible qu'à partir de la mi-2020. C'est un gros gros challenge pour nos clients qui avaient misés sur l'extensibilité de vRA 7.x et ne pourront probablement pas réutiliser beaucoup de ces efforts en vRA 8.x…&lt;/p>
 &lt;h2 id="the-art-of-code-that-writes-code-code2216e">The Art of Code That Writes Code &lt;code>[CODE2216E]&lt;/code>&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speaker(s):
 &lt;ul>
 &lt;li>&lt;strong>Kyle Ruddy&lt;/strong>, Senior Technical Marketing Architect, VMware&lt;/li>
@@ -540,13 +540,13 @@ Je parle ici seulement de &lt;em>T0&lt;/em> car il n'ya que les &lt;em>T0&lt;/em
 &lt;li>&lt;strong>Datacore&lt;/strong> : vous souhaitez faire du stockage hyperconvergé, franchement j'y allais un peu à reculons mais finalement ce produit a l'air d'être une alternative à VSAN très intéressante, en plus elle vous permettrait de réutiliser vos anciennes baies de stockage.&lt;/li>
 &lt;li>&lt;strong>Cohesity&lt;/strong> : de la même manière que Rubriq, pour moi ces 2 éditeurs sont en train de faire bouger le monde de la sauvegarde, ce sont vraiment des solutions à prendre en compte lors du choix de votre future solution de sauvegarde.&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day3_VMWorldFest_1.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2019/day3_VMWorldFest_1.png"/>&lt;figcaption>
 &lt;h4>Stereophonics au VMworld Fest&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>VMworld 2019 – Récapitulatif jour 2</title><link>https://vuptime.io/post/2019-11-05-vmworld-2019-eu-day2/</link><pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/05/VMworld-2019-EU-Day2/</guid><description>
+&lt;/figure></description></item><item><title>VMworld 2019 – Récapitulatif jour 2</title><link>vuptime.io/post/2019-11-05-vmworld-2019-eu-day2/</link><pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate><guid>/2019/11/05/VMworld-2019-EU-Day2/</guid><description>
 &lt;h2 id="general-session-aka-la-keynote">General Session (aka la &lt;em>keynote&lt;/em>)&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speaker(s):
 &lt;ul>
 &lt;li>&lt;strong>Pat Gelsinger&lt;/strong>, Chief Executive Officer, VMware&lt;/li>
@@ -568,7 +568,7 @@ Je parle ici seulement de &lt;em>T0&lt;/em> car il n'ya que les &lt;em>T0&lt;/em
 &lt;p>La sécurité, au sens large est aussi abordée: réseau, IDS, App control etc. sont au menu mais la présentation manque un peu de matière pour pouvoir en dire davantage.&lt;/p>
 &lt;h2 id="how-powercli-makes-vsphere-configuration-management-easy-code2214e">How PowerCLI Makes vSphere Configuration Management Easy &lt;code>[CODE2214E]&lt;/code>&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speakers(s):
 &lt;ul>
 &lt;li>&lt;strong>Kyle Ruddy&lt;/strong>, Senior Technical Marketing Architect, VMware&lt;/li>
@@ -586,7 +586,7 @@ Je parle ici seulement de &lt;em>T0&lt;/em> car il n'ya que les &lt;em>T0&lt;/em
 &lt;/ul>
 &lt;h2 id="nsx-automation-with-ansible-a-complete-guide-for-day-0-operations-code1617e">NSX Automation with Ansible: A Complete Guide for Day 0 Operations &lt;code>[CODE1617E]&lt;/code>&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speakers(s):
 &lt;ul>
 &lt;li>&lt;strong>Madhukar Krishnarao&lt;/strong>, Technical Product Manager, VMware&lt;/li>
@@ -705,10 +705,10 @@ Je parle ici seulement de &lt;em>T0&lt;/em> car il n'ya que les &lt;em>T0&lt;/em
 &lt;p>Je l'ai manqué à 10 points, c'est rageant mais j'ai pu voir à quoi elle ressemblait et ce n'est pas si évident que ça.&lt;/p>
 &lt;p>Un conseil du coup pour ceux qui souhaite la passer, manipulez beaucoup sur NSX-T et refaites les labs de la formation ICM plusieurs fois car certaines questions sont assez pièges notamment sur les différentes commandes à exécuter sur les labs, il faut connaître la syntaxe exacte pour ne pas se tromper ^^&lt;/p>
 &lt;p>Enfin si vous souhaitez mettre toutes les chances de votre côté, je pense que la réduction n'en vaut pas la chandelle, je n'ai pas profité de la même manière du VMworld cette année que l'année dernière, il est préférable que vous passiez votre certification dans un centre d'examens près de chez vous.&lt;/p>
-&lt;p>Mais si vous souhaitez quand même essayer de la passer au VMworld, il faut savoir que cette année par exemple ils donnaient un T-Shirt &lt;em>&amp;quot;Certified at VMworld&amp;quot;&lt;/em> pour tous ceux qui obtenaient la certif :'(.&lt;/p></description></item><item><title>VMworld 2019 – Récapitulatif jour 1</title><link>https://vuptime.io/post/2019-11-04-vmworld-2019-eu-day1/</link><pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/04/VMworld-2019-EU-Day1/</guid><description>
+&lt;p>Mais si vous souhaitez quand même essayer de la passer au VMworld, il faut savoir que cette année par exemple ils donnaient un T-Shirt &lt;em>&amp;quot;Certified at VMworld&amp;quot;&lt;/em> pour tous ceux qui obtenaient la certif :'(.&lt;/p></description></item><item><title>VMworld 2019 – Récapitulatif jour 1</title><link>vuptime.io/post/2019-11-04-vmworld-2019-eu-day1/</link><pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate><guid>/2019/11/04/VMworld-2019-EU-Day1/</guid><description>
 &lt;h2 id="operating-the-ultimate-hybrid-cloud-with-vmware-cloud-foundation-hbi1519te">Operating the Ultimate Hybrid Cloud with VMware Cloud Foundation &lt;code>[HBI1519TE]&lt;/code>&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>Speakers(s):
 &lt;ul>
 &lt;li>&lt;strong>Heath Johnson&lt;/strong>, Sr. Technical Marketing Manager, VMware&lt;/li>
@@ -792,10 +792,10 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>&lt;a href="https://github.com/vmware/ansible-for-nsxt">NSX-T et Ansible&lt;/a>&lt;/li>
 &lt;li>Pour les &lt;a href="https://nsx.techzone.vmware.com">débutants en automatisation&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day1_VMWorld_Logo.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2019/day1_VMWorld_Logo.png"/>&lt;figcaption>
 &lt;h4>Logo VMworld&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>VMworld 2019 – C'est parti !</title><link>https://vuptime.io/post/2019-11-03-vmworld-2019-cestparti/</link><pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/03/VMworld-2019-cestparti/</guid><description>
+&lt;/figure></description></item><item><title>VMworld 2019 – C'est parti !</title><link>vuptime.io/post/2019-11-03-vmworld-2019-cestparti/</link><pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate><guid>/2019/11/03/VMworld-2019-cestparti/</guid><description>
 &lt;p>Plus que quelques heures avant de décoller en direction de Barcelone avec 2 collègues de SII Ouest afin d'assister à mon second VMworld.&lt;/p>
 &lt;p>Au-delà de l'aspect &lt;em>VMware &amp;quot;pur&amp;quot;&lt;/em>, les intérêts d'assister à cet évènement sont multiples.&lt;/p>
 &lt;h2 id="veille-technologique">Veille technologique&lt;/h2>
@@ -806,10 +806,10 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Enfin, vous pouvez aussi trouver le temps de partager de bons moments conviviaux à l'extérieur lors des fameuses &amp;quot;party&amp;quot; organisées par différent·e·s fournisseurs ou communautés.&lt;/p>
 &lt;h1 id="à-demain-">À demain !&lt;/h1>
 &lt;p>Arrivée prévue ce soir aux alentours de minuit sur Barcelone, puis une petite nuit avant d'attaquer la première journée, celle des partenaires. Rdv demain donc.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2019.png"/>&lt;figcaption>
 &lt;h4>Logo VMworld 2019&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>VMUG Paris, Septembre 2019, Slides de notre présentation vRO</title><link>https://vuptime.io/post/2019-09-28-vmug-paris-presentation-vro/</link><pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/09/28/vmug-paris-presentation-vro/</guid><description>
+&lt;/figure></description></item><item><title>VMUG Paris, Septembre 2019, Slides de notre présentation vRO</title><link>vuptime.io/post/2019-09-28-vmug-paris-presentation-vro/</link><pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate><guid>/2019/09/28/vmug-paris-presentation-vro/</guid><description>
 &lt;p>Une nouvelle édition du vMUG Paris s'achevait jeudi soir autour d'une vBeer méritée par tous:&lt;/p>
 &lt;ul>
 &lt;li>Les &lt;strong>organisateurs&lt;/strong> tout d'abord: merci à eux pour cet évènement très réussi une nouvelle fois !&lt;/li>
@@ -821,12 +821,12 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;blockquote>
 &lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>
 &lt;/blockquote>
-&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png"/>&lt;figcaption>
+&lt;p>&lt;figure>&lt;img src="vuptime.io/images/frvmug-09-2019-paris.png"/>&lt;figcaption>
 &lt;h4>Logo vMUG France&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 {:width=&amp;quot;200px&amp;quot;}&lt;/p>
-&lt;p>&lt;a href="https://vuptime.io/about/#aharlaut">@Antoine_hlt&lt;/a> et &lt;a href="https://vuptime.io/about/#lrivallain">moi-même&lt;/a> présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em>vRealize Orchestrator&lt;/em>. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/">présentation que j'avais réalisé à Rennes&lt;/a> il y a quelques mois à l'occasion du &lt;em>meet&amp;amp;geek&lt;/em> organisé à &lt;strong>SII Ouest&lt;/strong>.&lt;/p>
+&lt;p>&lt;a href="vuptime.io/about/#aharlaut">@Antoine_hlt&lt;/a> et &lt;a href="vuptime.io/about/#lrivallain">moi-même&lt;/a> présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em>vRealize Orchestrator&lt;/em>. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/">présentation que j'avais réalisé à Rennes&lt;/a> il y a quelques mois à l'occasion du &lt;em>meet&amp;amp;geek&lt;/em> organisé à &lt;strong>SII Ouest&lt;/strong>.&lt;/p>
 &lt;p>Nous avions aussi préparé une petite démonstration basé sur le déploiement d'un noeud &lt;em>Kubernetes&lt;/em>.&lt;/p>
 &lt;blockquote>
 &lt;p>Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p>
@@ -843,10 +843,10 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">[SUPER TALK] Special guest for our &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 2019, &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> talk us about “vSphere ESXi past, present and future” Are you ready ? &lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/MyVMUG?ref_src=twsrc%5Etfw">@MyVMUG&lt;/a> &lt;a href="https://twitter.com/VMware?ref_src=twsrc%5Etfw">@VMware&lt;/a> &lt;a href="https://twitter.com/DuncanYB?ref_src=twsrc%5Etfw">@DuncanYB&lt;/a> &lt;a href="https://twitter.com/FrankDenneman?ref_src=twsrc%5Etfw">@FrankDenneman&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/hashtag/vExpert?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vExpert&lt;/a> &lt;a href="https://t.co/8fPwW4iuUS">pic.twitter.com/8fPwW4iuUS&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177148685031002112?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">&lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 😎🤟😜Thank you to sponsors, speakers and vmuggers for making our event possible ! Amazing day with amazing people 😘&lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/ovh_fr?ref_src=twsrc%5Etfw">@ovh_fr&lt;/a> &lt;a href="https://twitter.com/woueb?ref_src=twsrc%5Etfw">@woueb&lt;/a> &lt;a href="https://twitter.com/cqchu?ref_src=twsrc%5Etfw">@cqchu&lt;/a> &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw">@antoine_hlt&lt;/a> &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://twitter.com/erwanquelin?ref_src=twsrc%5Etfw">@erwanquelin&lt;/a> &lt;a href="https://twitter.com/Kevin_Pcc_ovh?ref_src=twsrc%5Etfw">@Kevin_Pcc_ovh&lt;/a> &lt;a href="https://twitter.com/Ash2501?ref_src=twsrc%5Etfw">@Ash2501&lt;/a> &lt;a href="https://twitter.com/tonton_hub?ref_src=twsrc%5Etfw">@tonton_hub&lt;/a> &lt;a href="https://twitter.com/Gso_ski?ref_src=twsrc%5Etfw">@Gso_ski&lt;/a> &lt;a href="https://t.co/a6dV59yUcR">pic.twitter.com/a6dV59yUcR&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177250467535040512?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;p>Et parce que je le trouve vraiment très beau, le logo de cette année:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/fr-mug-09-2019-paris_logo.jpg"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/fr-mug-09-2019-paris_logo.jpg"/>&lt;figcaption>
 &lt;h4>fr-mug-09-2019-paris_logo&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>VMUG France - Meet&amp;Geek Rennais, le bilan</title><link>https://vuptime.io/post/2019-03-08-vmug-france-meetandgeek-rennes-bilan/</link><pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/</guid><description>
+&lt;/figure></description></item><item><title>VMUG France - Meet&amp;Geek Rennais, le bilan</title><link>vuptime.io/post/2019-03-08-vmug-france-meetandgeek-rennes-bilan/</link><pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate><guid>/2019/03/08/vmug-france-meetandgeek-rennes-bilan/</guid><description>
 &lt;p>Quelques Rennais, membres de la &lt;strong>vCommunity&lt;/strong> se sont réunis dans les locaux de &lt;strong>SII Ouest&lt;/strong> hier soir pour partager quelques &lt;strong>vBeers&lt;/strong> et &lt;em>vPizza&lt;/em> dans une ambiance bon enfant.&lt;/p>
 &lt;p>C'était une très belle occasion de rencontrer quelques personnes, de discuter des postes de chacun, de l'usage des produits VMware dans d'autres contextes.&lt;/p>
 &lt;p>Les slides du &lt;em>Rex&lt;/em> sur l'usage de vRealize Orchestrator sont disponibles sur le &lt;em>Github&lt;/em> du groupe SII: &lt;a href="https://groupe-sii.github.io/rex-vro-meetngeek/">groupe-sii.github.io/rex-vro-meetngeek&lt;/a> (et les sources &lt;a href="https://github.com/groupe-sii/rex-vro-meetngeek/">ici&lt;/a>).&lt;/p>
@@ -859,26 +859,26 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;blockquote class="twitter-tweet" data-lang="fr">&lt;p lang="fr" dir="ltr">&lt;a href="https://twitter.com/hashtag/BZH?src=hash&amp;amp;ref_src=twsrc%5Etfw">#BZH&lt;/a> c’est notre 1er Meet&amp;amp;Geek Breton - Merci pour votre accueil &lt;a href="https://twitter.com/sii_ouest?ref_src=twsrc%5Etfw">@sii_ouest&lt;/a> super 👍 REX autour de &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> automatisation - Thx to &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://t.co/nPuPoo9lt5">pic.twitter.com/nPuPoo9lt5&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1103730799415910401?ref_src=twsrc%5Etfw">7 mars 2019&lt;/a>&lt;/blockquote>
 &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;p>La soirée a aussi été &lt;em>marquée&lt;/em> par l'effervescence de la &lt;em>vCommunauté&lt;/em> mondiale autour de l'annonce des &lt;strong>vExperts&lt;/strong> 2019. L'occasion pour moi de trinquer à ma seconde ★★ en bonne compagnie!&lt;/p>
-&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/vexpert-2.png"/>&lt;figcaption>
+&lt;p>&lt;figure>&lt;img src="vuptime.io/images/vexpert-2.png"/>&lt;figcaption>
 &lt;h4>vExpert 2019&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 {:width=&amp;quot;250px&amp;quot;}&lt;/p>
 &lt;p>⚽ Et comme tout bon Rennais qui se respecte, nous suivions d'un oeil attentif le match &lt;strong>Rennes-Arsenal&lt;/strong> en huitièmes de finale (aller) de l'Europa League. Match qui a été logiquement remporté 3-1 par Rennes! Vive la galette-saucisse! ⚽&lt;/p>
-&lt;p>Merci en tout cas à toute la vCommunauté Française et Rennaise, et en particulier à &lt;a href="https://twitter.com/fredG_work">Frédéric&lt;/a>, &lt;a href="https://vuptime.io/about/#jrossignol">Jérémy&lt;/a>, SII Ouest et les autres collègues m'aillant aidé à organiser ce petit événement!&lt;/p></description></item><item><title>VMUG France - Meet&amp;Geek Rennais le 7 mars 2019</title><link>https://vuptime.io/post/2019-02-28-vmug-france-meetandgeek-rennes/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/02/28/vmug-france-meetandgeek-rennes/</guid><description>
+&lt;p>Merci en tout cas à toute la vCommunauté Française et Rennaise, et en particulier à &lt;a href="https://twitter.com/fredG_work">Frédéric&lt;/a>, &lt;a href="vuptime.io/about/#jrossignol">Jérémy&lt;/a>, SII Ouest et les autres collègues m'aillant aidé à organiser ce petit événement!&lt;/p></description></item><item><title>VMUG France - Meet&amp;Geek Rennais le 7 mars 2019</title><link>vuptime.io/post/2019-02-28-vmug-france-meetandgeek-rennes/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>/2019/02/28/vmug-france-meetandgeek-rennes/</guid><description>
 &lt;p>La communauté Rennaise des utilisateurs de solutions VMware se réunit à Rennes le &lt;strong>7 mars 2019, à partir de 18h30&lt;/strong>.&lt;/p>
 &lt;p>Rdv dans les locaux de &lt;strong>SII Ouest&lt;/strong>: 5e étage, Hall B, Le Newton, 3 bis Avenue de Belle Fontaine à Cesson Sévigné.&lt;/p>
 &lt;p>Rejoignez nous sur le &lt;strong>&lt;a href="https://vmugfrance.slack.com/">Slack VMUG&lt;/a>&lt;/strong>, Channel &lt;code>#vmug-rennes&lt;/code> pour discuter avant ou après cette rencontre.&lt;/p>
 &lt;p>A cette occasion nous vous proposons un petit retour d'expérience sur l'usage de &lt;em>vRealize Orchestrator&lt;/em>.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/meetandgeek-mars2019.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/meetandgeek-mars2019.png"/>&lt;figcaption>
 &lt;h4>Meet&amp;amp;Geek Rennais&lt;/h4>
 &lt;/figcaption>
-&lt;/figure></description></item><item><title>VMworld 2018 – Recapitulatif jour 4</title><link>https://vuptime.io/post/2018-11-08-vmworld-2018-eu-day4/</link><pubDate>Thu, 08 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/08/VMworld-2018-EU-Day4/</guid><description>
+&lt;/figure></description></item><item><title>VMworld 2018 – Recapitulatif jour 4</title><link>vuptime.io/post/2018-11-08-vmworld-2018-eu-day4/</link><pubDate>Thu, 08 Nov 2018 00:00:00 +0000</pubDate><guid>/2018/11/08/VMworld-2018-EU-Day4/</guid><description>
 &lt;p>Quatrième et dernier jour du VMworld, on commençait un peu à se sentir à la maison à force d'arpenter les allés du &lt;em>Fira Barcelona Gran Via&lt;/em>.&lt;/p>
 &lt;p>Moins de conférences pour moi aujourd'hui mais pas une journée moins intéressante pour autant car celà permet de faire le tour du hall des exposants et de découvrir bien des solutions innovantes.&lt;/p>
 &lt;h2 id="vin1249ber--vsphere-clustering-deep-dive-part-1-vsphere-ha-and-drs">#VIN1249BER – vSphere Clustering Deep Dive, Part 1: vSphere HA and DRS&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/27144">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Frank Denneman, Duncan Epping&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -909,11 +909,11 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>Le cas du stockage &lt;em>IP based&lt;/em>&lt;/li>
 &lt;li>Réduire un peu les domaines de pannes.&lt;/li>
 &lt;/ul>
-&lt;p>Et fin sur le &lt;em>Predictive DRS&lt;/em> (Associé à vROPS) qui permet de prédire le comportement sur les 60 prochaines minutes et pondère la possibilité de migrer une VM avec son current Happiness-State.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 3</title><link>https://vuptime.io/post/2018-11-07-vmworld-2018-eu-day3/</link><pubDate>Wed, 07 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/07/VMworld-2018-EU-Day3/</guid><description>
+&lt;p>Et fin sur le &lt;em>Predictive DRS&lt;/em> (Associé à vROPS) qui permet de prédire le comportement sur les 60 prochaines minutes et pondère la possibilité de migrer une VM avec son current Happiness-State.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 3</title><link>vuptime.io/post/2018-11-07-vmworld-2018-eu-day3/</link><pubDate>Wed, 07 Nov 2018 00:00:00 +0000</pubDate><guid>/2018/11/07/VMworld-2018-EU-Day3/</guid><description>
 &lt;p>Troisième jour au VMworld et déjà le sentiment un peu amer que la fin approche doucement. En attendant, on en profite pour assister à de nouvelles sessions et réseauter!&lt;/p>
 &lt;h2 id="vin2642be--dont-sleep-on-restful-apis-for-vsphere">#VIN2642BE – Don't Sleep on RESTful APIs for vSphere&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26368">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Kyle Ruddy&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -924,7 +924,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Trop de monde pour aller rencontrer la RockStar Kyle Ruddy à la fin mais si je le recroise, j'aimerais lui demander si VMware compte modifier ses interfaces pour ne plus utiliser &lt;strong>QUE&lt;/strong> ses API REST pour atteindre le backend, ce qui assurerait que tout ce qui est possible dans une UI, l'est aussi dans le monde API.&lt;/p>
 &lt;h2 id="cna1674be--deep-dive-run-kubernetes-in-production-with-pks">#CNA1674BE – Deep Dive: Run Kubernetes in Production with PKS&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26336">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Merlin Glynn, James Webb&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -932,7 +932,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Le use case est intéressant mais clairement j'atteinds ma limite de technicité: Je visualise bien PKS, Kubernetes, mais ici on a affaire à des défis techniques très précis que j'ai du mal à appréhender. Toutefois je ressors de cette session avec en tête quelques noms d'outils qu'il m'intéresse d'explorer plus tard: &lt;em>GitOps, Concourse, Prometheus&lt;/em>…&lt;/p>
 &lt;h2 id="dc3845ke--cloud-and-developer-keynote-public-clouds-and-kubernetes-at-scale">#DC3845KE – Cloud and Developer Keynote: Public Clouds and Kubernetes at Scale&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26297">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers:
 &lt;ul>
@@ -955,7 +955,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>En gros, VMware gère pour vous la complexité de PKS et vous permet de lancer vos cluster Kubernetes vous-même en quelques minutes: réduisant ainsi le temps nécessaire entre l'expression de besoin et le déploiement d'une application.&lt;/p>
 &lt;h2 id="vin1735be--clustering-deep-dive-2-quality-control-with-drs-and-network-io-control">#VIN1735BE – Clustering Deep Dive 2: Quality Control with DRS and Network I/O Control&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26303">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Niels Hagoort&lt;/strong>, &lt;strong>Sahan Gamage&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -965,7 +965,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Malheureusement, la fonctionnalité est seulement présentée par use-case et pas via une explication en profondeur de l'algorythme: on nous dit que ce sont des formules mathématiques dérrière, bref apparemment les informaticiens n'aiment pas les maths mais moi cela m'aurait intéressé.&lt;/p>
 &lt;h2 id="net1106be--advanced-vmware-nsx-data-center-demistifying-the-vtep-mac-and-arp-tables">#NET1106BE – Advanced VMware NSX Data Center: Demistifying the VTEP, MAC and ARP Tables&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26194">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speaker(s): *&lt;em>Tim Burkard&lt;/em> &amp;amp; &lt;strong>Jean François Couturier&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -976,7 +976,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Conférence très intéressante et très pédagogique, elle m'a permis d'approfondir mes connaissances sur l'&lt;em>ARP suppression&lt;/em> et aussi de faire connaissance avec le &lt;em>CPO mode&lt;/em> qui sera très utile pour les futurs infrastructures NSX.&lt;/p>
 &lt;h2 id="mgt1312be---intro-to-vmwares-cloud-management-automation-services-you-agile-enough">#MGT1312BE - Intro to VMware’s Cloud Management Automation Services. You agile enough?&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#aharalaut">Antoine Harlaut&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#aharalaut">Antoine Harlaut&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26551">Video&lt;/a>&lt;/li>
 &lt;li>Speaker(s): &lt;em>Cody De Arkland, Hicham Mourad&lt;/em>&lt;/li>
 &lt;/ul>
@@ -1001,11 +1001,11 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>&lt;em>Action As A Service&lt;/em>: Permet de proposer du code dans son catalogue&lt;/li>
 &lt;li>&lt;em>Workflow vRO&lt;/em>&lt;/li>
 &lt;/ul>
-&lt;p>Un beau produit en perspective à suivre avec attention.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 2</title><link>https://vuptime.io/post/2018-11-06-vmworld-2018-eu-day2/</link><pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/06/VMworld-2018-EU-Day2/</guid><description>
-&lt;p>Second jour, beaucoup plus de monde, une &lt;strong>&lt;a href="https://vuptime.io/2018/11/06/VMworld-2018-EU-Day2-GeneralSession/">General Session&lt;/a>&lt;/strong> folle et toujours plus de conférences:&lt;/p>
+&lt;p>Un beau produit en perspective à suivre avec attention.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 2</title><link>vuptime.io/post/2018-11-06-vmworld-2018-eu-day2/</link><pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate><guid>/2018/11/06/VMworld-2018-EU-Day2/</guid><description>
+&lt;p>Second jour, beaucoup plus de monde, une &lt;strong>&lt;a href="vuptime.io/2018/11/06/VMworld-2018-EU-Day2-GeneralSession/">General Session&lt;/a>&lt;/strong> folle et toujours plus de conférences:&lt;/p>
 &lt;h2 id="dev3466be--putting-it-all-together-using-vmware-products-to-deliver-the-devops-dream">#DEV3466BE – Putting It All Together: Using VMware Products to Deliver the DevOps Dream&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26750">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Dave Markham&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1014,7 +1014,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Tout est automatisable, mais il manque peut être de la part de VMware, un peu d'outillage ou de simplification des process internes des produits pour rendre ça: convenable et attractif pour une transformation DevOps.&lt;/p>
 &lt;h2 id="nfv2220be--service-providers-love-vmware-integrated-openstack-heres-why">#NFV2220BE – Service Providers Love VMware Integrated OpenStack. Here's Why.&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26786">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Ramkumar Venketaramani&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1038,7 +1038,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Et finalement, à travers la surcouche VMware, vous opérez, sans le savoir, un cloud basé sur vSphere/vCenter/NSX tout en utilisant les commandes ou les API d'OpenStack.&lt;/p>
 &lt;h2 id="hci1552be--deploying-vsan-to-300-stores-in-2-weeks-an-automation-story">#HCI1552BE – Deploying vSAN to 300 Stores in 2 Weeks: An Automation Story&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26347">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Simon Todd, Nigel Venables&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1049,7 +1049,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Bilan de la conférence: que ferait VMware sans vRO au niveau automatisation 🤔?&lt;/p>
 &lt;h2 id="hyp1499be--vmware-cloud-provider-pod">#HYP1499BE – VMware Cloud Provider Pod&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#aharlaut">Antoine Harlaut&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#aharlaut">Antoine Harlaut&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26995">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Yves Sandfort&lt;/strong>, &lt;strong>Wade Holmes&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1086,7 +1086,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Il n'y a plus qu'à explorer ce produit plus en détail sur les &lt;em>HOLs&lt;/em> et voir s'il tient ses promesses!&lt;/p>
 &lt;h2 id="net1559be--sddc-reference-design-with-nsx-data-center-for-vsphere">#NET1559BE – SDDC Reference Design with NSX Data Center for vSphere&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26843">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Dumlu Timuralp&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1112,7 +1112,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Bilan de la conférence: plusieurs points intéressants, des rappels qui ne font pas de mal, des points de vigilance de configuration mais aussi d'installation et de design qui ne sont pas forcément explicites et que l'on acquiert en général seulement avec de l'expérience. En somme, c'était plutot positif, tout ça.&lt;/p>
 &lt;h2 id="ns3729ke--the-nsx-keynote-building-the-network-of-the-future-with-the-virtual-cloud-network">#NS3729KE – The NSX Keynote: Building the Network of the Future with the Virtual Cloud Network&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26858">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers:
 &lt;ul>
@@ -1140,7 +1140,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Bilan de la conférence: je dirais que le format ne correspondait pas du tout à une keynote mais il y'a des moments où le fond est plus important que la forme.&lt;/p>
 &lt;h2 id="net1516be--introduction-to-nsx-cloud">#NET1516BE – Introduction to NSX Cloud&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26540">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speaker(s): &lt;strong>Percy Wadia&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1158,7 +1158,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Le produit semble vraiment intéressant: notamment le fait de pouvoir réutiliser la micro-segmentation NSX avec les groupes de sécurité &lt;em>dynamiques&lt;/em> (et non plus uniquement via une information réseau, IP ou DNS). Il reste à voir si VMware arrivera à généraliser ce produit de manière simple malgré la multitude d'offres cloud qui existent sur le marché.&lt;/p>
 &lt;h2 id="edu7505e--advanced-troubleshooting-for-the-vmware-nsx-distributed-firewall">#EDU7505E – Advanced Troubleshooting for the VMware NSX Distributed Firewall&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018?q=EDU7505E">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speaker(s): &lt;strong>Tim Burkard&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1180,7 +1180,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Une commande intéressante permettant de faire du debug:&lt;/p>
 &lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pktcap-uw --dvFilter dvfilter_name --capture PreDVFilter&lt;span class="p">|&lt;/span>PostDVFilter &lt;span class="o">[&lt;/span>filter_options&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>--outfile pcap_file_path &lt;span class="o">[&lt;/span>--ng&lt;span class="o">]]&lt;/span> &lt;span class="o">[&lt;/span>--count number_of_packets&lt;span class="o">]&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Avec cette commande il est possible d'analyser les flux en entrée et à la sortie de votre &lt;em>distributed firewall&lt;/em> et ainsi voir si c'est lui qui vous bloque ou non un flux particulier.&lt;/p>
-&lt;p>&lt;strong>Rappel&lt;/strong>: pour ceux qui aiment aller voir les logs concernant &lt;em>NSX&lt;/em> et les &lt;em>DLR&lt;/em> ou &lt;em>DFW&lt;/em>: Sans &lt;em>LogInsight&lt;/em>, les logs seront éparpillés entre tous vos ESXi...&lt;/p></description></item><item><title>VMworld 2018 – Technology Superpowers !</title><link>https://vuptime.io/post/2018-11-06-vmworld-2018-eu-day2-generalsession/</link><pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/06/VMworld-2018-EU-Day2-GeneralSession/</guid><description>
+&lt;p>&lt;strong>Rappel&lt;/strong>: pour ceux qui aiment aller voir les logs concernant &lt;em>NSX&lt;/em> et les &lt;em>DLR&lt;/em> ou &lt;em>DFW&lt;/em>: Sans &lt;em>LogInsight&lt;/em>, les logs seront éparpillés entre tous vos ESXi...&lt;/p></description></item><item><title>VMworld 2018 – Technology Superpowers !</title><link>vuptime.io/post/2018-11-06-vmworld-2018-eu-day2-generalsession/</link><pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate><guid>/2018/11/06/VMworld-2018-EU-Day2-GeneralSession/</guid><description>
 &lt;ul>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26843">Vidéo&lt;/a>&lt;/li>
 &lt;/ul>
@@ -1203,15 +1203,15 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;/ul>
 &lt;p>C'est le moment de lâcher la bombe: VMware vient d'acquérir Heptio, une société spécialisé dans Kubernetes ! Clairement, les containeurs ont leur place ici et VMware annonce en même temps &lt;strong>VMware Cloud PKS&lt;/strong>, avec tous les outils nécessaires pour lancer K8S sur votre plateforme de virtualisation VMware: Azure, AWS, GCE ou On-Premise. Pour la démonstration ça sera le tour de Wendy Cartee, cheffe de produit PKS.&lt;/p>
 &lt;p>Suit une présentation de Workspace One Intelligence mais je suis moins convaincu/intéressé par cet outil de gestion de parcs de terminaux. La même chose pour &lt;strong>Concord&lt;/strong>, le blockchain by VMware, que j'ai du mal à appréhender.&lt;/p>
-&lt;p>Ray pour sa dernière intervention, arrive sur scène avec un Raspberry-Pi en main pour annoncer qu'ESXi, peut (en interne uniquement pour le moment) tourner sur ce petit appareil à 30 $/€ !!! &lt;strong>ESXi sur ARM&lt;/strong> arrive et cela sera certainement une prochaine révolution pour le monde des datacenters.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 1</title><link>https://vuptime.io/post/2018-11-05-vmworld-2018-eu-day1/</link><pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/05/VMworld-2018-EU-Day1/</guid><description>
+&lt;p>Ray pour sa dernière intervention, arrive sur scène avec un Raspberry-Pi en main pour annoncer qu'ESXi, peut (en interne uniquement pour le moment) tourner sur ce petit appareil à 30 $/€ !!! &lt;strong>ESXi sur ARM&lt;/strong> arrive et cela sera certainement une prochaine révolution pour le monde des datacenters.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 1</title><link>vuptime.io/post/2018-11-05-vmworld-2018-eu-day1/</link><pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate><guid>/2018/11/05/VMworld-2018-EU-Day1/</guid><description>
 &lt;p>Nous y voilà. Le premier jour au VMworld à Barcelone commence par une visite... et après une rapide estimations, la conclusion que nous avons est que c'est grand, très grand! Comme le Lundi est orienté &amp;quot;Partners&amp;quot;, il y a encore peu de monde et peu de conférences. Petit retour sur les premières confs auquelles nous avons assisté:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2018/3AtLogo.jpg"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/vmworld2018/3AtLogo.jpg"/>&lt;figcaption>
 &lt;h4>Logo VMworld&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h2 id="dev1965qe--quickstart-devops-culture-with-vmware">#DEV1965QE – QuickStart DevOps Culture with VMware&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26752">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Tom Hite&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1227,7 +1227,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Enfin, nous avons abordé les concepts de frameworks d'infrastructure structurés et non-structurés et comment les outils, les méthodes et les intérêts divergent. En gros: &amp;quot;Adapter son infrastructure à son besoin, ou son besoin à son infrastructure&amp;quot;, un choix pas si évident au final.&lt;/p>
 &lt;h2 id="hci2513qe--using-vsan-native-data-protection-in-the-real-world">#HCI2513QE – Using vSAN Native Data Protection in the Real World&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26910">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Shobhan Lakkapragada&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1253,7 +1253,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Le seul inconvénient évident pour le moment à mon avis est l'absence de backup au niveau fichier (et d'agent de backup): mais c'est évoqué comme une possibilité futures !&lt;/p>
 &lt;h2 id="prv2201qer--introduction-to-vmware-cloud-foundation">#PRV2201QER – Introduction to VMware Cloud Foundation&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
 &lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26547">Vidéo&lt;/a>&lt;/li>
 &lt;li>Speakers(s): &lt;strong>Darren Pham&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -1264,7 +1264,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Comme VMware mise beaucoup sur l'hybridation, la possibilité de connecter son infrastructure à un cloud public est bien mise en avant (surtout sur AWS!).&lt;/p>
 &lt;h2 id="la-journée-de-jérém">La journée de Jérém&lt;/h2>
 &lt;ul>
-&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
 &lt;/ul>
 &lt;p>Premier jour au VMworld, peu de conférences mais une découverte intéressante &lt;em>&amp;quot;l'expert bar&amp;quot;&lt;/em>: Des experts de VMware classés par produits sont ici pour écouter vos problèmes et essayer d'y répondre.&lt;/p>
 &lt;p>J'ai eu l'occasion d'en rencontrer 2:&lt;/p>
@@ -1272,18 +1272,18 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>Un français &lt;strong>Fabien Koessler&lt;/strong> pour NSX, un nom qui ne m'était pas inconnu car on avait déjà eu l'occasion d'échanger sur des tickets de support. Concernant ma question il reviendra vers moi car apparemment les limitations du bridging avec les &lt;em>distributed logical router&lt;/em> ne sont pas des sujets très courants. Il m'a donné toutefois une piste à creuser les hardwares VTEP.&lt;/li>
 &lt;li>Le second expert rencontré est orienté &lt;strong>vCloud Director&lt;/strong> pour le coup, ma question porte sur la limite des &lt;em>external network&lt;/em> au sein d'une instance vCloud Director. En effet, VMware annonce une limite de 1024 réseaux externes, je voulais savoir si celle ci était une limite physique ou seulement théorique car non testé. Encore une fois malheureusement, j'ai laissé mes coordonnées et l'expert reviendra vers moi plus tard.&lt;/li>
 &lt;/ul>
-&lt;p>Pour le coup, je n'ai pas eu de réponses directe à mes questions mais toutefois ce concept &lt;em>&amp;quot;d'expert bar&amp;quot;&lt;/em> est très sympa.&lt;/p></description></item><item><title>VMworld 2018 – ¡ Let's go to VMworld 2018 EUMA !</title><link>https://vuptime.io/post/2018-11-01-letsgo-vmworld-2018-euma/</link><pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/01/LetsGo-VMworld-2018-EUMA/</guid><description>
-&lt;p>Il faut une première fois à toute chose et dans environ 3 jours, j'aurais la chance de participer à mon premier &lt;strong>&lt;a href="https://www.vmworld.com/en/europe/index.html">VMworld&lt;/a>&lt;/strong>! Je serais accompagné de 2 collègues du &lt;a href="http://www.groupe-sii.com/en/">Groupe SII&lt;/a> (Merci SII au passage!): &lt;a href="https://vuptime.io/about/#aharlaut">Antoine&lt;/a> et Jeremy.&lt;/p>
+&lt;p>Pour le coup, je n'ai pas eu de réponses directe à mes questions mais toutefois ce concept &lt;em>&amp;quot;d'expert bar&amp;quot;&lt;/em> est très sympa.&lt;/p></description></item><item><title>VMworld 2018 – ¡ Let's go to VMworld 2018 EUMA !</title><link>vuptime.io/post/2018-11-01-letsgo-vmworld-2018-euma/</link><pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate><guid>/2018/11/01/LetsGo-VMworld-2018-EUMA/</guid><description>
+&lt;p>Il faut une première fois à toute chose et dans environ 3 jours, j'aurais la chance de participer à mon premier &lt;strong>&lt;a href="https://www.vmworld.com/en/europe/index.html">VMworld&lt;/a>&lt;/strong>! Je serais accompagné de 2 collègues du &lt;a href="http://www.groupe-sii.com/en/">Groupe SII&lt;/a> (Merci SII au passage!): &lt;a href="vuptime.io/about/#aharlaut">Antoine&lt;/a> et Jeremy.&lt;/p>
 &lt;p>Forcément, nous le savons déjà, nos planning de sessions sont bien trop chargés pour tenir sur la durée: nous devrons certainement ajuster ceux-ci sur place. L'avantage de partir à 3, est de pouvoir couvrir des domaines d'intérêts et de compétences différents, tout en espérant bénéficier du résumé des ses collègues pour les sessions auxquelles nous n'assistons pas.&lt;/p>
 &lt;p>Une fois sur place nous allons certainement retrouver les membres de la cabale française du &lt;a href="https://community.vmug.com/">vMUG&lt;/a>, de nombreuses connaissances professionnelles, des clients et créer de nouveaux contacts: c'est en tout cas un des objectifs d'une participation à un tel évènement.&lt;/p>
 &lt;p>D'après les rumeurs, le VMworld ne s'arrête aux portes du &lt;em>Fira Barcelona Gran Via&lt;/em> (Centre des congrès de Barcelone) et de nombreuses soirées et rencontres en &lt;em>'off'&lt;/em> font aussi partie du voyage. Nous participons d'ailleurs (entre autres soirées) tous les 3 au &lt;a href="https://vmworldeuhackathon.hackerearth.com/fr/">{code} Hackathon&lt;/a> avec &lt;a href="https://vmworldeuhackathon.hackerearth.com/fr/sprints/vmworld-eu-code-hackathon/dashboard/3c86b57/team/">un projet&lt;/a> autour de Python et vRealize Orchestrator.&lt;/p>
 &lt;p>Nous ferons partager cet évènement au travers de nos comptes Twitter (&lt;a href="https://www.twitter.com/lrivallain">@lrivallain&lt;/a> et &lt;a href="https://www.twitter.com/antoine_hlt">@antoine_hlt&lt;/a>) ainsi que de quelques posts sur le blog.&lt;/p>
 &lt;p>Et pour tout ceux qui seront sur place, nous ne refusons jamais de prendre une vBeer!&lt;/p>
-&lt;p>&lt;em>PS:&lt;/em> nous aurons aussi des stickers du site, n'hésitez pas: &lt;figure>&lt;img src="https://vuptime.io/images/vuptime-stickers.jpg"/>&lt;figcaption>
+&lt;p>&lt;em>PS:&lt;/em> nous aurons aussi des stickers du site, n'hésitez pas: &lt;figure>&lt;img src="vuptime.io/images/vuptime-stickers.jpg"/>&lt;figcaption>
 &lt;h4>vuptime-stickers&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;/p></description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>https://vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/09/20/frenchvmug-reboot-paris/</guid><description>
+&lt;/p></description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>/2018/09/20/frenchvmug-reboot-paris/</guid><description>
 &lt;blockquote>
 &lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>
 &lt;/blockquote>
@@ -1329,7 +1329,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Je crois que l'enthousiasme autour de cet évent se lit dans le billet ci-dessus mais au cas où, je le dis explicitement: &lt;em>à refaire&lt;/em>. Un grand merci aux organisateurs pour cette très belle journée (et ce sublime T-shirt).&lt;/p>
 &lt;p>Merci aussi à SII, mon employeur, qui m'a permi d'assister à cet event!&lt;/p>
 &lt;p>Et la photo de famille:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2018-paris.jpg"/>&lt;figcaption>
+&lt;figure>&lt;img src="vuptime.io/images/frvmug-09-2018-paris.jpg"/>&lt;figcaption>
 &lt;h4>Photo de famille&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item></channel></rss>
