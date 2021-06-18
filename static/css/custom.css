@@ -1,0 +1,73 @@
+/* Define custom variables for colors based on curent theme */
+html {
+    --card-bg: var(--haze);
+}
+
+html[data-mode="dim"] {
+    --card-bg: var(--bg);
+}
+
+
+/* Header logo */
+.nav_brand .logo {
+    height:2rem;
+}
+
+/* Sidebar logo */
+.author_header {
+    display: block;
+    text-align: center;
+}
+.author_header img {
+    max-width: 12rem;
+}
+
+/* Post thumbnail */
+.excerpt_thumbnail {
+    text-align: center;
+}
+
+.excerpt_thumbnail img {
+    max-height: 13rem;
+}
+
+
+/* Post splash screen */
+.image_featured {
+    border-radius: 0.5rem;
+}
+
+/* Caption of post pictures set a figures */
+figure figcaption h4 {
+    font-size: 0.9rem;
+    text-align: center;
+    font-style: italic;
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+figure figcaption h4:before {
+   content: "Caption: ";
+}
+
+
+/* KB cards */
+.content .cards .post_item {
+    /* float: left; */
+    max-width: 25rem;
+    margin: 1rem;
+    display: inline-flex;
+}
+
+.content article .card {
+    --color-mode: 'lit';
+    border-radius: 0.5rem;
+    border: 2px solid #575757;
+    padding: 1rem;
+    background-color: var(--card-bg);
+}
+
+/* About page */
+.about-vexpert {
+    width:30rem;
+}

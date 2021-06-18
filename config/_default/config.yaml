@@ -1,0 +1,13 @@
+baseurl: https://vuptime.io
+copyright: Ludovic Rivallain and blog co-authors
+paginate: 10
+theme: hugo-clarity
+disqusShortname: 'lri-ovh'
+taxonomies:
+  category: categories
+  tag: tags
+  series: series
+outputFormats:
+  RSS:
+    mediatype: "application/rss"
+    baseName: "feed"
