@@ -1,6 +1,8 @@
 twitter: '@vuptimeio'
 largeTwitterCard: false
-introDescription: 'A cloud builders blog: Virtualization, Cloud Computing, VMware, Kubernetes, Infra-as-code…'
+introDescription: >
+  A cloud builders blog: Virtualization, Cloud Computing, VMware, Kubernetes, Infra-as-code…
+  ![vExpert](/images/vexpert.png)
 ga_analytics: UA-5631150-7
 numberOfTagsShown: 15
 fallBackOgImage: logos/favicon_500px.png
@@ -17,11 +19,12 @@ mobileNavigation: left
 enforceLightMode: false
 languageMenuName: "\U0001F310"
 iconsDir: icons/
-# author:
+author:
+  photo: icons/favicon_500px.png
 #   homepage: https://ludovic.rivallain.fr
-#   name: Ludovic Rivallain
+#  name: Ludovic Rivallain
 customCSS:
 - css/custom.css
 # Copyrighted since
-since: 2016
+since: 2014
 footerLogo: icons/favicon.png

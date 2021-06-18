@@ -5,7 +5,7 @@ categories:
 date: "2021-05-06"
 splash: /images/splash/desktop-james-harrison.jpg
 splash_credits: James Harrison @ unsplash.com
-tags: 
+tags:
 - vmware
 - veba
 - kubernetes
@@ -14,7 +14,8 @@ tags:
 toc: true
 thumbnail: /images/veba-first-steps/knative-logo.png
 title: VMware Event Broker on Kubernetes with Knative functions - part 2
-url: 2021/05/06/vmware-event-broker-on-k8s-with-knative-part2/
+aliases: 
+- /2021/05/06/vmware-event-broker-on-k8s-with-knative-part2/
 featureImage: /images/splash/desktop-james-harrison.jpg
 ---
 

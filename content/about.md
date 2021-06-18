@@ -4,9 +4,9 @@ button: 'About'
 weight: 2
 aliases:
 - about-us
-- about-hugo
+- about
 - contact
-date: 2016-01-01
+date: 2014-05-10
 ---
 
 This blog is maintained by [**Ludovic Rivallain**](#ludovic-rivallain) but also hosts contributions from [**Antoine Harlaut**](#antoine-harlaut).
@@ -18,6 +18,8 @@ Except where otherwise noted, all data and written content are licensed under th
 **Exclusions:** Some illustrations and commercial logos are and remains the entire property of the respective publishers and cannot be considered under the CC BY-NC 4.0 license.
 
 This website is powered-by [Hugo](https://gohugo.io/) and the [Hugo-clarity](https://themes.gohugo.io/hugo-clarity/) theme.
+
+<hr>
 
 ## Authors
 
@@ -41,7 +43,9 @@ I'm also self-interested in open-source solutions like **#Docker**, **#OpenStack
 
 Please refer to my [linkedin profile](https://www.linkedin.com/in/ludovicrivallain) to contact me in private.
 
+![::about-vexpert](/images/vexpert.png)
 
+<hr>
 
 ### Antoine Harlaut {#aharlaut}
 
@@ -54,3 +58,7 @@ Passionate by scripting, I'm using **Python** and **Powershell** daily to automa
 #### Contacts
 
 Here is my [linkedin profile](https://www.linkedin.com/in/antoine-harlaut-a1b6baa5) to contact me.
+
+![::about-vexpert](/images/vexpert.png)
+
+<hr>
