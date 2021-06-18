@@ -1,0 +1,20 @@
+.nav_brand .logo {
+    height:2rem;
+}
+
+
+.image_featured {
+    border-radius: 0.5rem;
+}
+
+figure figcaption h4 {
+    font-size: 0.9rem;
+    text-align: center;
+    font-style: italic;
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+figure figcaption h4:before {
+   content: "Caption: ";
+}
