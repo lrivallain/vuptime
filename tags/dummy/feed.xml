@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>dummy on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/dummy/</link><description>Recent content in dummy on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 10 Feb 2015 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/dummy/feed.xml" rel="self" type="application/rss+xml"/><item><title>Nested VMware ESXi with virtualbox - Your first nested-virtual-machine</title><link>vuptime.io/post/2015-02-10-nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</link><pubDate>Tue, 10 Feb 2015 00:00:00 +0000</pubDate><guid>/2015/02/10/nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</guid><description>
-&lt;p>Now that we've seen &lt;a href="vuptime.io/2015/01/25/nested-esxi-virtualbox/" title="Nested ESXi on Virtualbox">how to create a nested-ESXi&lt;/a> on virtualbox, we may need to have some content in order to test commands of procedures.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>dummy on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/dummy/</link><description>Recent content in dummy on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 10 Feb 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/dummy/feed.xml" rel="self" type="application/rss+xml"/><item><title>Nested VMware ESXi with virtualbox - Your first nested-virtual-machine</title><link>https://vuptime.io/post/2015-02-10-nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</link><pubDate>Tue, 10 Feb 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/02/10/nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</guid><description>
+&lt;p>Now that we've seen &lt;a href="https://vuptime.io/2015/01/25/nested-esxi-virtualbox/" title="Nested ESXi on Virtualbox">how to create a nested-ESXi&lt;/a> on virtualbox, we may need to have some content in order to test commands of procedures.&lt;/p>
 &lt;h2 id="local-datastore">Local datastore&lt;/h2>
 &lt;h3 id="disk-creation">Disk creation&lt;/h3>
 &lt;p>To create a local datastore, you'll have to add a new virtual disk to your nested ESXi:&lt;/p>
 &lt;p>First step is to create a SATA disk controller:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"/>&lt;figcaption>
 &lt;h4>Add a SATA controller&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Next, create a new disk on the SATA controller:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"/>&lt;figcaption>
 &lt;h4>Add a new disk&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -19,7 +19,7 @@
 &lt;li>10GB&lt;/li>
 &lt;li>Dynamic allocation&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"/>&lt;figcaption>
 &lt;h4>My additional disk settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -290,7 +290,7 @@ $ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ru
 &lt;li>server port : port you choose for VNC settings on the VM&lt;/li>
 &lt;li>password : VNC password on VM settings&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"/>&lt;figcaption>
 &lt;h4>VNC access to a virtual machine&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item></channel></rss>

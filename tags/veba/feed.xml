@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>veba on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/veba/</link><description>Recent content in veba on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 06 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/veba/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware Event Broker on Kubernetes with Knative functions - part 2</title><link>vuptime.io/post/2021-05-06-vmware-event-broker-on-k8s-with-knative-part2/</link><pubDate>Thu, 06 May 2021 00:00:00 +0000</pubDate><guid>/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>veba on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/veba/</link><description>Recent content in veba on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 06 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/veba/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware Event Broker on Kubernetes with Knative functions - part 2</title><link>https://vuptime.io/post/2021-05-06-vmware-event-broker-on-k8s-with-knative-part2/</link><pubDate>Thu, 06 May 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2/</guid><description>
 &lt;p>This post is the second part of a small series about &lt;em>VMware Event Broker on Kubernetes with Knative functions&lt;/em>.&lt;/p>
 &lt;blockquote>
-&lt;p>If you plan to apply the following procedure, we assume that the content mentioned in the &lt;a href="vuptime.io/2021/05/05/vmware-event-broker-on-k8s-with-knative-part1">&lt;strong>Part 1&lt;/strong>&lt;/a> is already deployed in your target setup.&lt;/p>
+&lt;p>If you plan to apply the following procedure, we assume that the content mentioned in the &lt;a href="https://vuptime.io/2021/05/05/vmware-event-broker-on-k8s-with-knative-part1">&lt;strong>Part 1&lt;/strong>&lt;/a> is already deployed in your target setup.&lt;/p>
 &lt;/blockquote>
 &lt;h1 id="deploy-vmware-event-broker-with-knative-support">Deploy VMware Event Broker with knative support&lt;/h1>
 &lt;blockquote>
@@ -220,11 +220,11 @@
 &lt;p>You can easily change values of &lt;code>autoscaling.knative.dev/maxScale: &amp;quot;1&amp;quot;&lt;/code> and &lt;code>autoscaling.knative.dev/minScale: &amp;quot;0&amp;quot;&lt;/code> according to your needs: for example, with &lt;code>minScale: &amp;quot;1&amp;quot;&lt;/code>: at least one pod will always remain listening for events: This could improve the time to execute an action it there is no pod to spawn after an inactivity period.&lt;/p>
 &lt;p>So, considering that the service provider is &lt;em>knative&lt;/em>, our functions are acting like serverless ones and the management component is in charge of scaling (up and down to 0), the components running our application code, according to the incoming requests: This enable all the benefits of serverless applications and of-course, its drawbacks.&lt;/p>
 &lt;h2 id="credits">Credits&lt;/h2>
-&lt;p>Title photo by &lt;a href="https://unsplash.com/@jstrippa">James Harrison&lt;/a> on &lt;a href="https://unsplash.com/photos/vpOeXr5wmR4">Unsplash&lt;/a>&lt;/p></description></item><item><title>VMware Event Broker on Kubernetes with Knative functions - part 1</title><link>vuptime.io/post/2021-05-05-vmware-event-broker-on-k8s-with-knative-part1/</link><pubDate>Wed, 05 May 2021 00:00:00 +0000</pubDate><guid>/2021/05/05/vmware-event-broker-on-k8s-with-knative-part1/</guid><description>
+&lt;p>Title photo by &lt;a href="https://unsplash.com/@jstrippa">James Harrison&lt;/a> on &lt;a href="https://unsplash.com/photos/vpOeXr5wmR4">Unsplash&lt;/a>&lt;/p></description></item><item><title>VMware Event Broker on Kubernetes with Knative functions - part 1</title><link>https://vuptime.io/post/2021-05-05-vmware-event-broker-on-k8s-with-knative-part1/</link><pubDate>Wed, 05 May 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/05/05/vmware-event-broker-on-k8s-with-knative-part1/</guid><description>
 &lt;p>As mentioned in some previous posts (&lt;a href="https://vuptime.io/2020/11/02/vmware-event-broker-on-k8s-first-steps/">here&lt;/a> or &lt;a href="https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/">here&lt;/a>), I do not deploy the instance-based packaging of the &lt;a href="https://vmweventbroker.io/">VMware Event Router&lt;/a>: aka VEBA. I prefer to reuse existing Kubernetes cluster(s) to host the &lt;code>vmware event router&lt;/code> and the associated functions.&lt;/p>
 &lt;p>Currently, most of my automation work relies on &lt;a href="https://www.openfaas.com/">OpenFaaS®&lt;/a> functions, and &lt;a href="https://argoproj.github.io/">Argo workflows&lt;/a> for long running tasks (triggered by OpenFaaS).&lt;/p>
 &lt;p>Since &lt;a href="https://github.com/vmware-samples/vcenter-event-broker-appliance/releases/tag/v0.5.0">v0.5.0 release&lt;/a>, the VMware Event Broker, supports a new processor: &lt;code>knative&lt;/code>.&lt;/p>
-&lt;p>This &lt;strong>part 1&lt;/strong> post will cover the deployment of Knative components, in order to prepare the deployment of VMware Event Broker through &lt;code>helm&lt;/code> chart mentioned in &lt;a href="vuptime.io/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2">&lt;strong>part2&lt;/strong>&lt;/a>.&lt;/p>
+&lt;p>This &lt;strong>part 1&lt;/strong> post will cover the deployment of Knative components, in order to prepare the deployment of VMware Event Broker through &lt;code>helm&lt;/code> chart mentioned in &lt;a href="https://vuptime.io/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2">&lt;strong>part2&lt;/strong>&lt;/a>.&lt;/p>
 &lt;h1 id="about-knative">About Knative&lt;/h1>
 &lt;p>&lt;a href="https://knative.dev">&lt;strong>Knative&lt;/strong>&lt;/a> is a Google-held Kubernetes-based platform to build, deploy, and manage modern serverless workloads. The project is made of three major components:&lt;/p>
 &lt;ul>
@@ -233,12 +233,12 @@
 &lt;/ul>
 &lt;p>Some major &lt;em>serverless&lt;/em>* cloud services are now based or compatible with knative API like &lt;a href="https://www.openshift.com/learn/topics/serverless">Red Hat OpenShift Serverless&lt;/a> or &lt;a href="https://cloud.google.com/run">Google Cloud Run&lt;/a>.&lt;/p>
 &lt;p>The &lt;strong>Knative Eventing&lt;/strong> provide an abstraction of the messaging layer supporting multiple and pluggable event sources. Multiple delivery modes are also supported (fanout, direct) and enable a variety of usages. Here is an overview of events way within the Eventing component:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/kn-broker-trigger-overview.svg"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/kn-broker-trigger-overview.svg"/>&lt;figcaption>
 &lt;h4>Broker Trigger Diagram (src: https://knative.dev/docs/eventing/)&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>The &lt;strong>Knative Serving&lt;/strong> project provides middleware primitives that enable the deployment of serverless containers with automatic scaling (up and down to zero). The component is in charge of traffic routing to deployed application and to manage versioning, rollbacks, load-testing etc.&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/kn-object_model.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/kn-object_model.png"/>&lt;figcaption>
 &lt;h4>Knative service overview (src: https://knative.dev/docs/serving/)&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -320,9 +320,9 @@
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Test it&lt;/span>
 &lt;span class="ln">5&lt;/span>kn version
 &lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="part-2-deploy-vmware-event-broker">Part 2: Deploy VMware Event Broker&lt;/h1>
-&lt;p>See you in &lt;a href="vuptime.io/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2">&lt;strong>Part 2&lt;/strong>&lt;/a> to deploy the VMware Event Broker and some functions.&lt;/p>
+&lt;p>See you in &lt;a href="https://vuptime.io/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2">&lt;strong>Part 2&lt;/strong>&lt;/a> to deploy the VMware Event Broker and some functions.&lt;/p>
 &lt;h2 id="credits">Credits&lt;/h2>
-&lt;p>Title photo by &lt;a href="https://unsplash.com/@jupp">Jonathan Kemper&lt;/a> on &lt;a href="https://unsplash.com/photos/H488ymQgIgM">Unsplash&lt;/a>&lt;/p></description></item><item><title>Run Argo workflow from a VEBA event through OpenFaaS</title><link>vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/</link><pubDate>Wed, 06 Jan 2021 00:00:00 +0000</pubDate><guid>/2021/01/06/run-arg-workflows-from-veba-events/</guid><description>
+&lt;p>Title photo by &lt;a href="https://unsplash.com/@jupp">Jonathan Kemper&lt;/a> on &lt;a href="https://unsplash.com/photos/H488ymQgIgM">Unsplash&lt;/a>&lt;/p></description></item><item><title>Run Argo workflow from a VEBA event through OpenFaaS</title><link>https://vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/</link><pubDate>Wed, 06 Jan 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/01/06/run-arg-workflows-from-veba-events/</guid><description>
 &lt;p>I recently made posts about the &lt;a href="https://vmweventbroker.io/">VMware Event Broker&lt;/a> (aka VEBA) to explain basic on-boarding in the &lt;em>FaaS&lt;/em> and &lt;em>Event-Driven&lt;/em> worlds.&lt;/p>
 &lt;p>As you may have noticed, the FaaS concept is perfect for use-case where the automation will be:&lt;/p>
 &lt;ul>
@@ -346,7 +346,7 @@
 &lt;p>This work relies on an OpenFaaS function: &lt;a href="https://github.com/lrivallain/openfaas-fn/tree/master/veba-to-argo-fn">veba-to-argo-fn&lt;/a>.&lt;/p>
 &lt;h2 id="how-does-it-works">How does it works&lt;/h2>
 &lt;p>This OpenFaaS function is a simple &lt;em>forwarder&lt;/em> (or &lt;em>proxy&lt;/em>) to execute a pre-definied &lt;a href="https://argoproj.github.io/argo/workflow-templates/">Worklow Template&lt;/a> by providing the incoming cloud-event as an input parameter of the Workflow excecution.&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/argo/veba-to-argo-fn.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/veba-to-argo-fn.png"/>&lt;figcaption>
 &lt;h4>VEBA to Argo&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -453,12 +453,12 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="ui">UI&lt;/h3>
 &lt;p>Argo provide an UI to have a quick-view on the content status.&lt;/p>
 &lt;p>Here is the view of an echoer instance:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/argo/echoer-ui.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui.png"/>&lt;figcaption>
 &lt;h4>echoer instance in the UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>and a view of the &lt;em>printed&lt;/em> logs:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/argo/echoer-ui-logs.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui-logs.png"/>&lt;figcaption>
 &lt;h4>echoer instance in the UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -475,7 +475,7 @@
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>The above example is just a very simple sample of the enabled capabilities and it was difficult to demonstrate in this blog post the behavior of the full setup without being too complex for readers.&lt;/p>
 &lt;p>But I strongly encourage you to test it by yourself and to provide me a feedback.&lt;/p>
-&lt;p>You can also fill a GitHub issue on the project if needed: &lt;a href="https://github.com/lrivallain/openfaas-fn/issues/new/choose">&lt;strong>New issue&lt;/strong>&lt;/a>.&lt;/p></description></item><item><title>VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps</title><link>vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/</link><pubDate>Thu, 17 Dec 2020 00:00:00 +0000</pubDate><guid>/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/</guid><description>
+&lt;p>You can also fill a GitHub issue on the project if needed: &lt;a href="https://github.com/lrivallain/openfaas-fn/issues/new/choose">&lt;strong>New issue&lt;/strong>&lt;/a>.&lt;/p></description></item><item><title>VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps</title><link>https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/</link><pubDate>Thu, 17 Dec 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/</guid><description>
 &lt;blockquote>
 &lt;p>This post is a re-edition of a previous one: &lt;a href="2020/11/02/vmware-event-broker-on-k8s-first-steps/">VMware Event Broker (aka VEBA) on Kubernetes – First steps&lt;/a>, update to be applicable to the new 0.5.0 release of &lt;em>VEBA&lt;/em>, including the support of &lt;code>helm&lt;/code> chart deployment.&lt;/p>
 &lt;/blockquote>
@@ -485,7 +485,7 @@
 In the following post, I re-use an existing K8S cluster to support the &amp;quot;VMware Event Broker&amp;quot; services but I will use the VEBA acronym to simplify the redaction: even if I do not use the appliance deployment method.&lt;/p>
 &lt;p>If you need more details about VEB(A), the official website if well documented: &lt;a href="https://vmweventbroker.io/">vmweventbroker.io&lt;/a> and lot of other use-cases are listed: notification, automation, integration, remediation, audit, analytics…&lt;/p>
 &lt;h2 id="vmware-event-broker-components">VMware Event Broker components&lt;/h2>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/veba-architecture-v0.5.0.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/veba-architecture-v0.5.0.png"/>&lt;figcaption>
 &lt;h4>VEBA Architecture&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -597,7 +597,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>At least, you should get a message like: &amp;quot;credentials saved for admin &lt;code>http://openfaas.vlab.lcl&amp;quot;&lt;/code> meaning that you successfully configured your &lt;code>faas-cli&lt;/code> client.&lt;/p>
 &lt;h4 id="login-to-the-ui">Login to the UI&lt;/h4>
 &lt;p>Use the same URL to login with the &lt;code>admin&lt;/code> account to the web UI and you should get something like that:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/empty_OpenFaaS_UI.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/empty_OpenFaaS_UI.png"/>&lt;figcaption>
 &lt;h4>Empty OpenFaaS UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -648,7 +648,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>&lt;code>event-last_poweredon&lt;/code>: To store the last powered on date&lt;/li>
 &lt;li>&lt;code>event-owner&lt;/code>: To store the user that created the VM&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
 &lt;h4>Custom attributes created for this function&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -731,7 +731,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You need to setup your VCSA instance, credentials and the name of custom attributes to use for each need.&lt;/p>
 &lt;h4 id="custom-attributes-creation">Custom attributes creation&lt;/h4>
 &lt;p>The script currently does not handle the custom attribute creation so you need to create them before using the function:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
 &lt;h4>Custom attributes&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -766,7 +766,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;span class="ln">3&lt;/span>Function Invocations Replicas
 &lt;span class="ln">4&lt;/span>vm-creation-attr &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The same in UI (need a refresh):&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/first-function-ready-UI.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/first-function-ready-UI.png"/>&lt;figcaption>
 &lt;h4>First Function deployed in the OpenFaaS UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -793,31 +793,31 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Both outputs are very similar, so you can use the one that is the more convenient to you.&lt;/p>
 &lt;h4 id="vm-creation">VM creation&lt;/h4>
 &lt;p>In the case of a VM creation, we have the following output:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/logs-vm-creation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-creation.png"/>&lt;figcaption>
 &lt;h4>Logs for the VM creation event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And the attributes are populated according to the expected behavior:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/attributes-vm-creation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-creation.png"/>&lt;figcaption>
 &lt;h4>Attributes for the VM creation event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h4 id="vm-powered-on">VM powered-On&lt;/h4>
 &lt;p>If we power On a VM:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/logs-vm-poweredon.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-poweredon.png"/>&lt;figcaption>
 &lt;h4>Logs for the VM poweredOn event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And the attributes are populated according to the expected behavior:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/attributes-vm-poweredon.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-poweredon.png"/>&lt;figcaption>
 &lt;h4>Attributes for the VM poweredOn event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>We successfully covered the deployment of our first &lt;em>Event-Driven&lt;/em> &lt;em>Function-as-a-Service&lt;/em> use-case, greatly helped by the &lt;strong>VMware Event Broker&lt;/strong> services.&lt;/p>
-&lt;p>There is a &lt;a href="https://github.com/lamw/vcenter-event-mapping">multitude of events&lt;/a> you can subscribe in your VMware virtual datacenter to imagine an infinity list of use cases: it is time to unlock your creativity!&lt;/p></description></item><item><title>VMware Event Broker (aka VEBA) on Kubernetes – First steps</title><link>vuptime.io/post/2020-11-02-vmware-event-broker-on-k8s-first-steps/</link><pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate><guid>/2020/11/02/vmware-event-broker-on-k8s-first-steps/</guid><description>
+&lt;p>There is a &lt;a href="https://github.com/lamw/vcenter-event-mapping">multitude of events&lt;/a> you can subscribe in your VMware virtual datacenter to imagine an infinity list of use cases: it is time to unlock your creativity!&lt;/p></description></item><item><title>VMware Event Broker (aka VEBA) on Kubernetes – First steps</title><link>https://vuptime.io/post/2020-11-02-vmware-event-broker-on-k8s-first-steps/</link><pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/11/02/vmware-event-broker-on-k8s-first-steps/</guid><description>
 &lt;blockquote>
-&lt;p>&lt;strong>Warning&lt;/strong>: Since the publication of VEBA 0.5.0, the development team provides a &lt;code>helm&lt;/code> chart deployment method. According to this, I made a re-edition of this post to provide a new setup workflow: &lt;a href="vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/">VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps&lt;/a>&lt;/p>
+&lt;p>&lt;strong>Warning&lt;/strong>: Since the publication of VEBA 0.5.0, the development team provides a &lt;code>helm&lt;/code> chart deployment method. According to this, I made a re-edition of this post to provide a new setup workflow: &lt;a href="https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/">VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;p>In the following post, we will discover how to deploy the VMware Event Broker services (VEBA) within an existing Kubernetes (K8S) cluster and use it to add/edit custom attributes information to virtual machines.&lt;/p>
 &lt;p>The goal of the VEBA deployment is to be able to listen for events in the VMware vCenter infrastructure and to run specific tasks when filtered events occurs: it is the &lt;a href="https://octo.vmware.com/vsphere-power-event-driven-automation/">&lt;em>event driven automation&lt;/em>&lt;/a> concept.&lt;/p>
@@ -825,7 +825,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 In the following post, I re-use an existing K8S cluster to support the &amp;quot;VMware Event Broker&amp;quot; services but I will use the VEBA acronym to simplify the redaction: even if I do not use the appliance deployment method.&lt;/p>
 &lt;p>If you need more details about VEB(A), the official website if well documented: &lt;a href="https://vmweventbroker.io/">vmweventbroker.io&lt;/a> and lot of other use-cases are listed: notification, automation, integration, remediation, audit, analytics…&lt;/p>
 &lt;h2 id="vmware-event-broker-components">VMware Event Broker components&lt;/h2>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/veba-architecture.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/veba-architecture.png"/>&lt;figcaption>
 &lt;h4>VEBA Architecture&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -918,7 +918,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>At least, you should get a message like: &amp;quot;credentials saved for admin &lt;code>http://&amp;lt;node ip&amp;gt;:31112&amp;quot;&lt;/code> meaning that you successfully configured your &lt;code>faas-cli&lt;/code> client.&lt;/p>
 &lt;h4 id="login-to-the-ui">Login to the UI&lt;/h4>
 &lt;p>Use the same URL to login with the &lt;code>admin&lt;/code> account to the web UI and you should get something like that:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/empty_OpenFaaS_UI.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/empty_OpenFaaS_UI.png"/>&lt;figcaption>
 &lt;h4>Empty OpenFaaS UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -931,7 +931,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>&lt;code>event-last_poweredon&lt;/code>: To store the last powered on date&lt;/li>
 &lt;li>&lt;code>event-owner&lt;/code>: To store the user that created the VM&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
 &lt;h4>Custom attributes created for this function&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -1011,7 +1011,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You need to setup your VCSA instance, credentials and the name of custom attributes to use for each need.&lt;/p>
 &lt;h4 id="custom-attributes-creation">Custom attributes creation&lt;/h4>
 &lt;p>The script currently does not handle the custom attribute creation so you need to create them before using the function:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
 &lt;h4>Custom attributes&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -1046,7 +1046,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;span class="ln">3&lt;/span>Function Invocations Replicas
 &lt;span class="ln">4&lt;/span>vm-creation-attr &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The same in UI (need a refresh):&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/first-function-ready-UI.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/first-function-ready-UI.png"/>&lt;figcaption>
 &lt;h4>First Function deployed in the OpenFaaS UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -1073,23 +1073,23 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Both outputs are very similar, so you can use the one that is the more convenient to you.&lt;/p>
 &lt;h4 id="vm-creation">VM creation&lt;/h4>
 &lt;p>In the case of a VM creation, we have the following output:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/logs-vm-creation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-creation.png"/>&lt;figcaption>
 &lt;h4>Logs for the VM creation event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And the attributes are populated according to the expected behavior:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/attributes-vm-creation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-creation.png"/>&lt;figcaption>
 &lt;h4>Attributes for the VM creation event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h4 id="vm-powered-on">VM powered-On&lt;/h4>
 &lt;p>If we power On a VM:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/logs-vm-poweredon.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-poweredon.png"/>&lt;figcaption>
 &lt;h4>Logs for the VM poweredOn event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And the attributes are populated according to the expected behavior:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/veba-first-steps/attributes-vm-poweredon.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-poweredon.png"/>&lt;figcaption>
 &lt;h4>Attributes for the VM poweredOn event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

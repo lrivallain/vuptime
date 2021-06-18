@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on vUptime.io - Cloud builder(s)</title><link>vuptime.io/categories/blog/</link><description>Recent content in Blog on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 11 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/categories/blog/feed.xml" rel="self" type="application/rss+xml"/><item><title>Switch to Clarity UI light theme</title><link>vuptime.io/post/2018-06-11-switch-to-clarity-ui-light-theme/</link><pubDate>Mon, 11 Jun 2018 00:00:00 +0000</pubDate><guid>/2018/06/11/switch-to-clarity-ui-light-theme/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/blog/</link><description>Recent content in Blog on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 11 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/blog/feed.xml" rel="self" type="application/rss+xml"/><item><title>Switch to Clarity UI light theme</title><link>https://vuptime.io/post/2018-06-11-switch-to-clarity-ui-light-theme/</link><pubDate>Mon, 11 Jun 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/06/11/switch-to-clarity-ui-light-theme/</guid><description>
 &lt;p>As you could notice (if you don't use an RSS tool to read this blog): there is a new UI theme based on the &lt;a href="https://vmware.github.io/clarity/">Clarity Design System&lt;/a>.&lt;/p>
 &lt;p>To compare before/after:&lt;/p>
-&lt;link rel="stylesheet" href="vuptime.io/includes/cocoen/cocoen.min.css">
+&lt;link rel="stylesheet" href="https://vuptime.io/includes/cocoen/cocoen.min.css">
 &lt;div class="cocoen">
-&lt;img src="vuptime.io/images/clarity-ui/before.png" alt="Before" title="Before">
-&lt;img src="vuptime.io/images/clarity-ui/after.png" alt="After" title="After">
+&lt;img src="https://vuptime.io/images/clarity-ui/before.png" alt="Before" title="Before">
+&lt;img src="https://vuptime.io/images/clarity-ui/after.png" alt="After" title="After">
 &lt;/div>
-&lt;script src="vuptime.io/includes/cocoen/cocoen.min.js">&lt;/script>
+&lt;script src="https://vuptime.io/includes/cocoen/cocoen.min.js">&lt;/script>
 &lt;script>
 document.addEventListener('DOMContentLoaded', function(){
 new Cocoen();

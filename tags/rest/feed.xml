@@ -1,60 +1,60 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>rest on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/rest/</link><description>Recent content in rest on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/rest/feed.xml" rel="self" type="application/rss+xml"/><item><title>Object notfound in vRO using the vCloud Director plugin</title><link>vuptime.io/post/2020-04-25-vro-vcd-plugin-object-not-found/</link><pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate><guid>/2020/04/25/vro-vcd-plugin-object-not-found/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>rest on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/rest/</link><description>Recent content in rest on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/rest/feed.xml" rel="self" type="application/rss+xml"/><item><title>Object notfound in vRO using the vCloud Director plugin</title><link>https://vuptime.io/post/2020-04-25-vro-vcd-plugin-object-not-found/</link><pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/04/25/vro-vcd-plugin-object-not-found/</guid><description>
 &lt;p>A strange behavior has happened just after vRO installation and vCloud director plugin configuration, I wasn't able to interact with any objects managed by the vcloud director plugin.&lt;/p>
 &lt;p>I created a simple workflow on my lab to illustrate the issue.&lt;/p>
 &lt;p>The workflow cannot be more basic as it has only a single line of code to display the name of the &lt;em>vcloud:organization&lt;/em> object provided on the input.&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/start_workflow_to_get_org_name.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/start_workflow_to_get_org_name.png"/>&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name.png"/>&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>This simple workflow cannot display the organization name even if I respected the documentation. The attribut &lt;em>name&lt;/em> should be present on a object of type : &lt;em>vcloud:organization&lt;/em>&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/api_doc_vcloud_organization.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/api_doc_vcloud_organization.png"/>&lt;figcaption>
 &lt;h4>vcloud:organization-doc&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>So I tryied to display the object &lt;em>vcloud:organization&lt;/em> to be sure that the object is correctly fetched.&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org.png"/>&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>vRO was not even able to display the &lt;em>vcloud:organization&lt;/em> object itself and I was facing the same kind of issue for the organization-vdcs and the virtual machines objects. That's weird. Espacially when the vcloud inventory seems to work.&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd.png"/>&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>I struggled to fix to issue, I registered the vcloud director connector, change the API versions, reinstall the vcloud director plugin, change to version of the plugin, nothing works.&lt;/p>
 &lt;p>I checked the vcloud director configuration and I found on the &lt;em>public addresses&lt;/em> tab that the &lt;em>HTTP base URL&lt;/em> attribut was different than the &lt;em>HTTP Rest API base URL&lt;/em>. It was prefixed by &lt;em>api-&lt;/em>.&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/vcloud_director_public_addresses.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcloud_director_public_addresses.png"/>&lt;figcaption>
 &lt;h4>public_addresses&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Remember that the &lt;em>HTTP Rest API base URL&lt;/em> are used to change the base URL on the REST API (obvious) and can be different that the &lt;em>HTTP base UR&lt;/em>L:&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/vcd_api_results.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcd_api_results.png"/>&lt;figcaption>
 &lt;h4>public_addresses&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>I registered the vcloud director on vRO using the &lt;em>HTTP base URL&lt;/em> but not with the API one.&lt;/p>
 &lt;p>So I reconfigured the connector, try again the workflow and magic happens. I'm now able to fetch the organization and display it's name :&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_successful.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_successful.png"/>&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name_successful.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name_successful.png"/>&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>vRO was probably trying to get the organization by building it's href (&lt;em>&lt;a href="https://vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567">https://vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567&lt;/a>&lt;/em>) using the connector URL but was not able to get it as it was registered on the inventory with the API base URL (&lt;em>&lt;a href="https://api-vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567">https://api-vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567&lt;/a>&lt;/em>) as displayed on the vcd plugin inventory.&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd_api_2.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd_api_2.png"/>&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>I had also to troubleshoot the same kind of issue on an another platform, even if the HTTP base URL was the same that the API one. The first letter of the API base URL was in capital letter instead of the HTTP base URL that was not. A small difference probably due a wrong copy-paste that had a huge impact on the platform.&lt;/p>
-&lt;p>Hope it helps.&lt;/p></description></item><item><title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 2</title><link>vuptime.io/post/2020-04-09-rest-loves-swagger-demo-part2/</link><pubDate>Thu, 09 Apr 2020 00:00:00 +0000</pubDate><guid>/2020/04/09/rest-loves-swagger-demo-part2/</guid><description>
-&lt;p>After a &lt;a href="vuptime.io/2020/04/01/rest-loves-swagger-demo/">short introduction of Swagger Codegen and the context of the demo made for a French vMUG Webinar&lt;/a>, we will see how to apply this to VMware products like vCenter and vCloud Director.&lt;/p>
-&lt;p>As this post is following the steps made in the &lt;a href="vuptime.io/2020/04/01/rest-loves-swagger-demo/">part 1&lt;/a>, I strongly encourage you to start with the previous post.&lt;/p>
+&lt;p>Hope it helps.&lt;/p></description></item><item><title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 2</title><link>https://vuptime.io/post/2020-04-09-rest-loves-swagger-demo-part2/</link><pubDate>Thu, 09 Apr 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/04/09/rest-loves-swagger-demo-part2/</guid><description>
+&lt;p>After a &lt;a href="https://vuptime.io/2020/04/01/rest-loves-swagger-demo/">short introduction of Swagger Codegen and the context of the demo made for a French vMUG Webinar&lt;/a>, we will see how to apply this to VMware products like vCenter and vCloud Director.&lt;/p>
+&lt;p>As this post is following the steps made in the &lt;a href="https://vuptime.io/2020/04/01/rest-loves-swagger-demo/">part 1&lt;/a>, I strongly encourage you to start with the previous post.&lt;/p>
 &lt;h2 id="pre-requisites">Pre-requisites&lt;/h2>
 &lt;p>Same as previous post + we will rely on some environment variables to set some local settings:&lt;/p>
 &lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Exporting vCenter env...&amp;#34;&lt;/span>
@@ -391,7 +391,7 @@
 &lt;span class="ln">6&lt;/span>DEMO_VCD API Explorer: View - urn:vcloud:right:9ff43a6c-2c50-3b53-b00f-6f020b6bb5a0 - VIEW
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>As you see, it is very easy to generate a new API client SDK from a VMware product. Authentication could require some customization but the most limiting thing will be linked to the limited available actions through the REST API on some products.&lt;/p>
-&lt;p>Anyway, for the available and documented REST API parts, you can now deliver/provide a lot of SDK, even without knowing the bases of the used language.&lt;/p></description></item><item><title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1</title><link>vuptime.io/post/2020-04-01-rest-loves-swagger-demo/</link><pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate><guid>/2020/04/01/rest-loves-swagger-demo/</guid><description>
+&lt;p>Anyway, for the available and documented REST API parts, you can now deliver/provide a lot of SDK, even without knowing the bases of the used language.&lt;/p></description></item><item><title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1</title><link>https://vuptime.io/post/2020-04-01-rest-loves-swagger-demo/</link><pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/04/01/rest-loves-swagger-demo/</guid><description>
 &lt;p>On March 30&lt;sup>th&lt;/sup>, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without writing any code.&lt;/p>
 &lt;p>Slide deck is published (only in french, sorry) here: &lt;a href="https://vupti.me/rls">vupti.me/rls&lt;/a>.&lt;/p>
 &lt;p>As said in the slide deck, this presentation was greatly inspired by a VMworld session: &lt;a href="https://videos.vmworld.com/global/2019?q=The%2520Art%2520of%2520Code%2520That%2520Writes%2520Code">{CODE2216E} The art of code that writes code&lt;/a> (Kyle Ruddy @ VMware Inc.). I cannot encourage you enough to see the replay if you did not do it yet.&lt;/p>
@@ -631,7 +631,7 @@
 &lt;ul>
 &lt;li>vCenter (6.7 only sorry!)&lt;/li>
 &lt;li>vCloud Director&lt;/li>
-&lt;/ul></description></item><item><title>Use the vRealize Automation REST API on vRealize Orchestrator</title><link>vuptime.io/post/2018-10-06-use-vra-rest-api-on-vro/</link><pubDate>Sat, 06 Oct 2018 00:00:00 +0000</pubDate><guid>/2018/10/06/use-vra-rest-api-on-vro/</guid><description>
+&lt;/ul></description></item><item><title>Use the vRealize Automation REST API on vRealize Orchestrator</title><link>https://vuptime.io/post/2018-10-06-use-vra-rest-api-on-vro/</link><pubDate>Sat, 06 Oct 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/10/06/use-vra-rest-api-on-vro/</guid><description>
 &lt;p>The vRealize Automation REST API can be used on vRealize Orchestrator directly with the &lt;code>vCACCAFE&lt;/code> plugin, instead of using the &lt;code>HTTP-REST&lt;/code> plugin, which can be much more simplier.&lt;/p>
 &lt;h1 id="get-the-vra-rest-endpoint">Get the vRA REST endpoint&lt;/h1>
 &lt;p>If you have already used the vRealize Automation REST API, you should have noticed that there is around twenty &lt;a href="https://code.vmware.com/apis/39/vrealize-automation">endpoints&lt;/a> !&lt;/p>

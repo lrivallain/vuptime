@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>endpoint on vUptime.io - Cloud builder(s)</title><link>vuptime.io/tags/endpoint/</link><description>Recent content in endpoint on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sat, 06 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="vuptime.io/tags/endpoint/feed.xml" rel="self" type="application/rss+xml"/><item><title>Use the vRealize Automation REST API on vRealize Orchestrator</title><link>vuptime.io/post/2018-10-06-use-vra-rest-api-on-vro/</link><pubDate>Sat, 06 Oct 2018 00:00:00 +0000</pubDate><guid>/2018/10/06/use-vra-rest-api-on-vro/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>endpoint on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/endpoint/</link><description>Recent content in endpoint on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sat, 06 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/endpoint/feed.xml" rel="self" type="application/rss+xml"/><item><title>Use the vRealize Automation REST API on vRealize Orchestrator</title><link>https://vuptime.io/post/2018-10-06-use-vra-rest-api-on-vro/</link><pubDate>Sat, 06 Oct 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/10/06/use-vra-rest-api-on-vro/</guid><description>
 &lt;p>The vRealize Automation REST API can be used on vRealize Orchestrator directly with the &lt;code>vCACCAFE&lt;/code> plugin, instead of using the &lt;code>HTTP-REST&lt;/code> plugin, which can be much more simplier.&lt;/p>
 &lt;h1 id="get-the-vra-rest-endpoint">Get the vRA REST endpoint&lt;/h1>
 &lt;p>If you have already used the vRealize Automation REST API, you should have noticed that there is around twenty &lt;a href="https://code.vmware.com/apis/39/vrealize-automation">endpoints&lt;/a> !&lt;/p>
@@ -51,9 +51,9 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="nx">each&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">blueprint&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="nx">blueprints&lt;/span>&lt;span class="p">){&lt;/span>
 &lt;span class="ln">16&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Blueprint found : &amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">blueprint&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">17&lt;/span>&lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Openstack - Migrate keystone endpoint URL</title><link>vuptime.io/post/2017-01-10-openstack-migrate-keystone-endpoint-url/</link><pubDate>Tue, 10 Jan 2017 00:00:00 +0000</pubDate><guid>/2017/01/10/openstack-migrate-keystone-endpoint-url/</guid><description>
+&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Openstack - Migrate keystone endpoint URL</title><link>https://vuptime.io/post/2017-01-10-openstack-migrate-keystone-endpoint-url/</link><pubDate>Tue, 10 Jan 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/01/10/openstack-migrate-keystone-endpoint-url/</guid><description>
 &lt;p>After a DNS record change for the controller node of our lab OpenStack infrastructure, Horizon client was still displaying the old endpoint DNS hostname in the &lt;code>API access&lt;/code>.&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/MigrateOpenstackKeystoneUrl/before.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/MigrateOpenstackKeystoneUrl/before.png"/>&lt;figcaption>
 &lt;h4>Old API access settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -108,7 +108,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service keystone restart
 &lt;span class="ln">2&lt;/span>service memcached restart
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Now the endpoint displayed from the horizon portal is updated with the new URL :&lt;/p>
-&lt;figure>&lt;img src="vuptime.io/images/MigrateOpenstackKeystoneUrl/after.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/MigrateOpenstackKeystoneUrl/after.png"/>&lt;figcaption>
 &lt;h4>New API access settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item></channel></rss>
