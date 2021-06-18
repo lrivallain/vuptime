@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>datastore on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/datastore/</link><description>Recent content in datastore on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 10 Feb 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/datastore/feed.xml" rel="self" type="application/rss+xml"/><item><title>Nested VMware ESXi with virtualbox - Your first nested-virtual-machine</title><link>https://vuptime.io/post/2015-02-10-nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</link><pubDate>Tue, 10 Feb 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/02/10/nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</guid><description>
+&lt;p>Now that we've seen &lt;a href="https://vuptime.io/2015/01/25/nested-esxi-virtualbox/" title="Nested ESXi on Virtualbox">how to create a nested-ESXi&lt;/a> on virtualbox, we may need to have some content in order to test commands of procedures.&lt;/p>
+&lt;h2 id="local-datastore">Local datastore&lt;/h2>
+&lt;h3 id="disk-creation">Disk creation&lt;/h3>
+&lt;p>To create a local datastore, you'll have to add a new virtual disk to your nested ESXi:&lt;/p>
+&lt;p>First step is to create a SATA disk controller:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"/>&lt;figcaption>
+&lt;h4>Add a SATA controller&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Next, create a new disk on the SATA controller:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"/>&lt;figcaption>
+&lt;h4>Add a new disk&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>I've choose to set:&lt;/p>
+&lt;ul>
+&lt;li>vmdk file type&lt;/li>
+&lt;li>10GB&lt;/li>
+&lt;li>Dynamic allocation&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"/>&lt;figcaption>
+&lt;h4>My additional disk settings&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>When the vdisk is connected, ESXi started, get it's name before creating a VMFS file system. Name should be something close to &lt;code>_/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBxcxxxxxxxxxxxxxxx__&lt;/code>&lt;/p>
+&lt;p>Here is a tip to only get un-partitionned disks locally connected to the ESXi:&lt;/p>
+&lt;pre>&lt;code>$ fdisk -l | grep partition
+Disk /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__ doesn't contain a valid partition table
+&lt;/code>&lt;/pre>
+&lt;h3 id="disk-partition">Disk partition&lt;/h3>
+&lt;p>When the new disk is located on the &lt;code>/dev/disks/&lt;/code>, check the partition table:&lt;/p>
+&lt;pre>&lt;code>$ partedUtil get /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_
+1305 255 63 20971520
+&lt;/code>&lt;/pre>
+&lt;p>This indicates that there is no partition on this disk and every sector is free space.&lt;/p>
+&lt;p>We also need the number of sector on the disk. This information is the last number of the previous command: 20971520 here.&lt;/p>
+&lt;p>Then we can create the first partition.&lt;/p>
+&lt;pre>&lt;code>$ partedUtil set &amp;quot;/vmfs/devices/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_&amp;quot; &amp;quot;1 128 20971519 251 0&amp;quot;
+0 0 0 0
+1 128 20971519 251 0
+&lt;/code>&lt;/pre>
+&lt;p>In this example, we create a partition number 1, starting at sector 128 and ending at sector 20971519 (20971520-1), with type 251 = 0xFB.&lt;/p>
+&lt;p>And we can check the result:&lt;/p>
+&lt;pre>&lt;code>$ partedUtil get /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_
+1305 255 63 20971520
+1 128 20971519 251 0
+&lt;/code>&lt;/pre>
+&lt;p>Now we have a free partition ! And we can apply a vmfs5 file-system:&lt;/p>
+&lt;pre>&lt;code>$ vmkfstools -C vmfs5 -b 1m -S LocalDatastore_001 /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1
+create fs deviceName:'/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1', fsShortName:'vmfs5', fsName:'LocalDatastore_001'
+deviceFullPath:/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1 deviceFile:t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1
+VMFS5 file system creation is deprecated on a BIOS/MBR partition on device 't10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1'
+Checking if remote hosts are using this device as a valid file system. This may take a few seconds...
+Creating vmfs5 file system on &amp;quot;t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1&amp;quot; with blockSize 1048576 and volume label &amp;quot;LocalDatastore_001&amp;quot;.
+Successfully created new volume: 54d15e2c-eeeeeeee-9cff-080027b1c126
+&lt;/code>&lt;/pre>
+&lt;p>In this case, we create a vmfs5 datastore, with &lt;code>LocalDatastore_001&lt;/code> name and 1Mb block size.&lt;/p>
+&lt;p>And to check that datastore is ready:&lt;/p>
+&lt;pre>&lt;code>$ esxcli storage filesystem list
+Mount Point Volume Name UUID Mounted Type Size Free
+------------------------------------------------- ------------------ ----------------------------------- ------- ------ ----------- ----------
+/vmfs/volumes/54d15e2c-eeeeeeee-9cff-080027b1c126 LocalDatastore_001 54d15e2c-eeeeeeee-9cff-080027b1c126 true VMFS-5 10468982784 9545187328
+&lt;/code>&lt;/pre>
+&lt;p>We are now ready to create VM.&lt;/p>
+&lt;h2 id="dummy-virtual-machine">Dummy virtual machine&lt;/h2>
+&lt;p>Sometimes, you may need to have empty, but working, virtual machines for testing. The following command create a dummy VM named &lt;em>TestVM&lt;/em> and stored on the local datastore:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/createdummyvm testVM [LocalDatastore_001]/testVM/testVM.vmx
+1
+&lt;/code>&lt;/pre>
+&lt;p>Checking:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/getallvms
+Vmid Name File Guest OS Version Annotation
+1 testVM [LocalDatastore_001] testVM/testVM.vmx otherGuest vmx-10
+&lt;/code>&lt;/pre>
+&lt;p>Houra !&lt;/p>
+&lt;p>Now we can play with this VM:&lt;/p>
+&lt;p>Starting the VM:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/power.on 1
+Powering on VM:
+&lt;/code>&lt;/pre>
+&lt;p>Get runtime informations about the running VM:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/get.runtime 1
+Runtime information
+(vim.vm.RuntimeInfo) {
+dynamicType = &amp;lt;unset&amp;gt;,
+host = 'vim.HostSystem:ha-host',
+connectionState = &amp;quot;connected&amp;quot;,
+powerState = &amp;quot;poweredOn&amp;quot;,
+faultToleranceState = &amp;quot;notConfigured&amp;quot;,
+dasVmProtection = (vim.vm.RuntimeInfo.DasProtectionState) null,
+toolsInstallerMounted = false,
+suspendTime = &amp;lt;unset&amp;gt;,
+bootTime = &amp;quot;2015-02-04T00:28:55.507435Z&amp;quot;,
+suspendInterval = 0,
+question = (vim.vm.QuestionInfo) null,
+memoryOverhead = 36478976,
+maxCpuUsage = 2496,
+maxMemoryUsage = 32,
+numMksConnections = 0,
+recordReplayState = &amp;quot;inactive&amp;quot;,
+cleanPowerOff = &amp;lt;unset&amp;gt;,
+needSecondaryReason = &amp;lt;unset&amp;gt;,
+onlineStandby = false,
+minRequiredEVCModeKey = &amp;lt;unset&amp;gt;,
+consolidationNeeded = false,
+featureRequirement = (vim.vm.FeatureRequirement) [
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.SSE3&amp;quot;,
+featureName = &amp;quot;cpuid.SSE3&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+},
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.SSSE3&amp;quot;,
+featureName = &amp;quot;cpuid.SSSE3&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+},
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.NX&amp;quot;,
+featureName = &amp;quot;cpuid.NX&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+},
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.RDTSCP&amp;quot;,
+featureName = &amp;quot;cpuid.RDTSCP&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+},
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.Intel&amp;quot;,
+featureName = &amp;quot;cpuid.Intel&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+}
+],
+vFlashCacheAllocation = 0,
+}
+&lt;/code>&lt;/pre>
+&lt;p>Power-off:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/power.off 1
+Powering off VM:
+&lt;/code>&lt;/pre>
+&lt;p>Get informations about the datastore location of VM:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/get.datastores 1
+name LocalDatastore_001
+url /vmfs/volumes/54d15e2c-eeeeeeee-9cff-080027b1c126
+capacity 10468982784
+freeSpace 9544138752
+accessible 1
+type VMFS
+multipleHostAccess &amp;lt;unset&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h2 id="imported-virtual-machine">Imported virtual machine&lt;/h2>
+&lt;p>A dummy VM is usefull to test ESXi command line tools, but in some case you may want to test more complex VM settings. In that case, you can import an existing VM to your ESXi and run it.&lt;/p>
+&lt;h3 id="prerequisites">Prerequisites&lt;/h3>
+&lt;p>Create a virtual machine on virtual box with :&lt;/p>
+&lt;ul>
+&lt;li>SCSI/LsiLogic controller for main storage&lt;/li>
+&lt;li>Bridged network connection (keep in mind the used mac address)&lt;/li>
+&lt;li>Fixed IP settings&lt;/li>
+&lt;/ul>
+&lt;p>You'll also need the ovftools installed on your system: &lt;a href="https://www.vmware.com/support/developer/ovf/" title="Install OVFtools">see instructions on VMware website&lt;/a>&lt;/p>
+&lt;h3 id="export">Export&lt;/h3>
+&lt;p>To export a virtual machine on virtualbox you can use the File/Export menu or the following command line:&lt;/p>
+&lt;pre>&lt;code>$ vboxmanage export CentosTest -o CentosTest.ova
+0%...10%...
+&lt;/code>&lt;/pre>
+&lt;p>Next operation is to convert the .ova file to a &lt;code>.vmx&lt;/code> one that can be used on ESXi:&lt;/p>
+&lt;pre>&lt;code>$ ovftool --lax CentosTest.ova CentosTest.vmx
+Opening OVA source: CentosTest.ova
+Opening VMX target: CentosTest.vmx
+Warning:
+- Line 25: Unsupported hardware family 'virtualbox-2.2'.
+Writing VMX file: CentosTest.vmx
+Transfer Completed
+Warning:
+- No manifest entry found for: 'CentosTest-disk1.vmdk'.
+- No manifest file found.
+Completed successfully
+&lt;/code>&lt;/pre>
+&lt;p>Now we have a &lt;code>.vmx&lt;/code> and its &lt;code>.vmdk&lt;/code> file:&lt;/p>
+&lt;pre>&lt;code>$ du -ch *
+976M CentosTest-disk1.vmdk
+402M CentosTest.ova
+12K CentosTest.vmx
+1,4G total
+&lt;/code>&lt;/pre>
+&lt;h3 id="import">Import&lt;/h3>
+&lt;p>To import the vmx&amp;amp;vmdk file as a VM to our nested ESXi we also use the ovftool:&lt;/p>
+&lt;pre>&lt;code>$ ovftool \
+--name=&amp;quot;CentosTest&amp;quot; \
+-dm=thin -ds=LocalDatastore_001 \
+--net:&amp;quot;bridged&amp;quot;=&amp;quot;VM Network&amp;quot; \
+CentosTest.vmx vi://root@192.168.1.16/
+Opening VMX source: CentosTest.vmx
+Enter login information for target vi://192.168.1.16/
+Username: root
+Password: *********
+Opening VI target: vi://root@192.168.1.16:443/
+Warning:
+- The specified operating system identifier '' (id: 79) is not supported on the selected host. It will be mapped to the following OS identifier: 'Other Linux (32-bit)'.
+Deploying to VI: vi://root@192.168.1.16:443/
+Transfer Completed
+Completed successfully
+&lt;/code>&lt;/pre>
+&lt;p>This command will import the virtual machine on ESXi with following settings:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-dm=thin&lt;/code> : force to use thin provisioning method for disk&lt;/li>
+&lt;li>&lt;code>-ds=LocalDatastore_001&lt;/code> : target datastore&lt;/li>
+&lt;li>&lt;code>--net:&amp;quot;bridged&amp;quot;=&amp;quot;VM Network&amp;quot;&lt;/code> : Map the bridged network to the &lt;code>VM Network&lt;/code> one on ESXi&lt;/li>
+&lt;/ul>
+&lt;p>We can check the import from the ESXi shell:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/getallvms
+Vmid Name File Guest OS Version Annotation
+2 CentosTest [LocalDatastore_001] CentosTest/CentosTest.vmx otherLinuxGuest vmx-10
+&lt;/code>&lt;/pre>
+&lt;h3 id="enable-network-from-nested-vm">Enable network from nested-VM&lt;/h3>
+&lt;p>To keep the mac address you already set in virtualBox:&lt;/p>
+&lt;pre>&lt;code>$ sed -i &amp;quot;s/ethernet0\.addressType \= \&amp;quot;generated\&amp;quot;/ethernet0\.addressType \= \&amp;quot;static\&amp;quot;/g&amp;quot; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
+echo &amp;quot;ethernet0.address=\&amp;quot;08:00:27:47:76:67\&amp;quot;&amp;quot; &amp;gt;&amp;gt; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
+&lt;/code>&lt;/pre>
+&lt;p>If you powerOn the VM now, you'll not be able to join it on the network from another computer than the nested ESXi. This limitation is link to the nested ESXi VM configuration. You'll need to enable &amp;quot;promiscuous mode&amp;quot; on the ESXi VM. By command line:&lt;/p>
+&lt;pre>&lt;code>$ vboxmanage controlvm NestedESXi nicpromisc1 allow-all
+&lt;/code>&lt;/pre>
+&lt;p>With a poweredOn VM On ESXi you should now be able to join the LAN or to join nested VM from LAN too.&lt;/p>
+&lt;h2 id="add-vnc-support-to-vm">Add VNC support to VM&lt;/h2>
+&lt;p>If you want to be able to get a view or access to virtual machine, you have to setup VNC access on VM and on ESXi firewall.&lt;/p>
+&lt;h3 id="vm-setup-for-vnc">VM setup for VNC&lt;/h3>
+&lt;p>First step is to edit the VM vmx file to add some informations (&lt;em>VM needs to be powered-off&lt;/em>):&lt;/p>
+&lt;pre>&lt;code>$ echo &amp;quot;RemoteDisplay.vnc.enabled = \&amp;quot;true\&amp;quot;
+RemoteDisplay.vnc.port = \&amp;quot;5800\&amp;quot;
+RemoteDisplay.vnc.password = \&amp;quot;125678\&amp;quot; \
+RemoteDisplay.vnc.keymap = \&amp;quot;fr\&amp;quot;&amp;quot; &amp;gt;&amp;gt; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
+&lt;/code>&lt;/pre>
+&lt;p>Now we reload VM config file :&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/reload 2
+&lt;/code>&lt;/pre>
+&lt;p>You can start/stop/do-everything-you-want on your newly imported VM !&lt;/p>
+&lt;h3 id="firewall-configuration-for-vnc">Firewall configuration for VNC&lt;/h3>
+&lt;p>We create a folder on our Datastore to store the FW configuration files:&lt;/p>
+&lt;pre>&lt;code>$ mkdir /vmfs/volumes/LocalDatastore_001/firewall/
+&lt;/code>&lt;/pre>
+&lt;p>And we create our first firewall custom script:&lt;/p>
+&lt;pre>&lt;code>$ echo &amp;quot;&amp;lt;!-- Custom firewall configuration information --&amp;gt;
+&amp;lt;ConfigRoot&amp;gt;
+&amp;lt;!-- VNC --&amp;gt;
+&amp;lt;service id='0038'&amp;gt;
+&amp;lt;id&amp;gt;VNC&amp;lt;/id&amp;gt;
+&amp;lt;rule id='0000'&amp;gt;
+&amp;lt;direction&amp;gt;inbound&amp;lt;/direction&amp;gt;
+&amp;lt;protocol&amp;gt;tcp&amp;lt;/protocol&amp;gt;
+&amp;lt;porttype&amp;gt;dst&amp;lt;/porttype&amp;gt;
+&amp;lt;port&amp;gt;
+&amp;lt;begin&amp;gt;5800&amp;lt;/begin&amp;gt;
+&amp;lt;end&amp;gt;5999&amp;lt;/end&amp;gt;
+&amp;lt;/port&amp;gt;
+&amp;lt;/rule&amp;gt;
+&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;
+&amp;lt;required&amp;gt;false&amp;lt;/required&amp;gt;
+&amp;lt;/service&amp;gt;
+&amp;lt;/ConfigRoot&amp;gt;&amp;quot; &amp;gt; /vmfs/volumes/LocalDatastore_001/VPNtoVM.xml
+&lt;/code>&lt;/pre>
+&lt;p>This will create a new set of rules and rules for opening TCP ports 5800 to 5999 for VNC usage.&lt;/p>
+&lt;p>Then we test our configuration file:&lt;/p>
+&lt;pre>&lt;code>$ cp /vmfs/volumes/LocalDatastore_001/firewall/*.xml /etc/vmware/firewall/
+$ esxcli network firewall refresh
+$ esxcli network firewall ruleset list | grep VNC
+VNC true
+$ esxcli network firewall ruleset rule list | grep VNC
+VNC Inbound TCP Dst 1234 1234
+&lt;/code>&lt;/pre>
+&lt;p>It seems OK but if you reboot the ESXi, these changes will be lost. In order to keep them working, we use the &lt;code>/etc/rc.local.d/local.sh&lt;/code> script to copy and refresh rules on starting process:&lt;/p>
+&lt;pre>&lt;code>$ echo &amp;quot;$(cat /etc/rc.local.d/local.sh | grep -v exit)
+# Copy custom firewall configurations
+cp /vmfs/volumes/LocalDatastore_001/firewall/*.xml /etc/vmware/firewall/
+esxcli network firewall refresh
+exit 0&amp;quot; &amp;gt; /etc/rc.local.d/local.sh
+&lt;/code>&lt;/pre>
+&lt;p>And if you need to be more restrictive about the authorized IP address:&lt;/p>
+&lt;pre>&lt;code>$ esxcli network firewall ruleset set --allowed-all false --ruleset-id=VNC
+$ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ruleset-id=VNC
+&lt;/code>&lt;/pre>
+&lt;p>... to only accept IP address from a subnet to access to VNC features.&lt;/p>
+&lt;p>And you just need a VNC client software to access to your VM console with following settings:&lt;/p>
+&lt;ul>
+&lt;li>server IP : ip of your nested ESXi&lt;/li>
+&lt;li>server port : port you choose for VNC settings on the VM&lt;/li>
+&lt;li>password : VNC password on VM settings&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"/>&lt;figcaption>
+&lt;h4>VNC access to a virtual machine&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item></channel></rss>

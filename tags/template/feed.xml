@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>template on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/template/</link><description>Recent content in template on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 12 May 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/template/feed.xml" rel="self" type="application/rss+xml"/><item><title>PowerCli - Mise à jour du VMX de templates de machines virtuelles</title><link>https://vuptime.io/post/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2/</link><pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate><guid>https://vuptime.io/2014/05/12/powercli-mise-jour-du-vmx-de-templates-de-machines-virtuelles/</guid><description>
+&lt;p>Lorsqu'on gère plusieurs centaines de machines virtuelles, templates, virtual-appliance etc., on a pas spécialement envie de se palucher à la main, les opérations de mises-à-jour systématiques. En plus si vous cotoyez des gus comme &lt;a href="https://twitter.com/fdibot" title="Le compte twitter du (gentil) gus en question">@fdibot&lt;/a>, ça devient carrément un sacrilège d'envisager de faire à la main ce genre d'opération, si vous avez la possibilité de le scripter en powershell.&lt;/p>
+&lt;p>Si on travaille sur un environnement Windows et VMware, l'API &amp;quot;&lt;a href="https://www.vmware.com/support/developer/PowerCLI/" title="Documentation de PowerCli">PowerCli&lt;/a>&amp;quot; est une facilité appréciable qui permet d'automatiser des tâches fastidieuses à réaliser à la main sur votre infrastructure vSphere. Le dernier exemple en date a été une demande pour modifier, rapidement, les paramètres VMX de templates de machines virtuelles. Or si la lecture de la configuration VMX d'une VM ou d'un template est aisée, l'écriture de modifications sur un template nécessite une petite pirouette que j'explique ici.&lt;/p>
+&lt;h1 id="étape-par-étape">Étape par étape&lt;/h1>
+&lt;h2 id="se-connecter-à-vcenter">Se connecter à vCenter&lt;/h2>
+&lt;p>C'est l'étape la plus simple et la plus documentée sur Internet. Tout commence par l'ajout à votre contexte, du module adéquat qui va vous permettre d'utiliser l'extension &lt;code>PowerCli&lt;/code>:&lt;/p>
+&lt;pre>&lt;code># load PowerCli Snapin
+if ((Get-PSSnapin -Name VMware.Vimautomation.Core -ErrorAction SilentlyContinue) -eq $null ) {
+Add-PsSnapin VMware.Vimautomation.Core
+}
+&lt;/code>&lt;/pre>
+&lt;p>Ensuite on se connecte à notre vCenter Server préféré:&lt;/p>
+&lt;pre>&lt;code># vCenter server
+$VC = &amp;quot;monvcenter.domain.tld&amp;quot;
+$Username = &amp;quot;domain\monuser&amp;quot;
+# connecting vCenter
+$Credentials = get-credential -credential $Username
+Connect-VIServer -server $($VC.IP) -Credential $Credentials
+&lt;/code>&lt;/pre>
+&lt;h2 id="préparer-la-configuration-à-mettre-en-place">Préparer la configuration à mettre en place&lt;/h2>
+&lt;p>Les paramètres d'un fichier VMX sont simplement composés d'un couple clé/valeur. Le type d'objet requis est &lt;code>VMware.Vim.optionvalue&lt;/code>, le tout ajouté à un type d'objet correspondant à la configuration (même partielle) d'une VM: &lt;code>VMware.Vim.VirtualMachineConfigSpec&lt;/code>.&lt;/p>
+&lt;pre>&lt;code># config change for updateVMWareTools
+$vmConfigSpec = New-Object VMware.Vim.VirtualMachineConfigSpec
+$vmConfigSpec.extraconfig += New-Object VMware.Vim.optionvalue
+$vmConfigSpec.extraconfig[0].Key=&amp;quot;isolation.tools.guestInitiatedUpgrade.disable&amp;quot;
+$vmConfigSpec.extraconfig[0].Value=&amp;quot;false&amp;quot;
+&lt;/code>&lt;/pre>
+&lt;p>Ici on va placer à &amp;quot;vrai&amp;quot; toutes les valeurs (déjà existantes ou pas) de &lt;code>isolation.tools.guestInitiatedUpgrade.disable&lt;/code> (ce qui permettra de lancer la mise à jour des VMwareTools d'une machine, depuis l'OS de la VM).&lt;/p>
+&lt;h2 id="appliquer-cette-modification-aux-templates">Appliquer cette modification aux templates&lt;/h2>
+&lt;p>Dans le cas figure présenté ici, on ne va pas filtrer les templates sur lesquels appliquer ce changement de configuration. Il est toutefois envisageable de placer un filtre (via &lt;code>| filter&lt;/code>) ou de placer des tests &lt;code>if&lt;/code> pour, par exemple, ne sélectionner que les templates dont le &lt;code>GuestOS&lt;/code> déclaré est de type Windows.&lt;/p>
+&lt;pre>&lt;code># update all templates
+$templates = Get-template
+foreach ($tpl in $templates) {
+Write-host -foreground blue &amp;quot;Template: $($tpl.Name)&amp;quot;
+Write-host -foreground gray &amp;quot; Converting to VM&amp;quot;
+$vm = **Set-Template -Template $tpl -ToVM**
+Write-host -foreground gray &amp;quot; updating VMX&amp;quot;
+($vm | Get-View).ReconfigVM($vmConfigSpec)
+Write-host -foreground gray &amp;quot; Converting to Template back&amp;quot;
+**($vm | Get-View).MarkAsTemplate()** | Out-Null
+Write-host -foreground gray &amp;quot;End of update process&amp;quot;process
+}
+&lt;/code>&lt;/pre>
+&lt;p>L'astuce, si on peut appeler ça ainsi, est de réaliser la séquence suivante pour chaque template:&lt;/p>
+&lt;ol>
+&lt;li>conversion en machine virtuelle&lt;/li>
+&lt;li>mise à jour du VMX&lt;/li>
+&lt;li>conversion en template&lt;/li>
+&lt;/ol>
+&lt;p>C'est moche mais c'est rapide et ça fait bien le job.&lt;/p>
+&lt;h2 id="quand-cest-terminé">Quand c'est terminé&lt;/h2>
+&lt;p>On se déconnecte:&lt;/p>
+&lt;pre>&lt;code># clean leave
+Disconnect-VIServer -Confirm:$false
+&lt;/code>&lt;/pre>
+&lt;p>That's all folks !&lt;/p>
+&lt;h1 id="la-version-complète">La version complète&lt;/h1>
+&lt;p>La version complète du script présenté ici est disponible ici: &lt;a href="https://gist.github.com/lrivallain/b74a87c5c01a53ee242f#file-templatesvmxupdater-ps1" title="Le script sur mon profil github/gist">lrivallain &lt;em>(sur Github)&lt;/em> / TemplatesVmxUpdater.ps1&lt;/a>&lt;/p>
+&lt;p>Et si certains ont trouvé plus rapide et moins sale, les commentaires sont là pour ça.&lt;/p></description></item></channel></rss>

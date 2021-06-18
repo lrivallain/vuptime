@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>modelmanager on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/modelmanager/</link><description>Recent content in modelmanager on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Fri, 13 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/modelmanager/feed.xml" rel="self" type="application/rss+xml"/><item><title>Interact with the vRealize Automation IaaS objects on vRealize Orchestrator</title><link>https://vuptime.io/post/2019-12-13-use-iaas-object-in-vro/</link><pubDate>Fri, 13 Dec 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/12/13/use-iaas-object-in-vro/</guid><description>
+&lt;p>As described on another &lt;a href="https://vuptime.io/cards/vra-linqpad-explore-iaas-objects/">blog post&lt;/a>, vRA IaaS objects can be gathered using the model manager.
+This article will show you how to interact with this kind of object using &lt;code>vRealize Orchestrator&lt;/code>.&lt;/p>
+&lt;p>On this first sample, we are trying to get a virtual machine named &lt;code>TESTVM02&lt;/code> on the model manager.
+The VirtualMachine object has a property called &lt;code>VirtualMachineName&lt;/code> that we can used to filter the virtual machine by its name.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm.png"/>&lt;figcaption>
+&lt;h4>Image&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Here is the javascript code in order to get this virtual machine machine.
+It will return a object of type &lt;a href="http://www.vroapi.com/Class/vCAC/7.2.0/VCACEntity">VCAC:Entity&lt;/a>.&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1">// Inputs : vcacHost : vCAC:vCACHOST
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="c1">// Define the virtual machine name to search
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;TESTVM02&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln"> 5&lt;/span>
+&lt;span class="ln"> 6&lt;/span>&lt;span class="c1">// Use the management model
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">modelName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;ManagementModelEntities.svc&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="c1">// Get the virtual machines object
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">entitySetName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;VirtualMachines&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="c1">// Filter the result by the property VirtualMachineName
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">filter&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;VirtualMachineName eq &amp;#39;&amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s2">&amp;#34;&amp;#39;&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">orderBy&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">13&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">top&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">skip&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">headers&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">select&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">17&lt;/span>
+&lt;span class="ln">18&lt;/span>&lt;span class="c1">// Query the model manager
+&lt;/span>&lt;span class="ln">19&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vms&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vCACEntityManager&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">readModelEntitiesBySystemQuery&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vcacHost&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">modelName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">entitySetName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">filter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">orderBy&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">select&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">top&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">skip&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">headers&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">20&lt;/span>&lt;span class="c1">// Check if the virtual machine has been found
+&lt;/span>&lt;span class="ln">21&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vms&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">null&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nx">vms&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;span class="ln">22&lt;/span> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;There is no virtual machine named &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">23&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">24&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;span class="ln">25&lt;/span>&lt;span class="k">else&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="ln">26&lt;/span> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;Virtual machine &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; found&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">27&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">28&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Workflow in action :&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm.png"/>&lt;figcaption>
+&lt;h4>Image&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Great ! Once the virtual machine captured, we can access to all its properties.
+For instance, we need to know the vCPU and RAM configured on the virtual machine.
+The request is simple, we'll use the method &lt;code>get_property&lt;/code> on the object &lt;code>VCAC:Entity&lt;/code>&lt;/p>
+&lt;p>You just need to get the corresponding properties names:
+&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_request.png"/>&lt;figcaption>
+&lt;h4>Image&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln">1&lt;/span>&lt;span class="c1">// Get the first virtual machine on the result (There is only one as we used the filter)
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vm&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vms&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmVcpu&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMCPUs&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmRam&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMTotalMemoryMB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">5&lt;/span>&lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;The virtual machine &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; is configured &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmVcpu&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; vCPU and &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmRam&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; RAM&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png"/>&lt;figcaption>
+&lt;h4>Image&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Everything is working well, but now we also want to display the virtual machine hard-disks.
+There is a property name called &lt;code>VMDiskHardware&lt;/code> but not directly accessible because this is a child object of &lt;code>VirtualMachine&lt;/code>.&lt;/p>
+&lt;p>Using LINQPAD, we can access to this property by using the method &lt;code>expand&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-c#" data-lang="c#">&lt;span class="ln">1&lt;/span>&lt;span class="n">VirtualMachines&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Expand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;VMDiskHardware&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Where&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">v&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">VirtualMachineName&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="s">&amp;#34;TESTVM02&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_disks.png"/>&lt;figcaption>
+&lt;h4>Image&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>With vRO, we have to use the the method &lt;code>get_link&lt;/code> of the corresponding &lt;code>VCAC:Entity&lt;/code>
+This method has 2 parameters :&lt;/p>
+&lt;ul>
+&lt;li>The first one is your IaaS manager ( &lt;code>vCAC:vCACHost&lt;/code> object on vRO )&lt;/li>
+&lt;li>The second is the link name ( the child object name ).&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln">1&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmDisks&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getLink&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vcacHost&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;VMDiskHardware&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">2&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="nx">each&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmDisk&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="nx">vmDisks&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;span class="ln">3&lt;/span> &lt;span class="nx">diskName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vmDisk&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;DiskName&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">4&lt;/span> &lt;span class="nx">diskSize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vmDisk&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Capacity&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">5&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">diskName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; is configured with &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">diskSize&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; GB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">6&lt;/span>
+&lt;span class="ln">7&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_disks.png"/>&lt;figcaption>
+&lt;h4>Image&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Perfect ! We can now request the IaaS database in order to get a lot of usefull information to extend the use on vRealize Automation.&lt;/p>
+&lt;p>To end this blog post, here is another sample to get the VirtualMachine created after a defined date :&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_date.png"/>&lt;figcaption>
+&lt;h4>Image&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1">// Inputs : startDate : Date; vcacHost : vCAC:vCACHOST
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">formatDate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">startDate&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;yyyy-MM-dd&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39;T00:00:00&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln"> 4&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="c1">//Define the model name
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">modelName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;ManagementModelEntities.svc&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln"> 7&lt;/span>&lt;span class="c1">//Get the virtual machines
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">entitySetName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;VirtualMachines&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln"> 9&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="c1">//Get all the vcac vm created after the defined date
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">filter&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;VMCreationDate ge datetime&amp;#39;&amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s2">&amp;#34;&amp;#39;&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">orderBy&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">13&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">top&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">skip&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">headers&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">select&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">17&lt;/span>
+&lt;span class="ln">18&lt;/span>&lt;span class="c1">//Query the database
+&lt;/span>&lt;span class="ln">19&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vms&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vCACEntityManager&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">readModelEntitiesBySystemQuery&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vcacHost&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">modelName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">entitySetName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">filter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">orderBy&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">select&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">top&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">skip&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">headers&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">20&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vms&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">null&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nx">vms&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;span class="ln">21&lt;/span> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;There is no created virtual machine after &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="ln">22&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">23&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;span class="ln">24&lt;/span>&lt;span class="k">else&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="ln">25&lt;/span> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;There is &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; created virtual machine after &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span>
+&lt;span class="ln">26&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;span class="ln">27&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_by_date.png"/>&lt;figcaption>
+&lt;h4>Image&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>You are now ready the use the IaaS object directly in vRO ;)&lt;/p></description></item></channel></rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PowerShell on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/powershell/</link><description>Recent content in PowerShell on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 01 Aug 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/powershell/feed.xml" rel="self" type="application/rss+xml"/><item><title>Make powershell a bit less ugly</title><link>https://vuptime.io/post/2016-08-01-make-powershell-bit-less-ugly/</link><pubDate>Mon, 01 Aug 2016 00:00:00 +0000</pubDate><guid>https://vuptime.io/2016/08/01/make-powershell-bit-less-ugly/</guid><description>
+&lt;p>Powershell is a very usefull tool when you have to work on a Windows operating system. It help's a lot in automation of recurring tasks and provide an easy way to extract informations in custom format. But the default powershell command window is very very... ugly...&lt;/p>
+&lt;p>Here are some customizations I do when I need to use Powershell from a Windows OS:&lt;/p>
+&lt;ul>
+&lt;li>Font: Consolas&lt;/li>
+&lt;li>Font Size : 12pt&lt;/li>
+&lt;li>Window size: 120c*50&lt;/li>
+&lt;li>Buffer size: 120c*3000 (at least)&lt;/li>
+&lt;li>Colors:
+&lt;ul>
+&lt;li>Text: 238;237;240&lt;/li>
+&lt;li>Background: 50;50;50&lt;/li>
+&lt;li>Others: unchanged&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/powershelllessugly.png"/>&lt;figcaption>
+&lt;h4>PowerShell&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item></channel></rss>

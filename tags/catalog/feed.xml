@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>catalog on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/catalog/</link><description>Recent content in catalog on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 02 Aug 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/catalog/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware - Explore vCloud Director catalog publishing feature</title><link>https://vuptime.io/post/2017-08-02-vmware-explorevcd-catalog-publishing-feature/</link><pubDate>Wed, 02 Aug 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/08/02/VMware-ExploreVCD-catalog-publishing-feature/</guid><description>
+&lt;p>VMware introduced in version 5.5 of vCloud Director, a feature to externaly expose catalogs and if necessary, to subscribe to an externaly exposed one.&lt;/p>
+&lt;p>This is useful to synchronize catalog between two (or more) vCloud Director instances.&lt;/p>
+&lt;h1 id="basic-usage">Basic usage&lt;/h1>
+&lt;p>The two following sections are extracts from the &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.admin.doc/GUID-1A098021-07C4-44BA-AB9D-9D48FD4CA812.html">VMware documentation about VCD Catalogs&lt;/a>.&lt;/p>
+&lt;h2 id="publish-a-catalog-to-an-external-organization">Publish a Catalog to an External Organization&lt;/h2>
+&lt;p>You can publish a catalog externally to make its vApp templates and media files available for subscription by organizations outside the vCloud Director installation.&lt;/p>
+&lt;ol>
+&lt;li>Enable external catalog publishing for the organization&lt;/li>
+&lt;li>Click Catalog and select My Organization's Catalogs in the left pane.&lt;/li>
+&lt;li>On the Catalogs tab, right-click the catalog name and select Publish Settings.&lt;/li>
+&lt;li>On the External Publishing tab, select Enabled and supply a password for the catalog feed.&lt;/li>
+&lt;/ol>
+&lt;p>The subscription URL is provided and can be shared with external organizations for subscription.&lt;/p>
+&lt;h2 id="subscribe-to-an-external-catalog-feed">Subscribe to an External Catalog Feed&lt;/h2>
+&lt;ol>
+&lt;li>Click Catalogs and select My Organization's Catalogs in the left pane.&lt;/li>
+&lt;li>Click Add Catalog and type a name and optional description for the catalog feed.&lt;/li>
+&lt;li>Select Subscribe to an external catalog and click Next.&lt;/li>
+&lt;li>Select the type of storage to use for this catalog feed and click Next.&lt;/li>
+&lt;li>Add other members if necessary&lt;/li>
+&lt;li>Review the catalog feed settings and click Finish.&lt;/li>
+&lt;/ol>
+&lt;h1 id="exploring-the-catalog-content">Exploring the catalog content&lt;/h1>
+&lt;p>Previous section are describing trivial usage of Externaly shared catalogs on vCloud Director. The following will explore the catalog content and how to retrieve Metadata or data of catalog from outside a vCloud Director environment.&lt;/p>
+&lt;h2 id="what-is-behind-the-shared-uri">What is behind the shared URI&lt;/h2>
+&lt;p>Let see what is available through the given subscription link:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;vcspVersion&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;urn:uuid:4c8f39ca-b7ef-4bac-acf4-c377401a729d&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Catalogue France&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 6&lt;/span> &lt;span class="nt">&amp;#34;description&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Catalog items from France Cloud&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="nt">&amp;#34;created&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2017-07-19T15:18:52.923Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="nt">&amp;#34;itemType&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.CatalogItem&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 9&lt;/span> &lt;span class="nt">&amp;#34;itemsHref&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;items&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">10&lt;/span> &lt;span class="nt">&amp;#34;capabilities&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">11&lt;/span> &lt;span class="nt">&amp;#34;transferIn&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;httpGet&amp;#34;&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">12&lt;/span> &lt;span class="nt">&amp;#34;transferOut&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;httpGet&amp;#34;&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">13&lt;/span> &lt;span class="nt">&amp;#34;generateIds&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;span class="ln">14&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln">15&lt;/span> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-u&lt;/code> option is used to pass authentification informations to the HTTP request header. As we do not set any user, the credentials only contains password, following the &amp;quot;:&amp;quot; separator.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-s&lt;/code> option make culr mute the progress or error messages. Remove it to see potential error for debuging.&lt;/p>
+&lt;/blockquote>
+&lt;p>This request give us metadata about the catalog : name, description, version... And &lt;code>itemsHref&lt;/code> give us clue to continue exploration and list the catalog items.&lt;/p>
+&lt;h2 id="list-items">List items&lt;/h2>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/items
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="s2">&amp;#34;itemType&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.CatalogItem&amp;#34;&lt;/span>&lt;span class="err">,&lt;/span>
+&lt;span class="ln"> 2&lt;/span> &lt;span class="s2">&amp;#34;items&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;vcspVersion&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;urn:uuid:46713c7b-3f72-472d-bb4e-97122b99e884&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 6&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Puppet-Debian9x64&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="nt">&amp;#34;created&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2017-07-19T15:20:41.470Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="nt">&amp;#34;description&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Debian 9 for x64 with puppet pre-configuration&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 9&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.ovf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">10&lt;/span> &lt;span class="nt">&amp;#34;files&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">11&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;descriptor.ovf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">12&lt;/span> &lt;span class="nt">&amp;#34;etag&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;95ad8688-4b1b-419f-aa34-50bcf0e5c395&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">13&lt;/span> &lt;span class="nt">&amp;#34;size&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="mi">12302&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">14&lt;/span> &lt;span class="nt">&amp;#34;hrefs&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/46713c7b-3f72-472d-bb4e-97122b99e884/file/descriptor.ovf&amp;#34;&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">15&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">16&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;descriptor.mf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">17&lt;/span> &lt;span class="nt">&amp;#34;etag&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;95ad8688-4b1b-419f-aa34-50bcf0e5c395&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">18&lt;/span> &lt;span class="nt">&amp;#34;size&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="mi">163&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">19&lt;/span> &lt;span class="nt">&amp;#34;hrefs&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/46713c7b-3f72-472d-bb4e-97122b99e884/file/descriptor.mf&amp;#34;&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">20&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">21&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vm-3453bb14-5093-4c6a-ac64-4f41e4380ec6-disk-0.vmdk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">22&lt;/span> &lt;span class="nt">&amp;#34;etag&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;95ad8688-4b1b-419f-aa34-50bcf0e5c395&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">23&lt;/span> &lt;span class="nt">&amp;#34;size&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="mi">976322048&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">24&lt;/span> &lt;span class="nt">&amp;#34;hrefs&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/46713c7b-3f72-472d-bb4e-97122b99e884/file/vm-3453bb14-5093-4c6a-ac64-4f41e4380ec6-disk-0.vmdk&amp;#34;&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">25&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">26&lt;/span> &lt;span class="nt">&amp;#34;properties&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">27&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln">28&lt;/span> &lt;span class="nt">&amp;#34;selfHref&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/46713c7b-3f72-472d-bb4e-97122b99e884/&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">29&lt;/span> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">30&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;STRING&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">31&lt;/span> &lt;span class="nt">&amp;#34;domain&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;SYSTEM&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">32&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vapp.origin.id&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">33&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;fc98dff4-3239-433d-be71-6756c11c5db8&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">34&lt;/span> &lt;span class="nt">&amp;#34;visibility&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;READONLY&amp;#34;&lt;/span>
+&lt;span class="ln">35&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">36&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;STRING&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">37&lt;/span> &lt;span class="nt">&amp;#34;domain&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;SYSTEM&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">38&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vapp.origin.name&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">39&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Puppet-Debian9x64&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">40&lt;/span> &lt;span class="nt">&amp;#34;visibility&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;READONLY&amp;#34;&lt;/span>
+&lt;span class="ln">41&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">42&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;STRING&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">43&lt;/span> &lt;span class="nt">&amp;#34;domain&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;SYSTEM&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">44&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vapp.origin.type&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">45&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;com.vmware.vcloud.entity.vapptemplate&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">46&lt;/span> &lt;span class="nt">&amp;#34;visibility&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;READONLY&amp;#34;&lt;/span>
+&lt;span class="ln">47&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">48&lt;/span> &lt;span class="nt">&amp;#34;vms&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">49&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;puppet-debian9x64&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">50&lt;/span> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">51&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">52&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">]&lt;/span>&lt;span class="err">,&lt;/span>
+&lt;span class="ln">53&lt;/span> &lt;span class="s2">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>
+&lt;span class="ln">54&lt;/span>&lt;span class="err">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This part of the catalog is much more interesting as it shows us informations about its content. There are also pointer to download the files corresponding to the catalog's files, including vAPP.&lt;/p>
+&lt;h2 id="download-files-from-catalog">Download files from catalog&lt;/h2>
+&lt;p>So if we need to download the OVF file (for example):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -i -u :MyPassword &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf
+&lt;span class="ln">3&lt;/span>HTTP/1.1 &lt;span class="m">302&lt;/span> Found
+&lt;span class="ln">4&lt;/span>Date: Tue, &lt;span class="m">01&lt;/span> Aug &lt;span class="m">2017&lt;/span> 14:37:22 GMT
+&lt;span class="ln">5&lt;/span>X-VMWARE-VCLOUD-REQUEST-ID: &lt;span class="m">000000000000000000000000000000000000001&lt;/span>
+&lt;span class="ln">6&lt;/span>Content-Language: en-US
+&lt;span class="ln">7&lt;/span>Location: https://moncloud.enfrance.net/transfer/0474fbe8-5ebe-4d69-ae27-790fae40c9d9/descriptor.ovf
+&lt;span class="ln">8&lt;/span>Content-Length: &lt;span class="m">0&lt;/span>
+&lt;span class="ln">9&lt;/span>...
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-i&lt;/code> option is used to include the HTTP response headers in the output.&lt;/p>
+&lt;/blockquote>
+&lt;p>Oups, it's a &lt;code>302&lt;/code> redirect so we need to follow redirect. 2 choices:&lt;/p>
+&lt;ul>
+&lt;li>You adapt the request with the &lt;code>Location&lt;/code> path from the HTTP response header&lt;/li>
+&lt;li>You add &lt;code>-L&lt;/code> option to curl to follow redirects&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -L -u :MyPassword &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf &amp;gt; myVapp/descriptor.ovf
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>
+&lt;/blockquote>
+&lt;p>And you can proceed similarly for the other files for each VM of the vApp:&lt;/p>
+&lt;ul>
+&lt;li>descriptor.mf&lt;/li>
+&lt;li>disk-*.vmdk&lt;/li>
+&lt;/ul>
+&lt;p>Now you can explore VCD externaly published catalogs, from outside of a vCloud Director user interface. As it's possible to download catalog content, it's possible to imagine synchronization of the catalog on other product as a raw vCenter+vSphere environment.&lt;/p></description></item></channel></rss>

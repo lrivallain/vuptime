@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ovf on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/ovf/</link><description>Recent content in ovf on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 06 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/ovf/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware - Dive into OVF properties</title><link>https://vuptime.io/post/2017-03-06-vmware-dive-into-ovf-properties/</link><pubDate>Mon, 06 Mar 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/03/06/vmware-dive-into-ovf-properties/</guid><description>
+&lt;p>In order to fully configure a virtual machine after a clone of OVF deployment, it may be useful to use settings from virtualization layer in the guest OS: for example to run &lt;a href="https://vuptime.io/2014/08/15/vmware-use-guestinfo-variables-to-customize-guest-os">Guest OS customization&lt;/a> as already discussed in this blog.&lt;/p>
+&lt;p>Today, we will focus on OVF properties.&lt;/p>
+&lt;h1 id="presentation-of-ovf-properties">Presentation of OVF properties&lt;/h1>
+&lt;p>If you deploy some VM through OVF/OVA files, you are probably already familiar with OVF settings. They appear as the possibility to customize VM settings during the deployment process:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_deploy.png"/>&lt;figcaption>
+&lt;h4>OVF properties deploy&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Typical OVF properties include: Network settings (IP address, netmask, gateway...), users configuration (username, password). As properties are not restrictives, it is possible to create custom keys to manage any other kind of customization.&lt;/p>
+&lt;p>OVF properties are a part of the full OVF environment encapsulating a VM deployment process and to use it inside of a VM, some scripting is necessary.&lt;/p>
+&lt;h2 id="representation-of-ovf-properties">Representation of OVF properties&lt;/h2>
+&lt;p>XML representation of an OVF environment configuration can be retrieved in a guest OS by 2 ways:&lt;/p>
+&lt;ul>
+&lt;li>As a CD-ROM drive containing the XML document&lt;/li>
+&lt;li>VMware Tools in the &lt;code>guestinfo.ovfEnv&lt;/code> variable&lt;/li>
+&lt;/ul>
+&lt;p>Here is an example of OVF environment of a VM with customized properties:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-xml" data-lang="xml">&lt;span class="ln"> 1&lt;/span>&lt;span class="cp">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="nt">&amp;lt;Environment&lt;/span>
+&lt;span class="ln"> 3&lt;/span> &lt;span class="na">xmlns=&lt;/span>&lt;span class="s">&amp;#34;http://schemas.dmtf.org/ovf/environment/1&amp;#34;&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="na">xmlns:xsi=&lt;/span>&lt;span class="s">&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="na">xmlns:oe=&lt;/span>&lt;span class="s">&amp;#34;http://schemas.dmtf.org/ovf/environment/1&amp;#34;&lt;/span>
+&lt;span class="ln"> 6&lt;/span> &lt;span class="na">xmlns:ve=&lt;/span>&lt;span class="s">&amp;#34;http://www.vmware.com/schema/ovfenv&amp;#34;&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="na">oe:id=&lt;/span>&lt;span class="s">&amp;#34;&amp;#34;&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="na">ve:vCenterId=&lt;/span>&lt;span class="s">&amp;#34;vm-94765&amp;#34;&lt;/span>&lt;span class="nt">&amp;gt;&lt;/span>
+&lt;span class="ln"> 9&lt;/span> &lt;span class="nt">&amp;lt;PlatformSection&amp;gt;&lt;/span>
+&lt;span class="ln">10&lt;/span> &lt;span class="nt">&amp;lt;Kind&amp;gt;&lt;/span>VMware ESXi&lt;span class="nt">&amp;lt;/Kind&amp;gt;&lt;/span>
+&lt;span class="ln">11&lt;/span> &lt;span class="nt">&amp;lt;Version&amp;gt;&lt;/span>6.0.0&lt;span class="nt">&amp;lt;/Version&amp;gt;&lt;/span>
+&lt;span class="ln">12&lt;/span> &lt;span class="nt">&amp;lt;Vendor&amp;gt;&lt;/span>VMware, Inc.&lt;span class="nt">&amp;lt;/Vendor&amp;gt;&lt;/span>
+&lt;span class="ln">13&lt;/span> &lt;span class="nt">&amp;lt;Locale&amp;gt;&lt;/span>en_US&lt;span class="nt">&amp;lt;/Locale&amp;gt;&lt;/span>
+&lt;span class="ln">14&lt;/span> &lt;span class="nt">&amp;lt;/PlatformSection&amp;gt;&lt;/span>
+&lt;span class="ln">15&lt;/span> &lt;span class="nt">&amp;lt;PropertySection&amp;gt;&lt;/span>
+&lt;span class="ln">16&lt;/span> &lt;span class="nt">&amp;lt;Property&lt;/span> &lt;span class="na">oe:key=&lt;/span>&lt;span class="s">&amp;#34;dns_servers&amp;#34;&lt;/span> &lt;span class="na">oe:value=&lt;/span>&lt;span class="s">&amp;#34;10.11.12.,10.11.12.2&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;span class="ln">17&lt;/span> &lt;span class="nt">&amp;lt;Property&lt;/span> &lt;span class="na">oe:key=&lt;/span>&lt;span class="s">&amp;#34;gateway&amp;#34;&lt;/span> &lt;span class="na">oe:value=&lt;/span>&lt;span class="s">&amp;#34;10.11.12.254&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;span class="ln">18&lt;/span> &lt;span class="nt">&amp;lt;Property&lt;/span> &lt;span class="na">oe:key=&lt;/span>&lt;span class="s">&amp;#34;ip_address&amp;#34;&lt;/span> &lt;span class="na">oe:value=&lt;/span>&lt;span class="s">&amp;#34;10.11.12.13&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;span class="ln">19&lt;/span> &lt;span class="nt">&amp;lt;Property&lt;/span> &lt;span class="na">oe:key=&lt;/span>&lt;span class="s">&amp;#34;netmask&amp;#34;&lt;/span> &lt;span class="na">oe:value=&lt;/span>&lt;span class="s">&amp;#34;255.255.255.0&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;span class="ln">20&lt;/span> &lt;span class="nt">&amp;lt;Property&lt;/span> &lt;span class="na">oe:key=&lt;/span>&lt;span class="s">&amp;#34;hostname&amp;#34;&lt;/span> &lt;span class="na">oe:value=&lt;/span>&lt;span class="s">&amp;#34;myvmame&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;span class="ln">21&lt;/span> &lt;span class="nt">&amp;lt;Property&lt;/span> &lt;span class="na">oe:key=&lt;/span>&lt;span class="s">&amp;#34;root_password&amp;#34;&lt;/span> &lt;span class="na">oe:value=&lt;/span>&lt;span class="s">&amp;#34;somepassword&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;span class="ln">22&lt;/span> &lt;span class="nt">&amp;lt;Property&lt;/span> &lt;span class="na">oe:key=&lt;/span>&lt;span class="s">&amp;#34;search_domain&amp;#34;&lt;/span> &lt;span class="na">oe:value=&lt;/span>&lt;span class="s">&amp;#34;lri.ovh&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;span class="ln">23&lt;/span> &lt;span class="nt">&amp;lt;/PropertySection&amp;gt;&lt;/span>
+&lt;span class="ln">24&lt;/span> &lt;span class="nt">&amp;lt;ve:EthernetAdapterSection&amp;gt;&lt;/span>
+&lt;span class="ln">25&lt;/span> &lt;span class="nt">&amp;lt;ve:Adapter&lt;/span> &lt;span class="na">ve:mac=&lt;/span>&lt;span class="s">&amp;#34;00:50:56:99:c0:4c&amp;#34;&lt;/span> &lt;span class="na">ve:network=&lt;/span>&lt;span class="s">&amp;#34;NestedLabs&amp;#34;&lt;/span> &lt;span class="na">ve:unitNumber=&lt;/span>&lt;span class="s">&amp;#34;7&amp;#34;&lt;/span>&lt;span class="nt">/&amp;gt;&lt;/span>
+&lt;span class="ln">26&lt;/span> &lt;span class="nt">&amp;lt;/ve:EthernetAdapterSection&amp;gt;&lt;/span>
+&lt;span class="ln">27&lt;/span>&lt;span class="nt">&amp;lt;/Environment&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>PropertySection&lt;/code> contains the list of OVF properties that can be used to customize a guest OS.&lt;/p>
+&lt;h1 id="create-new-properties">Create new properties&lt;/h1>
+&lt;p>When you create a new template for OVF export, it is possible to create/edit/delete custom OVF properties.&lt;/p>
+&lt;p>From vSphere Web client -&amp;gt; Edit Settings of a VM -&amp;gt; vApp Options: In Authoring section, it is possible to give a name/version/url to describe your future OVF and to manage properties:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_edition.png"/>&lt;figcaption>
+&lt;h4>OVF properties edition&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>In the edition/creation wizard, the most useful fields are:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Label&lt;/strong>: How is named the parameter when user is prompted to fill its value&lt;/li>
+&lt;li>&lt;strong>KeyID&lt;/strong>: How is named the parameter in the XML file&lt;/li>
+&lt;li>&lt;strong>Category&lt;/strong>: a way to order parts of the customization form fields by grouping properties together&lt;/li>
+&lt;li>&lt;strong>Description&lt;/strong>: to give more information about the purpose of the field to end users&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_fields.png"/>&lt;figcaption>
+&lt;h4>OVF properties fields&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>It is possible to choose between 2 types of properties:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Static propertie&lt;/strong>: Values will be configured by user or will be fixed by the default ones.&lt;/li>
+&lt;li>&lt;strong>Dynamic propertie&lt;/strong>: Values will be set according to the virtualization layer information (ex: getting IP from an IP Pool attached to a PortGroup.)&lt;/li>
+&lt;/ul>
+&lt;p>Then you can choose between sub-types:&lt;/p>
+&lt;ul>
+&lt;li>String&lt;/li>
+&lt;li>Password&lt;/li>
+&lt;li>Integer&lt;/li>
+&lt;li>Real&lt;/li>
+&lt;li>Boolean&lt;/li>
+&lt;li>(external) IP address&lt;/li>
+&lt;li>...&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_subtypes.png"/>&lt;figcaption>
+&lt;h4>OVF properties sub-types&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>You can also set default value, or some requirements (like the minimal/maximal length of a string):&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_options.png"/>&lt;figcaption>
+&lt;h4>OVF properties options&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h1 id="edit-vm-properties-values">Edit VM properties values&lt;/h1>
+&lt;p>As we saw previously, a user deploying an OVF coming from export of VM where properties are set, will be prompted to fill the values of the properties.&lt;/p>
+&lt;p>it is also possible to edit properties values of an already deployed VM: From vSphere Web client -&amp;gt; Edit Settings of a VM -&amp;gt; vApp Options.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_values_edition.png"/>&lt;figcaption>
+&lt;h4>OVF properties values edition on VM&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>In this case, you may have to run 'again' some GuestOS glue code to take the change into account.&lt;/p>
+&lt;h1 id="get-ovf-properties-from-the-guestos">Get OVF properties from the guestOS&lt;/h1>
+&lt;p>When you configure an OVF environment, you can choose between CD-ROM and VMware-tools methods to transport information into the virtual machine:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_transport_method.png"/>&lt;figcaption>
+&lt;h4>OVF transport method&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="vmware-tools">VMware tools&lt;/h2>
+&lt;p>If you choose &lt;code>VMware tools&lt;/code> transport method for OVF environment, according to the used OS type, the method to retrieve properties can vary a bit. Here are two samples to get the XML representation.&lt;/p>
+&lt;p>On &lt;strong>Windows&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="s2">&amp;#34;C:\Program Files\VMware\VMware Tools\VMwareService.exe&amp;#34;&lt;/span> -cmd &lt;span class="s2">&amp;#34;info-get guestinfo.ovfEnv&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>On &lt;strong>Linux&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>/usr/bin/vmtoolsd --cmd &lt;span class="s1">&amp;#39;info-get guestinfo.ovfEnv&amp;#39;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="iso-image">ISO image&lt;/h2>
+&lt;p>If you choose &lt;code>ISO image&lt;/code> transport method for OVF environment, you need to :&lt;/p>
+&lt;ol>
+&lt;li>mount the CD-ROM drive to your guest OS&lt;/li>
+&lt;li>read the &lt;code>ovf-env.xml&lt;/code> file&lt;/li>
+&lt;/ol>
+&lt;h2 id="properties-usage">Properties usage&lt;/h2>
+&lt;p>Here is a very simple Python helper to deal with the XML blob from OVF environment to export properties:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="ch">#!/usr/bin/env python&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="c1"># -*- coding: utf-8 -*-&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s2"> This script retrieves information from guestInfo.ovfEnv and
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="s2"> print the OVF properties.
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;span class="ln"> 7&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">subprocess&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">xml.dom.minidom&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">parseString&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">pprint&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">pprint&lt;/span>
+&lt;span class="ln">11&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="n">ovfenv_cmd&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/usr/bin/vmtoolsd --cmd &amp;#39;info-get guestinfo.ovfEnv&amp;#39;&amp;#34;&lt;/span>
+&lt;span class="ln">13&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="k">def&lt;/span> &lt;span class="nf">get_ovf_properties&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;span class="ln">15&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="s2"> Return a dict of OVF properties in the ovfenv
+&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;span class="ln">18&lt;/span> &lt;span class="n">properties&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{}&lt;/span>
+&lt;span class="ln">19&lt;/span> &lt;span class="n">xml_parts&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">subprocess&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Popen&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ovfenv_cmd&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">shell&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="bp">True&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">20&lt;/span> &lt;span class="n">stdout&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">subprocess&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">PIPE&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">stdout&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">read&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="ln">21&lt;/span> &lt;span class="n">raw_data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">parseString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">xml_parts&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">22&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="nb">property&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">raw_data&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getElementsByTagName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Property&amp;#39;&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;span class="ln">23&lt;/span> &lt;span class="n">key&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="nb">property&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">attributes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;oe:key&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">24&lt;/span> &lt;span class="nb">property&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">attributes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;oe:value&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">25&lt;/span> &lt;span class="n">properties&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">value&lt;/span>
+&lt;span class="ln">26&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="n">properties&lt;/span>
+&lt;span class="ln">27&lt;/span>
+&lt;span class="ln">28&lt;/span>&lt;span class="n">properties&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">get_ovf_properties&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="ln">29&lt;/span>&lt;span class="n">pprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">properties&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">indent&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">width&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">80&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>From here, it is pretty simple to customize the guest OS. For example, to change the root password based on &lt;code>root_password&lt;/code> properties:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="n">chpasswd_cmd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;/usr/sbin/chpasswd&amp;#34;&lt;/span>
+&lt;span class="ln"> 2&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="k">def&lt;/span> &lt;span class="nf">change_linux_password&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">user&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">new_password&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="s2"> Change linux password for a user
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="k">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Setting new password for &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">user&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="n">sp&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">subprocess&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Popen&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">chpasswd_cmd&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;span class="ln"> 9&lt;/span> &lt;span class="n">stderr&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">subprocess&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">PIPE&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">stdin&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">subprocess&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">PIPE&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">10&lt;/span> &lt;span class="n">sp&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">communicate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">input&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;&lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="s1">:&lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="s1">&amp;#39;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">user&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">new_password&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;span class="ln">11&lt;/span> &lt;span class="n">sp&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">wait&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="ln">12&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="n">sp&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">returncode&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln">13&lt;/span> &lt;span class="k">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Failed to set new password for &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">user&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">14&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="n">change_linux_password&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;root&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">properties&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;root_password&amp;#39;&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="conclusion">Conclusion&lt;/h1>
+&lt;p>Now you are ready to produce OVF appliances with customization on deployment. This can be very useful to easily script the deployment of many VM instances or to provide a 'ready-to-deploy' appliances to customers.&lt;/p>
+&lt;p>Full script for the customization of the guestOS can be found here: &lt;a href="https://gist.github.com/lrivallain/77d9dda42bf77ddce1fc3bf2ee69e37a">get-ovfenv.py&lt;/a>&lt;/p></description></item></channel></rss>

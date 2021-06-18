@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>clarity on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/clarity/</link><description>Recent content in clarity on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 11 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/clarity/feed.xml" rel="self" type="application/rss+xml"/><item><title>Switch to Clarity UI light theme</title><link>https://vuptime.io/post/2018-06-11-switch-to-clarity-ui-light-theme/</link><pubDate>Mon, 11 Jun 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/06/11/switch-to-clarity-ui-light-theme/</guid><description>
+&lt;p>As you could notice (if you don't use an RSS tool to read this blog): there is a new UI theme based on the &lt;a href="https://vmware.github.io/clarity/">Clarity Design System&lt;/a>.&lt;/p>
+&lt;p>To compare before/after:&lt;/p>
+&lt;link rel="stylesheet" href="https://vuptime.io/includes/cocoen/cocoen.min.css">
+&lt;div class="cocoen">
+&lt;img src="https://vuptime.io/images/clarity-ui/before.png" alt="Before" title="Before">
+&lt;img src="https://vuptime.io/images/clarity-ui/after.png" alt="After" title="After">
+&lt;/div>
+&lt;script src="https://vuptime.io/includes/cocoen/cocoen.min.js">&lt;/script>
+&lt;script>
+document.addEventListener('DOMContentLoaded', function(){
+new Cocoen();
+});
+&lt;/script>
+&lt;p>This decision was strongly motivated by the new &lt;em>&lt;strong>HTML5-powered interface&lt;/strong>&lt;/em> of vCSA 6.5 &amp;amp; 6.7. This new VMware vCenter UI is also based (as many of others VMware's products) on this open-source design system initiated by VMware and is very enjoyable to use on a daily basis (especially, with the Dark theme from &lt;a href="https://github.com/BeryJu/dark-vcenter">@BeryJu&lt;/a>!).&lt;/p>
+&lt;p>&lt;strong>Clraity UI&lt;/strong> is a mix of UX guidelines, HTML/CSS framework, and Angular components to build web user interface with responsive features, a moderne look and accessibility best-practices. There is a very good documentation available &lt;a href="https://vmware.github.io/clarity/documentation/v0.11/get-started">to start using it&lt;/a> on your project and it contains reference guides for all available components.&lt;/p>
+&lt;p>Finally, I whant to thank &lt;strong>&lt;a href="https://github.com/codyde">@codyde&lt;/a>&lt;/strong> for his post blog &lt;a href="https://www.thehumblelab.com/redesigning-my-blog-with-clarityui/">Redesigning My Blog With ClarityUI&lt;/a> that deeply help me to proceed the change.&lt;/p></description></item></channel></rss>

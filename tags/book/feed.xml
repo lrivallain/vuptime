@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>book on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/book/</link><description>Recent content in book on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 02 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/book/feed.xml" rel="self" type="application/rss+xml"/><item><title>My Kubernetes Book</title><link>https://vuptime.io/post/2021-02-02-my-kubernetes-book/</link><pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/02/02/my-kubernetes-book/</guid><description>
+&lt;p>I recently started my journey to the Kubernetes world, switching from theory knowledge to practical use-cases for customers.&lt;/p>
+&lt;p>This is a wonderful new technical area to discover with a lot of &lt;strong>new&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>Tools&lt;/li>
+&lt;li>Features/Capabilities&lt;/li>
+&lt;li>Documenations&lt;/li>
+&lt;li>Communities&lt;/li>
+&lt;li>Best-practices&lt;/li>
+&lt;li>…&lt;/li>
+&lt;/ul>
+&lt;p>Of course, I am far-far-away to master those new competencies but I learn more and more on a daily basis.&lt;/p>
+&lt;p>At the begining, I started a small wiki for my own usage to keep some useful commands, tips, how-to documentations. But I know think that this content may help others to centralize some re-usable content.&lt;/p>
+&lt;p>So I started a new side project to this blog: &lt;strong>My Kubernetes Book&lt;/strong>: &lt;a href="https://k8s-book.vupti.me/">https://k8s-book.vupti.me/&lt;/a>&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/my-k8s-book.png"/>&lt;figcaption>
+&lt;h4>Screenshot of My Kubernetes Book&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;blockquote>
+&lt;p>This is not a substitution to official projects documentation, just a quick way for me to get the information I need.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="content">Content&lt;/h2>
+&lt;p>Currently, the '&lt;em>book&lt;/em>' content is the following:&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/k3s-cluster-deployment/">Deploy a K3S cluster&lt;/a>
+&lt;ol>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/k3s-cluster-deployment/all-nodes-pre-requisites/">All nodes pre-requisites&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/k3s-cluster-deployment/initial-master-node/">Initial master node&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/k3s-cluster-deployment/worker-node-s/">Worker node(s)&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/k3s-cluster-deployment/additional-master-nodes/">Additional master nodes&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/">Setup a powerful Kubernetes client&lt;/a>
+&lt;ol>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/basics/">Basics tools&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/arkade/">Arkade&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/k9s/">k9s&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/kubens-and-kubectx/">kubens &amp;amp; kubectx&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/jsonnet/">jsonnet&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/octant/">Octant&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/argo-cli/">Argo cli&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/setup-a-powerful-kubernetes-client/openfaas-cli/">OpenFaaS CLI&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/customizations/">Cluster customizations&lt;/a>
+&lt;ol>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/customizations/traefik/">Traefik as ingress controler&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/customizations/kube-prometheus/">Monitoring with Prometheus&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/usage/">Cluster usage&lt;/a>
+&lt;ol>
+&lt;li>&lt;a href="https://k8s-book.vupti.me/usage/kubectl-tips/">Kubectl tips&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;p>Of course, the content will hopefully increase in the next months or years.&lt;/p>
+&lt;h2 id="engine">Engine&lt;/h2>
+&lt;p>This website is built on &lt;a href="https://gohugo.io/">Hugo&lt;/a> static website engine with the &lt;a href="https://learn.netlify.app/en/">learn theme&lt;/a>.&lt;/p>
+&lt;h2 id="contributions">Contributions&lt;/h2>
+&lt;p>This new website is open to external contributions through:&lt;/p>
+&lt;ul>
+&lt;li>Comments: All pages contains a comment feature based on GitHub issues (with &lt;a href="https://utteranc.es/">utterances&lt;/a> integration)&lt;/li>
+&lt;li>Direct &lt;a href="https://github.com/lrivallain/git-book-kubernetes/issues">GitHub issues&lt;/a> (&lt;a href="https://github.com/lrivallain/git-book-kubernetes/issues/new/choose">&lt;strong>+&lt;/strong>&lt;/a>)&lt;/li>
+&lt;/ul>
+&lt;p>You can also submit changes through GitHub &lt;em>pull request&lt;/em> features:&lt;/p>
+&lt;ol>
+&lt;li>As a pre-requesite to local build, you will need Hugo engine installed: &lt;a href="https://gohugo.io/getting-started/quick-start/">Quick Start&lt;/a>&lt;/li>
+&lt;li>Clone the repository with submodules:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone --recursive https://github.com/lrivallain/git-book-kubernetes.git
+&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;li>Push changes to a new branch:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># new branch:&lt;/span>
+&lt;span class="ln">2&lt;/span>git checkout -b &lt;span class="s2">&amp;#34;my-changes&amp;#34;&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="c1"># &amp;lt;do changes here !&amp;gt;&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="c1"># test your changes with:&lt;/span>
+&lt;span class="ln">5&lt;/span>hugo server
+&lt;span class="ln">6&lt;/span>&lt;span class="c1"># &amp;lt;git add / git commit / git push&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
+&lt;li>Create a pull request on the project.&lt;/li>
+&lt;li>Once accepted and merged to master, the static will be run through this
+&lt;a href="https://github.com/lrivallain/git-book-kubernetes/actions?query=workflow%3A%22Publish+Site%22">Publish GitHub Action&lt;/a>&lt;/li>
+&lt;/ol></description></item></channel></rss>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>training on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/training/</link><description>Recent content in training on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 13 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/training/feed.xml" rel="self" type="application/rss+xml"/><item><title>Openstack - Deploy training labs</title><link>https://vuptime.io/post/2017-03-13-openstack-deploy-training-labs/</link><pubDate>Mon, 13 Mar 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/03/13/openstack-deploy-training-labs/</guid><description>
+&lt;p>I'm currently working to deploy quickly OpenStack based training lab to provide a platform for practical exercises for training sessions.&lt;/p>
+&lt;p>According to the hosted training session, the needs may differ significantly and we need to quickly clean and recreate a &lt;em>&amp;quot;training&amp;quot;&lt;/em> tenant.&lt;/p>
+&lt;p>I have developed a quick helper to produce a new environment in short term: &lt;a href="https://gist.github.com/lrivallain/619c35cfb91048a635ddefc60788b3cc">buildlab.sh &lt;/a>&lt;/p>
+&lt;p>Here is an usage example:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Following command will create:&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="c1"># * instance(s) named &amp;#34;training&amp;#34;&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># * based on ubuntu image&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="c1"># * start 10* instances&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="c1"># * append index starting from 1&lt;/span>
+&lt;span class="ln"> 6&lt;/span>&lt;span class="c1"># * 5Gb disk per instance&lt;/span>
+&lt;span class="ln"> 7&lt;/span>&lt;span class="c1"># * sizing based on flavor: m1.tiny&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="c1"># * connected to network: training_net&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="c1"># * security group applied: training_sec&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="c1"># * ssh key will be: mysshkey&lt;/span>
+&lt;span class="ln">11&lt;/span>&lt;span class="c1"># * post costumization from script: postconfig_training.sh&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="c1"># * attach floating IP from the &amp;#34;MyPool&amp;#34; repository&lt;/span>
+&lt;span class="ln">13&lt;/span>
+&lt;span class="ln">14&lt;/span>./buildlab.sh --name &lt;span class="s2">&amp;#34;training&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> --image &lt;span class="s2">&amp;#34;Ubuntu 16.04 Xenial&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="se">&lt;/span> --count &lt;span class="m">10&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="se">&lt;/span> --start_index &lt;span class="m">1&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">18&lt;/span>&lt;span class="se">&lt;/span> --volume_size &lt;span class="m">5&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">19&lt;/span>&lt;span class="se">&lt;/span> --flavor_name &lt;span class="s2">&amp;#34;m1.tiny&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">20&lt;/span>&lt;span class="se">&lt;/span> --network_name &lt;span class="s2">&amp;#34;training_net&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">21&lt;/span>&lt;span class="se">&lt;/span> --sec_group &lt;span class="s2">&amp;#34;training_sec&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">22&lt;/span>&lt;span class="se">&lt;/span> --key_name &lt;span class="s2">&amp;#34;mysshkey&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">23&lt;/span>&lt;span class="se">&lt;/span> --postcusto &lt;span class="s2">&amp;#34;./postconfig_training.sh&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">24&lt;/span>&lt;span class="se">&lt;/span> --floating_pool &lt;span class="s2">&amp;#34;MyPool&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

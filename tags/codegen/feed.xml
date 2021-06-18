@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>codegen on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/codegen/</link><description>Recent content in codegen on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 09 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/codegen/feed.xml" rel="self" type="application/rss+xml"/><item><title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 2</title><link>https://vuptime.io/post/2020-04-09-rest-loves-swagger-demo-part2/</link><pubDate>Thu, 09 Apr 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/04/09/rest-loves-swagger-demo-part2/</guid><description>
+&lt;p>After a &lt;a href="https://vuptime.io/2020/04/01/rest-loves-swagger-demo/">short introduction of Swagger Codegen and the context of the demo made for a French vMUG Webinar&lt;/a>, we will see how to apply this to VMware products like vCenter and vCloud Director.&lt;/p>
+&lt;p>As this post is following the steps made in the &lt;a href="https://vuptime.io/2020/04/01/rest-loves-swagger-demo/">part 1&lt;/a>, I strongly encourage you to start with the previous post.&lt;/p>
+&lt;h2 id="pre-requisites">Pre-requisites&lt;/h2>
+&lt;p>Same as previous post + we will rely on some environment variables to set some local settings:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Exporting vCenter env...&amp;#34;&lt;/span>
+&lt;span class="ln">2&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;vcsa.vupti.me&amp;#34;&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_USERNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;demo@vsphere.local&amp;#34;&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;************&amp;#39;&lt;/span>
+&lt;span class="ln">5&lt;/span>
+&lt;span class="ln">6&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Exporting vCD env...&amp;#34;&lt;/span>
+&lt;span class="ln">7&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCD_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;vcd.vupti.me&amp;#34;&lt;/span>
+&lt;span class="ln">8&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCD_USERNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;demo@orgdemo&amp;#34;&lt;/span>
+&lt;span class="ln">9&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCD_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;************&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vcenter-sdk-with-codegen">vCenter SDK with Codegen&lt;/h2>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
+&lt;span class="ln"> 2&lt;/span>curl -sk https://&lt;span class="nv">$VMWARE_VCENTER_HOSTNAME&lt;/span>/apiexplorer/json/vcenter.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> &amp;gt; codegen/in/vcenter.json
+&lt;span class="ln"> 4&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="c1"># Create a config file for our future python module&lt;/span>
+&lt;span class="ln"> 6&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="s1"> &amp;#34;packageName&amp;#34;:&amp;#34;vc_client&amp;#34;,
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="s1"> &amp;#34;projectName&amp;#34;:&amp;#34;vc-client&amp;#34;,
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="s1"> &amp;#34;packageVersion&amp;#34;:&amp;#34;6.7.0&amp;#34;
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="s1">}&amp;#39;&lt;/span> &amp;gt; codegen/in/config_vc_client.json
+&lt;span class="ln">11&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="c1"># Generate the SDK&lt;/span>
+&lt;span class="ln">13&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
+&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="se">&lt;/span> swaggerapi/swagger-codegen-cli generate &lt;span class="se">\
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -i /local/in/vcenter.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="se">&lt;/span> -o /local/out/python-vc &lt;span class="se">\
+&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="se">&lt;/span> -c /local/in/config_vc_client.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln">18&lt;/span>&lt;span class="se">&lt;/span> -l python
+&lt;span class="ln">19&lt;/span>
+&lt;span class="ln">20&lt;/span>&lt;span class="c1"># Install new python mdule with PIP&lt;/span>
+&lt;span class="ln">21&lt;/span>pip install codegen/out/python-vc
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>So in the above section, we created a new API SDK for a subset of vCenter REST APIs (and we do not rely on the &lt;a href="http://vmware.github.io/pyvmomi/">&lt;code>pyvmomi&lt;/code>&lt;/a> project).&lt;/p>
+&lt;p>We can now use it:&lt;/p>
+&lt;h3 id="prepare-a-client-object">Prepare a client object&lt;/h3>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vc_client&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">vc_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="n">logger&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">logging&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getLogger&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;DEMO_VCENTER&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 6&lt;/span>
+&lt;span class="ln"> 7&lt;/span>&lt;span class="c1"># Configure API&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="n">configuration&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vc_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Configuration&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">verify_ssl&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="bp">False&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">host&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="s2">&amp;#34;https://{os.environ.get(&amp;#39;VMWARE_VCENTER_HOSTNAME&amp;#39;)}/rest&amp;#34;&lt;/span>
+&lt;span class="ln">11&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="c1"># credentials&lt;/span>
+&lt;span class="ln">13&lt;/span>&lt;span class="n">_username&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMWARE_VCENTER_USERNAME&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="n">_password&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMWARE_VCENTER_PASSWORD&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="n">auth_str&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">basic_auth_str&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">_username&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">_password&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">16&lt;/span>
+&lt;span class="ln">17&lt;/span>&lt;span class="c1"># Create a client&lt;/span>
+&lt;span class="ln">18&lt;/span>&lt;span class="n">client&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vc_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ApiClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>So we import our new &lt;code>vc_client&lt;/code> module, we setup the target hostname and the authentication settings.&lt;/p>
+&lt;h3 id="get-a-new-session">Get a new session&lt;/h3>
+&lt;p>New goal: getting a session to use a &lt;em>cookie-based&lt;/em> authentication instead of providing username/password for each request:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln"> 3&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Starting a new session&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="n">s&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">call_api&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="s1">&amp;#39;/com/vmware/cis/session&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 6&lt;/span> &lt;span class="s2">&amp;#34;POST&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="n">header_params&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="s2">&amp;#34;Authorization&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">auth_str&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 9&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="k">except&lt;/span> &lt;span class="n">ApiException&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln">11&lt;/span> &lt;span class="k">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Exception when creating session: &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">12&lt;/span> &lt;span class="nb">exit&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">13&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;New session is created&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">14&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="c1"># Set the cookie according to the previous request result&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Setting new session authorization token in cookies&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">17&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">cookie&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Set-Cookie&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">18&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">f&lt;/span>&lt;span class="s2">&amp;#34;Client cookies updated: {client.cookie}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>As you see, we rely on our module code by using the &lt;code>client.call_api&lt;/code> instruction and the cookie update: &lt;code>client.cookie = s[2].get('Set-Cookie')&lt;/code>.&lt;/p>
+&lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCENTER Starting a new session
+&lt;span class="ln">2&lt;/span>DEMO_VCENTER New session is created
+&lt;span class="ln">3&lt;/span>DEMO_VCENTER Setting new session authorization token in cookies
+&lt;span class="ln">4&lt;/span>DEMO_VCENTER Client cookies updated: vmware-api-session-id=5cebc...;Path=/rest;Secure;HttpOnly
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-some-content">Get some content&lt;/h3>
+&lt;p>We will use our new session to get some data from the vCenter API.&lt;/p>
+&lt;p>Listing VMs:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List VM&lt;/span>
+&lt;span class="ln">2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Listing VMs...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="n">instance&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vc_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">VM_Api&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="n">vm&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">instance&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">list&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln">5&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;span class="ln">6&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="s2">&amp;#34;{vm.name}: {vm.power_state} / vCPU: {vm.cpu_count} / Mem: {vm.memory_size_mi_b} Mb&amp;#34;&lt;/span>
+&lt;span class="ln">7&lt;/span> &lt;span class="p">)&lt;/span>
+&lt;span class="ln">8&lt;/span> &lt;span class="n">keep_last&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vm&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>DEMO_VCENTER Listing VMs...
+&lt;span class="ln"> 2&lt;/span>DEMO_VCENTER LRI_RancherMaster: POWERED_ON / vCPU: 4 / Mem: 8192 Mb
+&lt;span class="ln"> 3&lt;/span>DEMO_VCENTER LRI_vRO: POWERED_ON / vCPU: 2 / Mem: 6144 Mb
+&lt;span class="ln"> 4&lt;/span>DEMO_VCENTER LRI_vcd: POWERED_ON / vCPU: 2 / Mem: 12288 Mb
+&lt;span class="ln"> 5&lt;/span>DEMO_VCENTER LRI_rabbitmq: POWERED_ON / vCPU: 2 / Mem: 3072 Mb
+&lt;span class="ln"> 6&lt;/span>DEMO_VCENTER ESXi7-01: POWERED_ON / vCPU: 2 / Mem: 4096 Mb
+&lt;span class="ln"> 7&lt;/span>DEMO_VCENTER vcsa7: POWERED_ON / vCPU: 2 / Mem: 12288 Mb
+&lt;span class="ln"> 8&lt;/span>DEMO_VCENTER ESXi7-02: POWERED_ON / vCPU: 2 / Mem: 4096 Mb
+&lt;span class="ln"> 9&lt;/span>DEMO_VCENTER ESXi7-03: POWERED_ON / vCPU: 2 / Mem: 4096 Mb
+&lt;span class="ln">10&lt;/span>DEMO_VCENTER LRI_ubuntu01: POWERED_ON / vCPU: 2 / Mem: 1024 Mb
+&lt;span class="ln">11&lt;/span>DEMO_VCENTER LRI_photon01: POWERED_ON / vCPU: 1 / Mem: 2048 Mb
+&lt;span class="ln">12&lt;/span>DEMO_VCENTER DCScope: POWERED_ON / vCPU: 2 / Mem: 8192 Mb
+&lt;span class="ln">13&lt;/span>DEMO_VCENTER FaH_1.0.0_01: POWERED_ON / vCPU: 8 / Mem: 8192 Mb
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>As you can see, we kept the last VM from the list to get more details:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get more details for last VM&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Getting details about last VM...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="n">vm_detailled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">instance&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">keep_last&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">vm&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Data:&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">+&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="n">json&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dumps&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">vm_detailled&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">to_dict&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">indent&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">default&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">str&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;span class="ln"> 6&lt;/span>
+&lt;span class="ln"> 7&lt;/span>&lt;span class="c1"># Get its network&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Getting a specifc detail about a VM:&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="n">nic&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vm_detailled&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">nics&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">f&lt;/span>&lt;span class="s2">&amp;#34;{keep_last.name} MAC address: {nic.mac_address}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong> (only the VM details content):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;memory&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;hot_add_limit_mi_b&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;hot_add_enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="nt">&amp;#34;hot_add_increment_size_mi_b&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 6&lt;/span> &lt;span class="nt">&amp;#34;size_mi_b&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">8192&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="nt">&amp;#34;hardware&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 9&lt;/span> &lt;span class="nt">&amp;#34;upgrade_status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;NONE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 10&lt;/span> &lt;span class="nt">&amp;#34;upgrade_version&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 11&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;VMX_13&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 12&lt;/span> &lt;span class="nt">&amp;#34;upgrade_error&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 13&lt;/span> &lt;span class="nt">&amp;#34;upgrade_policy&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;NEVER&amp;#34;&lt;/span>
+&lt;span class="ln"> 14&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 15&lt;/span> &lt;span class="nt">&amp;#34;disks&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="ln"> 16&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 17&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 18&lt;/span> &lt;span class="nt">&amp;#34;label&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Hard disk 1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 19&lt;/span> &lt;span class="nt">&amp;#34;scsi&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 20&lt;/span> &lt;span class="nt">&amp;#34;unit&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 21&lt;/span> &lt;span class="nt">&amp;#34;bus&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;span class="ln"> 22&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 23&lt;/span> &lt;span class="nt">&amp;#34;capacity&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">4294967296&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 24&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;SCSI&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 25&lt;/span> &lt;span class="nt">&amp;#34;sata&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 26&lt;/span> &lt;span class="nt">&amp;#34;ide&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 27&lt;/span> &lt;span class="nt">&amp;#34;backing&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 28&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;VMDK_FILE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 29&lt;/span> &lt;span class="nt">&amp;#34;vmdk_file&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;[vsanDatastore] d40d765e-a8c1-6d10-0d40-a0369fbcc808/FaH_1.0.0_01.vmdk&amp;#34;&lt;/span>
+&lt;span class="ln"> 30&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln"> 31&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 32&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2000&amp;#34;&lt;/span>
+&lt;span class="ln"> 33&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln"> 34&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln"> 35&lt;/span> &lt;span class="nt">&amp;#34;cdroms&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="ln"> 36&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 37&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 38&lt;/span> &lt;span class="nt">&amp;#34;label&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;CD/DVD drive 1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 39&lt;/span> &lt;span class="nt">&amp;#34;backing&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 40&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;CLIENT_DEVICE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 41&lt;/span> &lt;span class="nt">&amp;#34;device_access_type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;PASSTHRU&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 42&lt;/span> &lt;span class="nt">&amp;#34;iso_file&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 43&lt;/span> &lt;span class="nt">&amp;#34;host_device&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 44&lt;/span> &lt;span class="nt">&amp;#34;auto_detect&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>
+&lt;span class="ln"> 45&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 46&lt;/span> &lt;span class="nt">&amp;#34;state&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;NOT_CONNECTED&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 47&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;IDE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 48&lt;/span> &lt;span class="nt">&amp;#34;sata&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 49&lt;/span> &lt;span class="nt">&amp;#34;allow_guest_control&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 50&lt;/span> &lt;span class="nt">&amp;#34;ide&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 51&lt;/span> &lt;span class="nt">&amp;#34;primary&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 52&lt;/span> &lt;span class="nt">&amp;#34;master&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;span class="ln"> 53&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 54&lt;/span> &lt;span class="nt">&amp;#34;start_connected&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;span class="ln"> 55&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 56&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;3000&amp;#34;&lt;/span>
+&lt;span class="ln"> 57&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln"> 58&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln"> 59&lt;/span> &lt;span class="nt">&amp;#34;boot_devices&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="ln"> 60&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 61&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;CDROM&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 62&lt;/span> &lt;span class="nt">&amp;#34;nic&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 63&lt;/span> &lt;span class="nt">&amp;#34;disks&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>
+&lt;span class="ln"> 64&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln"> 65&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln"> 66&lt;/span> &lt;span class="nt">&amp;#34;nics&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="ln"> 67&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 68&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 69&lt;/span> &lt;span class="nt">&amp;#34;wake_on_lan_enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 70&lt;/span> &lt;span class="nt">&amp;#34;state&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;CONNECTED&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 71&lt;/span> &lt;span class="nt">&amp;#34;label&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Network adapter 1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 72&lt;/span> &lt;span class="nt">&amp;#34;backing&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 73&lt;/span> &lt;span class="nt">&amp;#34;network&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;dvportgroup-100&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 74&lt;/span> &lt;span class="nt">&amp;#34;distributed_port&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;69&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 75&lt;/span> &lt;span class="nt">&amp;#34;distributed_switch_uuid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;50 2f 42 20 b1 c3 a5 2a-0d 95 b6 0c ab 7e b5 da&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 76&lt;/span> &lt;span class="nt">&amp;#34;network_name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 77&lt;/span> &lt;span class="nt">&amp;#34;opaque_network_id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 78&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;DISTRIBUTED_PORTGROUP&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 79&lt;/span> &lt;span class="nt">&amp;#34;opaque_network_type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 80&lt;/span> &lt;span class="nt">&amp;#34;connection_cookie&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1884582175&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 81&lt;/span> &lt;span class="nt">&amp;#34;host_device&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>
+&lt;span class="ln"> 82&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 83&lt;/span> &lt;span class="nt">&amp;#34;start_connected&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 84&lt;/span> &lt;span class="nt">&amp;#34;pci_slot_number&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">160&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 85&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;VMXNET3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 86&lt;/span> &lt;span class="nt">&amp;#34;upt_compatibility_enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 87&lt;/span> &lt;span class="nt">&amp;#34;allow_guest_control&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 88&lt;/span> &lt;span class="nt">&amp;#34;mac_type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ASSIGNED&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 89&lt;/span> &lt;span class="nt">&amp;#34;mac_address&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;00:50:56:af:db:98&amp;#34;&lt;/span>
+&lt;span class="ln"> 90&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln"> 91&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;4000&amp;#34;&lt;/span>
+&lt;span class="ln"> 92&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln"> 93&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln"> 94&lt;/span> &lt;span class="nt">&amp;#34;parallel_ports&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[],&lt;/span>
+&lt;span class="ln"> 95&lt;/span> &lt;span class="nt">&amp;#34;guest_os&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;VMWARE_PHOTON_64&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 96&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;FaH_1.0.0_01&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 97&lt;/span> &lt;span class="nt">&amp;#34;power_state&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;POWERED_ON&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 98&lt;/span> &lt;span class="nt">&amp;#34;sata_adapters&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[],&lt;/span>
+&lt;span class="ln"> 99&lt;/span> &lt;span class="nt">&amp;#34;cpu&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">100&lt;/span> &lt;span class="nt">&amp;#34;count&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">101&lt;/span> &lt;span class="nt">&amp;#34;hot_add_enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">102&lt;/span> &lt;span class="nt">&amp;#34;hot_remove_enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">103&lt;/span> &lt;span class="nt">&amp;#34;cores_per_socket&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span>
+&lt;span class="ln">104&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln">105&lt;/span> &lt;span class="nt">&amp;#34;serial_ports&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[],&lt;/span>
+&lt;span class="ln">106&lt;/span> &lt;span class="nt">&amp;#34;floppies&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[],&lt;/span>
+&lt;span class="ln">107&lt;/span> &lt;span class="nt">&amp;#34;scsi_adapters&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;span class="ln">108&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">109&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">110&lt;/span> &lt;span class="nt">&amp;#34;pci_slot_number&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">16&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">111&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;LSILOGIC&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">112&lt;/span> &lt;span class="nt">&amp;#34;label&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;SCSI controller 0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">113&lt;/span> &lt;span class="nt">&amp;#34;scsi&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">114&lt;/span> &lt;span class="nt">&amp;#34;unit&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">7&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">115&lt;/span> &lt;span class="nt">&amp;#34;bus&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;span class="ln">116&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln">117&lt;/span> &lt;span class="nt">&amp;#34;sharing&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;NONE&amp;#34;&lt;/span>
+&lt;span class="ln">118&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln">119&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1000&amp;#34;&lt;/span>
+&lt;span class="ln">120&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln">121&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">122&lt;/span> &lt;span class="nt">&amp;#34;boot&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">123&lt;/span> &lt;span class="nt">&amp;#34;retry_delay&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">10000&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">124&lt;/span> &lt;span class="nt">&amp;#34;enter_setup_mode&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">125&lt;/span> &lt;span class="nt">&amp;#34;delay&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">126&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;BIOS&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">127&lt;/span> &lt;span class="nt">&amp;#34;network_protocol&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">128&lt;/span> &lt;span class="nt">&amp;#34;efi_legacy_boot&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">129&lt;/span> &lt;span class="nt">&amp;#34;retry&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;span class="ln">130&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln">131&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vcloud-director-sdk-with-codegen">vCloud Director SDK with Codegen&lt;/h2>
+&lt;p>Last example, using vCloud Director.&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
+&lt;span class="ln"> 2&lt;/span>curl -sk https://&lt;span class="nv">$VMWARE_VCD_HOSTNAME&lt;/span>/api-explorer/tenant/orgdemo/cloudapi.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> &amp;gt; codegen/in/cloudapi.json
+&lt;span class="ln"> 4&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="c1"># Create a config file for our future python module&lt;/span>
+&lt;span class="ln"> 6&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="s1"> &amp;#34;packageName&amp;#34;:&amp;#34;vcd_client&amp;#34;,
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="s1"> &amp;#34;projectName&amp;#34;:&amp;#34;vcd-client&amp;#34;,
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="s1"> &amp;#34;packageVersion&amp;#34;:&amp;#34;9.7.1&amp;#34;
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="s1">}&amp;#39;&lt;/span> &amp;gt; codegen/in/config_vcd_client.json
+&lt;span class="ln">11&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="c1"># Generate the SDK&lt;/span>
+&lt;span class="ln">13&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
+&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="se">&lt;/span> swaggerapi/swagger-codegen-cli generate &lt;span class="se">\
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -i /local/in/cloudapi.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="se">&lt;/span> -o /local/out/python-vcd &lt;span class="se">\
+&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="se">&lt;/span> -c /local/in/config_vcd_client.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln">18&lt;/span>&lt;span class="se">&lt;/span> -l python
+&lt;span class="ln">19&lt;/span>
+&lt;span class="ln">20&lt;/span>&lt;span class="c1"># Install new python mdule with PIP&lt;/span>
+&lt;span class="ln">21&lt;/span>pip install codegen/out/python-vcd
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="prepare-a-client-object-1">Prepare a client object&lt;/h3>
+&lt;p>We import our new &lt;code>vcd_client&lt;/code> module, we setup the target hostname, the authentication settings.&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vcd_client&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">vcd_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="n">logger&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">logging&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getLogger&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;DEMO_VCD&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 6&lt;/span>
+&lt;span class="ln"> 7&lt;/span>&lt;span class="c1"># Configure API&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="n">configuration&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Configuration&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">verify_ssl&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="bp">False&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">host&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="s2">&amp;#34;https://{os.environ.get(&amp;#39;VMWARE_VCD_HOSTNAME&amp;#39;)}/cloudapi&amp;#34;&lt;/span>
+&lt;span class="ln">11&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="c1"># credentials&lt;/span>
+&lt;span class="ln">13&lt;/span>&lt;span class="n">_username&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMWARE_VCD_USERNAME&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="n">_password&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMWARE_VCD_PASSWORD&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="n">auth_str&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">basic_auth_str&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">_username&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">_password&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">16&lt;/span>
+&lt;span class="ln">17&lt;/span>&lt;span class="c1"># Create a client&lt;/span>
+&lt;span class="ln">18&lt;/span>&lt;span class="n">client&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ApiClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-a-new-session-1">Get a new session&lt;/h3>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln"> 3&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Starting a new session&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="n">s&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SessionsApi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="n">s_headers&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">s&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">login_with_http_info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">auth_str&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;span class="ln"> 6&lt;/span>&lt;span class="k">except&lt;/span> &lt;span class="n">ApiException&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="k">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Exception when creating session: &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="nb">exit&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;New session is created&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">10&lt;/span>
+&lt;span class="ln">11&lt;/span>&lt;span class="c1"># Update client with access token&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Setting new session authorization token in headers&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">13&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">api_key_prefix&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;Authorization&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;Bearer&amp;#39;&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">api_key&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;Authorization&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">s_headers&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;span class="ln">15&lt;/span> &lt;span class="s2">&amp;#34;X-VMWARE-VCLOUD-ACCESS-TOKEN&amp;#34;&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">17&lt;/span>&lt;span class="n">client&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ApiClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">18&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">f&lt;/span>&lt;span class="s2">&amp;#34;Client credentials updated to use access token: {s_headers.get(&amp;#39;X-VMWARE-VCLOUD-ACCESS-TOKEN&amp;#39;)}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Starting a new session
+&lt;span class="ln">2&lt;/span>DEMO_VCD New session is created
+&lt;span class="ln">3&lt;/span>DEMO_VCD Setting new session authorization token in headers
+&lt;span class="ln">4&lt;/span>DEMO_VCD Client credentials updated to use access token: eyJhbGciOiJSUzI1NiJ9...
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-some-content-1">Get some content&lt;/h3>
+&lt;p>We will use our session and list our rights in the current organization:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List rights of the current user&lt;/span>
+&lt;span class="ln">2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Getting rights of the current user&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="n">rapi&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">RightsApi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="n">page&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">page_size&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">25&lt;/span>
+&lt;span class="ln">5&lt;/span>&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln">6&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">right&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">rapi&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">query_rights&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">page&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">page_size&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">values&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln">7&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34; - &amp;#34;&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">join&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">right&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">right&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">right&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">right_type&lt;/span>&lt;span class="p">]))&lt;/span>
+&lt;span class="ln">8&lt;/span>&lt;span class="k">except&lt;/span> &lt;span class="n">ApiException&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln">9&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Exception when calling RightsApi-&amp;gt;query_rights: &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong> (only fist part):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Getting rights of the current user
+&lt;span class="ln">2&lt;/span>DEMO_VCD Organization vDC Gateway: Configure DNS - urn:vcloud:right:d85b0e92-b9e8-31af-9b19-23cd00cae7e7 - MODIFY
+&lt;span class="ln">3&lt;/span>DEMO_VCD Organization vDC Gateway: View DNS - urn:vcloud:right:c6563392-f6b3-3dd6-9720-b304e6319672 - VIEW
+&lt;span class="ln">4&lt;/span>DEMO_VCD Token: Manage - urn:vcloud:right:23e7a571-4928-3c49-891f-f835474a9dc3 - MODIFY
+&lt;span class="ln">5&lt;/span>DEMO_VCD Token: Manage All - urn:vcloud:right:67878e89-9d94-302f-92fd-997313c68ee1 - MODIFY
+&lt;span class="ln">6&lt;/span>DEMO_VCD API Explorer: View - urn:vcloud:right:9ff43a6c-2c50-3b53-b00f-6f020b6bb5a0 - VIEW
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>As you see, it is very easy to generate a new API client SDK from a VMware product. Authentication could require some customization but the most limiting thing will be linked to the limited available actions through the REST API on some products.&lt;/p>
+&lt;p>Anyway, for the available and documented REST API parts, you can now deliver/provide a lot of SDK, even without knowing the bases of the used language.&lt;/p></description></item><item><title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1</title><link>https://vuptime.io/post/2020-04-01-rest-loves-swagger-demo/</link><pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/04/01/rest-loves-swagger-demo/</guid><description>
+&lt;p>On March 30&lt;sup>th&lt;/sup>, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without writing any code.&lt;/p>
+&lt;p>Slide deck is published (only in french, sorry) here: &lt;a href="https://vupti.me/rls">vupti.me/rls&lt;/a>.&lt;/p>
+&lt;p>As said in the slide deck, this presentation was greatly inspired by a VMworld session: &lt;a href="https://videos.vmworld.com/global/2019?q=The%2520Art%2520of%2520Code%2520That%2520Writes%2520Code">{CODE2216E} The art of code that writes code&lt;/a> (Kyle Ruddy @ VMware Inc.). I cannot encourage you enough to see the replay if you did not do it yet.&lt;/p>
+&lt;p>The only part I did not pulished yet, was the demo part (even if, curious people may have found it &lt;a href="https://github.com/lrivallain/rest-loves-swagger/blob/master/demo/Swagger%20Code%20Gen%20%5BDemo%5D.ipynb">in the repository&lt;/a>).&lt;/p>
+&lt;p>I was planning to find a way to host the Jupyter Notebook online but as some commands rely on docker commands... I could not fount a hoster that enable it. So, let's re-write it in 2 blog posts.&lt;/p>
+&lt;h2 id="target-of-this-post">Target of this post&lt;/h2>
+&lt;p>So this post aims to demonstrate how you can create API SDK clients with &lt;a href="https://swagger.io/tools/swagger-codegen/">Swagger Codegen&lt;/a>:&lt;/p>
+&lt;ul>
+&lt;li>Based on API documentation (both OpenAPI OASv3 and Swagger v2 are supported)&lt;/li>
+&lt;li>In the language of your choice (see below for the list)&lt;/li>
+&lt;li>Whitout writing any single line of code yourself (except for &lt;strong>usage&lt;/strong> of the generated SDK)&lt;/li>
+&lt;li>In minutes !&lt;/li>
+&lt;/ul>
+&lt;p>Impossible? Let's see.&lt;/p>
+&lt;h3 id="next-post">Next post&lt;/h3>
+&lt;p>In a second post, I will demonstrate how to build/use SDK for VMware products: vCenter and vCloud Director.&lt;/p>
+&lt;h2 id="prerequisites">Prerequisites&lt;/h2>
+&lt;h3 id="docker">Docker&lt;/h3>
+&lt;p>First, we need a docker setup (in order to avoid installing locally, the codegen software). I won't explain how to install and configure a docker host, this is not the point of the post.&lt;/p>
+&lt;p>We get the docker image of Swagger Codegen:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker pull swaggerapi/swagger-codegen-cli
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If you prefer a local installation of Codegen, &lt;a href="https://github.com/swagger-api/swagger-codegen#compatibility">it is possible&lt;/a> but you will need to modify some of the following commands.&lt;/p>
+&lt;h3 id="folders-structure">Folders structure&lt;/h3>
+&lt;p>For the tests, we will create 2 folders, for &lt;code>in&lt;/code>put files and &lt;code>out&lt;/code>put ones within a &lt;code>codegen&lt;/code> folder:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p codegen/in/ codegen/out/
+&lt;span class="ln">2&lt;/span>ls codegen/ &lt;span class="c1"># should output &amp;#34;in out&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="python">Python&lt;/h3>
+&lt;p>We will create some python modules for test. I suggest to use a virtualenv if you want to proceed the same tests and to install some dependencies:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/requirements.txt
+&lt;span class="ln">2&lt;/span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
+&lt;span class="ln">3&lt;/span>pip install -r requirements.txt
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="go">Go&lt;/h3>
+&lt;p>A part of this post will provide a Go module. Install Go runtime to be able to test it.&lt;/p>
+&lt;h2 id="available-languages">Available languages&lt;/h2>
+&lt;p>Codegen supports tons of output languages. To demonstrate it, we can use the following command:&lt;/p>
+&lt;p>(The &lt;code>sed&lt;/code> part is only to prettify the ouput)&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>docker run --rm swaggerapi/swagger-codegen-cli langs | sed &amp;#39;s/,/\n /g&amp;#39;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The output of the command will be something like:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>Available languages: [ada
+&lt;span class="ln"> 2&lt;/span> ada-server
+&lt;span class="ln"> 3&lt;/span> akka-scala
+&lt;span class="ln"> 4&lt;/span> android
+&lt;span class="ln"> 5&lt;/span> apache2
+&lt;span class="ln"> 6&lt;/span> apex
+&lt;span class="ln"> 7&lt;/span> aspnetcore
+&lt;span class="ln"> 8&lt;/span> bash
+&lt;span class="ln"> 9&lt;/span> csharp
+&lt;span class="ln">10&lt;/span> clojure
+&lt;span class="ln">11&lt;/span> cwiki
+&lt;span class="ln">12&lt;/span> cpprest
+&lt;span class="ln">13&lt;/span> csharp-dotnet2
+&lt;span class="ln">14&lt;/span> dart
+&lt;span class="ln">15&lt;/span> dart-jaguar
+&lt;span class="ln">16&lt;/span> elixir
+&lt;span class="ln">17&lt;/span> elm
+&lt;span class="ln">18&lt;/span> eiffel
+&lt;span class="ln">19&lt;/span> erlang-client
+&lt;span class="ln">20&lt;/span> erlang-server
+&lt;span class="ln">21&lt;/span> finch
+&lt;span class="ln">22&lt;/span> flash
+&lt;span class="ln">23&lt;/span> python-flask
+&lt;span class="ln">24&lt;/span> go
+&lt;span class="ln">25&lt;/span> go-server
+&lt;span class="ln">26&lt;/span> groovy
+&lt;span class="ln">27&lt;/span> haskell-http-client
+&lt;span class="ln">28&lt;/span> haskell
+&lt;span class="ln">29&lt;/span> jmeter
+&lt;span class="ln">30&lt;/span> jaxrs-cxf-client
+&lt;span class="ln">31&lt;/span> jaxrs-cxf
+&lt;span class="ln">32&lt;/span> java
+&lt;span class="ln">33&lt;/span> inflector
+&lt;span class="ln">34&lt;/span> jaxrs-cxf-cdi
+&lt;span class="ln">35&lt;/span> jaxrs-spec
+&lt;span class="ln">36&lt;/span> jaxrs
+&lt;span class="ln">37&lt;/span> msf4j
+&lt;span class="ln">38&lt;/span> java-pkmst
+&lt;span class="ln">39&lt;/span> java-play-framework
+&lt;span class="ln">40&lt;/span> jaxrs-resteasy-eap
+&lt;span class="ln">41&lt;/span> jaxrs-resteasy
+&lt;span class="ln">42&lt;/span> javascript
+&lt;span class="ln">43&lt;/span> javascript-closure-angular
+&lt;span class="ln">44&lt;/span> java-vertx
+&lt;span class="ln">45&lt;/span> kotlin
+&lt;span class="ln">46&lt;/span> lua
+&lt;span class="ln">47&lt;/span> lumen
+&lt;span class="ln">48&lt;/span> nancyfx
+&lt;span class="ln">49&lt;/span> nodejs-server
+&lt;span class="ln">50&lt;/span> objc
+&lt;span class="ln">51&lt;/span> perl
+&lt;span class="ln">52&lt;/span> php
+&lt;span class="ln">53&lt;/span> powershell
+&lt;span class="ln">54&lt;/span> pistache-server
+&lt;span class="ln">55&lt;/span> python
+&lt;span class="ln">56&lt;/span> qt5cpp
+&lt;span class="ln">57&lt;/span> r
+&lt;span class="ln">58&lt;/span> rails5
+&lt;span class="ln">59&lt;/span> restbed
+&lt;span class="ln">60&lt;/span> ruby
+&lt;span class="ln">61&lt;/span> rust
+&lt;span class="ln">62&lt;/span> rust-server
+&lt;span class="ln">63&lt;/span> scala
+&lt;span class="ln">64&lt;/span> scala-gatling
+&lt;span class="ln">65&lt;/span> scala-lagom-server
+&lt;span class="ln">66&lt;/span> scalatra
+&lt;span class="ln">67&lt;/span> scalaz
+&lt;span class="ln">68&lt;/span> php-silex
+&lt;span class="ln">69&lt;/span> sinatra
+&lt;span class="ln">70&lt;/span> slim
+&lt;span class="ln">71&lt;/span> spring
+&lt;span class="ln">72&lt;/span> dynamic-html
+&lt;span class="ln">73&lt;/span> html2
+&lt;span class="ln">74&lt;/span> html
+&lt;span class="ln">75&lt;/span> swagger
+&lt;span class="ln">76&lt;/span> swagger-yaml
+&lt;span class="ln">77&lt;/span> swift5
+&lt;span class="ln">78&lt;/span> swift4
+&lt;span class="ln">79&lt;/span> swift3
+&lt;span class="ln">80&lt;/span> swift
+&lt;span class="ln">81&lt;/span> php-symfony
+&lt;span class="ln">82&lt;/span> tizen
+&lt;span class="ln">83&lt;/span> typescript-aurelia
+&lt;span class="ln">84&lt;/span> typescript-angular
+&lt;span class="ln">85&lt;/span> typescript-inversify
+&lt;span class="ln">86&lt;/span> typescript-angularjs
+&lt;span class="ln">87&lt;/span> typescript-fetch
+&lt;span class="ln">88&lt;/span> typescript-jquery
+&lt;span class="ln">89&lt;/span> typescript-node
+&lt;span class="ln">90&lt;/span> undertow
+&lt;span class="ln">91&lt;/span> ze-ph
+&lt;span class="ln">92&lt;/span> kotlin-server]
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Pick the one you need !&lt;/p>
+&lt;h2 id="chuck-norris">Chuck Norris&lt;/h2>
+&lt;p>We will use a sample API (&lt;a href="https://api.chucknorris.io">api.chucknorris.io&lt;/a>) for a first test.&lt;/p>
+&lt;p>Here is our plan:&lt;/p>
+&lt;ol>
+&lt;li>Get API documentation (from &lt;a href="https://api.chucknorris.io/documentation">api.chucknorris.io/documentation&lt;/a>)&lt;/li>
+&lt;li>Pretify with &lt;code>| python -m json.tool&lt;/code>&lt;/li>
+&lt;li>Store the result in a file&lt;/li>
+&lt;li>Display the first lines&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s https://api.chucknorris.io/documentation &lt;span class="p">|&lt;/span> python -m json.tool &amp;gt; codegen/in/chucknorris.json
+&lt;span class="ln">2&lt;/span>head -n &lt;span class="m">25&lt;/span> codegen/in/chucknorris.json
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>You should see the content of a swagger file, with the API description.&lt;/p>
+&lt;h3 id="package-configuration">Package configuration&lt;/h3>
+&lt;p>We will create a Codegen configuration file for a python module, with some information about naming and versioning.&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s1"> &amp;#34;packageName&amp;#34;:&amp;#34;chucknorris_client&amp;#34;,
+&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s1"> &amp;#34;projectName&amp;#34;:&amp;#34;chucknorris-client&amp;#34;,
+&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="s1"> &amp;#34;packageVersion&amp;#34;:&amp;#34;1.0.0&amp;#34;
+&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="s1">}&amp;#39;&lt;/span> &amp;gt; codegen/in/config_chucknorris_client.json
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="sdk-generation">SDK generation&lt;/h3>
+&lt;p>Now we specify to Codegen, to use both API documentation file and package configuration one to create a new &lt;strong>&lt;code>python&lt;/code>&lt;/strong> based client SDK:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> swaggerapi/swagger-codegen-cli generate &lt;span class="se">\
+&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -i /local/in/chucknorris.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -o /local/out/python-chucknorris &lt;span class="se">\
+&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -c /local/in/config_chucknorris_client.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -l python
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We now have a new python module:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ls codegen/out/python-chucknorris/
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Output:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>README.md git_push.sh test
+&lt;span class="ln">2&lt;/span>chucknorris_client requirements.txt test-requirements.txt
+&lt;span class="ln">3&lt;/span>docs setup.py tox.ini
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And we can pip install this module:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install codegen/out/python-chucknorris/
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="use-our-new-module">Use our new module&lt;/h3>
+&lt;p>We create and run the following python file to use our new module:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">chucknorris_client&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">chucknorris_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
+&lt;span class="ln"> 3&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="n">logger&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">logging&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getLogger&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;DEMO_CHUCKNORRIS&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 6&lt;/span>
+&lt;span class="ln"> 7&lt;/span>&lt;span class="c1"># Configure API&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Create an API client&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="n">client&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">chucknorris_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ApiClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">chucknorris_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Configuration&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;span class="ln">10&lt;/span>
+&lt;span class="ln">11&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Target the Joke Controller&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="n">api_instance&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">chucknorris_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">JokeControllerApi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">13&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln">15&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Get a random joke:&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">16&lt;/span> &lt;span class="n">api_response&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">api_instance&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_random_joke_value_using_get&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="ln">17&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">api_response&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">18&lt;/span>&lt;span class="k">except&lt;/span> &lt;span class="n">ApiException&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="ln">19&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">error&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;span class="ln">20&lt;/span> &lt;span class="s2">&amp;#34;Exception when calling JokeControllerApi-&amp;gt;get_random_joke_value_using_get: &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">e&lt;/span>
+&lt;span class="ln">21&lt;/span> &lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>You can now run it and get the following result:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_CHUCKNORRIS Create an API client
+&lt;span class="ln">2&lt;/span>DEMO_CHUCKNORRIS Target the Joke Controller
+&lt;span class="ln">3&lt;/span>DEMO_CHUCKNORRIS Get a random joke:
+&lt;span class="ln">4&lt;/span>DEMO_CHUCKNORRIS Chuck Norris was worshipped as a god by the Eskimos. That is why they had igloos modelled after his signature move.
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Please consider that most of the python code we used is about the logger and not the complexity of getting a random Chuck Norris fact. If you don't, Chuck Norris may come to you for an explaination.&lt;/p>
+&lt;h3 id="same-with-go-">Same with Go ?&lt;/h3>
+&lt;p>Lets do the same, with Go:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> swaggerapi/swagger-codegen-cli generate &lt;span class="se">\
+&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -i /local/in/chucknorris.json &lt;span class="se">\
+&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -o /local/out/gochucknorris &lt;span class="se">\
+&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -DpackageName&lt;span class="o">=&lt;/span>gochucknorris &lt;span class="se">\
+&lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -l go
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>Go&lt;/code> test file (for example: &lt;code>codegen/chuck.go&lt;/code>):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;span class="ln"> 2&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="s">&amp;#34;log&amp;#34;&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="nx">cn&lt;/span> &lt;span class="s">&amp;#34;out/gochucknorris&amp;#34;&lt;/span>
+&lt;span class="ln"> 6&lt;/span> &lt;span class="s">&amp;#34;golang.org/x/net/context&amp;#34;&lt;/span>
+&lt;span class="ln"> 7&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln"> 8&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">10&lt;/span> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;New API client with empty configuration&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">11&lt;/span> &lt;span class="nx">client&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">cn&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewAPIClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">cn&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewConfiguration&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;span class="ln">12&lt;/span> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Get random joke&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">13&lt;/span> &lt;span class="nx">joke&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">client&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JokeControllerApi&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GetRandomJokeValueUsingGET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Background&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="kc">nil&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">14&lt;/span> &lt;span class="c1">// Test error
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">16&lt;/span> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Error:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">17&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln">18&lt;/span> &lt;span class="c1">// Test HTTP Response code
+&lt;/span>&lt;span class="ln">19&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusCode&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">200&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">20&lt;/span> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">joke&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Value&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="ln">21&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="ln">22&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And the result of a &lt;code>go run codegen/chuck.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>2020/04/01 17:28:11 New API client with empty configuration
+&lt;span class="ln">2&lt;/span>2020/04/01 17:28:11 Get random joke
+&lt;span class="ln">3&lt;/span>2020/04/01 17:28:12 Chuck Norris can levitate birds.
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>How long to get this new API SDK client in a new language? Less than a minute !&lt;/p>
+&lt;p>In the next post, we will apply this process to two VMware products:&lt;/p>
+&lt;ul>
+&lt;li>vCenter (6.7 only sorry!)&lt;/li>
+&lt;li>vCloud Director&lt;/li>
+&lt;/ul></description></item></channel></rss>

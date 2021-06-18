@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>greenit on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/greenit/</link><description>Recent content in greenit on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/greenit/feed.xml" rel="self" type="application/rss+xml"/><item><title>Easyvirt – DCScope 7.4 – Green IT Beta feature</title><link>https://vuptime.io/post/2020-10-20-easyvirt-dcscope-74-greenit/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/10/20/Easyvirt-DCScope-74-GreenIT/</guid><description>
+&lt;p>With some french vMUG members, we add the opportunity to assist to a demonstration of the new features of &lt;a href="https://www.easyvirt.com/en/dcscope-operations-management/">&lt;strong>DC Scope&lt;/strong>&lt;/a> 7.4 from the French company: &lt;a href="https://www.easyvirt.com/en/">&lt;strong>Easyvirt&lt;/strong>&lt;/a>.&lt;/p>
+&lt;p>Thanks a lot to &lt;a href="https://twitter.com/martindargent">@MartinDargent&lt;/a> for this invitation and the nice demo.&lt;/p>
+&lt;h2 id="green-it-beta">Green IT (&lt;em>Beta&lt;/em>)&lt;/h2>
+&lt;p>The major new feature in the new 7.4 version it the addition of a new &lt;strong>Green IT&lt;/strong> tab (still in Beta). This new capability of DC Scope can be linked to the initial purpose of DC Scope to avoid wasting resources by monitoring the consumption of VMware ESXi servers, providing recommendation and estimating the future behaviour. Now, users can also monitor the green-efficiency of their DataCenter and Desktop stock.&lt;/p>
+&lt;p>By making a partnership with &lt;a href="https://quantis-intl.com/">&lt;strong>Quantis&lt;/strong>&lt;/a> (a leading sustainability and &lt;a href="https://en.wikipedia.org/wiki/Life-cycle_assessment">&lt;strong>LCA&lt;/strong> (&lt;em>Life Cycle Assessment&lt;/em>)&lt;/a> Swiss consultancy), is now able to provide back the DC administrators, reliable metrics about:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://en.wikipedia.org/wiki/Embodied_energy">Embodied energy&lt;/a>: raw-material production, manufacture, transport, distribution, use and disposal.&lt;/li>
+&lt;li>Energy consumption over time (that was already collected for both servers and per-VM)&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope01.png"/>&lt;figcaption>
+&lt;h4>Green IT Dashboard&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>This new dashboard provide multiples informations about:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Green IT score:&lt;/strong> a score calculated based on the level of details you provide to configure the Green IT tab. You can easily increase this score by declaring your server, network, desktop, storage components details.&lt;/li>
+&lt;li>&lt;strong>Carbon footprint evolution&lt;/strong>: An overview of the evolution of booth grey energy (estimated over time) and the measured consumption of DC components.&lt;/li>
+&lt;li>&lt;strong>Information about VM&lt;/strong>: Evolution over time of the per-VM energy consumption.&lt;/li>
+&lt;li>&lt;strong>kWh evolution&lt;/strong>: Electrical consumption over time.&lt;/li>
+&lt;/ul>
+&lt;p>This tab also provides an &lt;strong>energy-efficiency&lt;/strong> score per server with both theoretical (&lt;em>TEE&lt;/em>) and measured (&lt;em>CEE&lt;/em>) one.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope02.png"/>&lt;figcaption>
+&lt;h4>energy-efficiency score&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>&lt;strong>Energy optimization&lt;/strong> suggestions are also available to estimate the electric consumption impact if you remove some servers from the current infrastructure.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope03.png"/>&lt;figcaption>
+&lt;h4>Energy optimization&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Last but not least, it is also possible to simulate the replacement of existing servers versus new ones by estimating:&lt;/p>
+&lt;ul>
+&lt;li>Cost&lt;/li>
+&lt;li>Per year CO² impact&lt;/li>
+&lt;li>Estimated future number of VMs&lt;/li>
+&lt;li>TEE (Theoretical Energy Efficiency)&lt;/li>
+&lt;li>The cost per VM of the replacement&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope04.png"/>&lt;figcaption>
+&lt;h4>Replacement simulator&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>As we globally said to Martin, this new tab is a great thing in order to make our infrastructures &lt;em>green-er&lt;/em> or to understand the &lt;em>grey energy&lt;/em> impact of some components replacement.&lt;/p>
+&lt;p>The shortcoming of the current implementation of the feature is the complexity involved in the some settings of DC configuration to improve the &lt;em>Green IT score&lt;/em>: PUE and CO² efficiency of a datacenter could be complicated to determine in some context (on-premise, multi-sites etc.).&lt;/p>
+&lt;p>As it is still a &lt;em>Beta&lt;/em> feature, I am confident that Easyvirt will find way to improve this part of the admin-experience in a near future: by the way, they are looking for feedback to evolve this feature.&lt;/p></description></item></channel></rss>

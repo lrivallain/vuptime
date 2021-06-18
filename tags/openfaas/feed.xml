@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>openfaas on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/openfaas/</link><description>Recent content in openfaas on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 06 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/openfaas/feed.xml" rel="self" type="application/rss+xml"/><item><title>Run Argo workflow from a VEBA event through OpenFaaS</title><link>https://vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/</link><pubDate>Wed, 06 Jan 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/01/06/run-arg-workflows-from-veba-events/</guid><description>
+&lt;p>I recently made posts about the &lt;a href="https://vmweventbroker.io/">VMware Event Broker&lt;/a> (aka VEBA) to explain basic on-boarding in the &lt;em>FaaS&lt;/em> and &lt;em>Event-Driven&lt;/em> worlds.&lt;/p>
+&lt;p>As you may have noticed, the FaaS concept is perfect for use-case where the automation will be:&lt;/p>
+&lt;ul>
+&lt;li>Stateless&lt;/li>
+&lt;li>Fast running&lt;/li>
+&lt;li>No latency sensitive&lt;/li>
+&lt;li>Responsible of a single thing&lt;/li>
+&lt;li>Deterministic&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>BTW, there is a nice list of FaaS Best Practices on the VEBA documentation: &lt;a href="https://vmweventbroker.io/kb/contribute-functions">Writing your own functions&lt;/a>.&lt;/p>
+&lt;/blockquote>
+&lt;p>When you need to break one (or more) of the above rules, it may be necessary to rely on other kinds of automation, like &lt;strong>Workflows&lt;/strong>.&lt;/p>
+&lt;p>In the following post, I will demonstrate how it is possible to forward VEBA events to a very powerful Workflow engine named &lt;a href="https://argoproj.github.io">&lt;strong>Argo&lt;/strong>&lt;/a> to run, for example:&lt;/p>
+&lt;ul>
+&lt;li>long-running automation&lt;/li>
+&lt;li>multi steps automation&lt;/li>
+&lt;li>stateful functions&lt;/li>
+&lt;li>retry-able functions&lt;/li>
+&lt;/ul>
+&lt;p>This work relies on an OpenFaaS function: &lt;a href="https://github.com/lrivallain/openfaas-fn/tree/master/veba-to-argo-fn">veba-to-argo-fn&lt;/a>.&lt;/p>
+&lt;h2 id="how-does-it-works">How does it works&lt;/h2>
+&lt;p>This OpenFaaS function is a simple &lt;em>forwarder&lt;/em> (or &lt;em>proxy&lt;/em>) to execute a pre-definied &lt;a href="https://argoproj.github.io/argo/workflow-templates/">Worklow Template&lt;/a> by providing the incoming cloud-event as an input parameter of the Workflow excecution.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/veba-to-argo-fn.png"/>&lt;figcaption>
+&lt;h4>VEBA to Argo&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="pre-requisites">Pre-requisites&lt;/h3>
+&lt;p>You need:&lt;/p>
+&lt;ul>
+&lt;li>A deployed VEBA instance (appliance based or K8S based): &lt;a href="https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/#openfaas-deployment">How-to on vUptime blog&lt;/a>&lt;/li>
+&lt;li>A deployed OpenFaaS instance (+&lt;code>faas-cli&lt;/code>)&lt;/li>
+&lt;li>A deployed Argo instance (+&lt;code>argo&lt;/code> cli): &lt;a href="https://argoproj.github.io/argo/quick-start/">Quick Start&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>A clone of the below repository:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/openfaas-fn.git
+&lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> openfaas-fn/veba-to-argo-fn
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="deploy-the-argo-echoer-template-wf">Deploy the Argo &lt;em>echoer&lt;/em> template WF&lt;/h2>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo template create echoer-argowf.yaml
+&lt;span class="ln">2&lt;/span>argo template list
+&lt;span class="ln">3&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
+&lt;span class="ln">5&lt;/span>NAME
+&lt;span class="ln">6&lt;/span>echoer
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>This &lt;code>echoer&lt;/code> workflow template is a very simple workflow that just repeats the incoming data in its stdin (logs).&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="configure-the-function">Configure the function&lt;/h2>
+&lt;h3 id="argo-config-secret">Argo config secret&lt;/h3>
+&lt;p>Copy and customize the &lt;code>argoconfig.example.yaml&lt;/code> file:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp argoconfig.example.yaml argoconfig.yaml
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">argoserver&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">server&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">argo.vlab.lcl&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">argo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">serviceaccount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">argo-svc&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">template&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echoer&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">event_param_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">message&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">through&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">openfaas&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">coming-from&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">veba&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">foo&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bar&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Deploy this configuration file as a new &lt;em>faas&lt;/em> secret.&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create argoconfig --from-file&lt;span class="o">=&lt;/span>argoconfig.yaml
+&lt;span class="ln">2&lt;/span>faas-cli secret list
+&lt;span class="ln">3&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
+&lt;span class="ln">5&lt;/span>NAME
+&lt;span class="ln">6&lt;/span>argoconfig
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="stackyaml">&lt;code>stack.yaml&lt;/code>&lt;/h3>
+&lt;p>Edit the &lt;code>stack.yaml&lt;/code> according to your needs:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1.0&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">provider&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">openfaas&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gateway&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http://openfaas.vlab.local&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">functions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">veba-to-argo-echoer&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">lang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">python3&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">handler&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">./handler&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">lrivallain/veba-to-argo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">environment&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">write_debug&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">read_debug&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">secrets&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="l">argoconfig&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">topic&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">VmCreatedEvent, VmClonedEvent, VmRegisteredEvent, DrsVmPoweredOnEvent, VmPoweredOnEvent&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we need to pull the OpenFaaS language template for the specified lang in our stack.yml file:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="deploy-the-function">Deploy the function&lt;/h2>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yaml
+&lt;span class="ln">2&lt;/span>faas-cli list
+&lt;span class="ln">3&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
+&lt;span class="ln">5&lt;/span>Function Invocations Replicas
+&lt;span class="ln">6&lt;/span>veba-to-argo-echoer &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="test">Test&lt;/h3>
+&lt;p>You can also check the function from the UI and do a first test by running:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{&amp;#34;id&amp;#34;: &amp;#34;test&amp;#34;, &amp;#34;source&amp;#34;: &amp;#34;sourcetest&amp;#34;, &amp;#34;subject&amp;#34;: &amp;#34;any&amp;#34;, &amp;#34;data&amp;#34;: {}}&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> &lt;span class="p">|&lt;/span> faas-cli invoke veba-to-argo-echoer
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This should produce an excecution of a Worklow based on the echoer template in Argo.&lt;/p>
+&lt;h3 id="results">Results&lt;/h3>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>argo get @latest
+&lt;span class="ln"> 2&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
+&lt;span class="ln"> 4&lt;/span>
+&lt;span class="ln"> 5&lt;/span>Name: echoer-7ldps
+&lt;span class="ln"> 6&lt;/span>Namespace: argo
+&lt;span class="ln"> 7&lt;/span>ServiceAccount: argo-svc
+&lt;span class="ln"> 8&lt;/span>Status: Succeeded
+&lt;span class="ln"> 9&lt;/span>Conditions:
+&lt;span class="ln">10&lt;/span> Completed True
+&lt;span class="ln">11&lt;/span>Created: Wed Jan &lt;span class="m">06&lt;/span> 09:56:19 +0000 &lt;span class="o">(&lt;/span>&lt;span class="m">44&lt;/span> seconds from now&lt;span class="o">)&lt;/span>
+&lt;span class="ln">12&lt;/span>Started: Wed Jan &lt;span class="m">06&lt;/span> 09:56:19 +0000 &lt;span class="o">(&lt;/span>&lt;span class="m">44&lt;/span> seconds from now&lt;span class="o">)&lt;/span>
+&lt;span class="ln">13&lt;/span>Finished: Wed Jan &lt;span class="m">06&lt;/span> 09:56:22 +0000 &lt;span class="o">(&lt;/span>&lt;span class="m">47&lt;/span> seconds from now&lt;span class="o">)&lt;/span>
+&lt;span class="ln">14&lt;/span>Duration: &lt;span class="m">3&lt;/span> seconds
+&lt;span class="ln">15&lt;/span>ResourcesDuration: 1s*&lt;span class="o">(&lt;/span>100Mi memory&lt;span class="o">)&lt;/span>,1s*&lt;span class="o">(&lt;/span>&lt;span class="m">1&lt;/span> cpu&lt;span class="o">)&lt;/span>
+&lt;span class="ln">16&lt;/span>Parameters:
+&lt;span class="ln">17&lt;/span> message: &lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;id&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;test&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;source&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;sourcetest&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;subject&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;any&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;data&amp;#34;&lt;/span>: &lt;span class="o">{}}&lt;/span>
+&lt;span class="ln">18&lt;/span>
+&lt;span class="ln">19&lt;/span>STEP TEMPLATE PODNAME DURATION MESSAGE
+&lt;span class="ln">20&lt;/span> ✔ echoer-7ldps echoer/echo echoer-7ldps 26s
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And in the logs:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo logs @latest
+&lt;span class="ln">2&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
+&lt;span class="ln">4&lt;/span>echoer-7ldps: &lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;id&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;test&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;source&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;sourcetest&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;subject&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;any&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;data&amp;#34;&lt;/span>: &lt;span class="o">{}}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="ui">UI&lt;/h3>
+&lt;p>Argo provide an UI to have a quick-view on the content status.&lt;/p>
+&lt;p>Here is the view of an echoer instance:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui.png"/>&lt;figcaption>
+&lt;h4>echoer instance in the UI&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>and a view of the &lt;em>printed&lt;/em> logs:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui-logs.png"/>&lt;figcaption>
+&lt;h4>echoer instance in the UI&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="retries">Retries&lt;/h3>
+&lt;p>If needed, you can re-run an existing instance of a workflow (with the same inputs) with the following kind of command:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo resubmit @latest --watch
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="veba-event">VEBA event&lt;/h2>
+&lt;p>In the same way, if you trigger on of the vCenter events configured in your &lt;code>stack.yaml&lt;/code> file (like &lt;code>VmCreatedEvent, VmClonedEvent, VmRegisteredEvent, DrsVmPoweredOnEvent, VmPoweredOnEvent&lt;/code> in the provided example) from you vCenter server:&lt;/p>
+&lt;ol>
+&lt;li>VEBA event router will trigger the OpenFaaS function with event as an incoming data&lt;/li>
+&lt;li>OpenFaaS function will trigger the Argo worklow with the event as an incoming data&lt;/li>
+&lt;/ol>
+&lt;p>With the &lt;code>echoer&lt;/code> workflow, you will be able to get the content of the event sent by VEBA and of course, you can now run a (more or less complex) workflow(s) catching the event data and making multiple actions.&lt;/p>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>The above example is just a very simple sample of the enabled capabilities and it was difficult to demonstrate in this blog post the behavior of the full setup without being too complex for readers.&lt;/p>
+&lt;p>But I strongly encourage you to test it by yourself and to provide me a feedback.&lt;/p>
+&lt;p>You can also fill a GitHub issue on the project if needed: &lt;a href="https://github.com/lrivallain/openfaas-fn/issues/new/choose">&lt;strong>New issue&lt;/strong>&lt;/a>.&lt;/p></description></item></channel></rss>

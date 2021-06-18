@@ -1,0 +1,1335 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>French on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/french/</link><description>Recent content in French on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 01 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/french/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMworld 2020 – Récapitulatif jour 2</title><link>https://vuptime.io/post/2020-10-01-vmworld-2020-eu-day2/</link><pubDate>Thu, 01 Oct 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/10/01/VMworld-2020-EU-Day2/</guid><description>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>Ce n'est pas logique mais je vais conclure ce couple d'articles au sujet du VMworld avant les résumés des conférences regardées ce jour (que vous trouverez donc plus bas dans le présent article).&lt;/p>
+&lt;p>Forcément, un évènement en virtuel n'a pas la saveur d'un évènement en présentiel, surtout quand on apprécie de retrouver à cette occasion, des connaissances, des collègues, des partenaires de travail. Techniquement, j'aurais tout aussi bien pu regarder hors de la période du VMworld, les sessions, qui étaient déjà enregistrées et diffusées à la demande et non en live. Je précise &amp;quot;techniquement&amp;quot; car je suis à peu près certain que si je n'avais pas utiliser ces deux jours pour regarder ces sessions, je n'aurais jamais trouvé ou prit le temps ensuite de le faire, à cette échelle.&lt;/p>
+&lt;p>Je suis donc content d'avoir pû en profiter pendant 2 jours: de m'être nourris de nouvelles technologie, de nouveaux points de vue sur l'état de l'art des infrastructures. Je n'ai pas utilisé les moyens de mise en relation virtuelle des participants: Discord (j'étais connecté mais peu actif), Cloud City, le pass premium et les interractions avec les &lt;em>experts&lt;/em> qui étaient proposées. J'ai &lt;strong>consommé&lt;/strong> le contenu des &lt;em>breakout sessions&lt;/em> et je n'ai pas &lt;strong>participé&lt;/strong>, c'est mon seul regrêt cette année. Les explications sont multiples et personnelles. Je tâcherais de travailler là dessus si un nouvel évènement virtuel de ce type devait avoir lieu l'an prochain: j'espère que non tout de même 🤞.&lt;/p>
+&lt;p>La qualité des &lt;em>breakout sessions&lt;/em> auxquelles j'ai assisté était variable. Je ne regarde généralement que les sessions annoncées avec un &lt;em>technical level&lt;/em> à 300, mais malgré celà, il y avait peu de séance vraiment techniques et les &lt;em>deep dives&lt;/em> ne sont plus forcément si complexes et si intéressants de ce point de vue. Je pense qu'il faudrait militer pour faire apparaitre un &lt;em>technical level&lt;/em> de 400 histoire de pouvoir sélectionner des contenus &lt;strong>systèmatiquement techniques&lt;/strong>.&lt;/p>
+&lt;p>En terme d'expérience utilisateur sur le site et les vidéos: un beau travail a été réalisé pour que le contenu soit facilement accessible, compréhensible, présenté de manière cohérente. Quelques bugs du site ont toutefois ternis un peu l'expérience, sans être trop génants. La qualité des captations était variables selon les speakers qui ont dû aussi, improviser chez eux, avec les moyens du bords (ou du moins forcément limités). Il aura manqué un verre d'eau par-ci pour faire passer une quinte de toux, des notifications slack en silencieux par là, un fond vert pour untel ou des transitions plus naturelles entre 2 speakers d'une même session. Mais globalement, c'était vraiment très bien et ce fût très apprécié.&lt;/p>
+&lt;p>Le dernier point (last but not least), forcément, cette année, pas de soirée(s) dans les rues, bars et boites de Barcelone. Boire un mojito seul devant mon écran de PC pendant un DJ set ne m'ayant pas particulièrement attiré, j'ai vaqué à des occupations différentes lors de mes soirées cette année.&lt;/p>
+&lt;p>Allez, place aux résumés de présentation de cette dernière journée:&lt;/p>
+&lt;h2 id="automate-it-processes-with-vrealize-automation-and-vrealize-orchestrator-hcmb2254">Automate IT Processes with vRealize Automation and vRealize Orchestrator &lt;code>[HCMB2254]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Francisco Poo Hernandez&lt;/strong>, Senior Technical Marketing Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Galina Kostova&lt;/strong>, Senior Product Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Cette courte session (33') propose de découvrir les moyens d'automatiser des process IT à l'aide de vRealize Automation et vRealize Orchestrator. La première explication concernant ce dernier est au sujet du support (assez récent) de langages de programmation tels que:&lt;/p>
+&lt;ul>
+&lt;li>Python 3.7&lt;/li>
+&lt;li>PowerCLI 11 / PowerShell 6.2&lt;/li>
+&lt;li>Node.js 10 et 12&lt;/li>
+&lt;li>Javascript 5 (JavaScript était déjà supporté auparavant, toutefois, à chaud comme ça, le versionning ne me parle pas et ne correspond pas à celui des spécifications officielle de JS: [https://fr.wikipedia.org/wiki/JavaScript#Versions](voir l'article Wikipédia sur JavaScipt)... Est-ce un moteur ou une nu mérotation interne?)&lt;/li>
+&lt;/ul>
+&lt;p>Puis l'on aborde ABX (Action Based Extensibility) dont le but est de déclencher, via moteur d’exécution léger, des scripts en fonction d'évènements spécifiques. On est clairement dans le mode &amp;quot;event driven&amp;quot; qui devient de plus en plus présent pour les tâches simples dans le monde de l'IT.&lt;/p>
+&lt;p>C'est d'ailleurs un critère de choix évoqué lorsqu'on a la possibilité d'automatiser une tâche à l'aide de vRO ou d'ABX. vRO s'en sort forcément mieux pour des tâches complexes ou fortement liées à des composants variés via sa notion de plugins, de workflows enchaînant des actions pouvant êtres très variées. ABX s'adapte toutefois mieux à des tâches rapides, légères et simples et ses actions peuvent aussi être chaînées (presqu'à la manière d'un framework vRO) et c'est un produit plus orienté cloud que on-premise.&lt;/p>
+&lt;p>La seconde partie de la présentation concerne &lt;code>Code Stream&lt;/code>, le produit de &lt;em>pipelines DevOps&lt;/em> de VMware. Bon nombre de &lt;em>endpoints&lt;/em> sont disponibles mais finalement la présentation s'attarde sur l'intégration de vRO et Docker dans &lt;code>Code Stream&lt;/code> pour les tâches de CI.&lt;/p>
+&lt;p>Enfin, Francisco propose une démonstration: à partir d'une recommandation de &lt;em>Skyline Advisor&lt;/em> à propros d'une menace potentielle liée aux failles &lt;em>Spectre/Meltdown&lt;/em> présente sur l'infrastructure, déclencher une interaction avec vRO: déclencher un workflow qui permettra de résoudre la situation (ici il s'agit de mettre à jour le virtual-hardware de la machine). Puis la démonstration utilise &lt;code>Code Stream&lt;/code> et un pipeline complexe afin de valider tous les impacts potentiels de cette action de remédiation.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/HCMB2254_codestream_demo.png"/>&lt;figcaption>
+&lt;h4>Demo CodeStream&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Cette tâche pourra être lancée:&lt;/p>
+&lt;ul>
+&lt;li>Manuellement depuis le &lt;em>service broker&lt;/em> de vRA&lt;/li>
+&lt;li>Automatiquement lors d'une notification de &lt;em>Skyline Advisor&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>Pour ma part, je ne suis pas encore un gros utilisateur de &lt;code>Code Stream&lt;/code> mais je pense qu'il constitue un &lt;em>wrapper&lt;/em> intéressant pour piloter un enchaînement de workflow vRO et d'actions codées dans d'autres types de langage. Finalement, c'est un complément des développements vRO qui permet de superviser d'une autre manière l’exécution des workflows et d'un potentiel enchaînement.&lt;/p>
+&lt;h2 id="deep-dive-troubleshooting-applications-without-tcpdump-vcnc1920">Deep Dive: Troubleshooting Applications Without TCPdump &lt;code>[VCNC1920]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Nathan McMahon&lt;/strong>, Director, Avi Enablement, VMware&lt;/li>
+&lt;li>&lt;strong>Ashutosh Gupta&lt;/strong>, Software Architect, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>tcpdump&lt;/code> est un outil qui a 35 ans et pourtant, c'est un outil qui peut aider un administrateur au quotidien quand il s'agit de troubleshooter un problème réseau, y compris lorsque vous travaillez avec de gros volumes de transfert. Toutefois, cela reste un outil basique qui nécessite:&lt;/p>
+&lt;ul>
+&lt;li>de savoir qu'on a un problème pour avoir à utiliser cette commande (ce n'est pas un outil qui vous détecte les pannes réseau, mais qui vous aide à comprendre ce qui s'y passe).&lt;/li>
+&lt;li>de capturer le trafic au moment où le problème apparaît (pas de retour en arrière sur des mesures conservée en mémoire au fil de l'eau par exemple, pas de statistiques si l'outil n'est pas en cours d'exécution...)&lt;/li>
+&lt;li>il faut un accès au segment réseau concerné par l'incident (via une VM par exemple)&lt;/li>
+&lt;li>il faut avoir bien configuré &lt;code>tcpdump&lt;/code> avant l’occurrence du problème pour trier au mieux les éléments de la capture&lt;/li>
+&lt;/ul>
+&lt;p>Ces contraintes semblent importantes mais en réalité, ce vieil outil est tout de même très pratique pour diagnostiquer des problèmes réseau et est presque, incontournable. Forcément, un outil de 35 ans va être limité à appréhender les évolutions récentes du contenu qui passe sur les réseaux: HTTP/2, SSL presque partout, volumes démultipliés... c'est possible, mais ça devient complexe.&lt;/p>
+&lt;p>De nouveau outils lui font à présent concurrence pour mieux appréhender ses limites et contraintes: vRealize Network Insight par exemple permet de faire bien plus de chose, via des échantillonnage, de l'apprentissage, des sondes positionnées sur des segments multiples, de la conservation de métriques...&lt;/p>
+&lt;p>Avec les logs de VMware NSX-T &lt;em>Advanced Load Balancer&lt;/em> (ex AVI) il est aussi possible de collecter des informations très intéressantes au moment de diagnostique un souci qui pourrait être lié au réseau, sur une application. C'est l'objet de la démonstration qui suit et qui vise à montrer la manière de détecter, au sein d'un pool applicatif, de potentiels erreurs ou problèmes de performances. Frocément, ce produit permet de faire énormément plus de chose que &lt;code>tcpdump&lt;/code>, notamment si on veut mesurer l'état d'une application distribuée, au delà de l'état d'une simple connection réseau.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/VCNC1920_avi_demo.png"/>&lt;figcaption>
+&lt;h4>Demo AVI&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="nsx-t-container-networking-deep-dive-vcnc1163">NSX-T Container Networking Deep Dive &lt;code>[VCNC1163]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Yasen Simeonov&lt;/strong>, Senior Technical Product Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Ali Al Idrees&lt;/strong>, Lead EMEA SDDC Solutions Architect, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Ce n'est plus très nouveau, VMware vise depuis quelques années à pousser NSX-T pour tous les types de workload d'une infrastructure, que vous utilisiez du bare-metal, de la virtualisation, du Kubernetes... L'intégration avec ce dernier type de workload est à présent plutôt mature et permet à présent de partager un &lt;em>Shared T1 router&lt;/em> entre &lt;code>namespaces&lt;/code> différents (avant le seul modèle était de déployer un &lt;em>routeur T1&lt;/em> par &lt;code>namespace&lt;/code>).&lt;/p>
+&lt;p>Avec &lt;em>NSX Container Plug-in&lt;/em> (NCP), NSX-T DataCenter peut être à la fois intégré avec K8S, &lt;em>OpenShift, Pivotal Cloud Foundry&lt;/em> etc. Cette intégration permet par exemple d'utiliser:&lt;/p>
+&lt;ul>
+&lt;li>Persistance de règles de IP par service (K8s)&lt;/li>
+&lt;li>Les metadata de K8S au sein de NSX sous forme de tags qui sont propagés automatiquement pour la réalisation de règles de sécurité.&lt;/li>
+&lt;li>des règles de sécurité dans les description de service K8S&lt;/li>
+&lt;li>Load Balancing intégré...&lt;/li>
+&lt;/ul>
+&lt;p>Ensuite la présentation aborde &lt;em>Tanzu Application Service&lt;/em> et notamment la partie réseau et sécurité: comment sont provisionnés les segments réseau, les routeurs T1, l’interconnexion via le T0, la création de nouveaux segments réseaux par tenant (Org).&lt;/p>
+&lt;p>Avec &lt;em>vSphere with Tanzu&lt;/em> (vSphere 7) il devient possible de mixer &lt;code>pods&lt;/code> et machine virtuelles au sein d'un &lt;code>namespace&lt;/code> ce qui rend plus cohérent l'administration générale, tout en rendant un peu complexe, la liste de couches d'infrastructures impliquées:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/VCNC1163_vsphere_with_tanzu.png"/>&lt;figcaption>
+&lt;h4>VCNC1163 vSphere with Tanzu&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Si vous préférez &lt;em>OpenShift&lt;/em> (4), l'intégration est presque aussi aboutie et un projet d'opérateur spécifique pour NSX-T est en cours de développement dans les équipes VMware (ou de Red Hat, ou des deux, ce n'était pas clair).&lt;/p>
+&lt;p>La présentation se termine avec une démonstration de la &lt;code>Hipster shop&lt;/code>, une pseudo-boutique en ligne dont l'architecture utilise massivement les &lt;em>micro-services&lt;/em>. Au cours de la mise en place de cette boutique virtuelle sur un cluster OpenShift, on peut voir les interactions avec NSX-T, l'arrivée de nouveaux ports sur les segments, la création de règles de sécurité etc. L'usage de l'outil &lt;code>Traceflow&lt;/code> intégré à NSX-T permet aussi l'analyse de potentielles erreurs réseau: ici une règle de sécurité bloquait le flux espéré.&lt;/p>
+&lt;h2 id="vmware-cloud-foundation-deep-dive-hci2519">VMware Cloud Foundation Deep Dive &lt;code>[HCI2519]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Jason Shaw&lt;/strong>, Senior Technical Marketing Architect, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>La solution de base pour une architecture standardisée de SDDC chez VMware s'appelle &lt;em>&amp;quot;Cloud Foundation&amp;quot;&lt;/em>. Basée sur la recommandation d'utiliser des nœuds matériels &lt;em>'vSAN ready'&lt;/em>, cette manière de concevoir et déployer un socle standard d'architecture permet de s'affranchir des &lt;em>silos de complexité&lt;/em> généré par des choix opérés au fil de l'eau, des besoin, des projets, des changements d'avis.&lt;/p>
+&lt;p>Grace à des tests poussés coté VMware, vous avez une sorte de garantie vis à vis d'une association de produits et de versions:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/HCI2519_VCF_products.png"/>&lt;figcaption>
+&lt;h4>HCI2519 VCF products&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Issu des &lt;em>VMware Validated Designs&lt;/em>, le concept &lt;em>Application Virtual Networks&lt;/em> (AVN) (des &lt;em>overlay&lt;/em> réseau dédiés pour une solution applicative) est fortement utilisé pour vCF.&lt;/p>
+&lt;p>Un certain nombre de tâches plus ou moins complexes de la vie d'un SDDC sont aussi prises en charges par VCD telles que:&lt;/p>
+&lt;ul>
+&lt;li>Le déploiement de Edge NSX (HA, password management, lifecycle management...)&lt;/li>
+&lt;li>La configuration de vSAN et vVol (ce dernier depuis vCF4.1)&lt;/li>
+&lt;li>L'ajout de nouveaux hosts (scale-out) sur les &lt;em>workload domains&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>Une démonstration de ce dernier point permet de voir ce qui est requis pour démarrer ce type de tâche: grosso modo, un fichier &lt;code>json&lt;/code> avec les FQDN des hosts (installés!) et leur infos d'authentification. Une bonne dose de vérifications sont tout de même à réaliser en amont: la checklist est proposée dans le wizard de vCF.&lt;/p>
+&lt;p>Bien sûr, Cloud Foundation propose aussi d'aider pour gérer le cycle de vie des composants déployés: notamment pour mettre à jour les composants, les certificats SSL.&lt;/p>
+&lt;p>Les API (et le &lt;em>Developer Center&lt;/em>) disponibles sur vCF permettent d'automatiser certaines opérations sans même passer par l'interface graphique.&lt;/p>
+&lt;p>Enfin, on nous présente la notion de &lt;em>True Hybrid Cloud&lt;/em>, une promesse de VCF pour que vous puissiez envisager de migrer toute ou partie de votre SDDC vers des providers compatibles (on pense forcément à VMware on AWS!) à l'aide de HCX.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/vmworld2020.png"/>&lt;figcaption>
+&lt;h4>VMworld 2020&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item><item><title>VMworld 2020 – Récapitulatif jour 1</title><link>https://vuptime.io/post/2020-09-30-vmworld-2020-eu-day1/</link><pubDate>Wed, 30 Sep 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/09/30/VMworld-2020-EU-Day1/</guid><description>
+&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Cette année le VMworld a une saveur une peu particulière. Habituellement, 2 VMwords (un US et un EU) tiennent place chaque année avec plusieurs milliers de personnes réunies sous un même toit pendant 3 ou 4 jours. Forcément, cette année, ce format n'a pas été possible au regard de la pandémie actuellement en cours et VMware a choisi de ne faire qu'un unique évènement virtuel, qui plus est, globalement gratuit.&lt;/p>
+&lt;p>Pour ma part, je n'ai pas pris de pass &lt;em>premium&lt;/em> (pourtant accessible financièrement parlant) car j'ai pas remarqué un intérêt majeur me concernant vis à vis du pass gratuit permettant déjà l'accès à un nombre incalculable de conférences très intéressantes.&lt;/p>
+&lt;p>C'est donc depuis chez moi que j'ai réservé 2 jours de temps pour assister à quelques conférences et reporter ici quelques notes prises au fil de l'eau.&lt;/p>
+&lt;h2 id="vmworld-general-session">VMworld General Session&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Pat Gelsinger&lt;/strong>, Chief Executive Officer&lt;/li>
+&lt;li>&lt;strong>Sanjay Poonen&lt;/strong>, Chief Operating Officer&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Cette première Keynote en virtuel n'aura pas apporté tellement d'autres choses que des témoignages de dirigeants louant les produits VMware, particulièrement au regard de l'année 2020 qui a provoqué des challenges intéressants.&lt;/p>
+&lt;p>Il est dur de commenter une &lt;em>vision&lt;/em> de l'avenir des infrastructure IT ou du développement d'applications et de services. Forcément, Kubenetes est à présent l'élement central et VMware semble vouloir miser dessus bien plus que sur son business traditionnel.&lt;/p>
+&lt;h2 id="kubernetes-operators-for-vmware-tanzu-kubernetes-grid-kub1248">Kubernetes Operators for VMware Tanzu Kubernetes Grid &lt;code>[KUB1248]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Tom Schwaller&lt;/strong>, Technical Product Line Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Michael Gasch&lt;/strong>, Staff Engineer - Office of the CTO, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Après une introduction rapide aux opérateurs Kubernetes (Kubernetes Operators) et à leurs capacités à étendre le périmètre fonctionnel de K8S, Tom et Michael nous ont expliqué que c'est fondamentalement ce que réalise &lt;a href="https://github.com/kubernetes-sigs/cluster-api">&lt;code>Cluster API&lt;/code>&lt;/a> pour déployer et opérer de nouveaux clusters K8S. Chez moi on dit &lt;em>&amp;quot;eat your own dog food&amp;quot;&lt;/em> et je trouve cela très intéressant de voir qu'un projet s'appuie sur ses propres bases pour s'étendre, se diversifier et s'opérer.&lt;/p>
+&lt;p>Un second exemple d'opérateur était &lt;a href="https://github.com/flant/shell-operator">&lt;code>shell operator&lt;/code>&lt;/a> permettant de jouer des commandes shell basées sur des évènements au sein d'un cluster. C'est une méthode très simple pour générer de l'&lt;strong>event-driven&lt;/strong> au sein de votre infrastructure.&lt;/p>
+&lt;p>Pour avoir une meilleure vision de la diversité offerte par ce système d'opérateurs, il est possible de visiter les hub suivants:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://operatorhub.io/">operatorhub.io&lt;/a> (156 items)&lt;/li>
+&lt;li>&lt;a href="https://github.com/operator-framework/awesome-operators">github.com/operator-framework/awesome-operators&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Et bien sûr, c'est la force du monde K8S, beaucoup d'outils permettent à présent de créer des opérateurs répondants à vos besoins: &lt;a href="https://github.com/operator-framework">&lt;code>Operator Framework&lt;/code>&lt;/a>, &lt;a href="https://github.com/kubernetes-sigs/kubebuilder">&lt;code>Kubebuilder&lt;/code>&lt;/a>, &lt;a href="https://github.com/nolar/kopf">&lt;code>Kopf&lt;/code>&lt;/a>...&lt;/p>
+&lt;p>La seconde partie de la présentation se porte sur le point de vue d'un développeur de contrôleur et le rapport à l'architecture de Kubernetes. L'occasion de faire un rappel très utile comparant &lt;em>commande&lt;/em> et &lt;em>évènement&lt;/em> et comment fonctionne le cœur de Kubernetes qui est grandement basé sur le concept d'évènements pilotant des commandes et non l'inverse.&lt;/p>
+&lt;p>Lorsqu'on souhaite créer un nouveau contrôleur, il faut prendre en compte un grand nombre d'éléments:&lt;/p>
+&lt;ul>
+&lt;li>Autonomie: uniquement basé sur la réception d'évènements.&lt;/li>
+&lt;li>Asynchronisme et concurrence by design: il ne faut pas attendre les évènements dans un ordre spécifique.&lt;/li>
+&lt;li>Stateless / Stateful: &lt;em>&lt;code>etcd&lt;/code>&lt;/em> est le seul composant faisant autorité. Le reste des données d'état étant grosso modo du &lt;em>&amp;quot;cache&amp;quot;&lt;/em> qu'il faudra réconcilier de temps à autre avec l'état d'&lt;code>etcd&lt;/code>.&lt;/li>
+&lt;li>Anticiper les erreurs: Il y aura toujours des pannes, des erreurs... il faut les anticiper, ainsi que les effets sur le reste de l'infrastructure: &lt;em>defensive programming&lt;/em>.&lt;/li>
+&lt;li>Effets de bords: Ne pas utiliser autre chose de K8S car on sort de la &lt;em>garantie&lt;/em> du comportement de K8S.&lt;/li>
+&lt;/ul>
+&lt;p>La dernière partie de la présentation est une démonstration de &lt;a href="https://github.com/nolar/kopf">&lt;code>Kopf&lt;/code>&lt;/a>: un projet permettant de créer des opérateurs à base de python et initialement développé par &lt;strong>Zalando&lt;/strong>. La démonstration utilise &lt;code>Kopf&lt;/code> afin de déployer des machines virtuelles au travers d'un contrôleur &lt;em>maison&lt;/em>: &lt;em>kopf vm controller&lt;/em>. La réactivité est impressionnante ainsi que l'apparente simplicité de décrire ses propres opérateurs et contrôleurs.&lt;/p>
+&lt;h2 id="expand-your-service-portfolio-with-vmware-cloud-director-extensibility-hcps1394">Expand Your Service Portfolio with VMware Cloud Director Extensibility &lt;code>[HCPS1394]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Joerg Lew&lt;/strong>, Staff Technical Product Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>On aborde dans cette présentation, un domaine que je commence à bien connaître: l'extensibilité de Cloud Director (oui j'ai envie d'écrire &lt;strong>v&lt;/strong>Cloud Director !!).&lt;/p>
+&lt;p>Joerg évoque la disponibilité du provider &lt;em>Terraform&lt;/em> pour Cloud Director puis le projet &lt;a href="https://docs.vmware.com/en/VMware-Cloud-Director-App-Launchpad/index.html">&lt;em>App Launchpad&lt;/em>&lt;/a> qui est un plugin vCD permettant de déployer des applications pré-packagées (Bitnami, in-house apps, VMware Cloud Marketplace) en un minimum de clics.&lt;/p>
+&lt;p>Ce projet &lt;em>App Launchpad&lt;/em> est clairement le plugin le plus abouti que j'ai pu voir (merci la force interne de VMware) avec une intégration graphique parfaite, un portail provider, une gestion des droits, d'une configuration dynamique, recherche... Malheureusement il faut imaginer la démonstration car l'enregistrement n'est pas de bonne qualité à cause d'un partage de l'écran avec la webcam du présentateur.&lt;/p>
+&lt;p>Le second plugin évoqué est le traditionnel &lt;a href="https://vmware.github.io/container-service-extension/INTRO.html">&lt;em>Container Service Extension&lt;/em>&lt;/a> qui bénéficie maintenant d'une UI proposée par VMware. Ce plugin (dont la partie API n'est pas nouvelle) a vocation a permettre de déployer des clusters K8S depuis Cloud Director en quelques clics là aussi. Ayant déjà travaillé sur cette extension par le passé, je suis toujours surpris qu'il manque toujours à l'UI le support d'&lt;em>Enterprise PKS&lt;/em>. La variété de services autour de K8S chez VMware fait qu'il faille peut être encore attendre une stabilisation avant de bénéficier d'une intégration plus poussée de Tanzu par exemple au sein de Cloud Director.&lt;/p>
+&lt;p>&lt;strong>&lt;em>Edit:&lt;/em>&lt;/strong> Finalement après avoir écrit ces quelques lignes sur CSE, je vois l'annonce de Cloud Director qui inclut la réponse à mon interrogation: &lt;a href="https://blogs.vmware.com/cloudprovider/2020/09/vcd10-2-html.html">Announcing Major Updates in VMware Cloud Director 10.2&lt;/a>. vCD 10.2 arrive donc en même temps que CSE 3.0 qui supportera &lt;em>VMware Tanzu&lt;/em>.&lt;/p>
+&lt;p>Il a bien sûr aussi été question de:&lt;/p>
+&lt;ul>
+&lt;li>&lt;em>&amp;quot;Service Library&amp;quot;&lt;/em> qui s'appuie sur vRealize Orchestrator pour proposer tout type de service à travers l'automatisation personnalisée via cet outil: &lt;code>XaaS&lt;/code>.&lt;/li>
+&lt;li>&lt;em>&amp;quot;vROPS tenant portal&amp;quot;&lt;/em>: qui permet d'accéder à une version &amp;quot;par tenant&amp;quot; de vROPS pour les organisations de vCD.&lt;/li>
+&lt;li>&lt;em>&amp;quot;vCloud Object Storage Service&amp;quot;&lt;/em> offrant la mise à disposition de bucket &lt;em>S3-like&lt;/em> de stockage à destination des tenants vCD (STorage as a Service, Backup as a Service, import/export de VM, vAPP, calalogues etc.)&lt;/li>
+&lt;/ul>
+&lt;p>Enfin il a été question du branding de VCD qui peut être personnalisé au travers de l'API et du &lt;a href="https://github.com/vmware-samples/vcd-ext-samples">kit d'exemples de personnalisation de vCD&lt;/a>. Force est de constater qu'un effort est en cours pour rendre un peu plus accessible ce type de modification de vCD avec notamment la mise en ligne de blog post: &lt;a href="https://blogs.vmware.com/cloudprovider/2020/02/cloud-director-plugin-dev-env.html">https://blogs.vmware.com/cloudprovider/2020/02/cloud-director-plugin-dev-env.html&lt;/a>&lt;/p>
+&lt;h2 id="60-minutes-of-numa-hcp2453">60 Minutes of NUMA &lt;code>[HCP2453]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Frank Denneman&lt;/strong>, Chief Technologist, CPBU, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>C'est devenu ma traditionnelle séquence annuelle que de participer à &lt;em>60 Minutes of NUMA&lt;/em>: une session généralement intense en technicité pour parler d'un sujet immensément complexe: le support de &lt;code>NUMA&lt;/code> (Non-Uniform Memory Access) par le &lt;em>scheduler&lt;/em> de l'hyperviseur ESXi (voir la présentation de l'an passé: &lt;a href="https://vuptime.io/2019/11/07/VMworld-2019-EU-Day4/#60-minutes-of-non-uniform-memory-architecture-hbi2278be">2019&lt;/a>)&lt;/p>
+&lt;p>On commence par un refresh sur la notion/fonctionnalité de &lt;em>Node-Interleaving&lt;/em> qui permet de faire du &lt;em>round robin&lt;/em> lors de l'écriture mémoire entre 2 nœuds NUMA. Cela compromet toutefois les optimisations de NUMA et ce n'est pas conseillé de l'activer (désactivé par défaut). &lt;a href="https://twitter.com/ivgivanov">Ivaylo Ivanov (@ivgivanov)&lt;/a> propose sur Twitter &lt;a href="https://twitter.com/ivgivanov/status/1155754666619232256">une commande&lt;/a> permettant de comparer avant/après l'activation de cette fonctionnalité.&lt;/p>
+&lt;p>Second point de la présentation: &lt;em>Cluster on Die&lt;/em> (CoD) qui permet de créer 2 nœuds NUMA par socket et d'améliorer l'empreinte CPU pour les applications réalisant beaucoup d'accès aux caches mémoire (&lt;em>cache intensives&lt;/em>). C'est une bonne transition pour parler de l'architecture EPYC d'AMD qui propose au sein d'un package CPU unique, plusieurs &amp;quot;dies&amp;quot; avec en EPYCv2 (aka &lt;em>Rome&lt;/em>), 16 domaines de caches pour un nœud NUMA. Une architecture qui remet en question l'intérêt des multiples sockets au sein d'une unique machine.&lt;/p>
+&lt;p>Ensuite, Frank évoque les &lt;em>&amp;quot;3 amigos&amp;quot;&lt;/em>, à savoir la complexe mécanique synchronisée de 3 schedulers auxquels sont confrontés les demandes des machines virtuelles:&lt;/p>
+&lt;ul>
+&lt;li>NUMA scheduler&lt;/li>
+&lt;li>CPU scheduler&lt;/li>
+&lt;li>Memory scheduler&lt;/li>
+&lt;/ul>
+&lt;p>Cela nous amène à la notion de vNUMA qui permet de présenter la topologie NUMA à des guestOS afin qu'ils puissent, adapter leur fonctionnement pour tirer partie, au mieux, de cette configuration.&lt;/p>
+&lt;p>Frank s'aventure ensuite à comparer les dernières génération d'AMD et d'Intel en terme de latence d'accès à la mémoire. Une comparaison légèrement en faveur d'Intel mais selon les usages, dans certains cas, AMD s'en sort mieux.&lt;/p>
+&lt;p>Puis nous abordons le sujet des &lt;em>wides VMs&lt;/em> qui occupent seules, au choix:&lt;/p>
+&lt;ul>
+&lt;li>plus de vCPU que le socket ne peut en proposer&lt;/li>
+&lt;li>plus mémoire qu'un socket ne peut en adresser en local access&lt;/li>
+&lt;/ul>
+&lt;p>Enfin, la présentation se termine en évoquant les composants d'accélération matérielle rencontrés dans les datacenters modernes: notamment les accès à des cartes en PCIe. C'est pour moi l'occasion de découvrir que la notion de localité s'applique au matériel PCIe car ceux-ci sont directement connecté à un package CPU. Dans cette configuration, les workloads de &lt;em>machine learning&lt;/em> peuvent devenir le pire &amp;quot;voisin bruyant&amp;quot; (noisy neighbor) de votre infrastructure en &lt;strong>inondant&lt;/strong> le bus &lt;em>interconnect&lt;/em> en cas d'accès à un &lt;em>remote&lt;/em> GPU par exemple (au sens NUMA du terme &lt;em>remote&lt;/em>). Pour résoudre ce type de cas de figure, Frank propose un &lt;a href="https://github.com/frankdenneman/PTNumaTopology">outil&lt;/a> permettant de faire de l'affinité NUMA/PCIe Device.&lt;/p>
+&lt;h2 id="building-a-mega-cloud--lessons-learned-hcps2600">Building a Mega Cloud – Lessons Learned [HCPS2600]&lt;/h2>
+&lt;ul>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Ken Lamoreaux&lt;/strong>, Director Technical Product Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Martin Hosken&lt;/strong>, Chief Technologist, Cloud Services, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Cette présentation s'appuie sur les bases du toolkit &amp;quot;vCAT&amp;quot; (VMware Architectural Toolkit 5.0) pour aborder la scalabilité &lt;em>extrême&lt;/em> d'un cloud massif en volume ou massivement distribué.&lt;/p>
+&lt;p>Parmi les éléments à prendre en compte, on retrouve:&lt;/p>
+&lt;ul>
+&lt;li>Les &lt;a href="https://configmax.vmware.com">&lt;em>VMware Configuration Maximums&lt;/em>&lt;/a> (ce n'est pas nouveau)&lt;/li>
+&lt;li>L'objectif exact de ce qu'on tente d'atteindre comme scalabilité/performance&lt;/li>
+&lt;li>Les dépendances matérielles&lt;/li>
+&lt;/ul>
+&lt;p>On aborde en surface la capacité à provisionner à bon rythme la capacité matérielle (automatisation bas niveau), la configuration de la couche logicielle primaire (vSphere, clustering...), la notion de &lt;em>pod&lt;/em> (pas K8S cette fois!) matériels dont le nombre peut évoluer en fonction des besoin de ce cloud &amp;quot;massif&amp;quot; que l'on essaie de créer. Je passe sur l'usage de vROps pour surveiller la capacité et l'état de santé de nos pods ou de notre cloud car c'est un usage finalement basique et attendu de ce produit.&lt;/p>
+&lt;p>On fait donc le tour des produits VMware qui constituent la base d'un cloud privé ou partagé à large échelle selon le point de vue de VMware: vSAN, NSX-T, vROps, VCF (Cloud Foundation)...&lt;/p>
+&lt;p>La partie sur NSX-T est intéressante car on ne parle plus de concepts généraux, on parle d'architecture, de choix de design, de contraintes, de faire sauter les bottlenecks! En guise de récap, coté réseau, on nous préconise de prendre en compte:&lt;/p>
+&lt;ul>
+&lt;li>la forme de notre trafic réseau: beaucoup de petits paquets (telco/nfv) ou de gros paquets plus traditionnel en intra-DC?&lt;/li>
+&lt;li>la capacité d'offload matériel de notre trafic: Rx/Tx filters, Geneve Offload, RSS...&lt;/li>
+&lt;li>les composants matériels choisis: par exemple, afin d'atteindre plus de 40GB.s&lt;sup>-1&lt;/sup> de bande passante, 2 slots PCIe sont nécessaire.&lt;/li>
+&lt;/ul>
+&lt;p>Concernant Cloud Director, j'apprends que finalement ce composant, même dans sa nouvelle forme d'appliance est finalement limité en nombre d'instance: 3 max dans le cluster de BDD et ensuite chaque nouvelle appliance en plus génère beaucoup d'accès à la base qui peuvent impacter les performances globales ressenties.&lt;/p>
+&lt;p>Pour ma part je suis malgré tout un peu déçu que cette présentation ne soit pas descendu plus en détails dans les entrailles d'une vraie mise en situation avec des retours d'expérience. Probablement que la valeur du niveau de technicité de cette présentation (300) a été placé un peu haut au regard du contenu.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/vmworld2020.png"/>&lt;figcaption>
+&lt;h4>VMworld 2020&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item><item><title>VMworld 2019 – Récapitulatif jour 4</title><link>https://vuptime.io/post/2019-11-07-vmworld-2019-eu-day4/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/07/VMworld-2019-EU-Day4/</guid><description>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day4_VMwareFrance.png"/>&lt;figcaption>
+&lt;h4>Photo Booth SII Île de France&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="deploying-the-vmware-cloud-provider-platform-hbi2767be">Deploying the VMware Cloud Provider Platform &lt;code>[HBI2767BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Eiad AlAqqad&lt;/strong>, VCPP Lead Solution Architect, VMware&lt;/li>
+&lt;li>&lt;strong>Milko Slavov&lt;/strong>, Staff Engineer, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29354">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Cloud Provider Pod est une option qui (pourrait|doit) être très intéressante pour déployer &lt;em>from scratch&lt;/em>, en tant que Cloud Provider, une offre de cloud basée sur une stack VMware. Le produit prend en charge bon nombre des configurations les plus longues, complexes et sujetes à des erreurs humaines et se propose de tout automatiser avec le support des fonctions suivantes (à ce jour):&lt;/p>
+&lt;ul>
+&lt;li>Day 0 de tout le &lt;em>SDDC&lt;/em> (compute, storage, network + security)&lt;/li>
+&lt;li>Mise en place du &lt;em>Data Recovery, Data Protection&lt;/em> et des solutions de migration (&lt;em>vCAV&lt;/em>)&lt;/li>
+&lt;li>Multi-tenancy (&lt;em>vCD&lt;/em>)&lt;/li>
+&lt;li>&lt;em>vROPs&lt;/em>, &lt;em>vRNI&lt;/em> et &lt;em>vRLI&lt;/em> pour la supervision et la phase opérationnelle&lt;/li>
+&lt;li>La mise en place du &lt;em>chargeback&lt;/em> (coucou &lt;em>vRB&lt;/em>)&lt;/li>
+&lt;li>Multi-sites (avec contraintes)&lt;/li>
+&lt;li>La gestion des containeurs via &lt;a href="https://vmware.github.io/container-service-extension">vCD Container Service Extension&lt;/a>&lt;/li>
+&lt;li>Gestion des licences &lt;em>vSPP&lt;/em> (&lt;em>Usage Meter&lt;/em> mon amour!)&lt;/li>
+&lt;li>&lt;em>vRO&lt;/em> pour l'automatisation (le produit s'appuye d'ailleurs sur &lt;em>vRO&lt;/em> pour l'automatisation)&lt;/li>
+&lt;li>La génération de la documentation (Architecture, Planning, Ops Guides…)&lt;/li>
+&lt;li>&lt;em>VMware Cloud Verified&lt;/em> ready&lt;/li>
+&lt;li>…&lt;/li>
+&lt;/ul>
+&lt;p>Avec tout de même quelques limitations annoncées:&lt;/p>
+&lt;ul>
+&lt;li>64 noeuds maximum&lt;/li>
+&lt;li>VXLAN ou VLAN backed network seulement&lt;/li>
+&lt;li>Pas de migration possible d'un &lt;em>brown field&lt;/em>. &lt;em>Green field&lt;/em> seulement!&lt;/li>
+&lt;li>Multi-sites avec de la latence: non supporté (metro cluster)&lt;/li>
+&lt;li>Ne supporte pas le routage IP direct pour les environnements clients (configuration manuelle requise)&lt;/li>
+&lt;/ul>
+&lt;p>La version 1.6 a été devait être annoncée en Novembre (mais visiblement ce n'est pas encore le cas), avec les nouvelles fonctionnalités suivantes:&lt;/p>
+&lt;ul>
+&lt;li>Nouveau &lt;em>designer&lt;/em> (&lt;a href="https://designer.cloud.vmware.com/">SaaS: designer.cloud.vmware.com&lt;/a>)&lt;/li>
+&lt;li>Automatisation encore plus poussée du démarrage des opérations de déploiment.&lt;/li>
+&lt;li>Support garantie de &lt;em>VMware Validated Design&lt;/em>&lt;/li>
+&lt;li>Nouvelle API&lt;/li>
+&lt;li>Mise à jour des composants logiciels proposés&lt;/li>
+&lt;/ul>
+&lt;p>Pour ma part j'aimerais bien tester ce type de produit mais les occasions sont rare et j'ai bien peur que par manque de souplesse, il faille sortir des sentiers battus très rapidement pour contenter les besoins spécifiques de nos clients &lt;em>cloud providers&lt;/em>.&lt;/p>
+&lt;h2 id="60-minutes-of-non-uniform-memory-architecture-hbi2278be">60 Minutes of Non-Uniform Memory Architecture &lt;code>[HBI2278BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Frank Denneman&lt;/strong>, Chief Technologist, CPBU, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29139">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>… ou comment s'assomer pour finir le séjour.&lt;/p>
+&lt;p>Les &lt;em>Deep Dive&lt;/em> proposés par Frank Denneman (et ses collègues) sont toujours d'un niveau technique très élevé mais d'une richesse incroyable.&lt;/p>
+&lt;p>Un sujet comme NUMA pourrait nécessiter des jours et des jours d'apprentissage pour être maitrisé mais la conférence proposé évoquait déjà quelques beaux chapitres avec beaucoup de pédagogie.&lt;/p>
+&lt;p>Le premier chapitre était consacré à l'explication d'une slide de la keynote du mardi ou il était annoncé que le projet Pacific (Faire tourner des pods K8S directement dans l'hyperviseur vSphere) permettait d'atteindre jusqu'à 30% de performances en plus que dans une VM Linux et 8% vis à vis de Kubernetes sur un Linux Baremetal… Cela méritait en effet quelques explications que je ne pourrais retranscrire correctment ici mais qui étaient étayées de démonstrations de la gestion mémoire/cpu très optimisée sur le kernel vSphere.&lt;/p>
+&lt;p>Un autre chapitre était consacré à expliquer comment VMware avait réussi à contourner le challenge de la faille Intel L1TF (&lt;em>Side Channel Vulnerability&lt;/em>) tout en conservant (pour les kernels les plus récents &amp;gt;= 6.7u2) des performances comparables à la situation avant la découverte de cette faille. Il faut savoir que c'est un enjeu majeur de la résolution de cette faille de sécurité). La nouvelle politique de scheduling CPU de vSphere pour résoudre ce dylème s'appelle &lt;em>Side Channel Aware Scheduler&lt;/em> (SCA).&lt;/p>
+&lt;p>Je passe rapidement sur le reste car c'était très dense: &lt;em>vNUMA, VPD et PPDs&lt;/em>, alignement des &lt;em>Core Per Socket&lt;/em>, gestion du &lt;em>CPU Hot Add&lt;/em>… Autant de savoureux sujets qu'il est intéressant de comprendre (à défaut de les maitriser totalement) si on cherche à obtenir des performances élevées de son infrastructure de virtualisation, ou si on a des workloads spécifiques dans la consommation CPU ou mémoire.&lt;/p>
+&lt;h2 id="next-generation-reference-design-with-nsx-t-part-1-and-2-cnet2061be-and-cnet2068be">Next generation reference design with NSX-T part 1 and 2 &lt;code>[CNET2061BE]&lt;/code> and &lt;code>[CNET2068BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Jérémy Rossignol&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Nimish Desai&lt;/strong>, Director Technical Product Management, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29694">Vidéo - Partie 1&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29692">Vidéo - Partie 2&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Une conférence avancée en deux parties sur le design &lt;em>single-tier&lt;/em> et &lt;em>multi-tier&lt;/em> NSX-T. Je ne rentrerai pas dans les détails des designs car ici nous avons revu plusieurs usecases et quel design appliquer sur ces usecases.&lt;/p>
+&lt;p>Conférence très intéressante sur comment répondre à vos problématiques avec un niveau technique très poussé. Je vous conseille fortement d'aller regarder les deux vidéos de cette conférence en deux parties.&lt;/p>
+&lt;p>Quelques bonnes nouvelles suite à une discussion avec le speaker, Nimish Desai, NSX-T 3.0, version qui sera lancée normalement au premier semestre 2020, incluera la gestion des VRF ce qui simplifiera la vie pour les designs multi clients.&lt;/p>
+&lt;h2 id="deploying-and-designing-kubernetes-with-nsx-t-openshift-pks-pas-cnet1444be">Deploying and Designing Kubernetes with NSX-T (Openshift, PKS, PAS) &lt;code>[CNET1444BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Chhavi Nijhawan&lt;/strong>, Product Line Marketing Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Nikolay Nikolaev&lt;/strong>, Open Source Networking Team Lead, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29837">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Session technique qui présente l'architecture de NSX-T dans Kubernetes. Un cas d'usage illustre l'utilisation de NSX-T pour gérer le réseau sur plusieurs clusters &lt;em>OpenShift&lt;/em> et &lt;em>Kubernetes PKS&lt;/em> simultanément, et comment mettre en place du loadbalancing L7 sur une application déployée sur plusieurs clusters.&lt;/p>
+&lt;h2 id="run-kubernetes-consistently-across-clouds-with-tanzu-and-project-pacific-kub1840e">Run Kubernetes Consistently Across Clouds with Tanzu and Project Pacific &lt;code>[KUB1840E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Michael West&lt;/strong>, Technical Product Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Ross Kukulinski&lt;/strong>, Product Line Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Tom Spoonemore&lt;/strong>, Product Line Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29812">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Comme on l'a vu précédemment, Kubernetes possède de nombreux atouts quand on souhaite déployer des applications conteneurisées. Le projet VMware &lt;em>Tanzu&lt;/em> se propose de faciliter la mise en œuvre et l'exploitation de Clusters Kubernetes à l'échelle industrielle.&lt;/p>
+&lt;p>&lt;em>Tanzu&lt;/em> introduit la notion de &lt;em>Kubernetes grid&lt;/em> qui consiste à gérer tous les clusters Kubernetes de l'entreprise, quels que soit leur mode de déploiement (sur du vSphere, via &lt;em>Project Pacific&lt;/em>, via du PKS, etc...).&lt;/p>
+&lt;p>Le déploiement de clusters Kubernetes au sein de &lt;em>Project Pacific&lt;/em> s'appuie sur la spécification &lt;em>Cluster API&lt;/em> supportée par un nombre croissant d'opérateurs (12 à ce jour dont : &lt;em>Google Cloud, Amazon, Azure, OpenStack, IBM Cloud, WMware&lt;/em>)&lt;/p>
+&lt;p>L'outil &lt;em>Tanzu Mission Control&lt;/em> permet via une interface web unifiée de piloter la création ou le rattachement de l'ensemble des cluster Kubernetes en mode multi-cloud. Il permet également de gérer le cycle de vie de ces clusters, via des procédures de mises à jour automatisées.&lt;/p>
+&lt;h2 id="solutions-exchange-stand-netapp">Solutions Exchange: Stand &lt;em>NetApp&lt;/em>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>NetApp ne fait pas que du stockage. Ils proposent désormais d'autres types de produits:&lt;/p>
+&lt;ul>
+&lt;li>Kubernetes managé sur &lt;em>AWS, GCP, Azure, AlibabaCloud&lt;/em> mais aussi &lt;em>on premise&lt;/em> sur une &lt;a href="https://cloud.netapp.com/kubernetes-service">appliance hardware dédiée&lt;/a>.&lt;/li>
+&lt;li>Du stockage pour Kubernetes (&lt;em>persistent volumes&lt;/em>)&lt;/li>
+&lt;/ul></description></item><item><title>VMworld 2019 – Récapitulatif jour 3</title><link>https://vuptime.io/post/2019-11-06-vmworld-2019-eu-day3/</link><pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/06/VMworld-2019-EU-Day3/</guid><description>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day3_VMWorldFest_2.gif"/>&lt;figcaption>
+&lt;h4>Photo Booth avec des Toulousains&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="delivering-custom-services-through-vcloud-director-extensibility-hbi1855be">Delivering Custom Services Through vCloud Director Extensibility &lt;code>[HBI1855BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Nick de Kuijer&lt;/strong>, Cloud Architect, Simac IT NL&lt;/li>
+&lt;li>&lt;strong>Martin Hosken&lt;/strong>, Principal Architect, VMware&lt;/li>
+&lt;li>&lt;strong>Milko Slavov&lt;/strong>, Staff Engineer, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29337">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Je ne vais pas le cacher, c'était la présentation que j'attendais le plus de ce VMworld! Étant donné que je travaille sur le sujet de l'extensibilité de vCloud Director depuis plus d'un an (voir le post à ce sujet &lt;a href="https://vuptime.io/2019/05/06/extending-vcloud-director-functionalities/">Extending VMware vCloud Director functionalities&lt;/a>), j'avais de hautes attentes concernant les méthodes utilisées par d'autres personnes pour réaliser le même type d'extensions d'UI et d'API.&lt;/p>
+&lt;p>La présentation a commencé avec une description générale du concept d'extension des API et de l'UI du portail. Et de citer quelques exemples de use-case (notamment avec la très belle intégration réalisée par &lt;strong>Avamar&lt;/strong>). Il y a aussi eu une annonce d'un nouveau framework permettant la création d'intégrations plus poussées des extensions (notamment la possibilité d'ajouter des actions contextuelles sur des objets de l'inventaire) et plus facile à mettre en œuvre.&lt;/p>
+&lt;p>Nous avons eu ensuite une démonstration un peu plus technique d'un &lt;em>Backend as a Service&lt;/em> qui n'a pas été très clairement expliquée à mon avis.&lt;/p>
+&lt;p>Enfin, Nick de Kuijer, Cloud Architect @ &lt;a href="https://www.simac.com/en/itnl">Simac IT&lt;/a> 🇳🇱 a démontré un exemple d'extension permettant la mise à disposition des logs Firewall NSX dans le portail vCD, pour les utilisateurs. Leur permettant ainsi de pouvoir analyser si une requête est légitimement bloquée ou pas. Puis un mécanisme de déploiement de VM personnalisé permettant d'adapter la zone de disponibilité, le type d'instance…&lt;/p>
+&lt;h2 id="evolving-vrealize-automation-hbo1323be">Evolving vRealize Automation &lt;code>[HBO1323BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Chris McClanahan&lt;/strong>, Staff Technical Marketing Architect, VMware&lt;/li>
+&lt;li>&lt;strong>Liad Ofek&lt;/strong>, Director, Product Managerment, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29414">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Note à moi-même pour l'année prochaine: ne pas aller à des conférences de niveau technique 100 ou 200. Jamais. Même quand le sujet semble passionant.&lt;/p>
+&lt;p>C'était le cas de cette présentation de vRealize Automation 8.0. J'en attendais beaucoup car vRA est un produit très utilisé par nos clients et sur lequel nous passons nous-même beaucoup de temps pour y réaliser de l'automatisation. Et comme le changement 7.x &amp;gt; 8.0 s'annonce majeur, il vaut mieux se renseigner au maximum au plus tôt.&lt;/p>
+&lt;p>Pour résumer tout de même les informations majeures:&lt;/p>
+&lt;ul>
+&lt;li>vRA a été totalement réécrit pour réduire sa complexité de déploiement. Les services IaaS ont notamment disparu.&lt;/li>
+&lt;li>L'installation et la maintenance de vRA s'appuyent à présent sur Life Cycle Manager et la gestion d'identité sur le Identity Manager.&lt;/li>
+&lt;li>Tous les services vRA sont à présent devenus des services basés sur Kubernetes.
+&lt;ul>
+&lt;li>J'ai tout de même un doute sur les services PostgreSQL et RabbitMQ car la slide n'était pas limpide du tout.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>L'apparition de &lt;em>FaaS&lt;/em> (Function as a Service) comme nouveau support à l'extensibilité, au coté de vRO. Par exemple AWS Lambda mais pas que.&lt;/li>
+&lt;li>Une intégration git complète pour les éléments du catalogue de service!&lt;/li>
+&lt;/ul>
+&lt;p>VMware indique clairement que cette version 8.0 est une version qui n'est pas à mettre en production car elle manque de maturité. Il faudra donc attendre au moins la version 8.1, premier semestre 2020. La migration de quelques données de plateformes 7.5 ou 7.5 ne sera elle disponible qu'à partir de la mi-2020. C'est un gros gros challenge pour nos clients qui avaient misés sur l'extensibilité de vRA 7.x et ne pourront probablement pas réutiliser beaucoup de ces efforts en vRA 8.x…&lt;/p>
+&lt;h2 id="the-art-of-code-that-writes-code-code2216e">The Art of Code That Writes Code &lt;code>[CODE2216E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Kyle Ruddy&lt;/strong>, Senior Technical Marketing Architect, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29883">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Qui ne rêve pas d'un outil permettant de générer d'autres outils du même type tout en écrivant le moins de code possible. Vous décrivez une nouvelle API, c'est déjà un beau travail. Et vous devez en plus coder des clients ou des SDK pour utiliser cette API en ligne de commande par exemple? C'est un doublon de travail qui peut être évité.&lt;/p>
+&lt;p>On recommence: Vous décrivez une nouvelle API en la documentant au fur et à mesure. Par exemple en réalisant un fichier de description &lt;em>swagger&lt;/em>. Ensuite, il suffit de faire digérer ce descripteur à un outil comme &lt;a href="https://github.com/Azure/autorest">&lt;code>autorest&lt;/code>&lt;/a> (Azure) pour obtenir un client ou un SDK en C#, NodeJS, Python, Java, Ruby, Go, TypeScript…&lt;/p>
+&lt;p>Kyle nous a proposé un exemple basé sur l'API &lt;a href="https://xkcd.com/json.html">xkcd&lt;/a> et la génération d'un client en PowerShell. Exemple: &lt;code>Get-XkcdComic&lt;/code>.&lt;/p>
+&lt;p>L'occasion de rappeler que les API vSphere évoluent dans le bon sens (c'est à dire vers plus de REST, moins de SOAP!) et que VMware propose nombre de SDK dans différents languages: &lt;a href="https://vmware.github.io/vsphere-automation-sdk/">vsphere-automation-sdk&lt;/a>.&lt;/p>
+&lt;h2 id="kubernetes-operators-for-vmware-enterprise-pks-and-vmware-cloud-pks-code1360e">Kubernetes Operators for VMware Enterprise PKS and VMware Cloud PKS &lt;code>[CODE1360E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Michael Gasch&lt;/strong>, Application Platforms Architect - Office of the CTO, VMware&lt;/li>
+&lt;li>&lt;strong>Tom Schwaller&lt;/strong>, Technical Product Line Manager, CNABU, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29564">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Plongée en détail sur ce qu'est un &lt;em>Operator&lt;/em>, à quoi ça peut servir et comment en écrire. Les &lt;em>Operators&lt;/em> couplés aux &lt;em>Custom Resource Definitions&lt;/em> sont un moyen extrêmement puissant d'étendre l'api de Kubernetes pour introduire des logiques métiers complexes :&lt;/p>
+&lt;ul>
+&lt;li>Les &lt;strong>Custom Resource Definitions&lt;/strong> permettent de déclarer de nouveaux types de Ressources que Kubernetes va pouvoir gérer de la même manière que ses Ressources natives. Une fois la CRD déclarée, il devient possible de créer des objets (Custom Resources) de ce nouveau type. La validation des Customs Resources créées par les utilisateurs se base sur &lt;a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">la spécification OpenAPI 3.0&lt;/a>.&lt;/li>
+&lt;li>Les &lt;strong>Operators&lt;/strong> sont des Controllers Kubernetes (du code exécuté dans des Pods) qui surveillent les évènements liés aux Custom Resources et implémentent la logique métier pour réaliser des tâches complexes (comme par exemple le déploiement d'un système de base de données en cluster, la gestion de la sauvegarde des base ou encore l'ajout de nouveaux noeuds au cluster).&lt;/li>
+&lt;/ul>
+&lt;p>Il existe plusieurs frameworks pour faciliter le développement d'Operators.&lt;/p>
+&lt;p>La démo montre comment utiliser le framework &lt;a href="https://github.com/zalando-incubator/kopf">Kopf&lt;/a>, développé par Zalando, pour écrire un Operator qui va créer des VMs sur vSphere via des CR de type VMGroup.&lt;/p>
+&lt;h2 id="project-pacific-guest-clusters-deep-dive-hbi4500be">Project Pacific: Guest Clusters Deep Dive &lt;code>[HBI4500BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Derek Beard&lt;/strong>, Senior Staff Engineer, VMware&lt;/li>
+&lt;li>&lt;strong>Zach Shepherd&lt;/strong>, Staff Engineer II, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29784">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Cette session expose en détail le projet Pacific.&lt;/p>
+&lt;blockquote>
+&lt;p>Kubernetes as a platform platform&lt;br>
+-- &lt;cite>Joe Beda&lt;/cite>&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Project Pacific is a re-architecture of vSphere with Kubernetes as its control plane.&lt;br>
+-- &lt;cite>Jared Rosoff&lt;/cite>&lt;/p>
+&lt;/blockquote>
+&lt;p>Kubernetes devient un élément central de vSphere via l'introduction d'un composant d'orchestration nommé &lt;em>Kubernetes Cluster Supervisor&lt;/em>. Le Supervisor utilise ESXi comme worker nodes au lieu de Linux. Ceci passe par une implémentation spécifique de Kubelet, nommée &lt;strong>Spherelet&lt;/strong> qui tourne directement sur ESXi. Il devient ainsi possible de faire tourner des Pods kubernetes natifs sur ESXi avec des performances impressionnantes (30% plus rapide que des Pods tournant dans des VMs Linux, et 8% plus rapide que des Pods tournant sur du bare metal Linux, ceci grâce à des optimisations sur la gestion de la mémoire et du cpu).&lt;/p>
+&lt;p>D'autre part, le Supervisor se base sur des &lt;em>CRDs&lt;/em> et &lt;em>Operators&lt;/em> spécifiques (Machine, MachineSet, MachineDeployment, Cluster, ManagedCluster) afin de permettre de gérer des objets vSphere via des fichiers de description de ressources au format Kubernetes. Des Operators dédiés comme le &lt;em>VM operator&lt;/em> ou le &lt;em>Guest Cluster Operator&lt;/em> offrent la possibilité d'orchestrer le déploiement et cycle de vie de :&lt;/p>
+&lt;ul>
+&lt;li>Machines Virtuelles,&lt;/li>
+&lt;li>Clusters Kubernetes Managés (dit 'Guest clusters').&lt;/li>
+&lt;/ul>
+&lt;p>Il devient ainsi plus facile de séparer les préoccupations entre les Ops qui déploient l'infrastructure et les développeurs qui vont accéder à des VMs et des clusters Kubernetes à la demande via des ressources de type Machine, ou ManagedCluster.&lt;/p>
+&lt;h2 id="the-circle-of-token-life-code3332e">The Circle of (Token) Life &lt;code>[CODE3332E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Dan Illson&lt;/strong>, Staff Native Cloud Advocate, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/28397">Vidéo US&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Dan Illson présente la gestion de données sensibles dans Kubernetes avec Hashicorp Vault. Il rappelle que les Secrets dans Kubernetes sont simplement encodés en base64 mais pas du tout chiffrés ce qui pose des problèmes en matière de sécurité. De plus l'accès aux secrets manque cruellement de granularité.&lt;/p>
+&lt;p>L'outil Vault vient compléter la gestion des secrets avec tout un panel de fonctionnalités comme le chiffrement, la rotation des clés, l'expiration ou la révocation d'un secret, secrets dynamiques, etc...).&lt;/p>
+&lt;h2 id="nsx-t-deep-dive-kubernetes-networking-cnet1270be">NSX-T Deep Dive: Kubernetes Networking &lt;code>[CNET1270BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Ali Al Idrees&lt;/strong>, Lead EMEA SDDC Architect, VMware&lt;/li>
+&lt;li>&lt;strong>Yasen Simeonov&lt;/strong>, Senior Technical Product Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29713">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Après une brève présentation de Kubernetes, cette session expose comment l'intégration du réseau NSX-T avec Kubernetes permet de gérer l'ensemble des problématiques réseau (adressage des Pods, cloisonnement entre namespaces, loadbalancing L4 et L7, firewalling) via les ressources Kubernetes habituelles (ns, networkpolicies, ingresses).&lt;/p>
+&lt;p>Le composant NSX Container Plugin (NCP) est chargé d'assurer la traduction (ainsi que la synchronisation) des règles définies dans les objets Kubernetes vers les règles NSX-T correspondantes. Le composant NCP se présente sous la forme d'un Pod qui est exécuté directement dans le cluster Kubernetes.&lt;/p>
+&lt;h2 id="service-mesh-tracing-prometheus-wavefront-provides-observability-for-all-kub1862be">Service Mesh, Tracing, Prometheus: Wavefront Provides Observability for All &lt;code>[KUB1862BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Chhavi Nijhawan&lt;/strong>, Product Line Marketing Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Nikolay Nikolaev&lt;/strong>, Open Source Networking Team Lead, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29837">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Cette session commence par une introduction aux concepts de service mesh, de distributed tracing et de monitoring dans Kubernetes. Ces outils se révèlent utiles lorsqu'on l'on commence à déployer des applications fortement orientées microservices.&lt;/p>
+&lt;p>On présente ensuite l'outil Wavefront, et comment celui-ci peut venir s'interfacer avec les outils opensources istio, jaeger/zipkin, et prometheus. Wavefront se propose d'enrichir les fonctionnalités de ces outils mais aussi de permettre leur utilisation dans une interface unifiée. Wavefront fourni en outre plus de 200 intégrations pour ingérer des métriques et des logs de toute provenance.&lt;/p>
+&lt;p>La démo présente un cas d'usage d'observabilité en démontrant comment repérer d'où provient une latence dans une application microservices via la combinaison du monitoring pour la détection du problème, du tracing pour l'analyse d'une requête de bout en bout et de l'analyse des logs pour trouver la cause précise du problème. Tout cela sans quitter l'interface web de Wavefront.&lt;/p>
+&lt;h2 id="nsx-t-deep-dive--l3-routing-cnet1069be">NSX-T Deep Dive : L3 Routing &lt;code>[CNET1069BE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Jérémy Rossignol&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Amit Aneja&lt;/strong>, Senior Technical Product Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29591">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Ici nous avons eu un cours accéléré sur le rroutage au sein de NSX-T.
+Petit rappel, toujours pour commencer un logical router NSX-T est constitué de deux composants le DR et le SR.&lt;/p>
+&lt;p>Le DR ou &lt;em>Distributed Router&lt;/em> s'éxecute localement sur les transport nodes. Une transport node cela peut être à la fois un ESXi ou un hyperviseur KVM qui hébergeront vos VMs clientes mais cela peut être aussi une edge node qui elle hébergera vos logical router. Le SR ou &lt;em>Service Router&lt;/em> lui s'éxecutera seulement sur les &lt;em>edge nodes&lt;/em>.&lt;/p>
+&lt;p>Le DR comme son nom l'indique est distribué sur votre plateforme et permet de faire tout le travail de routage. Le SR quant à lui va se déployer automatiquement lorsque vous aurez configuré un service sur l'un de LR que ce soit &lt;em>T0&lt;/em> ou &lt;em>T1&lt;/em>, il n'est pas distribué mais centralisé.&lt;/p>
+&lt;p>Voilà si on récapitule déjà ce petit rappel qui a lui tout seul vous donne certainement déjà des cheveux blancs :&lt;/p>
+&lt;ul>
+&lt;li>NSX-T c'est du tier routing avec des routeurs &lt;em>T0&lt;/em> et &lt;em>T1&lt;/em>, &lt;em>T0&lt;/em> permet de se connecter au réseau physique et &lt;em>T1&lt;/em> est fait pour se connecter à vos workloads&lt;/li>
+&lt;li>Un &lt;em>logical router&lt;/em> &lt;em>T0&lt;/em> ou &lt;em>T1&lt;/em> est composé d'un &lt;em>DR&lt;/em> ET d'un &lt;em>SR&lt;/em> si on configure un service dessus (Connexion au physique, routage dynamique, &lt;em>LB, VPN, NAT, Firewall,DHCP, DNS Forwarder, Metadata Proxy&lt;/em>)&lt;/li>
+&lt;li>&lt;em>DR&lt;/em> : routage distribué&lt;/li>
+&lt;li>&lt;em>SR&lt;/em> : service, centralisé&lt;/li>
+&lt;/ul>
+&lt;p>Ensuite maintenant que vous avez les bases, parlons un peu des &lt;em>edges nodes&lt;/em> qui dans NSX-T peuvent être à deux formats, &lt;em>baremetal&lt;/em> ou VM. ces edges nous allons donc les déployer grâce à un ova sur des ESXi ou directement sur un serveur &lt;em>baremetal&lt;/em>.
+L'utilité de la &lt;em>edge node&lt;/em>, c'est d'héberger vos logical router &lt;em>T0&lt;/em> et &lt;em>T1&lt;/em> qui ne sont plus des VMs au sens propre mais plutôt des micro-services au sein de votre &lt;em>edge node&lt;/em>.&lt;/p>
+&lt;p>Parlons maintenant un peu de routage, nous pouvons faire de l'&lt;em>Equal Cost MultiPathing&lt;/em> avec NSX-T et notament les T0, par contre si vous voulez faire de l'ECMP, il faudra impérativement utiliser le &lt;em>Bidirectional Forwarding Detection&lt;/em> (BFD) en BGP.
+Si vous êtes dans un cas ou vous avez plusieurs &lt;em>T0&lt;/em> en HA active/active alors dans ce cas les échanges de routes entre vos deux &lt;em>SR&lt;/em> &lt;em>T0&lt;/em> se feront via iBGP.
+Chose importante, le routage dans NSX-T se fera toujours au plus proche de l'émetteur, si vous avez une VM qui émet une trame qui a besoin d'être routée, le routage se fera toujours sur le &lt;em>DR&lt;/em> de l'ESXi qui héberge la VM.&lt;/p>
+&lt;p>Prenez en considération que vos &lt;em>uplinks&lt;/em> sur vos &lt;em>T0&lt;/em> serviront toujours à se connecter au réseau physique et que vos &lt;em>T1&lt;/em> auront toujours, ou du moins quand ils sont connectés au &lt;em>T0&lt;/em>, une route par défaut vers votre &lt;em>T0&lt;/em>.&lt;/p>
+&lt;p>Bon alors tout cela c'est très technique, je vous recommande comme Amit d'ailleurs d'aller voir les &lt;em>Design Guides&lt;/em>.&lt;/p>
+&lt;p>Petite nouveauté de la version 2.5, les &lt;em>failure domains&lt;/em> pour les &lt;em>edge clusters&lt;/em> (ensemble de &lt;em>edge nodes&lt;/em>), vous pouvez maintenant définir au sein d'un même cluster edge 2 &lt;em>failure domains&lt;/em> qui représenteront par exemple deux racks différents dans votre datacenter, ce qui permettra lorsque vous utilisez du HA d'avoir vos instances &lt;em>T0&lt;/em> sur différents racks en cas de panne cela peut être utile :)
+Je parle ici seulement de &lt;em>T0&lt;/em> car il n'ya que les &lt;em>T0&lt;/em> qui peuvent être en mode active/active.&lt;/p>
+&lt;p>Enfin le plus possible il faut installer vos services au plus proche du workload, c'est à dire le plus possible sur vos &lt;em>T1&lt;/em> pour permettre d'avoir vos &lt;em>T0&lt;/em> en mode active/active car vous ne pouvez pas faire de active/active sur vos &lt;em>T0&lt;/em> si vous installez des services dessus.&lt;/p>
+&lt;p>Si vous voulez aller plus loin voici les conférences que vous pourrez aller voir:&lt;/p>
+&lt;ul>
+&lt;li>Network Virtualization and NSX-T - A technical Overview &lt;code>[CNET1582BE]&lt;/code>&lt;/li>
+&lt;li>NSX-T Deep Dive: Logical Switching &lt;code>[CNET1511BE]&lt;/code>&lt;/li>
+&lt;li>NSX-T Deep Dive: Load balancing &lt;code>[CNET1356BE]&lt;/code>&lt;/li>
+&lt;li>NSX-T Deep Dive: Connecting Cloud and Data Centers via NSX-T VPN &lt;code>[CNET2841BE]&lt;/code>&lt;/li>
+&lt;li>Apply Consistent Security Across VMs, Containers, and Bare Metal &lt;code>[SAI1017BE]&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="solutions-exchange">Solutions Exchange&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Jérémy Rossignol&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>Cette année j'ai voulu prendre le temps d'aller faire un tour et discuter au &lt;em>Solutions Exchange&lt;/em> sur les différents stands des éditeurs.&lt;/p>
+&lt;p>Voici quelques technos auquelles vous devriez penser si vous cherchez de nouvelles solutions, évidemment ce n'est que mon avis et je invite à vous faire votre propre avis sur ces technos :&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>AVI Networks&lt;/strong> : appliance virtuelles de load balancing concurrente de F5 et racheté tout récement par VMware&lt;/li>
+&lt;li>&lt;strong>Rubriq&lt;/strong> : j'ai eu l'occasion d'avoir une petite démo du produit avec une discussion technique très intéressante, pensez-y si vous souhaitez changer votre solution de sauvegarde.&lt;/li>
+&lt;li>&lt;strong>Datacore&lt;/strong> : vous souhaitez faire du stockage hyperconvergé, franchement j'y allais un peu à reculons mais finalement ce produit a l'air d'être une alternative à VSAN très intéressante, en plus elle vous permettrait de réutiliser vos anciennes baies de stockage.&lt;/li>
+&lt;li>&lt;strong>Cohesity&lt;/strong> : de la même manière que Rubriq, pour moi ces 2 éditeurs sont en train de faire bouger le monde de la sauvegarde, ce sont vraiment des solutions à prendre en compte lors du choix de votre future solution de sauvegarde.&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day3_VMWorldFest_1.png"/>&lt;figcaption>
+&lt;h4>Stereophonics au VMworld Fest&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item><item><title>VMworld 2019 – Récapitulatif jour 2</title><link>https://vuptime.io/post/2019-11-05-vmworld-2019-eu-day2/</link><pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/05/VMworld-2019-EU-Day2/</guid><description>
+&lt;h2 id="general-session-aka-la-keynote">General Session (aka la &lt;em>keynote&lt;/em>)&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Pat Gelsinger&lt;/strong>, Chief Executive Officer, VMware&lt;/li>
+&lt;li>&lt;strong>Sanjay Poonen&lt;/strong>, Chief Operating Officer, Customer Operations, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29940">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>La &lt;em>General Session&lt;/em> est l'évènement qui marque le début des pleines festivités du VMworld. Animée par le CEO de VMware, Pat Gelsinger, c'est toujours l'occasion d'évoquer, voir d'annoncer, les récentes acquisitions de VMware et d'envisager les nouvelles tendances du marché.&lt;/p>
+&lt;p>Cette année, parmi ces tendances, on peut citer:&lt;/p>
+&lt;h3 id="kubernetes">Kubernetes&lt;/h3>
+&lt;p>Ce n'est pas une surprise, VMware mise depuis un moment sur l'orchestrateur à tout faire (y compris quelques containers). Le rachat de Pivotal, qui produit PKS, la suite logicielle phare sur le marché, aide quelque peu à être serein vis à vis de cette stratégie.&lt;/p>
+&lt;p>Avec le projet &lt;em>Pacific&lt;/em>, il sera bientôt possible de faire tourner des &lt;em>pods&lt;/em> K8S sur les hyperviseurs ESXi. &lt;em>Tanzu Mission Control&lt;/em> se propose lui d'être le point d'entrée unique pour la gestion des clusters &lt;em>K8S&lt;/em>, qu'ils soient déployés chez vous ou dans un cloud public.&lt;/p>
+&lt;p>Avec &lt;em>Bitnami&lt;/em> et le projet &lt;em>Galleon&lt;/em> Vmware envisage à présent de fournir des images sécurisées, validées et à jour de nombreuses applications.&lt;/p>
+&lt;h3 id="multi-cloud">Multi-cloud&lt;/h3>
+&lt;p>Forcément, aujourd'hui il n'est plus question pour Vmware de vous vendre des hyperviseurs à héberger soi-même dans une salle serveur(s). A présent, l'avenir s'envisage avec des providers de Cloud multiples. La complexité principale de cette perspective est la compatibilité entre ces environnements. Avec NSX-T, HCX, vCloud Foundation etc. VMware veut vous proposer de tout administrer avec leurs solutions, comme un liant commun.&lt;/p>
+&lt;p>Et si le cloud vient à vous, c'est encore mieux: &lt;em>RDS on VMware&lt;/em> est à présent secondé par &lt;em>Azure SQL 2019 on Vmware&lt;/em>.&lt;/p>
+&lt;h3 id="sécurité">Sécurité&lt;/h3>
+&lt;p>La sécurité, au sens large est aussi abordée: réseau, IDS, App control etc. sont au menu mais la présentation manque un peu de matière pour pouvoir en dire davantage.&lt;/p>
+&lt;h2 id="how-powercli-makes-vsphere-configuration-management-easy-code2214e">How PowerCLI Makes vSphere Configuration Management Easy &lt;code>[CODE2214E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Kyle Ruddy&lt;/strong>, Senior Technical Marketing Architect, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29471">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Au cours de cette présentation Kyle nous a présenté rapidement quelques moyens de maintenir une configuration vSphere/vCenter à l'aide d'outils tels que &lt;em>Ansible&lt;/em> ou &lt;em>PowerShell Desired State Configuration&lt;/em>.&lt;/p>
+&lt;p>Personnellement, j'ai déjà un peu d'expérience avec &lt;em>Ansible&lt;/em>, bien moins (pur ne pas dire, du tout!) avec PWS DSC. Je ne dirais pas que je suis concquis par cet outil, car Powershell n'est pas mon langage préféré au quotidien, mais force est de reconnaitre que le chemin parcourus est long. Il est désormais possible de faire un PowerShell quelque chose qui commence à ressembler à Ansible (sans la diversité des modules Ansible pour le moment).&lt;/p>
+&lt;p>J'ai bien apprécié le fait d'avoir une démo en live aussi... Beaucoup de présentations sont des enregistrements, ici c'était du live, avec les risques de l'effet démo, mais surtout, la capacité à mieux expliquer des points de détails. D'ailleurs une des démos n'ayant pas fonctionné, on a basculé sur un backup vidéo: là ok!&lt;/p>
+&lt;p>Quelques liens pour creuser plus loin cette histoire de DSC:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://blogs.vmware.com/PowerCLI/2018/12/getting-started-dsc-for-vmware.html">Getting Started with Desired State Configuration Resources for VMware&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/vmware/dscr-for-vmware">dscr-for-vmware sur GitHub&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="nsx-automation-with-ansible-a-complete-guide-for-day-0-operations-code1617e">NSX Automation with Ansible: A Complete Guide for Day 0 Operations &lt;code>[CODE1617E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Madhukar Krishnarao&lt;/strong>, Technical Product Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/28088">Vidéo US&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>L'idée de la conférence m'a particulièrement emballé: Déployer une infra NSX-T uniquement avec Ansible.&lt;/p>
+&lt;p>Alors le format de la conf n'a pas permis de le démontrer, mais visiblement c'est:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Possible&lt;/strong>: comptez 40' pour un cluster de 3 managers NSX environ.&lt;/li>
+&lt;li>&lt;strong>Supporté&lt;/strong> par VMware. Le module NSX-T est disponible sur le GitHub de VMware: &lt;a href="https://github.com/vmware/ansible-for-nsxt">vmware/ansible-for-nsxt&lt;/a>&lt;/li>
+&lt;li>Plutôt &lt;strong>bien pensé&lt;/strong> vue les contraintes imposées par le modèle NSX-T.&lt;/li>
+&lt;/ul>
+&lt;p>Et bien sûr, au delà du &lt;em>day-0&lt;/em> (déploiement), il est possible d'adresser tous les uses cases &lt;em>day-2&lt;/em>! création, modification, suppression d'objets et de configurations.&lt;/p>
+&lt;p>Une bonne confirmation qu'Ansible est le cheval sur qui miser dans la proposition du marché en ce qui concerne les solutions de &lt;em>configuration management&lt;/em>.&lt;/p>
+&lt;h2 id="whats-new-with-the-ansible-modules-for-vmware-code3300e">What's new with the Ansible Modules for VMware &lt;code>[CODE3300E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Dylan Silva&lt;/strong>, Senior Principal Product Manager, Red Hat, Inc&lt;/li>
+&lt;li>&lt;strong>Kyle Ruddy&lt;/strong>, Senior Technical Marketing Architect, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/30232">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Cette session présente quelques modules VMware à venir sur Ansible 2.9 et 2.10.&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>vmware_content_libray_manager&lt;/code>&lt;/li>
+&lt;li>&lt;code>vmware_content_libray_info&lt;/code>&lt;/li>
+&lt;li>&lt;code>vmware_content_deploy_template&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>Ces nouveaux modules permettent d'agir avec la &lt;em>Content Library&lt;/em> de vSphere pour permettre la gestion de templates de VMs, vApps, images ISO, etc.&lt;/p>
+&lt;p>Une démontration illustre quelques exemples de mise en oeuvre.&lt;/p>
+&lt;h2 id="deploy-kubernetes-apps-on-pks-using-native-tools-code1152e">Deploy Kubernetes Apps on PKS Using Native Tools &lt;code>[CODE1152E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Tom Schwaller&lt;/strong>, Sr. Technical Product Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/27573">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Présentation des différentes façon de déployer une application sur Kubernetes :&lt;/p>
+&lt;ul>
+&lt;li>Via &lt;code>kubectl&lt;/code>&lt;/li>
+&lt;li>Using Helm charts&lt;/li>
+&lt;li>Using Operators --&amp;gt; exemple avec un operator mysql&lt;/li>
+&lt;/ul>
+&lt;p>Utilisation de l'outil &lt;a href="https://jupyter.org/">Jupyter Notes&lt;/a> pour une démo à l'intérieur du navigateur.&lt;/p>
+&lt;p>Session un peu décevante car bâclée par manque de temps (25 minutes allouées seulement alors qu'il en aurait fallu au moins le double).&lt;/p>
+&lt;h2 id="the-genious-of-kubernetes-code1172e">The Genious of Kubernetes &lt;code>[CODE1172E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Richard Lander&lt;/strong>, Senior Cloud Native Architect, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/28408">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Super présentation de Richard Lander, un ancien de chez CoreOS, puis Heptio.&lt;/p>
+&lt;p>Il explique en détail le mode de fonctionnement de Kubernetes basé sur la notion d'&lt;strong>API first&lt;/strong>.&lt;/p>
+&lt;p>Kubernetes lui même est développé comme une application micro-service dont chacun des composants ignore tout des autres. Chaque service connaît uniquement le service d'API, et s'abonne à certains types d'évènement afin de déclencher des actions en réponse aux évènements qui le concernent. Les &lt;strong>Controllers&lt;/strong> sont des programmes exécutés en boucle dont l'objectif est de mettre le système en conformité avec l'état désiré.&lt;/p>
+&lt;p>En effet : un &lt;code>kubectl create pod&lt;/code> ne créé pas directement un pod mais simplement une entrée dans l'API de Kubernetes. Dans un second temps, le composant Scheduler (qui est abonné aux évènements de type Pod) est chargé de trouver un point de chute pour le Pod. Une fois qu'il a trouvé un Node pour héberger le Pod, il modifie simplement l'état de la ressource via l'API en ajoutant la propriété NodeName. Enfin, le composant Kubelet du node correspondant à celui spécifié dans la propriété NodeName du Pod (qui est abonné aux évènements des pods qui le concernent) va ensuite créer effectivement le Pod et venir modifier le Status de la ressource dans l'API avec la valeur Running.&lt;/p>
+&lt;h2 id="understand-the-importance-and-impact-of-service-mesh-mte6169e">Understand the Importance and Impact of Service Mesh &lt;code>[MTE6169E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Deepa Kalani&lt;/strong>, Staff Engineer, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>À table avec un expert. On se retrouve à 7 ou 8 autour de l'expert Andrew Babakian pour parler service mesh. La session est assez intéressante. L'expert expose en détail l'intérêt du service mesh avec quelques schémas sur tableau blanc.&lt;/p>
+&lt;h2 id="that-firewall-did-what--the-nsx-t-data-center-distributed-firewall-in-depth-edu1174e">That Firewall did what ? The NSX-T Data Center Distributed Firewall in Depth &lt;code>[EDU1174E]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Jérémy Rossignol&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Tim Burkard&lt;/strong>, Senior Technical Trainer, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Petite conférence sur les opérations de debug à mener au sein de NSX-T avec un très bon speaker, si vous avez l'occasion, allez voir ses conférences elles sont toujours très instructives et abordable.&lt;/p>
+&lt;p>Il a repris la conférence qu'il avait fait l'année dernière sur le troubleshooting pas de nouveautés, du coup je vous fais un petit rappel.&lt;/p>
+&lt;blockquote>
+&lt;p>&amp;quot;You shall not pass&amp;quot;&lt;/p>
+&lt;/blockquote>
+&lt;p>Voilà ce que l'on attend de notre firewall, c'est sur ces 4 petits mots que commence la session. L'utilité de notre firewall distribué est bien d'empêcher les attaques sur nos systèmes mais aussi les empêcher de pouvoir rebondir depuis un serveur via une porte dérobée.&lt;/p>
+&lt;p>Néanmoins sans les bons outils il peut être difficile de bien diagnostiquer les problèmes de communication. La difficulté lorsque l'on met en place la micro segmentations avec le firewall distribué est bien de s'assurer que l'on ne va pas contraindre les applications et se créer nos propres problèmes.&lt;/p>
+&lt;p>Le sujet ici est de savoir analyser en temps réel ce qui se passe au sein de notre infrastructure au niveau réseau et firewalling.&lt;/p>
+&lt;p>NSX introduit des outils qui nous permettent de répondre à cette problématique.&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Flow Monitoring&lt;/strong>: grâce à lui nous pouvons analyser en temps réel via une interface graphique le traffic réseaux. Il nous permet aussi de bloquer ou d'autoriser via un simple clic le traffic affiché.&lt;/li>
+&lt;li>&lt;strong>Traceflow&lt;/strong>: cet outil nous permettra de tester la communication depuis un source vers une target donnée par le port que on lui indiquera.&lt;/li>
+&lt;li>&lt;strong>Packet Capture&lt;/strong>: comme son nom l'indique, il va permettre de capturer les trames à la manière d'un &lt;em>wireshark&lt;/em>.&lt;/li>
+&lt;/ul>
+&lt;p>Et bien sûr dans l'interface graphique de NSX vous disposez aussi de l'event viewer et des derniers logs de l'applicatif.&lt;/p>
+&lt;p>Conférence très courte mais très intéressante, juste dommage qu'on ne dispose pas de la vidéos car cette conférence était donnée sur le &lt;em>Certification Lounge&lt;/em>.&lt;/p>
+&lt;p>En tout cas, je vous le répète si vous souhaitez en apprendre plus sur NSX allez vois les conférences de Tim Burkard elles vous permettront d'y voir un peu plus clair.&lt;/p>
+&lt;p>En voici quelques unes très intéressantes:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/27567">Demystifying the NSX-T Control and Data Plane&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26494">How to Design Multi-layered Security in the SDDC with NSX Data Center&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="certification-nsx-t">Certification NSX-T&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Jérémy Rossignol&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>J'ai voulu tenter l'expérience de passer une certification au VMworld cette année, spoiler-alert je l'ai loupé de peu ^^&lt;/p>
+&lt;p>En octobre j'ai eu l'occasion de faire la formation ICM de NSX-T, avec l'opportunité de passer la certification, avec le discount qu'il y'a sur les certifications au VMworld (-50%) il fallait au moins essayer.&lt;/p>
+&lt;p>J'ai pas mal révisé ce qui m'a coûté presque toute ma journée de conférence du mardi :( mais bon c'était pour la bonne cause.&lt;/p>
+&lt;p>Je l'ai manqué à 10 points, c'est rageant mais j'ai pu voir à quoi elle ressemblait et ce n'est pas si évident que ça.&lt;/p>
+&lt;p>Un conseil du coup pour ceux qui souhaite la passer, manipulez beaucoup sur NSX-T et refaites les labs de la formation ICM plusieurs fois car certaines questions sont assez pièges notamment sur les différentes commandes à exécuter sur les labs, il faut connaître la syntaxe exacte pour ne pas se tromper ^^&lt;/p>
+&lt;p>Enfin si vous souhaitez mettre toutes les chances de votre côté, je pense que la réduction n'en vaut pas la chandelle, je n'ai pas profité de la même manière du VMworld cette année que l'année dernière, il est préférable que vous passiez votre certification dans un centre d'examens près de chez vous.&lt;/p>
+&lt;p>Mais si vous souhaitez quand même essayer de la passer au VMworld, il faut savoir que cette année par exemple ils donnaient un T-Shirt &lt;em>&amp;quot;Certified at VMworld&amp;quot;&lt;/em> pour tous ceux qui obtenaient la certif :'(.&lt;/p></description></item><item><title>VMworld 2019 – Récapitulatif jour 1</title><link>https://vuptime.io/post/2019-11-04-vmworld-2019-eu-day1/</link><pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/04/VMworld-2019-EU-Day1/</guid><description>
+&lt;h2 id="operating-the-ultimate-hybrid-cloud-with-vmware-cloud-foundation-hbi1519te">Operating the Ultimate Hybrid Cloud with VMware Cloud Foundation &lt;code>[HBI1519TE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Speakers(s):
+&lt;ul>
+&lt;li>&lt;strong>Heath Johnson&lt;/strong>, Sr. Technical Marketing Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Kevin Tebea&lt;/strong>r, Staff Technical Marketing Architect, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2019/videoplayer/29991">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Pour ma première conférence cette année, j'avais choisi un workshop (4h) sur &lt;strong>Cloud Foundation&lt;/strong>. Pour rappel, &lt;strong>Cloud Foundation&lt;/strong> permet d'automatiser la construction et la maintenance d'un cloud &lt;em>privé&lt;/em> ou hybride via une appliance &lt;em>Cloud Builder&lt;/em>* et d'une spreadsheet Excel de configuration. Ensuite, un **SDDC Manager** permet de maintenir, entretenir et opérer le SDDC au complet.&lt;/p>
+&lt;p>Le point de départ pour débuter l'aventure vCF: 4 hosts &lt;em>vsan-ready-nodes&lt;/em> sur lesquels se reposera le &lt;em>Management Workload Domain&lt;/em>.&lt;/p>
+&lt;p>Malheureusement, la présentation ne propose pas de démonstration du déploiement initial. Toutefois nous aurons eu la démo du déploiement d'un nouveau &lt;em>Workload Domain&lt;/em> (WD) vSphere+vSAN puis d'un &lt;em>Workload Domain&lt;/em> &lt;em>Horizon&lt;/em>.&lt;/p>
+&lt;p>Pour ma part je suis surpris de certains choix de design décrit lors de la présentation:&lt;/p>
+&lt;ul>
+&lt;li>&lt;em>PSC&lt;/em> externes: je pensais que c'était non-recommandé à présent.&lt;/li>
+&lt;li>1 vCenter par &lt;em>workload domain&lt;/em>: merci la consommation de licences. Surtout que les WD semblent très vites spécialisés pour des usages particuliers, non mélangeables.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Gabe Rosas&lt;/strong> nous a aussi présenté HCX et la possibilité de l'utiliser pour migrer son workload legacy vers un WD vCF: Là encore, je trouve que c'est un palliatif onéreux à l'absence de possibilité d'intégrer des workloads existants à ceux &lt;em>&amp;quot;contrôlés&amp;quot;&lt;/em> dans un monde vCF.&lt;/p>
+&lt;p>À part ça, vCF semble prometteur pour accélérer la mise en place d'environnements SDDC chez nos clients.&lt;/p>
+&lt;p>La partie day2, semble aussi intéressante:&lt;/p>
+&lt;ul>
+&lt;li>Mise à jour des composants du SDDC (via des bundles spécialisés)&lt;/li>
+&lt;li>Mise à jour de mots de passe:
+&lt;ul>
+&lt;li>Via une auto-génération (il est ensuite possible d'utiliser un outil en CLI sur le SDDC manager directement)&lt;/li>
+&lt;li>Via une entrée utilisateur classique&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Mise à jour des certificats SSL en s'appuyant sur:
+&lt;ul>
+&lt;li>L'&lt;em>AC&lt;/em> d'&lt;em>Active Directory&lt;/em>&lt;/li>
+&lt;li>Une &lt;em>AC&lt;/em> &lt;em>OpenSSL&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Pour finir, &lt;strong>Hicham (&lt;em>he-sham&lt;/em>) Mourad&lt;/strong> a présenté la très connue suite vRealize et ses produits. Rien de neuf sous le soleil de ce côté si ce n'est un petit mélange des genre entre:&lt;/p>
+&lt;ul>
+&lt;li>Des capacités annoncées mais seulement dispos en version 8.0&lt;/li>
+&lt;li>Une démo en vRA 7.6…&lt;/li>
+&lt;/ul>
+&lt;h2 id="run-kubernetes-on-vmware-kub2073wer">Run Kubernetes on VMware &lt;code>[KUB2073WER]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Christian Tritten&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Boskey Savla&lt;/strong>, Technical Product Line Marketing Manager, VMware&lt;/li>
+&lt;li>&lt;strong>Cody deArkland&lt;/strong> , Technical Product Line Marketing Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Session hands'on de 13h à 16h. Au programme:&lt;/p>
+&lt;ul>
+&lt;li>Présentation des bénéfices du passage au conteneurs et à l'orchestration via Kubernetes.&lt;/li>
+&lt;li>Hands'on : déploiement d'une application microservice sur PKS (VMware cloud) avec kubectl (Labs: &lt;a href="https://github.com/Boskey/run_kubernetes_with_vmware/wiki">Boskey/run_kubernetes_with_vmware&lt;/a>)&lt;/li>
+&lt;/ul>
+&lt;h2 id="operationalizing-nsx-t-workshop-networking-and-security-use-cases-cnet2519te">Operationalizing NSX-T Workshop: Networking and Security Use Cases &lt;code>[CNET2519TE]&lt;/code>&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>Jérémy Rossignol&lt;/em>&lt;/li>
+&lt;li>Speaker(s):
+&lt;ul>
+&lt;li>&lt;strong>Pooja Patel&lt;/strong>, Director of NSX Technical Product Management, VMware&lt;/li>
+&lt;li>&lt;strong>Francois Tallet&lt;/strong>, Technical Product Manager, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Et on commence le VMworld par une grosse session workshop sur NSX-T de 4h !!!
+Les gens sont motivés, la salle est pleine, ça durera peut être pas.&lt;/p>
+&lt;p>On commence par un petit rappel sur les avantages de NSX-T:&lt;/p>
+&lt;ul>
+&lt;li>compatible avec KVM et ESXi&lt;/li>
+&lt;li>On peut l'utiliser à la fois avec des VM, des conteneurs mais aussi et c'est le gros plus les baremetal server.&lt;/li>
+&lt;li>il est aussi multicloud à la fois sur le on-premise, du hybrid cloud mais aussi du cloud public (actuellement AWS, Azure, IBM cloud, VMC on AWS et bien d'autres)&lt;/li>
+&lt;/ul>
+&lt;p>Petite info qui a son importance quand on sait que VMware galère un peu avec le load balancing sur NSX-T, VMware vient d'acquérir AVI Networks qui sont spécialisé sur ce segment, il faudra surveiller les futures annonces à venir :).&lt;/p>
+&lt;p>On enchaine ensuite sur de nouveaux rappel concernant les composants de NSX-T répartis en data plane, control plane et management plane.
+Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager qui ne sont plus qu'une seule et même VM avec NSX-T, vous comprendrez donc que on va avoir ici 3 NSX manager qui auront aussi le rôle de NSX controller.&lt;/p>
+&lt;p>Sur toute la conférence nous revoyons donc ensemble tous les concepts de NSX-T et beaucoup de définitions sur tous les objets NSX-T en passant du N-VDS jusqu'à la restauration d'un NSX Manager.&lt;/p>
+&lt;p>Nous avons aussi eu pas mal d'infos sur le design des infrastructure NSX-T mais aussi de l'utilisation des T0 et T1 en architecture multi tenant (T0 connexion N/S, T1 par tenant).&lt;/p>
+&lt;p>Au passage concernant l'automatisation, petite nouveauté terraform et ansible sont full supported par VMware pour l'automatisation, voici quelques liens utiles pour commencer :&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://www.terraform.io/docs/providers/nsxt/index.html">NSX-T et Terraform&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/vmware/ansible-for-nsxt">NSX-T et Ansible&lt;/a>&lt;/li>
+&lt;li>Pour les &lt;a href="https://nsx.techzone.vmware.com">débutants en automatisation&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day1_VMWorld_Logo.png"/>&lt;figcaption>
+&lt;h4>Logo VMworld&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item><item><title>VMworld 2019 – C'est parti !</title><link>https://vuptime.io/post/2019-11-03-vmworld-2019-cestparti/</link><pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/03/VMworld-2019-cestparti/</guid><description>
+&lt;p>Plus que quelques heures avant de décoller en direction de Barcelone avec 2 collègues de SII Ouest afin d'assister à mon second VMworld.&lt;/p>
+&lt;p>Au-delà de l'aspect &lt;em>VMware &amp;quot;pur&amp;quot;&lt;/em>, les intérêts d'assister à cet évènement sont multiples.&lt;/p>
+&lt;h2 id="veille-technologique">Veille technologique&lt;/h2>
+&lt;p>Tout d'abord, VMware étant plutôt en pointe en matière d'innovation, d'acquisitions et de stratégie, c'est une bonne occasion de voir l'état du marché de l'infrastructure et du cloud-computing, tout en pouvant anticiper aussi les changements prédis (et pour le moment, force est de constaté que VMware vise plutôt juste dans cette anticipation).&lt;/p>
+&lt;h2 id="réseautage-et-communautés">Réseautage et communautés&lt;/h2>
+&lt;p>Ensuite, le VMworld est un formidable moment de partage et de réseautage. Si vous voulez rencontrer des passionnés de virtulisation, de SDN, d'hyperconvergence etc., ils y sont probablement.&lt;/p>
+&lt;p>C'est une bonne occasion aussi de rencontrer ses clients dans un environnement différents des échanges plus traditionnels du quotidien professionnel.&lt;/p>
+&lt;p>Enfin, vous pouvez aussi trouver le temps de partager de bons moments conviviaux à l'extérieur lors des fameuses &amp;quot;party&amp;quot; organisées par différent·e·s fournisseurs ou communautés.&lt;/p>
+&lt;h1 id="à-demain-">À demain !&lt;/h1>
+&lt;p>Arrivée prévue ce soir aux alentours de minuit sur Barcelone, puis une petite nuit avant d'attaquer la première journée, celle des partenaires. Rdv demain donc.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019.png"/>&lt;figcaption>
+&lt;h4>Logo VMworld 2019&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item><item><title>VMUG Paris, Septembre 2019, Slides de notre présentation vRO</title><link>https://vuptime.io/post/2019-09-28-vmug-paris-presentation-vro/</link><pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/09/28/vmug-paris-presentation-vro/</guid><description>
+&lt;p>Une nouvelle édition du vMUG Paris s'achevait jeudi soir autour d'une vBeer méritée par tous:&lt;/p>
+&lt;ul>
+&lt;li>Les &lt;strong>organisateurs&lt;/strong> tout d'abord: merci à eux pour cet évènement très réussi une nouvelle fois !&lt;/li>
+&lt;li>Les &lt;strong>orateurs&lt;/strong>, qui nous ont fait l'honneur de leur présence, de leur temps et de leur savoir.&lt;/li>
+&lt;li>Le public, qui avait passé une journée bien chargée !&lt;/li>
+&lt;li>Les sponsors pour leur soutien.&lt;/li>
+&lt;li>Mon employeur: &lt;strong>SII Group&lt;/strong> qui nous permet de prendre part à ce type d'évènement.&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png"/>&lt;figcaption>
+&lt;h4>Logo vMUG France&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+{:width=&amp;quot;200px&amp;quot;}&lt;/p>
+&lt;p>&lt;a href="https://vuptime.io/about/#aharlaut">@Antoine_hlt&lt;/a> et &lt;a href="https://vuptime.io/about/#lrivallain">moi-même&lt;/a> présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em>vRealize Orchestrator&lt;/em>. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/">présentation que j'avais réalisé à Rennes&lt;/a> il y a quelques mois à l'occasion du &lt;em>meet&amp;amp;geek&lt;/em> organisé à &lt;strong>SII Ouest&lt;/strong>.&lt;/p>
+&lt;p>Nous avions aussi préparé une petite démonstration basé sur le déploiement d'un noeud &lt;em>Kubernetes&lt;/em>.&lt;/p>
+&lt;blockquote>
+&lt;p>Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p>
+&lt;/blockquote>
+&lt;p>Et nous avions apporté avec nous, un &lt;em>RaspberryPi&lt;/em> connecté à quelques leds de couleur permettant de suivre visuellement, l'état du workflow. L'objet a succité un peu d'amusement: c'était le but.&lt;/p>
+&lt;p>Un merci tout spécial à &lt;a href="https://twitter.com/ErikBussink">Erik Bussink&lt;/a>, venu du pays du fromage et du chocolat, qui a offert à un des spectateurs, un kit &lt;em>RaspberryPi 3b&lt;/em> avec boitier et alimentation POE.&lt;/p>
+&lt;p>Les sources de la présentation sont comme d'habitude, sur github: &lt;a href="https://vupti.me/vmug2019-src">vupti.me/vmug2019-src&lt;/a> et la présentation elle-même, si dessous, ou à l'adresse suivante: &lt;a href="https://vupti.me/vmug2019">vupti.me/vmug2019&lt;/a>.&lt;/p>
+&lt;div>
+&lt;iframe width="100%" height="500" src="https://vupti.me/vmug2019" style="border: 1px solid grey;">&lt;/iframe>
+&lt;/div>
+&lt;p>Quelques photos de la journée:&lt;/p>
+&lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">Last &lt;a href="https://twitter.com/VMUGFR?ref_src=twsrc%5Etfw">@VMUGFR&lt;/a> session Ludovic and Antoine &lt;a href="https://twitter.com/hashtag/vRealizeOrchestrator?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRealizeOrchestrator&lt;/a> can do all, even taking care of &lt;a href="https://twitter.com/hashtag/kubernetes?src=hash&amp;amp;ref_src=twsrc%5Etfw">#kubernetes&lt;/a> &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> &lt;a href="https://t.co/LeGpJWR3YG">pic.twitter.com/LeGpJWR3YG&lt;/a>&lt;/p>&amp;mdash; Erik Bussink (@ErikBussink) &lt;a href="https://twitter.com/ErikBussink/status/1177218278101606401?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
+&lt;blockquote class="twitter-tweet">&lt;p lang="fr" dir="ltr">[REX vRO] Dernier talk de la journée avec &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &amp;amp; &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw">@antoine_hlt&lt;/a> autour de l’&lt;a href="https://twitter.com/hashtag/orchestration?src=hash&amp;amp;ref_src=twsrc%5Etfw">#orchestration&lt;/a> !&lt;br> &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> &lt;a href="https://twitter.com/hashtag/VMware?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMware&lt;/a> &lt;a href="https://twitter.com/GroupeSII?ref_src=twsrc%5Etfw">@GroupeSII&lt;/a> &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> &lt;a href="https://t.co/OQ39Ka11ux">pic.twitter.com/OQ39Ka11ux&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177225744046526464?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
+&lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">[SUPER TALK] Special guest for our &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 2019, &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> talk us about “vSphere ESXi past, present and future” Are you ready ? &lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/MyVMUG?ref_src=twsrc%5Etfw">@MyVMUG&lt;/a> &lt;a href="https://twitter.com/VMware?ref_src=twsrc%5Etfw">@VMware&lt;/a> &lt;a href="https://twitter.com/DuncanYB?ref_src=twsrc%5Etfw">@DuncanYB&lt;/a> &lt;a href="https://twitter.com/FrankDenneman?ref_src=twsrc%5Etfw">@FrankDenneman&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/hashtag/vExpert?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vExpert&lt;/a> &lt;a href="https://t.co/8fPwW4iuUS">pic.twitter.com/8fPwW4iuUS&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177148685031002112?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
+&lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">&lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 😎🤟😜Thank you to sponsors, speakers and vmuggers for making our event possible ! Amazing day with amazing people 😘&lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/ovh_fr?ref_src=twsrc%5Etfw">@ovh_fr&lt;/a> &lt;a href="https://twitter.com/woueb?ref_src=twsrc%5Etfw">@woueb&lt;/a> &lt;a href="https://twitter.com/cqchu?ref_src=twsrc%5Etfw">@cqchu&lt;/a> &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw">@antoine_hlt&lt;/a> &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://twitter.com/erwanquelin?ref_src=twsrc%5Etfw">@erwanquelin&lt;/a> &lt;a href="https://twitter.com/Kevin_Pcc_ovh?ref_src=twsrc%5Etfw">@Kevin_Pcc_ovh&lt;/a> &lt;a href="https://twitter.com/Ash2501?ref_src=twsrc%5Etfw">@Ash2501&lt;/a> &lt;a href="https://twitter.com/tonton_hub?ref_src=twsrc%5Etfw">@tonton_hub&lt;/a> &lt;a href="https://twitter.com/Gso_ski?ref_src=twsrc%5Etfw">@Gso_ski&lt;/a> &lt;a href="https://t.co/a6dV59yUcR">pic.twitter.com/a6dV59yUcR&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177250467535040512?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
+&lt;p>Et parce que je le trouve vraiment très beau, le logo de cette année:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/fr-mug-09-2019-paris_logo.jpg"/>&lt;figcaption>
+&lt;h4>fr-mug-09-2019-paris_logo&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item><item><title>VMUG France - Meet&amp;Geek Rennais, le bilan</title><link>https://vuptime.io/post/2019-03-08-vmug-france-meetandgeek-rennes-bilan/</link><pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/</guid><description>
+&lt;p>Quelques Rennais, membres de la &lt;strong>vCommunity&lt;/strong> se sont réunis dans les locaux de &lt;strong>SII Ouest&lt;/strong> hier soir pour partager quelques &lt;strong>vBeers&lt;/strong> et &lt;em>vPizza&lt;/em> dans une ambiance bon enfant.&lt;/p>
+&lt;p>C'était une très belle occasion de rencontrer quelques personnes, de discuter des postes de chacun, de l'usage des produits VMware dans d'autres contextes.&lt;/p>
+&lt;p>Les slides du &lt;em>Rex&lt;/em> sur l'usage de vRealize Orchestrator sont disponibles sur le &lt;em>Github&lt;/em> du groupe SII: &lt;a href="https://groupe-sii.github.io/rex-vro-meetngeek/">groupe-sii.github.io/rex-vro-meetngeek&lt;/a> (et les sources &lt;a href="https://github.com/groupe-sii/rex-vro-meetngeek/">ici&lt;/a>).&lt;/p>
+&lt;div>
+&lt;iframe width="100%" height="500" src="https://groupe-sii.github.io/rex-vro-meetngeek" style="border: 1px solid grey;">&lt;/iframe>
+&lt;/div>
+&lt;p>Quelques photos prises par Frédéric, notre &lt;strong>vMUG Leader&lt;/strong> local de l'étape:&lt;/p>
+&lt;blockquote class="twitter-tweet" data-lang="fr">&lt;p lang="fr" dir="ltr">&lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> &lt;a href="https://twitter.com/hashtag/vbeer?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vbeer&lt;/a> &lt;a href="https://twitter.com/hashtag/rennes?src=hash&amp;amp;ref_src=twsrc%5Etfw">#rennes&lt;/a> &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> nous présente &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> chez &lt;a href="https://twitter.com/hashtag/sii?src=hash&amp;amp;ref_src=twsrc%5Etfw">#sii&lt;/a> basé sur &lt;a href="https://twitter.com/hashtag/java?src=hash&amp;amp;ref_src=twsrc%5Etfw">#java&lt;/a> &lt;a href="https://t.co/7KaOJLSs3o">pic.twitter.com/7KaOJLSs3o&lt;/a>&lt;/p>&amp;mdash; frederic (@fredG_work) &lt;a href="https://twitter.com/fredG_work/status/1103723682009178119?ref_src=twsrc%5Etfw">7 mars 2019&lt;/a>&lt;/blockquote>
+&lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
+&lt;blockquote class="twitter-tweet" data-lang="fr">&lt;p lang="fr" dir="ltr">&lt;a href="https://twitter.com/hashtag/BZH?src=hash&amp;amp;ref_src=twsrc%5Etfw">#BZH&lt;/a> c’est notre 1er Meet&amp;amp;Geek Breton - Merci pour votre accueil &lt;a href="https://twitter.com/sii_ouest?ref_src=twsrc%5Etfw">@sii_ouest&lt;/a> super 👍 REX autour de &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> automatisation - Thx to &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://t.co/nPuPoo9lt5">pic.twitter.com/nPuPoo9lt5&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1103730799415910401?ref_src=twsrc%5Etfw">7 mars 2019&lt;/a>&lt;/blockquote>
+&lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
+&lt;p>La soirée a aussi été &lt;em>marquée&lt;/em> par l'effervescence de la &lt;em>vCommunauté&lt;/em> mondiale autour de l'annonce des &lt;strong>vExperts&lt;/strong> 2019. L'occasion pour moi de trinquer à ma seconde ★★ en bonne compagnie!&lt;/p>
+&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/vexpert-2.png"/>&lt;figcaption>
+&lt;h4>vExpert 2019&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+{:width=&amp;quot;250px&amp;quot;}&lt;/p>
+&lt;p>⚽ Et comme tout bon Rennais qui se respecte, nous suivions d'un oeil attentif le match &lt;strong>Rennes-Arsenal&lt;/strong> en huitièmes de finale (aller) de l'Europa League. Match qui a été logiquement remporté 3-1 par Rennes! Vive la galette-saucisse! ⚽&lt;/p>
+&lt;p>Merci en tout cas à toute la vCommunauté Française et Rennaise, et en particulier à &lt;a href="https://twitter.com/fredG_work">Frédéric&lt;/a>, &lt;a href="https://vuptime.io/about/#jrossignol">Jérémy&lt;/a>, SII Ouest et les autres collègues m'aillant aidé à organiser ce petit événement!&lt;/p></description></item><item><title>VMUG France - Meet&amp;Geek Rennais le 7 mars 2019</title><link>https://vuptime.io/post/2019-02-28-vmug-france-meetandgeek-rennes/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/02/28/vmug-france-meetandgeek-rennes/</guid><description>
+&lt;p>La communauté Rennaise des utilisateurs de solutions VMware se réunit à Rennes le &lt;strong>7 mars 2019, à partir de 18h30&lt;/strong>.&lt;/p>
+&lt;p>Rdv dans les locaux de &lt;strong>SII Ouest&lt;/strong>: 5e étage, Hall B, Le Newton, 3 bis Avenue de Belle Fontaine à Cesson Sévigné.&lt;/p>
+&lt;p>Rejoignez nous sur le &lt;strong>&lt;a href="https://vmugfrance.slack.com/">Slack VMUG&lt;/a>&lt;/strong>, Channel &lt;code>#vmug-rennes&lt;/code> pour discuter avant ou après cette rencontre.&lt;/p>
+&lt;p>A cette occasion nous vous proposons un petit retour d'expérience sur l'usage de &lt;em>vRealize Orchestrator&lt;/em>.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/meetandgeek-mars2019.png"/>&lt;figcaption>
+&lt;h4>Meet&amp;amp;Geek Rennais&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item><item><title>VMworld 2018 – Recapitulatif jour 4</title><link>https://vuptime.io/post/2018-11-08-vmworld-2018-eu-day4/</link><pubDate>Thu, 08 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/08/VMworld-2018-EU-Day4/</guid><description>
+&lt;p>Quatrième et dernier jour du VMworld, on commençait un peu à se sentir à la maison à force d'arpenter les allés du &lt;em>Fira Barcelona Gran Via&lt;/em>.&lt;/p>
+&lt;p>Moins de conférences pour moi aujourd'hui mais pas une journée moins intéressante pour autant car celà permet de faire le tour du hall des exposants et de découvrir bien des solutions innovantes.&lt;/p>
+&lt;h2 id="vin1249ber--vsphere-clustering-deep-dive-part-1-vsphere-ha-and-drs">#VIN1249BER – vSphere Clustering Deep Dive, Part 1: vSphere HA and DRS&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/27144">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Frank Denneman, Duncan Epping&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>On ne présentera pas en détail Frank et Duncan mais pour résumer, on a à faire à 2 rock stars, notamment auteurs de la série &lt;strong>(Host et Clustering) DeepDive&lt;/strong>: des bibles pour administrateurs de systèmes de virtualisation VMware. La conférence aborde justement un morceau du dernier opus: &lt;em>&amp;quot;Clustering Deep Dive&amp;quot;&lt;/em>.&lt;/p>
+&lt;h3 id="vsphere-ha">vSphere HA&lt;/h3>
+&lt;p>Avec un taux d'adoption supérieur à 90%, c'est clairement la feature la plus utilisé de l'écosystème VMware. Il est vrai que relancer sur un host sein une VM après le crash de son précédent hyperviseur, est devenu naturel pour tous les administrateurs réseau.&lt;/p>
+&lt;p>Si les paramètres de configurations nous semblent familiers, Duncan insiste sur l'importance de les tester (et àa chaque changement), et pas en production… L'impact de certains pouvant être désastreux sur la résilience de votre infrastructure.&lt;/p>
+&lt;p>S'en suit une petite analyse de certains paramètres:&lt;/p>
+&lt;ul>
+&lt;li>&lt;em>Restart priority&lt;/em> (priorisation en 5 niveau des redémarrages)&lt;/li>
+&lt;li>&lt;em>Restart dependancy&lt;/em> (une règle inviolable, à utiliser avec parcimonie)&lt;/li>
+&lt;li>&lt;em>Admission control&lt;/em> (assurez le redémarrage de vos VMs)&lt;/li>
+&lt;/ul>
+&lt;p>Et pour finir le chapitre, DeepDive dans les logs d'un cluster ESXi dans le cas des incidents suivants:&lt;/p>
+&lt;ul>
+&lt;li>Scénario 1: host failure: qui n'a jamais connu ça ? (dans la salle: personne)&lt;/li>
+&lt;li>Scénario 2: Perte du stockage: Permanent Storage Loss ou All Paths Down (APD)&lt;/li>
+&lt;li>Scénario 3: Isolation and partition response: de l'intérêt de choisir son adresse d'isolation entre autres.&lt;/li>
+&lt;/ul>
+&lt;p>Rapide présentation de proactive HA, qui permet d'analyser la dégradation de l'état d'un équipement matériel pour anticiper une panne (et provoquer en amont, la migration du workload). Proactive HA est à priori, peu déployé pour le moment.&lt;/p>
+&lt;h3 id="vsphere-drs">vSphere DRS&lt;/h3>
+&lt;p>Depuis 2006, cette technologie permet de load balancer la charge d'un clsuter d'ESXi, dès le démarrage des VMs ou pendant leur fonctionnement (via la migration à chaud: vMotion)&lt;/p>
+&lt;p>Frank explique en détail les différentes métriques utilisées pour pondérer l'état de santé d'une VM, de son voisinage et son future état si on décide de la déplacer. Toutes les métriques ne se valent pas mais depuis 12 ans, DRS s'est doté de nouvelles possibilité de configuration qui permettent, si on les utilisent bien, d'optimiser le placement des VMs dans le cluster.&lt;/p>
+&lt;p>L'occasion de parler de CPU %ready, de mémoire active Vs consumed, de distribution de VM, de network aware DRS etc.&lt;/p>
+&lt;p>Visiblement le settings &lt;em>VM distribution&lt;/em> (qui essaye tout de même de priilégier le &lt;em>&amp;quot;VM Happiness&amp;quot;&lt;/em>) a 3 uses-case principaux:&lt;/p>
+&lt;ul>
+&lt;li>Prouver à son boss que DRS fonctionne quand celui-ci ne comprend rien.&lt;/li>
+&lt;li>Le cas du stockage &lt;em>IP based&lt;/em>&lt;/li>
+&lt;li>Réduire un peu les domaines de pannes.&lt;/li>
+&lt;/ul>
+&lt;p>Et fin sur le &lt;em>Predictive DRS&lt;/em> (Associé à vROPS) qui permet de prédire le comportement sur les 60 prochaines minutes et pondère la possibilité de migrer une VM avec son current Happiness-State.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 3</title><link>https://vuptime.io/post/2018-11-07-vmworld-2018-eu-day3/</link><pubDate>Wed, 07 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/07/VMworld-2018-EU-Day3/</guid><description>
+&lt;p>Troisième jour au VMworld et déjà le sentiment un peu amer que la fin approche doucement. En attendant, on en profite pour assister à de nouvelles sessions et réseauter!&lt;/p>
+&lt;h2 id="vin2642be--dont-sleep-on-restful-apis-for-vsphere">#VIN2642BE – Don't Sleep on RESTful APIs for vSphere&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26368">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Kyle Ruddy&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Dans cette session, &lt;a href="https://twitter.com/kmruddy">Kyle Ruddy&lt;/a> nous rappelle l'intérêt des API RESTful dans le monde de la programmation, de la navigation et surtout, de l'automatisation. L'importance des concepts CRUD (Create, Read, Update, Delete), la sécurité des appels et l'idempotence sont aussi rappelés rapidement.&lt;/p>
+&lt;p>Pour le sujet qui nous concerne, &lt;strong>vSphere&lt;/strong>, les API SOAP ont eu la prédominance jusque-là mais VMware reconnait à présent que le choix n'était certainement pas le meilleur et démontre sa transition en cours vers des API RESTful (sur de nombreux produits d'ailleurs). Plus faciles à utiliser, documenter, maintenir, les API RESTful remplaceront totalement SOAP dans le futur des produits VMware. Entamé en version 6.5, cette migration a encore progressé en 6.7 avec l'ajout de nombreuse fonctions (dont, le scheduler de backup, le repoint PSC, des techpreview etc…).&lt;/p>
+&lt;p>La suite de la conférence est au sujet des outils disponibles pour utiliser ces API. Au-delà de la documentation disponible sur le site &lt;a href="https://code.vmware.com/apis">code.vmware.com/apis&lt;/a>, VMware produit (et soutient la production communautaire) des outils pour différents modes de consommation des API REST: &lt;em>Postman, DatacenterCLI, Swagger based API Explorer, PowerCLI&lt;/em> etc.&lt;/p>
+&lt;p>L'occasion de démontrer via une démo comment déployer rapidement une enveloppe de VM vide et que les différents modes d'utilisation et outils produits par VMware sont cohérents entre eux et permettent d'obtenir les mêmes résultats.&lt;/p>
+&lt;p>Trop de monde pour aller rencontrer la RockStar Kyle Ruddy à la fin mais si je le recroise, j'aimerais lui demander si VMware compte modifier ses interfaces pour ne plus utiliser &lt;strong>QUE&lt;/strong> ses API REST pour atteindre le backend, ce qui assurerait que tout ce qui est possible dans une UI, l'est aussi dans le monde API.&lt;/p>
+&lt;h2 id="cna1674be--deep-dive-run-kubernetes-in-production-with-pks">#CNA1674BE – Deep Dive: Run Kubernetes in Production with PKS&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26336">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Merlin Glynn, James Webb&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Dans cette session &lt;strong>#DeepDive&lt;/strong> &lt;a href="https://twitter.com/VirtualMerlin">Merlin Glynn&lt;/a> (Technical Product Manager @ VMware) et James Webb (Cloud Foundry Platform Architect @ T-Mobile) reviennent sur le déploiement chez T-Mobile de la solution VMware PKS: un challenge qui visait à homogénéiser les différents modes de consommation de containeurs par les équipes de développement de différents produit. Accompagnés par VMware dans cette démarche, ils ont expliqué les challenges de ce projet: authentification, HA de la stack de management, automatisation, scalabilité des composants, réplications du stockage persistent, usage PAS-like (&lt;em>HTTPS, DNS, Load Balancing&lt;/em>…), les difficultés rencontrées et les challenges qui restent à relever.&lt;/p>
+&lt;p>Le use case est intéressant mais clairement j'atteinds ma limite de technicité: Je visualise bien PKS, Kubernetes, mais ici on a affaire à des défis techniques très précis que j'ai du mal à appréhender. Toutefois je ressors de cette session avec en tête quelques noms d'outils qu'il m'intéresse d'explorer plus tard: &lt;em>GitOps, Concourse, Prometheus&lt;/em>…&lt;/p>
+&lt;h2 id="dc3845ke--cloud-and-developer-keynote-public-clouds-and-kubernetes-at-scale">#DC3845KE – Cloud and Developer Keynote: Public Clouds and Kubernetes at Scale&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26297">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers:
+&lt;ul>
+&lt;li>&lt;strong>Joe Beda&lt;/strong>, CTO, Heptio&lt;/li>
+&lt;li>&lt;strong>Guido Appenzeller&lt;/strong>, CTO, VMware&lt;/li>
+&lt;li>&lt;strong>Paul Fazzone&lt;/strong>, SVP and GM, Cloud Native Apps, VMware&lt;/li>
+&lt;li>&lt;strong>Joseph Kinsella&lt;/strong>, Vice President and CTO, Products, CloudHealth, VMware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="cloud-health">Cloud Health&lt;/h3>
+&lt;p>Cette keynote démarre avec un constat de la situation actuelle et de l'évolution en cours de la consommation du &lt;em>cloud&lt;/em>: l'usage de cloud multiples. Par exemple, les Hands On Lab de VMware tournent à la fois sur un Datacenter interne, mais aussi sur le cloud IBM, le cloud AWS (débordements, tolérance à la panne etc.).&lt;/p>
+&lt;p>Cela n'est pas sans problématique et notamment, celle de la compatibilité: formats, outils, méthodologies, complexités…&lt;/p>
+&lt;p>C'est là qu'arrive la promesse de VMware: Aider à l'adoption de différents cloud sans se poser ces questions, notamment à l'aide de &lt;strong>Cloud Health&lt;/strong> (une acquisition récente). Un autre but de Cloud Health est de sécuriser l'usage d'un Cloud Public (ou plus) même si vous n'avez pas la maturité nécessaire pour gérer pro-activement les débordements, les sur-coûts, les réductions de ressources… au lieu d'être seulement dans la réaction (à la réception d'une facture AWS un peu salée par exemple).&lt;/p>
+&lt;p>Après une démo de Cloud Health (pas forcément très lisible), Vodafone intervient sur scène pour témoigner de son adoption de différents clouds à l'aide de Cloud Health.&lt;/p>
+&lt;h3 id="cloud-native-apps--kubernetes">Cloud Native Apps &amp;amp; Kubernetes&lt;/h3>
+&lt;p>Forcément, avec l'acquisition de &lt;strong>Heptio&lt;/strong>, nous allions aborder le sujet de Kubernetes et de Cloud Native Apps pour démontrer la volonté de rendre plus facile l'adoption de clouds dans un processus de développement.&lt;/p>
+&lt;p>VMware fait aussi beaucoup de pub de sa solution &lt;strong>VMware PKS&lt;/strong> (et la nouvelle &lt;strong>VMware Cloud PKS&lt;/strong>: en Beta !) pour déployer, gérer et proposer des clusters &lt;strong>Kubernetes&lt;/strong>.&lt;/p>
+&lt;p>Forcément le scénario de la démo de VMware Cloud PKS sera de: &lt;em>&amp;quot;déployer un blog Wordpress&amp;quot;&lt;/em> (s'il vous plait, soyez plus créatifs la prochaine fois que vous voudrez faire une démo…).&lt;/p>
+&lt;p>En gros, VMware gère pour vous la complexité de PKS et vous permet de lancer vos cluster Kubernetes vous-même en quelques minutes: réduisant ainsi le temps nécessaire entre l'expression de besoin et le déploiement d'une application.&lt;/p>
+&lt;h2 id="vin1735be--clustering-deep-dive-2-quality-control-with-drs-and-network-io-control">#VIN1735BE – Clustering Deep Dive 2: Quality Control with DRS and Network I/O Control&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26303">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Niels Hagoort&lt;/strong>, &lt;strong>Sahan Gamage&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Un petit mot déjà sur l'un des speakers, Niels est l'un des auteurs du livre &lt;em>VMware vSphere 6. 7 Clustering Deepdive - Rubrik&lt;/em>, du coup la conférence est déjà très remplie car pour certain c'est une rockstar !&lt;/p>
+&lt;p>Bref, revenons à la conférence, Niels nous présente les bienfaits du Network I/O control, cette fonctionnalité souvent méconnue qui permet de limiter les bandes passantes via des valeurs share en cas de contention réseau par type de traffic. Le NIOC va nous permettre de contrôler le traffic entrant sur le DVSwitch(VDS). Pour ce qui est du traffic sortant, il faudra mettre en place du traffic shapping et ainsi pouvoir par exemple réserver une bande passante sortante pour le traffic de type stockage, attention cela va s'appliquer au niveau de l'uplink du VDS.&lt;/p>
+&lt;p>Plusieurs usecases nous sont présentés pour ensuite passer à la partie DRS. Que fait le DRS ici? Et bien il s'agit d'une technologie qu'on ne présente plus pour équilibrer la charge sur un cluster, mais depuis la version 6.5 il y'a une nouvelle fonctionnalité qui a été ajoutée: &lt;em>Network aware DRS&lt;/em>. Concrètement il s'agit ici de prendre en compte en plus des ressources RAM et CPU, les contraintes réseaux pour être sûre que le déplacement d'une VM n'entrainera pas une saturation de bande passante ou bien d'autres problèmes liés au réseau.&lt;/p>
+&lt;p>Malheureusement, la fonctionnalité est seulement présentée par use-case et pas via une explication en profondeur de l'algorythme: on nous dit que ce sont des formules mathématiques dérrière, bref apparemment les informaticiens n'aiment pas les maths mais moi cela m'aurait intéressé.&lt;/p>
+&lt;h2 id="net1106be--advanced-vmware-nsx-data-center-demistifying-the-vtep-mac-and-arp-tables">#NET1106BE – Advanced VMware NSX Data Center: Demistifying the VTEP, MAC and ARP Tables&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26194">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speaker(s): *&lt;em>Tim Burkard&lt;/em> &amp;amp; &lt;strong>Jean François Couturier&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Le but de cette conférence était de rentrer dans le détail du fonctionnement des tables d'adresses &lt;em>MAC&lt;/em>, &lt;em>VTEP&lt;/em> et &lt;em>ARP&lt;/em> lorsque l'on utilise des DLR. Nous commençons la conférence avec un petit rappel sur le fait que toutes ces tables sont stockées au niveau du/des &lt;em>NSX-controller(s)&lt;/em>, nous revenons ensuite sur la communication entre l'&lt;em>ESXi&lt;/em> et le(s) &lt;em>controller(s)&lt;/em> et le fait que cela se fait via le composant &lt;em>NetCPA&lt;/em> (Network Control Plane Agent).&lt;/p>
+&lt;p>Ensuite, petite présentation de &lt;em>Central CLI&lt;/em> qui permet depuis le NSX manager d'interroger les &lt;em>controlle(s)&lt;/em> et ainsi afficher les tables &lt;em>MAC&lt;/em>, &lt;em>VTEP&lt;/em> et &lt;em>ARP&lt;/em>. Démo à l'appui, on nous montre comment ces tables se remplissent au démarrage d'une VM (et pas avant).&lt;/p>
+&lt;p>Nous passons ensuite sur l'&lt;em>ARP suppression&lt;/em>, gros avantage de &lt;em>NSX-V&lt;/em>: Les échanges passant par l'agent &lt;em>NETCPA&lt;/em> et les communications se font au niveau &lt;em>kernel&lt;/em> et ne consomment pas de bande passante. Autre avantage de ce fonctionnement: Si une VM a besoin de communiquer avec une autre VM qui est allumée (qui est donc connue des &lt;em>controllers&lt;/em>), la requête &lt;em>ARP&lt;/em> s'arrêtera au niveau de l'&lt;em>ESXi&lt;/em> et la trame sera envoyée directement en &lt;em>unicast&lt;/em> vers l'&lt;em>ESXi&lt;/em> qui héberge la VM.&lt;/p>
+&lt;p>Petite nouveauté: on nous parle d'une fonctionnalité qui était jusque là un peu caché, le &lt;em>CDO (Controller Disconnected Operation) mode&lt;/em>. Dans le cas où on aurait un problème de communication entre le &lt;em>controler cluster&lt;/em> et l'&lt;em>ESXi&lt;/em> et grâce à ce procédé, l'&lt;em>ESXi&lt;/em> conserve une copie locale des tables &lt;em>MAC&lt;/em>, &lt;em>VTEP&lt;/em> et &lt;em>ARP&lt;/em> jusqu'à rétablissement de la communication avec le &lt;em>controller&lt;/em>. Cela empêche d'avoir des &lt;em>broadcast&lt;/em> dans tous les sens sans couper les échanges. Ces tables sont populées &lt;strong>avant l'allumage des VMs&lt;/strong> ce qui permet de préparer la communication avec une VM qui était encore éteinte au moment de l'incident. Limite du procédé: si une VM inconnue est déployée et allumée après le crash du &lt;em>controller&lt;/em> on ne pourra pas communiquer avec elle.&lt;/p>
+&lt;p>Conférence très intéressante et très pédagogique, elle m'a permis d'approfondir mes connaissances sur l'&lt;em>ARP suppression&lt;/em> et aussi de faire connaissance avec le &lt;em>CPO mode&lt;/em> qui sera très utile pour les futurs infrastructures NSX.&lt;/p>
+&lt;h2 id="mgt1312be---intro-to-vmwares-cloud-management-automation-services-you-agile-enough">#MGT1312BE - Intro to VMware’s Cloud Management Automation Services. You agile enough?&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#aharalaut">Antoine Harlaut&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26551">Video&lt;/a>&lt;/li>
+&lt;li>Speaker(s): &lt;em>Cody De Arkland, Hicham Mourad&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>L'utilisation du muticloud est un gros challenge pour les infrastructures IT:&lt;/p>
+&lt;ul>
+&lt;li>Manque de visibilité&lt;/li>
+&lt;li>Complexe à gérer&lt;/li>
+&lt;li>Multiples portails (AWS, Azure, vCenter)&lt;/li>
+&lt;/ul>
+&lt;p>VMware annonce sur son portail &lt;strong>VMware Cloud Services&lt;/strong>, trois services &lt;em>SaaS&lt;/em>:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Cloud Assembly&lt;/strong>: Permet d'ouvrir du provisionning multi-cloud (&lt;em>Azure&lt;/em>, &lt;em>AWS&lt;/em>, &lt;em>VMware&lt;/em>). Il orchestre l'infrastructure et les applications avec les principes DevOps.&lt;/li>
+&lt;li>&lt;strong>Service broker&lt;/strong>: Presente à l'utilisateur tout son catalogue hybrid-cloud sous une seule et unique interface.&lt;/li>
+&lt;li>&lt;strong>Code Stream&lt;/strong>: Un outil de &lt;em>CI/CD&lt;/em>. Permet de tester du bout en bout le déploiement de son blueprints que ce soit côté infrastructure et/ou applicatif.&lt;/li>
+&lt;/ul>
+&lt;p>La conférence se concentre sur &lt;em>Cloud assembly&lt;/em> qui permet d'offir du déploiement multi-cloud (&lt;em>Azure, vCenter, AWS, NSX-T, NSX-V, VMware Cloud on AWS&lt;/em>). L'interface ressemble à s'y méprendre à &lt;em>vRealize Automation&lt;/em>: On peut y déclarer ses endpoints, gérer des networks profiles, storage profiles et y créer ses propres blueprints.&lt;/p>
+&lt;p>L'interface de création des blueprints est très bien faite car on peut y créer directement son blueprint en mode &lt;em>Infra-as-code&lt;/em> avec l'interface &lt;em>YAML&lt;/em> présente sur &lt;em>l'UI&lt;/em>. On peut aussi effectuer un versionning de blueprint (Impossible pour le moment sur vRA mais pourtant bien utile)!&lt;/p>
+&lt;p>Côté déploiement, on nous informe que le provisionning d'instances est beaucoup plus rapide que vRA car il a été optimisé pour le cloud public. On peut également peut mettre à jour les déploiements existants (Ajout d'un disque, ajout d'une VM ou d'un réseau par example).&lt;/p>
+&lt;p>Concernant l'extensibility, ce point a été abordé très rapidement car il est pour le moment en beta mais on retrouve les éléments suivants:&lt;/p>
+&lt;ul>
+&lt;li>Integration avec &lt;em>Puppet&lt;/em>&lt;/li>
+&lt;li>&lt;em>Action As A Service&lt;/em>: Permet de proposer du code dans son catalogue&lt;/li>
+&lt;li>&lt;em>Workflow vRO&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>Un beau produit en perspective à suivre avec attention.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 2</title><link>https://vuptime.io/post/2018-11-06-vmworld-2018-eu-day2/</link><pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/06/VMworld-2018-EU-Day2/</guid><description>
+&lt;p>Second jour, beaucoup plus de monde, une &lt;strong>&lt;a href="https://vuptime.io/2018/11/06/VMworld-2018-EU-Day2-GeneralSession/">General Session&lt;/a>&lt;/strong> folle et toujours plus de conférences:&lt;/p>
+&lt;h2 id="dev3466be--putting-it-all-together-using-vmware-products-to-deliver-the-devops-dream">#DEV3466BE – Putting It All Together: Using VMware Products to Deliver the DevOps Dream&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26750">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Dave Markham&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Cette conférence avait pour but d'expliquer comment utiliser les produits VMware dans un processus de transformation en méthodologie &lt;em>DevOps&lt;/em>.&lt;/p>
+&lt;p>vCenter configuré en multi-tenants avec des &lt;em>resourcesPools&lt;/em> et des droits adaptés aux publics de votre société, vRA avec &lt;em>business groups&lt;/em> etc., Code Stream pour les pipelines et l'automatisation de tâches répétitives: tout est là. Mais force est de constater qu'il manque à mon avis (@lrivallain speaking) du liant entre ces outils, et qu'obtenir une infrastructure as code dans ces conditions nécessite un investissement de temps assez important.&lt;/p>
+&lt;p>Tout est automatisable, mais il manque peut être de la part de VMware, un peu d'outillage ou de simplification des process internes des produits pour rendre ça: convenable et attractif pour une transformation DevOps.&lt;/p>
+&lt;h2 id="nfv2220be--service-providers-love-vmware-integrated-openstack-heres-why">#NFV2220BE – Service Providers Love VMware Integrated OpenStack. Here's Why.&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26786">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Ramkumar Venketaramani&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Alors qu'on pourrait penser qu'en principe, OpenStack et VMware ne cohabitent pas sur les mêmes segments de marché, visiblement, ce n'est pas le point de vue de VMware qui espère proposer avec &lt;strong>VMware Integrated OpenStack&lt;/strong> (VIO) des réponses à quelques challenges et difficultés rencontrées dans le déploiement de la solution OpenStack.&lt;/p>
+&lt;p>Pour rappel, la promesse du projet OpenStack est la suivante: &lt;em>Open Source, Cross Vendor, Standard, Software Defined DataCenter&lt;/em>&lt;/p>
+&lt;p>Toutefois dans la mise en œuvre, certains challenges peuvent être rencontrés:&lt;/p>
+&lt;ul>
+&lt;li>Segmentation des solutions possibles: the &lt;em>snowflake effet&lt;/em> (un challenge rencontré très souvent dans le milieu des ESN et leurs réponses possibles à une demande d'expertise autour d'OpenStack&lt;/li>
+&lt;li>Monitoring et Opérations: difficulté à troubleshooter et peu d'outils disponibles et efficace: haut niveau de technicité nécessaire.&lt;/li>
+&lt;li>Upgrades complexes...&lt;/li>
+&lt;/ul>
+&lt;p>La réponse de VMware est VIO (actuellement en version 5.0) en mêlant le meilleur des mondes VMware et d'OS: En gros il s'agit de mettre en place, en amont d'un DataCenter VMware, les API standards d'OS pour gérer, les instances, le compute, le stockage, le réseau et les métriques.&lt;/p>
+&lt;p>Pour le moment, les produits suivants sont disponibles (en version 2018.02):&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>nova&lt;/code>&lt;/li>
+&lt;li>&lt;code>cinder&lt;/code>&lt;/li>
+&lt;li>&lt;code>neutron&lt;/code>&lt;/li>
+&lt;li>&lt;code>glance&lt;/code>&lt;/li>
+&lt;li>&lt;code>swift&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>Et finalement, à travers la surcouche VMware, vous opérez, sans le savoir, un cloud basé sur vSphere/vCenter/NSX tout en utilisant les commandes ou les API d'OpenStack.&lt;/p>
+&lt;h2 id="hci1552be--deploying-vsan-to-300-stores-in-2-weeks-an-automation-story">#HCI1552BE – Deploying vSAN to 300 Stores in 2 Weeks: An Automation Story&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26347">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Simon Todd, Nigel Venables&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Nigel et Simon souhaitaient par cette conférence, revenir sur un projet d'automatisation réalisé pour un de leur client: un &lt;em>global food retailer&lt;/em> (&lt;em>seulement&lt;/em> la 3e chaine de supermarché au monde, 6800 magasins, 440 000 employés).&lt;/p>
+&lt;p>Le but était d'implémenter une plateforme résiliente, sous la forme d'un canvas, où les développeurs pourraient librement déployer des VMs et des containeurs. Et par ce fait, de remplacer l'existant qui commençait à dater.&lt;/p>
+&lt;p>Le choix de la solution s'est porté sur des clusters (par magasin) de 3 nœuds vSAN, un uplink unique (10GBps) par nœud (simplicité!). Le tout a été groupé en pod (1000 magasins par pod) avec pour chacun: 2 vCSA &lt;em>small&lt;/em>, 2 vROPs, et un serveur vRO. Ensuite à coup de clé USB bootable, d'un très gros workflow vRO (et c'est là qu'est la magie: &lt;em>&lt;strong>Voodoo part&lt;/strong>&lt;/em>!), tout est préparé presque automatiquement (seulement les variables à changer en fonction du lieu) quand un technicien débarque dans un magasin avec son nouveau matériel.&lt;/p>
+&lt;p>Etonnant, VMware a conservé une approche semi-automatisée: certains inputs viennent d'un être humain afin de lancer le workflow et sont gérées déploiement par déploiement… le risque d'erreur est présent et c'est étonnant de n'avoir pas poussé plus loin la logique d'automatisation.&lt;/p>
+&lt;p>Bilan de la conférence: que ferait VMware sans vRO au niveau automatisation 🤔?&lt;/p>
+&lt;h2 id="hyp1499be--vmware-cloud-provider-pod">#HYP1499BE – VMware Cloud Provider Pod&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#aharlaut">Antoine Harlaut&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26995">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Yves Sandfort&lt;/strong>, &lt;strong>Wade Holmes&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Au tout début de cette présentation, VMware a insisté une nouvelle fois sur leur politique d'hybridation et de moderniser le cloud VMware.&lt;/p>
+&lt;p>Qu'est-ce qu'est &lt;strong>Cloud Provider Pod&lt;/strong> (&lt;em>CPOD&lt;/em>)?&lt;/p>
+&lt;p>Un outil qui permet de déployer (avec encore seulement &lt;em>un clic&lt;/em>) toute une infrastructure pour un cloud provider basée sur la suite &lt;em>vRealize&lt;/em> et &lt;em>vCloud Director&lt;/em>. Les produits déployés par &lt;em>CPOD&lt;/em> 1.0 sont les suivants:&lt;/p>
+&lt;ul>
+&lt;li>vRO 7.4&lt;/li>
+&lt;li>vROPS 7.0&lt;/li>
+&lt;li>vCD 9.1&lt;/li>
+&lt;li>vCD Extender 1.0.1&lt;/li>
+&lt;li>Usage meter 3.6.1&lt;/li>
+&lt;li>vRNI 3.9&lt;/li>
+&lt;li>vRLI 4.6.1&lt;/li>
+&lt;li>vSphere 6.5u2&lt;/li>
+&lt;li>NSX 6.4.1&lt;/li>
+&lt;li>vSAN 6.6.1&lt;/li>
+&lt;/ul>
+&lt;p>La prochaine release de &lt;em>CPOD&lt;/em> intègrera des versions plus récentes.&lt;/p>
+&lt;p>Tout comme &lt;strong>Vmware Cloud Fundation&lt;/strong> avec les &lt;em>VMware Validated Design&lt;/em>, &lt;em>CPOD&lt;/em> permet d'offrir une infrastructure destinée aux cloud providers avec la certification &lt;em>VMware cloud verified&lt;/em>.&lt;/p>
+&lt;p>Le déploiement de l'infrastructure se fait à travers un formulaire ou avec un fichier de configuration . Le formulaire se décompose en 8 étapes qui vont du choix du nombre d'hôtes ESXi en passant par la configuration VXLAN jusqu'au licensing.&lt;/p>
+&lt;p>A la fin du déploiement, un package d'une dizaine de documentations est automatiquement généré suivants les inputs définis lors du déploiement. On retrouve ainsi les documentations suivantes (&lt;em>liste non exhaustive&lt;/em>):&lt;/p>
+&lt;ul>
+&lt;li>Logical design&lt;/li>
+&lt;li>Configuration réseau&lt;/li>
+&lt;li>Configuration guide vCD&lt;/li>
+&lt;li>Configuration guide vROps&lt;/li>
+&lt;li>Configuration guide VCD Extender&lt;/li>
+&lt;li>Config Sheet&lt;/li>
+&lt;li>Export de la configuration&lt;/li>
+&lt;li>Export package vRO&lt;/li>
+&lt;/ul>
+&lt;p>Pour ce qui nous a été montré, les documentations ont l'air d'être vraiment claires et détaillées. On nous explique ensuite que le déploiement de l'infrastructure se fait en bonne partie à travers &lt;em>vRealize Orchestrator&lt;/em> et que l'on peux extraire ce package et voir en détail ce qu'il fait (voir même de l'adapter à nos besoins).&lt;/p>
+&lt;p>Il n'y a plus qu'à explorer ce produit plus en détail sur les &lt;em>HOLs&lt;/em> et voir s'il tient ses promesses!&lt;/p>
+&lt;h2 id="net1559be--sddc-reference-design-with-nsx-data-center-for-vsphere">#NET1559BE – SDDC Reference Design with NSX Data Center for vSphere&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26843">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Dumlu Timuralp&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Cette conférence était là pour nous rappeler les bonnes pratiques et surtout s'avoir s'orienter au début d'un design avec le produit NSX. De là on nous fait un petit rappel sur les avantages de NSX et notamment qu'il est complètement agnostique des équipements réseaux, mis à part peut être le fait que pour certaines fonctionnalités notamment le hardware VTEP, il faut quand même du matériel spécifique validé par VMware.&lt;/p>
+&lt;p>Ensuite petit retour sur les différents composants de NSX et aussi de là où il se trouvent entre le data plane, control plane, management plane et enfin consumption. Jusque là aucune surprise, on insiste toujours autant sur le fait que dans le cadre de NSX il y'a toujours un seul NSX &lt;em>manager&lt;/em> avec 3 &lt;em>controler&lt;/em> pour un vCenter.&lt;/p>
+&lt;p>Suivi ensuite par un petit &lt;em>what's new&lt;/em> de NSX 6.4.x, et on notera le passage à l'interface graphique en HTML5 -que VMware est en train de généraliser à tous ses logiciels), sinon globalement c'est une version de correction de bug et d'augmentations de limites diverses, pas de grosse fonctionnalités avec cette version.&lt;/p>
+&lt;p>Passons maintenant au vif du sujet, le speaker nous rappelle bien que notre bible doit être le fameux design reference guide que l'on peut trouver à &lt;a href="https://communities.vmware.com/docs/DOC-27683">cet endroit&lt;/a>. Néanmoins, il va nous faire part de quelques points qui peuvent être imprécis dans ce guide.&lt;/p>
+&lt;p>Voici quelques une de ses recommandations:&lt;/p>
+&lt;ul>
+&lt;li>A partir du moment on utilise un domaine avec plusieurs vcenters, il faudra penser à utiliser un cluster de management dédié ainsi qu'un vcenter dédié pour celui-ci&lt;/li>
+&lt;li>On peut provisionner le mangement, vmotion, stockage mais aussi les portgroups VXLAN sur le même &lt;em>dvSwitch&lt;/em> (VDS), on fera juste attention au fait qu'ils ne reposent pas tous sur le même &lt;em>vmKernel&lt;/em>&lt;/li>
+&lt;li>On doit utiliser le même numéro de VLAN pour le VXLAN sur tous les clusters NSX&lt;/li>
+&lt;li>Les jumbo frames doivent être configurés sur les ESXs (passage du MTU à 9000)&lt;/li>
+&lt;li>Transport zone &lt;em>unicast&lt;/em> recommandée sauf si vous disposez d'un grand domaine niveau 2 et dans ce cas on préférera utiliser le mode &lt;em>Hybrid&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>Toutes ces recommendations sont bien sûre à prendre en compte avant l'installation mais pour ce qui est du design du produit NSX en lui même et la configuration à apporter sur les clusters de ressources, j'ai noté quelques remarques intéressantes:&lt;/p>
+&lt;ul>
+&lt;li>Le même VDS pour tous les clusters de ressources&lt;/li>
+&lt;li>Pas de edge ECMP sur le même ESXi qu'un DLR control VM&lt;/li>
+&lt;li>Pour une edge ECMP, configurer 2 uplinks avec 2 VLANs différents pour diminuer les interruptions potentielles&lt;/li>
+&lt;li>Surtout si possible éviter le VPC car ce protocole (sauf dans des design bien particuliers) sera plus contre-productif qu'autre chose&lt;/li>
+&lt;/ul>
+&lt;p>Bilan de la conférence: plusieurs points intéressants, des rappels qui ne font pas de mal, des points de vigilance de configuration mais aussi d'installation et de design qui ne sont pas forcément explicites et que l'on acquiert en général seulement avec de l'expérience. En somme, c'était plutot positif, tout ça.&lt;/p>
+&lt;h2 id="ns3729ke--the-nsx-keynote-building-the-network-of-the-future-with-the-virtual-cloud-network">#NS3729KE – The NSX Keynote: Building the Network of the Future with the Virtual Cloud Network&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26858">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers:
+&lt;ul>
+&lt;li>&lt;strong>Tom Corn&lt;/strong>, SVP, VMware&lt;/li>
+&lt;li>&lt;strong>Tom Gillis&lt;/strong>, SVP/GM, Network &amp;amp; Security, VMware&lt;/li>
+&lt;li>&lt;strong>Sanjay Uppal&lt;/strong>, Vice President &amp;amp; GM , VMware&lt;/li>
+&lt;li>&lt;strong>Stefano Firenze&lt;/strong>, CIO CNH Industrial, CNH Industrial&lt;/li>
+&lt;li>&lt;strong>Ed Higgs&lt;/strong>, Global Service Delivery Director, Rentokil Initial&lt;/li>
+&lt;li>&lt;strong>Faiyaz Shahpurwala&lt;/strong>, General Manager, IBM Cloud Platform, IBM&lt;/li>
+&lt;li>&lt;strong>Jean-Marc Voisin&lt;/strong>, CTO, ALLIANZ&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Le but ici était de donner un aperçu de ce que fait NSX et comment il répond aux problématiques des clients.&lt;/p>
+&lt;p>On a pu voir pour les différents produits NSX: &lt;em>NSX Data Center (NSX-v)&lt;/em>, &lt;em>NSX Cloud (NSX-T)&lt;/em>, &lt;em>NSX Hybrid connect&lt;/em>, &lt;em>NSX SD-WAN by velo cloud&lt;/em> et enfin &lt;em>AppDefense&lt;/em>, différents usecases clients présentés sous forme de talk pour illustrer les mises en pratique de chaque produit.&lt;/p>
+&lt;p>Personnellement, le format ne m'a pas enchanté et plutôt que d'annonce(s), la discussion client/fournisseur manquait un peu d'intérêt car les informations qui auraient pû être intéressantes ont été noyées dans les dicsussions.&lt;/p>
+&lt;p>Néanmoins, un produit a attiré mon attention: &lt;em>AppDefense&lt;/em>. Il s'agit d'un nouveau produit de VMware permettant d'analyser les processus côté OS et de définir des profils de serveurs pour reconnaître les comportements normaux des comportements suspects.&lt;/p>
+&lt;p>En effet, jusqu'à maintenant pour se protéger contre des attaques, le comportement standard des antivirus était d'avoir une liste de &lt;em>&amp;quot;Know bad&amp;quot;&lt;/em> (sous-entendus, des comportement suspects identifiés au préalable par le passé comme des bouts de codes malveillants par exemple). Avec &lt;em>AppDefense&lt;/em>*, l'idée ici est d'utiliser la philosophie *&amp;quot;know good&amp;quot;* pour réduire le périmètre possible d'une attaque.&lt;/p>
+&lt;p>Pour rajouter ce &lt;em>&amp;quot;know good&amp;quot;&lt;/em>, voici comment on procède:&lt;/p>
+&lt;ol>
+&lt;li>A l'installation d'un serveur, une fois tous les applicatifs installés et configurés, il vous suffit d'analyser les processus détectés par &lt;em>AppDefense&lt;/em> et de cliquer sur un bouton pour établir qu'il s'agit du profil &lt;em>&amp;quot;normal&amp;quot;&lt;/em> du serveur.&lt;/li>
+&lt;li>A partir de ce moment, si il y'a une attaque extérieure et un comportement qui sort du profil standard, les services seront automatiquement bloqués par &lt;em>AppDefense&lt;/em> grâce au machine learning.&lt;/li>
+&lt;/ol>
+&lt;p>Le machine learning permet d'avoir une vue en temps réel du comportement d'un serveur et de ces services, ainsi il est possible de mettre en place de manière très simple de la micro segmentation: plus seulement au niveau échanges &lt;em>Est-Ouest&lt;/em> mais aussi au niveau applicatif.&lt;/p>
+&lt;p>Bilan de la conférence: je dirais que le format ne correspondait pas du tout à une keynote mais il y'a des moments où le fond est plus important que la forme.&lt;/p>
+&lt;h2 id="net1516be--introduction-to-nsx-cloud">#NET1516BE – Introduction to NSX Cloud&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26540">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speaker(s): &lt;strong>Percy Wadia&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Le but de &lt;em>NSX Cloud&lt;/em> est de pouvoir protégé de manière centralisée toutes vos apps tournant sur des clouds publics. Un des avantages de &lt;em>NSX Cloud&lt;/em> est que vous n'avez pas besoin d'avoir l'édition &lt;em>datacenter&lt;/em> au sein de votre infrastructure et que pouvez commencer de 0 avec &lt;em>NSX Cloud&lt;/em>. Vous allez pouvoir étendre vos politiques de sécurité sur vos clouds publics et les gérer de manière centralisée et homogène (Actuellement, seulement &lt;em>Azure&lt;/em> et &lt;em>AWS&lt;/em> sont supportés) via une seule unique interface graphique ou une seule API.&lt;/p>
+&lt;p>En reprenant les technologies NSX pour manager ses politiques de sécurité sur &lt;em>Azure&lt;/em> ou &lt;em>AWS&lt;/em> par exemple, il est possible d'utiliser les règles &lt;em>'dynamiques'&lt;/em> propre à NSX et ainsi être plus réactif pour les besoins des développeurs.&lt;/p>
+&lt;p>Par exemple: Dès qu'une machine virtuelle portera dans son nom &lt;code>DEV&lt;/code>, elle pourra être placer dynamiquement dans une règle qui aura déjà tous les accès de BDD configurés pour que la machine soit opérationnelle et prête à être utilisée sans pour autant être ouverte à tout le réseau.&lt;/p>
+&lt;p>Si un bypass des règles de firewall distribuées est identifié, la mchine sera mise dynamiquement dans une autre &lt;em>&amp;quot;policy&amp;quot;&lt;/em> de quarantaine par exemple qui bloquera absolument tous les flux entrants et sortants. Il sera nécessaire d'avoir une intervention d'un administrateur pour la débloquer. Il est aussi possible de faire apparaître cette machine directement sur le dashboard et pour la mettre en évidence.&lt;/p>
+&lt;p>A prendre en compte pour un déploiement, le nombre de VMs à déployer:&lt;/p>
+&lt;ul>
+&lt;li>&lt;em>NSX Manager&lt;/em>: 1 VMs&lt;/li>
+&lt;li>&lt;em>Control Cluster&lt;/em>: 3 VMs&lt;/li>
+&lt;/ul>
+&lt;p>Viens ensuite la connection aux différents cloud publics qui permet de déployer des &lt;em>edges gateways&lt;/em> permettant de filtrer l'accès &lt;em>Nord-Sud&lt;/em> de votre cloud public. Et enfin, vient le déploiement d'agents &lt;em>NSX&lt;/em> sur les VMs afin de mettre en place des politiques de firewall distribué.&lt;/p>
+&lt;p>Les VMs n'ayant pas d'agent installé seront détectées comme étant non conformes et il est possible de lancer à distance l'installation de l'agent ou encore de l'ignorer si l'on estime que telle ou telle VM n'en a pas besoin.&lt;/p>
+&lt;p>Le produit semble vraiment intéressant: notamment le fait de pouvoir réutiliser la micro-segmentation NSX avec les groupes de sécurité &lt;em>dynamiques&lt;/em> (et non plus uniquement via une information réseau, IP ou DNS). Il reste à voir si VMware arrivera à généraliser ce produit de manière simple malgré la multitude d'offres cloud qui existent sur le marché.&lt;/p>
+&lt;h2 id="edu7505e--advanced-troubleshooting-for-the-vmware-nsx-distributed-firewall">#EDU7505E – Advanced Troubleshooting for the VMware NSX Distributed Firewall&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018?q=EDU7505E">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speaker(s): &lt;strong>Tim Burkard&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>You shall not pass !&lt;/p>
+&lt;/blockquote>
+&lt;p>Voilà ce que l'on attend de notre firewall et c'est sur ces 4 petits mots que commence la session. L'utilité de notre firewall distribué est bien d'empêcher les attaques sur nos systèmes mais aussi les empêcher de pouvoir rebondir depuis un serveur via une porte dérobée.&lt;/p>
+&lt;p>Néanmoins sans les bons outils il peut être difficile de bien diagnostiquer les problèmes de communication. La difficulté lorsque l'on met en place la micro segmentations avec le firewall distribué est bien de s'assurer que l'on ne va pas contraindre les applications et se créer de nouveaux problèmes.&lt;/p>
+&lt;p>Le sujet ici est de savoir analyser en temps réel ce qui se passe au sein de notre infrastructure au niveau réseau et firewalling.&lt;/p>
+&lt;p>NSX introduit des outils qui nous permettent de répondre à cette problématique:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Flow Monitoring&lt;/strong>: Grâce à lui il est possible d'analyser en temps réel via une interface graphique le traffic réseau. Il permet aussi de bloquer ou d'autoriser via un simple clic le traffic affiché.&lt;/li>
+&lt;li>&lt;strong>Traceflow&lt;/strong>: Cet outil permet de tester la communication depuis un source vers une target donnée par le port que on lui indiquera.&lt;/li>
+&lt;li>&lt;strong>Packet Capture&lt;/strong>: Comme son nom l'indique, il va permettre de capturer les trames à la manière d'un &lt;em>wireshark&lt;/em>.&lt;/li>
+&lt;li>Et bien sûr dans l'interface graphique de NSX vous disposez aussi de l'&lt;strong>event viewer&lt;/strong> et des derniers &lt;strong>logs&lt;/strong> de l'applicatif.&lt;/li>
+&lt;/ul>
+&lt;p>Si jamais ces informations ne suffisent pas, il ne faut pas oublier qu'il existe aussi &lt;em>CLI NSX&lt;/em>, à exécuter depuis le &lt;em>NSX manager&lt;/em>: Lancer une session SSH sur votre NSX manager et utiliser la commande:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pktcap-uw
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Une commande intéressante permettant de faire du debug:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pktcap-uw --dvFilter dvfilter_name --capture PreDVFilter&lt;span class="p">|&lt;/span>PostDVFilter &lt;span class="o">[&lt;/span>filter_options&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>--outfile pcap_file_path &lt;span class="o">[&lt;/span>--ng&lt;span class="o">]]&lt;/span> &lt;span class="o">[&lt;/span>--count number_of_packets&lt;span class="o">]&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Avec cette commande il est possible d'analyser les flux en entrée et à la sortie de votre &lt;em>distributed firewall&lt;/em> et ainsi voir si c'est lui qui vous bloque ou non un flux particulier.&lt;/p>
+&lt;p>&lt;strong>Rappel&lt;/strong>: pour ceux qui aiment aller voir les logs concernant &lt;em>NSX&lt;/em> et les &lt;em>DLR&lt;/em> ou &lt;em>DFW&lt;/em>: Sans &lt;em>LogInsight&lt;/em>, les logs seront éparpillés entre tous vos ESXi...&lt;/p></description></item><item><title>VMworld 2018 – Technology Superpowers !</title><link>https://vuptime.io/post/2018-11-06-vmworld-2018-eu-day2-generalsession/</link><pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/06/VMworld-2018-EU-Day2-GeneralSession/</guid><description>
+&lt;ul>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26843">Vidéo&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Pour le second jour, nous commençons, comme la majorité des personnes qui sont au VMworld, par assister à la General Session: une &lt;em>v-Keynote&lt;/em>.&lt;/p>
+&lt;p>&lt;strong>Jean-Pierre Brulard&lt;/strong> - Vice-président et directeur général, Europe, Moyen-Orient et Afrique (EMEA) - commence la session en annonçant que nous sommes 10 000 présents… C'est vrai que la salle est bondée pour le VMworld des 20 ans de VMware et les 10 ans de la filiale EVMware et les 10 ans de la filiale Européenne.&lt;/p>
+&lt;p>Arrive ensuite &lt;strong>Pat Gelsinger&lt;/strong>, VMware CEO et visionnaire du cloud en général, pour animer la majeure partie de la session.&lt;/p>
+&lt;p>Depuis 20 ans, VMware a bien changé, et son environnement aussi. A propos de NSX, Pat ose lancer un:&lt;/p>
+&lt;blockquote>
+&lt;p>Networking will never be the same again&lt;/p>
+&lt;/blockquote>
+&lt;p>VMware montre aussi son attention à son impact sur l'environnement en annonçant être à présent une &lt;strong>société au bilan carbone neutre&lt;/strong> dans ses opérations quotidiennes. Selon leurs estimations, ils ont aussi permis d'économiser la production de l'équivalent de 4 ans de production de carbone d'un pays comme le Royaume Uni depuis 20 ans. Si le chiffre est difficilement vérifiable, il y a tout de même un impact certain.&lt;/p>
+&lt;p>Ray O 'Farrel, VMware CTO, monte ensuite sur scène pour une démonstration d'App Defense, le produit de protection des applications déployées sur une infrastructure VMware et disponible dans la &amp;quot;licence&amp;quot; vSphere Platinium ou, et c'est une nouveauté, &amp;quot;vCloud Suite Platinium&amp;quot;. Basé sur une phase d'apprentissage du comportement d'une application, AD est ensuite capable de verrouiller son comportement et d'alerter en cas de modification de celui-ci: à vous d'appliquer la réponse appropriée: autoriser le changement, ou le traiter comme une menace.&lt;/p>
+&lt;p>VMware annonce ensuite la disponibilité de VMware Cloud Foundation 3.5. Un outil d'automatisation du déploiement d'infrastructures Cloud, hybrides, basée sur des produits et offres membres du programme &lt;em>VMware Cloud Certified&lt;/em>.&lt;/p>
+&lt;p>Rapide présentation d'Amazon RDS sur une infrastructure VMware, où qu'elle soit, avec l'ajout, dans la console AWS, de Custom AZ. On voit bien le rapprochement qui s'opère en ce moment entre le monde du public et du private cloud avec des produits croisés.&lt;/p>
+&lt;p>Retour de Ray sur scène pour une triple démonstration:&lt;/p>
+&lt;ul>
+&lt;li>Moderniser les applications à l'aide du cloud IBM (un gros partenaire de VMware)&lt;/li>
+&lt;li>Un scénario de &lt;em>disaster recovery&lt;/em> basé sur VMware on AWS et la gestion de l'elastic DRS qui commande ou libère pour vous des hosts en cas de changement de consommations de resources.&lt;/li>
+&lt;li>CloudHealth, un outil de gestion de coûts qui permet d'analyser les différents comptes chez vos clouds provider et peut être d'économiser de l'argent en ajustant la taille de vos réservations, d'instances.&lt;/li>
+&lt;/ul>
+&lt;p>C'est le moment de lâcher la bombe: VMware vient d'acquérir Heptio, une société spécialisé dans Kubernetes ! Clairement, les containeurs ont leur place ici et VMware annonce en même temps &lt;strong>VMware Cloud PKS&lt;/strong>, avec tous les outils nécessaires pour lancer K8S sur votre plateforme de virtualisation VMware: Azure, AWS, GCE ou On-Premise. Pour la démonstration ça sera le tour de Wendy Cartee, cheffe de produit PKS.&lt;/p>
+&lt;p>Suit une présentation de Workspace One Intelligence mais je suis moins convaincu/intéressé par cet outil de gestion de parcs de terminaux. La même chose pour &lt;strong>Concord&lt;/strong>, le blockchain by VMware, que j'ai du mal à appréhender.&lt;/p>
+&lt;p>Ray pour sa dernière intervention, arrive sur scène avec un Raspberry-Pi en main pour annoncer qu'ESXi, peut (en interne uniquement pour le moment) tourner sur ce petit appareil à 30 $/€ !!! &lt;strong>ESXi sur ARM&lt;/strong> arrive et cela sera certainement une prochaine révolution pour le monde des datacenters.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 1</title><link>https://vuptime.io/post/2018-11-05-vmworld-2018-eu-day1/</link><pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/05/VMworld-2018-EU-Day1/</guid><description>
+&lt;p>Nous y voilà. Le premier jour au VMworld à Barcelone commence par une visite... et après une rapide estimations, la conclusion que nous avons est que c'est grand, très grand! Comme le Lundi est orienté &amp;quot;Partners&amp;quot;, il y a encore peu de monde et peu de conférences. Petit retour sur les premières confs auquelles nous avons assisté:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2018/3AtLogo.jpg"/>&lt;figcaption>
+&lt;h4>Logo VMworld&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="dev1965qe--quickstart-devops-culture-with-vmware">#DEV1965QE – QuickStart DevOps Culture with VMware&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26752">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Tom Hite&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>On commence avec une session assez basique (pas de technique à proprement parler) au sujet de la culture DevOps et des produits VMware (et pas que!).&lt;/p>
+&lt;p>Clairement, on voit que dans la salle, c'est difficile de s'accorder sur une définition précise de ce qu'est le DevOps: personne ne s'aventurera à en proposer une quand le speaker l'a proposé :-) Du coup il est intéressant de montrer que même sans définition stricte, les principes de DevOps apportent beaucoup de choses dans un cycle de développement avec des &amp;quot;statistiques comparatives&amp;quot; sur les sociétés qui utilisent DevOps vis-à-vis de modèles plus anciens:&lt;/p>
+&lt;ul>
+&lt;li>Déploiements 30 fois plus fréquents&lt;/li>
+&lt;li>60 fois moins de crash&lt;/li>
+&lt;li>200 fois moins de temps entre l'idée et la mise en production&lt;/li>
+&lt;li>168 fois plus rapide à récupérer d'un crash&lt;/li>
+&lt;/ul>
+&lt;p>On parle ensuite de délivrer de la production plus efficacement et de manière durable: ne pas tuer les équipes d'ops sur des tâches répétitives, et les devs à faire de la docs en surplus ;-)&lt;/p>
+&lt;p>Enfin, nous avons abordé les concepts de frameworks d'infrastructure structurés et non-structurés et comment les outils, les méthodes et les intérêts divergent. En gros: &amp;quot;Adapter son infrastructure à son besoin, ou son besoin à son infrastructure&amp;quot;, un choix pas si évident au final.&lt;/p>
+&lt;h2 id="hci2513qe--using-vsan-native-data-protection-in-the-real-world">#HCI2513QE – Using vSAN Native Data Protection in the Real World&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26910">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Shobhan Lakkapragada&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Ce second talk aborde une &amp;quot;techpreview&amp;quot; de VMware (dont j'avais déjà entendu parlé en Septembre lors du VMug) au sujet des futures capacités de vSAN à opérer la sauvegardes de VM au sein d'un cluster.&lt;/p>
+&lt;p>Il est intéressant de remarquer que VMware s'attaque au marché de certains de ses meilleurs partenaires en proposant bientôt une solution native de sauvegarde et de protection des données (et l'écosystème est déjà vaste: Veeam, Avamar, NetBackup etc..)&lt;/p>
+&lt;p>Pour arriver à cette fonctionnalité, VMware a dû redévelopper son mécanisme de snapshot pour le rendre:&lt;/p>
+&lt;ul>
+&lt;li>Peu gourmand en I/O&lt;/li>
+&lt;li>scalable, tout autant que vSAN lui-même&lt;/li>
+&lt;li>instantané (pour la création, la suppression, l'accès)&lt;/li>
+&lt;li>pas de redo-log !!!&lt;/li>
+&lt;/ul>
+&lt;p>Un des challenges que s'impose VMware est de proposer une expérience utilisateur simple, intégrée (à vCenter) et intuitive, notamment via l'utilisation des storages policy (que l'on connait et utilise déjà) pour configurer les backups, la rétention, la réplication…&lt;/p>
+&lt;p>Sur le papier, ça sent la killer feature (pas celle qui tue votre infra, celle qui tue l'éditeur de solution de backup!):&lt;/p>
+&lt;ul>
+&lt;li>Faible RTO&lt;/li>
+&lt;li>Catalogue de snapshot très visuel et intuitif pour choisir le point de restauration&lt;/li>
+&lt;li>Restauration d'une VM via un linked clone (très rapide) ou en indépendant.&lt;/li>
+&lt;li>Possibilité de restaurer de multiples copies d'une VM (pour dev, tests, mieux reproduire un incident)&lt;/li>
+&lt;li>Compatible avec les solutions existantes de backup: continuez à utiliser votre backup traditionnel si vous le souhaitez en plus (basées sur VADP ou snapshot)&lt;/li>
+&lt;li>Replication intégrée (bi-directionnelle si souhaité)&lt;/li>
+&lt;/ul>
+&lt;p>Le seul inconvénient évident pour le moment à mon avis est l'absence de backup au niveau fichier (et d'agent de backup): mais c'est évoqué comme une possibilité futures !&lt;/p>
+&lt;h2 id="prv2201qer--introduction-to-vmware-cloud-foundation">#PRV2201QER – Introduction to VMware Cloud Foundation&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#lrivallain">Ludovic Rivallain&lt;/a>&lt;/em>&lt;/li>
+&lt;li>&lt;a href="https://videos.vmworld.com/global/2018/videoplayer/26547">Vidéo&lt;/a>&lt;/li>
+&lt;li>Speakers(s): &lt;strong>Darren Pham&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Conférence très &lt;em>high level&lt;/em>, pour présenter un nouveau produit qui se nomme &lt;strong>Vmware Cloud Fundation&lt;/strong>(VCF).&lt;/p>
+&lt;p>Cet outil permet de d'installer et de configurer automatiquement tout un écosystème basé sur vSphere, NSX et vSAN. Le gros plus de ce produit est qu'il construit l'infrastructure virtuelle en suivant le &lt;strong>VMware Validated design&lt;/strong>.&lt;/p>
+&lt;p>Pour ceux qui ne connaissent pas, je vous invite regarder &lt;a href="https://www.vmware.com/support/pubs/vmware-validated-design-pubs.html">ce lien&lt;/a>&lt;/p>
+&lt;p>&lt;strong>VCF&lt;/strong> gère également le cycle de vie de la plateforme avec la possibilité de la mettre à jour en &amp;quot;quelques clics&amp;quot;.&lt;/p>
+&lt;p>Comme VMware mise beaucoup sur l'hybridation, la possibilité de connecter son infrastructure à un cloud public est bien mise en avant (surtout sur AWS!).&lt;/p>
+&lt;h2 id="la-journée-de-jérém">La journée de Jérém&lt;/h2>
+&lt;ul>
+&lt;li>Auteur de la notice ci-dessous: &lt;em>&lt;a href="https://vuptime.io/about/#jrossignol">Jérémy Rossignol&lt;/a>&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>Premier jour au VMworld, peu de conférences mais une découverte intéressante &lt;em>&amp;quot;l'expert bar&amp;quot;&lt;/em>: Des experts de VMware classés par produits sont ici pour écouter vos problèmes et essayer d'y répondre.&lt;/p>
+&lt;p>J'ai eu l'occasion d'en rencontrer 2:&lt;/p>
+&lt;ul>
+&lt;li>Un français &lt;strong>Fabien Koessler&lt;/strong> pour NSX, un nom qui ne m'était pas inconnu car on avait déjà eu l'occasion d'échanger sur des tickets de support. Concernant ma question il reviendra vers moi car apparemment les limitations du bridging avec les &lt;em>distributed logical router&lt;/em> ne sont pas des sujets très courants. Il m'a donné toutefois une piste à creuser les hardwares VTEP.&lt;/li>
+&lt;li>Le second expert rencontré est orienté &lt;strong>vCloud Director&lt;/strong> pour le coup, ma question porte sur la limite des &lt;em>external network&lt;/em> au sein d'une instance vCloud Director. En effet, VMware annonce une limite de 1024 réseaux externes, je voulais savoir si celle ci était une limite physique ou seulement théorique car non testé. Encore une fois malheureusement, j'ai laissé mes coordonnées et l'expert reviendra vers moi plus tard.&lt;/li>
+&lt;/ul>
+&lt;p>Pour le coup, je n'ai pas eu de réponses directe à mes questions mais toutefois ce concept &lt;em>&amp;quot;d'expert bar&amp;quot;&lt;/em> est très sympa.&lt;/p></description></item><item><title>VMworld 2018 – ¡ Let's go to VMworld 2018 EUMA !</title><link>https://vuptime.io/post/2018-11-01-letsgo-vmworld-2018-euma/</link><pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/01/LetsGo-VMworld-2018-EUMA/</guid><description>
+&lt;p>Il faut une première fois à toute chose et dans environ 3 jours, j'aurais la chance de participer à mon premier &lt;strong>&lt;a href="https://www.vmworld.com/en/europe/index.html">VMworld&lt;/a>&lt;/strong>! Je serais accompagné de 2 collègues du &lt;a href="http://www.groupe-sii.com/en/">Groupe SII&lt;/a> (Merci SII au passage!): &lt;a href="https://vuptime.io/about/#aharlaut">Antoine&lt;/a> et Jeremy.&lt;/p>
+&lt;p>Forcément, nous le savons déjà, nos planning de sessions sont bien trop chargés pour tenir sur la durée: nous devrons certainement ajuster ceux-ci sur place. L'avantage de partir à 3, est de pouvoir couvrir des domaines d'intérêts et de compétences différents, tout en espérant bénéficier du résumé des ses collègues pour les sessions auxquelles nous n'assistons pas.&lt;/p>
+&lt;p>Une fois sur place nous allons certainement retrouver les membres de la cabale française du &lt;a href="https://community.vmug.com/">vMUG&lt;/a>, de nombreuses connaissances professionnelles, des clients et créer de nouveaux contacts: c'est en tout cas un des objectifs d'une participation à un tel évènement.&lt;/p>
+&lt;p>D'après les rumeurs, le VMworld ne s'arrête aux portes du &lt;em>Fira Barcelona Gran Via&lt;/em> (Centre des congrès de Barcelone) et de nombreuses soirées et rencontres en &lt;em>'off'&lt;/em> font aussi partie du voyage. Nous participons d'ailleurs (entre autres soirées) tous les 3 au &lt;a href="https://vmworldeuhackathon.hackerearth.com/fr/">{code} Hackathon&lt;/a> avec &lt;a href="https://vmworldeuhackathon.hackerearth.com/fr/sprints/vmworld-eu-code-hackathon/dashboard/3c86b57/team/">un projet&lt;/a> autour de Python et vRealize Orchestrator.&lt;/p>
+&lt;p>Nous ferons partager cet évènement au travers de nos comptes Twitter (&lt;a href="https://www.twitter.com/lrivallain">@lrivallain&lt;/a> et &lt;a href="https://www.twitter.com/antoine_hlt">@antoine_hlt&lt;/a>) ainsi que de quelques posts sur le blog.&lt;/p>
+&lt;p>Et pour tout ceux qui seront sur place, nous ne refusons jamais de prendre une vBeer!&lt;/p>
+&lt;p>&lt;em>PS:&lt;/em> nous aurons aussi des stickers du site, n'hésitez pas: &lt;figure>&lt;img src="https://vuptime.io/images/vuptime-stickers.jpg"/>&lt;figcaption>
+&lt;h4>vuptime-stickers&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;/p></description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>https://vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/09/20/frenchvmug-reboot-paris/</guid><description>
+&lt;blockquote>
+&lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>
+&lt;/blockquote>
+&lt;p>Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;amp;Home=%2fcommunities%2flocalcommunityhome">VMUG France&lt;/a> dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p>
+&lt;p>L'événènement est à présent orchestré (et bien orchestré!) par &lt;a href="https://twitter.com/Noham_m">Noham Medyouni&lt;/a> (Dell-EMC), &lt;a href="https://twitter.com/fredg_work">Fréderic Giovannacci&lt;/a> (SIB) et &lt;a href="https://twitter.com/notmg">Matthieu Gioia&lt;/a> (consultant indep.) et pour ce RDV parisien de rentrée, 2 invités de marque étaient présents:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://twitter.com/DuncanYB">Duncan Epping&lt;/a>: Chief Technologist HCI @VMware, Auteur du blog &lt;a href="http://yellow-bricks.com">Yellow Briks&lt;/a>, Coauteur de la &lt;em>bible&lt;/em> &lt;code>Clustering Deepdive&lt;/code>.&lt;/li>
+&lt;li>&lt;a href="https://twitter.com/FrankDenneman">Franck Denneman&lt;/a>: coauteur de &lt;em>l'Ancien Testament&lt;/em> &lt;code>Host Deepdive&lt;/code>, du Nouveau: &lt;code>Clustering Deepdive&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="ovh">OVH&lt;/h2>
+&lt;p>Cette journée a commencé par une présentation d'OVH et de son offre de cloud privé: &lt;em>SDDC&lt;/em>.&lt;/p>
+&lt;p>OVH dans son actualité récente a notamment inauguré une nouvelle usine d'assemblage de serveurs à Croix, avec une capacité annuelle de production de 400 000 serveurs. Autant dire qu'ils voient grand et que leur appétit est grand sur le marché du Cloud Computing.&lt;/p>
+&lt;p>Coté &lt;em>Private Cloud/SDDC&lt;/em> (souvenirs, souvenirs!), l'offre s'étoffe de nouveautés:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>vSAN&lt;/strong> sera certainement annoncé plus officiellement lors du Summit (mi-Octobre) avec, côté technique, du full MVNE et du vSAN en version 6.6. De ce que j'ai pu avoir comme info en off, le client sera assez libre de configurer comme il le souhaite de nombreux paramètres du cluster.&lt;/li>
+&lt;li>Des nouveauté coté &lt;strong>sécurité&lt;/strong> avec la future possibilité de bénéficier des fonctions de chiffrement de l'écosystème vSphere via son propre HSM, ou encore, d'attacher son propre domaine Active Directory à l'authentification du produit.&lt;/li>
+&lt;/ul>
+&lt;p>Visiblement, les liens entre OVH et VMware sont forts (en témoignait déjà le rachat de vCloud Air par OVH il y a presque 2 ans) et cela se voit: OVH a été primé 7x comme meilleur partenaire VMware au cours des 9 dernières années.&lt;/p>
+&lt;p>Enfin, c'est plus anecdotique mais intéressant à savoir, OVH, envisage de proposer des ressources (sans SLA et limitées dans le temps) aux membres de la communauté VMUG et vExpert! A suivre.&lt;/p>
+&lt;h2 id="duncan-epping-révolution-de-lit">Duncan Epping, révolution de l'IT&lt;/h2>
+&lt;p>Duncan a ensuite embrayé pour parler des évolutions actuelles et pré-senties du marché de l'IT.&lt;/p>
+&lt;p>Si on estime que dans les 5 ans à venir, plus d'applications seront créées et déployées qu'au cours des 40 dernières années: en effet on remarque que l'accélération sera dure à encaisser avec des pratiques d'il y a 10 ans. VMware essaye de son coté, d'apporter des solutions et de simplifier le travail de ses utilisateurs dans ses nouvelles et futures releases.&lt;/p>
+&lt;p>Nous avons notamment pu voir une démonstration de l'interface HTML5 de vSphere 6.7u1 avec un nouveau wizard de configuration de Cluster: qui n'a pas rêvé de configurer son cluster, avec vSAN, dvSwitch etc. en quelques clicks seulement? Et envoyer une support-request (les fameuses SR, un peu fastidieuses à remplir), directement depuis le vCenter concerné? Bientôt (on attend la GA), ça sera faisable!&lt;/p>
+&lt;p>Puis il a abordé les Tech Preview en cours sur 2 sujets:&lt;/p>
+&lt;ul>
+&lt;li>&lt;em>Native Vsan data protection&lt;/em> qui permet de remplacer une solution de backup et d'exporter, au besoin, et selon ses politiques, les données sur du stockage distant, incluant quelques providers clouds.&lt;/li>
+&lt;li>&lt;em>vSan file services&lt;/em> ou l'arrivée de la consommation du vSAN dans les guestOS au travers d'une appliance conçue pour être simple à déployer, résiliente, auto-managée, distribuée, compatible object-storage etc.&lt;/li>
+&lt;/ul>
+&lt;p>Autant dire que ça donne trèèèèès envie de tester tout ça et de l'envisager en production chez nos clients.&lt;/p>
+&lt;h2 id="franck-denneman-compute-deep-dive">Franck Denneman, Compute Deep Dive&lt;/h2>
+&lt;p>Autant le dire directement: on passe du coté DUR du compute quand on échange avec Franck et pourtant, ça semble couler de source tellement la pédagogie est efficace.&lt;/p>
+&lt;p>Sa présentation a notamment été un rappel de quelques notions expliquées dans son bouquin: &lt;code>Host Deepdive&lt;/code> (que je recommande chaudement) comme l'impact de la configuration hardware (sockets, DIMM, NUMA, channel etc.) de vos hosts. Et celui de la configuration de paramètres de VM sur les performances: nombre de &lt;em>cores per socket&lt;/em> ou encore la configuration (sensible!) du mode &lt;em>cpu latency sensitivity: high&lt;/em> sur le workload d'une infrastructure.&lt;/p>
+&lt;p>Hyper intéressant !&lt;/p>
+&lt;h2 id="autres-présentations">Autres présentations&lt;/h2>
+&lt;p>Je ne m'étendrais pas sur les autres présentations (Rubrik, NetApp, PureStorage et Zerto) qui étaient très intéressantes elles aussi mais un peu plus commerciales et vastes.&lt;/p>
+&lt;h2 id="surprises">Surprises&lt;/h2>
+&lt;p>Et comme si un VMUG avec de super guests ne suffisait pas, 2 grosses surprises sont intervenues au cours de la journée:&lt;/p>
+&lt;ul>
+&lt;li>La venue de Yoann Le Névé, cofondateur du 2ème festival de France, le HellFest. Quelques collègues Nantais en ont presque fait un QG et visiblement les liens sont forts puisque des places pour la prochaine édition ont été offertes aux participants par tirage au sort !&lt;/li>
+&lt;li>L'intervention d'Oles (Octave Klaba) (&lt;em>mon ex boss&lt;/em>), qu'on ne présente plus et qui a pu rappeler tout le bien qu'il pensait des liens qu'il entretient avec VMware, et de ses équipes des projets de cloud privé. Toujours dans son style décontracté et inimitable!&lt;/li>
+&lt;/ul>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>Je crois que l'enthousiasme autour de cet évent se lit dans le billet ci-dessus mais au cas où, je le dis explicitement: &lt;em>à refaire&lt;/em>. Un grand merci aux organisateurs pour cette très belle journée (et ce sublime T-shirt).&lt;/p>
+&lt;p>Merci aussi à SII, mon employeur, qui m'a permi d'assister à cet event!&lt;/p>
+&lt;p>Et la photo de famille:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2018-paris.jpg"/>&lt;figcaption>
+&lt;h4>Photo de famille&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item></channel></rss>

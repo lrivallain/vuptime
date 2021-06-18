@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>diff on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/diff/</link><description>Recent content in diff on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 05 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/diff/feed.xml" rel="self" type="application/rss+xml"/><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>https://vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/08/05/released-vro-package-diff_v2/</guid><description>
+&lt;p>About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: &lt;a href="https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/">vRO Package Diff&lt;/a>. Initial version was a simple python script accepting 2 files as arguments and without any input controls.&lt;/p>
+&lt;p>Today, I publish a v2 of the tool with the following changes:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>vro-package-diff&lt;/code> is now a Pypi hosted project: &lt;a href="https://pypi.org/project/vro-package-diff/">vro-package-diff&lt;/a> and so, can be installed with &lt;code>pip install&lt;/code> command.&lt;/li>
+&lt;li>An endpoit &lt;code>vro-diff&lt;/code> to access to the tool from any path location.&lt;/li>
+&lt;li>Usage of &lt;a href="https://click.palletsprojects.com/">&lt;code>click&lt;/code>&lt;/a> to manage:
+&lt;ul>
+&lt;li>inputs packages&lt;/li>
+&lt;li>help&lt;/li>
+&lt;li>legend display&lt;/li>
+&lt;li>test feature&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>A &lt;em>test&lt;/em> feature&lt;/li>
+&lt;li>Documentation is hosted on &lt;a href="https://vro-package-diff.readthedocs.io">vro-package-diff.readthedocs.io&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://travis-ci.org/lrivallain/vro-package-diff/">Travis pipeline&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png"/>&lt;figcaption>
+&lt;h4>Sample output of vro-diff-package&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="install-the-new-version">Install the new version&lt;/h2>
+&lt;p>From a python environment with &lt;code>pip&lt;/code> installed:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install vro-package-diff
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
+&lt;h3 id="get-the-help">Get the help&lt;/h3>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>vro-diff --help
+&lt;span class="ln"> 2&lt;/span>Usage: vro-diff &lt;span class="o">[&lt;/span>OPTIONS&lt;span class="o">]&lt;/span> REFERENCE_PACKAGE COMPARED_PACKAGE
+&lt;span class="ln"> 3&lt;/span>
+&lt;span class="ln"> 4&lt;/span>Start a diff operation between two vRO packages.
+&lt;span class="ln"> 5&lt;/span>
+&lt;span class="ln"> 6&lt;/span>REFERENCE_PACKAGE is the package you want to use as &lt;span class="nb">source&lt;/span>
+&lt;span class="ln"> 7&lt;/span>COMPARED_PACKAGE is the one you want to compare with reference one
+&lt;span class="ln"> 8&lt;/span>
+&lt;span class="ln"> 9&lt;/span>Options:
+&lt;span class="ln">10&lt;/span>-l, --legend Display the legend after the diff table
+&lt;span class="ln">11&lt;/span>-t, --test Exit with &lt;span class="sb">`&lt;/span>0&lt;span class="sb">`&lt;/span> &lt;span class="k">if&lt;/span> package can be safely imported. Else, returns
+&lt;span class="ln">12&lt;/span> the number of errors
+&lt;span class="ln">13&lt;/span>-h, --help Show this message and exit.
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="examples">Examples&lt;/h3>
+&lt;p>Compare two packages:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then display legend (&lt;code>--legend&lt;/code>):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then exit with error if there is conflicts (&lt;code>-–test&lt;/code>):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;span class="ln">2&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$?&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The script will exit with the number of items with a conflict situation.&lt;/p>
+&lt;p>This &lt;code>-–test&lt;/code> option can be usefull to implement CI/CD pipelines to compare, then upload(if there is no conflict) vRO packages.&lt;/p>
+&lt;h3 id="contributions">Contributions&lt;/h3>
+&lt;p>This tool needs vRO users to be tested and improved based on feedback and &lt;a href="https://github.com/lrivallain/vro-package-diff/graphs/contributors">contributions&lt;/a>: Feel free to &lt;a href="https://github.com/lrivallain/vro-package-diff/issues/new">open issue&lt;/a> or &lt;a href="https://github.com/lrivallain/vro-package-diff/compare">create pull request&lt;/a>.&lt;/p></description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>https://vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/</guid><description>
+&lt;p>I have recently published a draft tool to provide a table-formated diff of two vRealize Orchestrator packages.&lt;/p>
+&lt;p>Project is available on &lt;a href="https://github.com/lrivallain/vro-package-diff/">GitHub project&lt;/a> and will evolve in futur to support more package item's types and to provide better information about differences.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png"/>&lt;figcaption>
+&lt;h4>Sample of output&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="installation">Installation&lt;/h2>
+&lt;p>&lt;strong>Requirements:&lt;/strong> Python 3 and &lt;code>pip&lt;/code> installed.&lt;/p>
+&lt;p>Download:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/vro-package-diff.git
+&lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> vro-package-diff
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>(optionnal) Create python virtualenv:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>virtualenv -p python3 --no-site-packages venv
+&lt;span class="ln">2&lt;/span>. venv/bin/activate
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Install required python packages:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>python ./vro_package_diff.py packageA.package packageB.package
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>With:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>packageA.package&lt;/code> : oldest package file&lt;/li>
+&lt;li>&lt;code>packageB.package&lt;/code> : newest package file&lt;/li>
+&lt;/ul>
+&lt;h2 id="logs">Logs&lt;/h2>
+&lt;p>Execution logs are saved in the &lt;code>diff.log&lt;/code> file. The file is overwritten at each execution of the diff tool.&lt;/p></description></item></channel></rss>

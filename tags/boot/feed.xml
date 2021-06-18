@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>boot on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/boot/</link><description>Recent content in boot on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 04 Sep 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/boot/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware - VCSA 6.5u0 or PSC appliance - change SCSI block timeout</title><link>https://vuptime.io/post/2017-09-04-vmware_vcsa65u0_change_scsi_block_timeout/</link><pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/09/04/vmware_vcsa65u0_change_scsi_block_timeout/</guid><description>
+&lt;p>In a previous post, I've already talk about an issue occuring in a lab environment with vCSA 6.5u0 and PSC appliance : &lt;a href="https://vuptime.io/2017/05/10/VMware-VCSA-PSC-wont-boot/">VCSA or PSC appliance won't boot after hard shutdown&lt;/a>.&lt;/p>
+&lt;p>As the issue became more regular with time, I tried to figure out the root cause of those events.&lt;/p>
+&lt;p>As system's logs reports SCSI timeout on write operations, I remember myself that the default 30 seconds timeout could be insufficient in some virtualized environment. So the proposal to fix it, is the modification of timeout to a higher value.&lt;/p>
+&lt;h1 id="default-appliances-settings">Default appliance's settings&lt;/h1>
+&lt;p>We can display the current (default at this time) value of SCSI timeout for any block device of the system with the following command (based on &lt;code>sysfs&lt;/code>, a &lt;a href="https://en.wikipedia.org/wiki/Sysfs">pseudo file system provided by the Linux kernel&lt;/a> since version 2.6):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="k">for&lt;/span> d in &lt;span class="sb">`&lt;/span>ls /dev/sd* &lt;span class="p">|&lt;/span> egrep &lt;span class="s2">&amp;#34;sd[a-z]&lt;/span>$&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="sb">`&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;span class="ln">2&lt;/span> &lt;span class="nb">printf&lt;/span> &lt;span class="s2">&amp;#34;`basename &lt;/span>&lt;span class="nv">$d&lt;/span>&lt;span class="s2">`: &amp;#34;&lt;/span>
+&lt;span class="ln">3&lt;/span> cat /sys/block/&lt;span class="sb">`&lt;/span>basename &lt;span class="nv">$d&lt;/span>&lt;span class="sb">`&lt;/span>/device/timeout&lt;span class="p">;&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="k">done&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>sda: 30
+&lt;span class="ln"> 2&lt;/span>sdb: 30
+&lt;span class="ln"> 3&lt;/span>sdc: 30
+&lt;span class="ln"> 4&lt;/span>sdd: 30
+&lt;span class="ln"> 5&lt;/span>sde: 30
+&lt;span class="ln"> 6&lt;/span>sdf: 30
+&lt;span class="ln"> 7&lt;/span>sdg: 30
+&lt;span class="ln"> 8&lt;/span>sdh: 30
+&lt;span class="ln"> 9&lt;/span>sdi: 30
+&lt;span class="ln">10&lt;/span>sdj: 30
+&lt;span class="ln">11&lt;/span>sdk: 30
+&lt;span class="ln">12&lt;/span>sdl: 30
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Following command shows the same informations:&lt;/p>
+&lt;p>&lt;code>find /sys/class/scsi_generic/*/device/timeout -exec grep -H . '{}' \;&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:30
+&lt;span class="ln"> 2&lt;/span>/sys/class/scsi_generic/sg10/device/timeout:30
+&lt;span class="ln"> 3&lt;/span>/sys/class/scsi_generic/sg11/device/timeout:30
+&lt;span class="ln"> 4&lt;/span>/sys/class/scsi_generic/sg12/device/timeout:30
+&lt;span class="ln"> 5&lt;/span>/sys/class/scsi_generic/sg1/device/timeout:30
+&lt;span class="ln"> 6&lt;/span>/sys/class/scsi_generic/sg2/device/timeout:30
+&lt;span class="ln"> 7&lt;/span>/sys/class/scsi_generic/sg3/device/timeout:30
+&lt;span class="ln"> 8&lt;/span>/sys/class/scsi_generic/sg4/device/timeout:30
+&lt;span class="ln"> 9&lt;/span>/sys/class/scsi_generic/sg5/device/timeout:30
+&lt;span class="ln">10&lt;/span>/sys/class/scsi_generic/sg6/device/timeout:30
+&lt;span class="ln">11&lt;/span>/sys/class/scsi_generic/sg7/device/timeout:30
+&lt;span class="ln">12&lt;/span>/sys/class/scsi_generic/sg8/device/timeout:30
+&lt;span class="ln">13&lt;/span>/sys/class/scsi_generic/sg9/device/timeout:30
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>As mentionned in &lt;a href="http://kb.vmware.com/kb/1009465">KB #1009465 &lt;em>Increasing the disk timeout values for a Linux 2.6 virtual machine&lt;/em>&lt;/a>, VMware tools creates a &lt;code>udev&lt;/code> rule at &lt;code>/etc/udev/rules.d/99-vmware-scsi-udev.rules&lt;/code> that sets the timeout to 180 seconds for each VMware virtual disk device and reloads the &lt;code>udev&lt;/code> rules so that it takes effect immediately. But on the Photon appliance this udev rule doesn't exists anymore :&lt;/p>
+&lt;p>&lt;code>ls -l /etc/udev/rules.d/*vmware*&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>-rw-r--r-- 1 root root 268 Sep 30 2016 /etc/udev/rules.d/99-vmware-hotplug.rules
+&lt;span class="ln">2&lt;/span>-rw-r--r-- 1 root root 104 Oct 22 2016 /etc/udev/rules.d/99-vmware-udev.rules
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>To compare only&lt;/strong>: on a &amp;quot;non-Photon based&amp;quot; Linux VM, a &lt;code>/etc/udev/rules.d/99-vmware-scsi-udev.rules&lt;/code> file exists (created by the VMware-tools installer) and contains:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>#
+&lt;span class="ln">2&lt;/span># VMware SCSI devices Timeout adjustment
+&lt;span class="ln">3&lt;/span>#
+&lt;span class="ln">4&lt;/span># Modify the timeout value for VMware SCSI devices so that
+&lt;span class="ln">5&lt;/span># in the event of a failover, we don&amp;#39;t time out.
+&lt;span class="ln">6&lt;/span># See Bug 271286 for more information.
+&lt;span class="ln">7&lt;/span>
+&lt;span class="ln">8&lt;/span>ACTION==&amp;#34;add&amp;#34;, SUBSYSTEMS==&amp;#34;scsi&amp;#34;, ATTRS{vendor}==&amp;#34;VMware &amp;#34;, ATTRS{model}==&amp;#34;Virtual disk &amp;#34;, RUN+=&amp;#34;/bin/sh -c &amp;#39;echo 180 &amp;gt;/sys$DEVPATH/timeout&amp;#39;&amp;#34;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>So we probably need to increase the value by ourselves at each system startup : by using &lt;code>rc.local&lt;/code> file for exemple.&lt;/p>
+&lt;p>&lt;a href="https://twitter.com/tsugliani">@tsugliani&lt;/a> remembers me the NetApp recommandations about disk timeout on virtualized guest OS : &lt;em>&lt;a href="https://kb.netapp.com/support/s/article/ka21A0000000k7GQAQ/what-are-the-guest-os-tunings-needed-for-a-vmware-vsphere-deployment?language=en_US">What are the guest OS tunings needed for a VMware vSphere deployment?&lt;/a>&lt;/em>&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Guest OS Typ&lt;/th>
+&lt;th>Historical Guest OS Tuning for SAN&lt;/th>
+&lt;th>Updated Guest OS Tuning for SAN&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;strong>Windows&lt;/strong>&lt;/td>
+&lt;td>disk timeout = 190&lt;/td>
+&lt;td>disk timeout = 60&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Linux&lt;/strong>&lt;/td>
+&lt;td>disk timeout = 190&lt;/td>
+&lt;td>disk timeout = 60&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Solaris&lt;/strong>&lt;/td>
+&lt;td>disk timeout = 190&lt;br>busy retry = 300&lt;br>not ready retry = 300&lt;br>reset retry = 30&lt;br>max.throttle = 32&lt;br>min.throttle = 8&lt;/td>
+&lt;td>disk timeout = 60&lt;br>busy retry = 300&lt;br>not ready retry = 300&lt;br>reset retry = 30&lt;br>max.throttle = 32&lt;br>min.throttle = 8&lt;br>corrected VID/PID specification&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>VMware Support team confirms that the expected value is 180 seconds as configured in &lt;strong>VCSA 6.0 build-3339084&lt;/strong>:&lt;/p>
+&lt;p>&lt;code>find /sys/class/scsi_generic/*/device/timeout -exec grep -H . '{}' \;&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:180
+&lt;span class="ln"> 2&lt;/span>/sys/class/scsi_generic/sg1/device/timeout:180
+&lt;span class="ln"> 3&lt;/span>/sys/class/scsi_generic/sg10/device/timeout:180
+&lt;span class="ln"> 4&lt;/span>/sys/class/scsi_generic/sg11/device/timeout:30
+&lt;span class="ln"> 5&lt;/span>/sys/class/scsi_generic/sg2/device/timeout:180
+&lt;span class="ln"> 6&lt;/span>/sys/class/scsi_generic/sg3/device/timeout:180
+&lt;span class="ln"> 7&lt;/span>/sys/class/scsi_generic/sg4/device/timeout:180
+&lt;span class="ln"> 8&lt;/span>/sys/class/scsi_generic/sg5/device/timeout:180
+&lt;span class="ln"> 9&lt;/span>/sys/class/scsi_generic/sg6/device/timeout:180
+&lt;span class="ln">10&lt;/span>/sys/class/scsi_generic/sg7/device/timeout:180
+&lt;span class="ln">11&lt;/span>/sys/class/scsi_generic/sg8/device/timeout:180
+&lt;span class="ln">12&lt;/span>/sys/class/scsi_generic/sg9/device/timeout:180
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="fix-scsi-timeout">Fix SCSI timeout&lt;/h1>
+&lt;p>There is multiple ways to fix the SCSI timeout value:&lt;/p>
+&lt;ol>
+&lt;li>Upgrade to VCSA 6.5u1 (aka build 5973321)&lt;/li>
+&lt;li>Manually add the udev rule&lt;/li>
+&lt;li>Add a &lt;code>rc.local&lt;/code> file (not recommended)&lt;/li>
+&lt;/ol>
+&lt;h2 id="vcsa-upgrade-way">VCSA upgrade way&lt;/h2>
+&lt;p>It's not mentionned in the &lt;a href="https://docs.vmware.com/en/VMware-vSphere/6.5/rn/vsphere-vcenter-server-651-release-notes.html#storage-issues-resolved">Relase Notes&lt;/a>, but &lt;strong>VCSA 6.5 build 5973321&lt;/strong> include a fix for the missing udev rule with openvm-tools :&lt;/p>
+&lt;p>&lt;code>find /sys/class/scsi_generic/*/device/timeout -exec grep -H . '{}' \;&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:30
+&lt;span class="ln"> 2&lt;/span>/sys/class/scsi_generic/sg10/device/timeout:180
+&lt;span class="ln"> 3&lt;/span>/sys/class/scsi_generic/sg11/device/timeout:180
+&lt;span class="ln"> 4&lt;/span>/sys/class/scsi_generic/sg12/device/timeout:180
+&lt;span class="ln"> 5&lt;/span>/sys/class/scsi_generic/sg1/device/timeout:180
+&lt;span class="ln"> 6&lt;/span>/sys/class/scsi_generic/sg2/device/timeout:180
+&lt;span class="ln"> 7&lt;/span>/sys/class/scsi_generic/sg3/device/timeout:180
+&lt;span class="ln"> 8&lt;/span>/sys/class/scsi_generic/sg4/device/timeout:180
+&lt;span class="ln"> 9&lt;/span>/sys/class/scsi_generic/sg5/device/timeout:180
+&lt;span class="ln">10&lt;/span>/sys/class/scsi_generic/sg6/device/timeout:180
+&lt;span class="ln">11&lt;/span>/sys/class/scsi_generic/sg7/device/timeout:180
+&lt;span class="ln">12&lt;/span>/sys/class/scsi_generic/sg8/device/timeout:180
+&lt;span class="ln">13&lt;/span>/sys/class/scsi_generic/sg9/device/timeout:180
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>An upgrade is the best way to avoid this issue.&lt;/p>
+&lt;h2 id="manually-add-the-udev-rule">Manually add the udev rule&lt;/h2>
+&lt;p>It's possible to manually add the missing udev rule and to apply it :&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s2">ACTION==\&amp;#34;add\&amp;#34;, SUBSYSTEMS==\&amp;#34;scsi\&amp;#34;, ATTRS{vendor}==\&amp;#34;VMware*\&amp;#34; , ATTRS{model}==\&amp;#34;Virtual disk*\&amp;#34;, RUN+=\&amp;#34;/bin/sh -c &amp;#39;echo 180 &amp;gt;/sys&lt;/span>&lt;span class="nv">$DEVPATH&lt;/span>&lt;span class="s2">/device/timeout&amp;#39;\&amp;#34;
+&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s2">ACTION==\&amp;#34;add\&amp;#34;, SUBSYSTEMS==\&amp;#34;scsi\&amp;#34;, ATTRS{vendor}==\&amp;#34;VMware*\&amp;#34; , ATTRS{model}==\&amp;#34;VMware Virtual S\&amp;#34;, RUN+=\&amp;#34;/bin/sh -c &amp;#39;echo 180 &amp;gt;/sys&lt;/span>&lt;span class="nv">$DEVPATH&lt;/span>&lt;span class="s2">/device/timeout&amp;#39;\&amp;#34;
+&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &amp;gt; /etc/udev/rules.d/99-vmware-scsi-udev.rules
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>A &lt;strong>reboot is necessary&lt;/strong> to apply the new rule (the hot command &lt;code>udevadm control --reload-rules &amp;amp;&amp;amp; udevadm trigger&lt;/code> didn't work for me).&lt;/p>
+&lt;h2 id="the-rclocal-way">The rc.local way&lt;/h2>
+&lt;p>By default , there is no created rc.local file on the Photon based appliance to run simple commands at every system startup. But it's simple to find out where to create this file by displaying the systemd &lt;code>rc-local&lt;/code> service configuration:&lt;/p>
+&lt;p>&lt;code>systemctl cat rc-local&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span># /etc/systemd/system/rc-local.service
+&lt;span class="ln"> 2&lt;/span># This file is part of systemd.
+&lt;span class="ln"> 3&lt;/span>#
+&lt;span class="ln"> 4&lt;/span># systemd is free software; you can redistribute it and/or modify it
+&lt;span class="ln"> 5&lt;/span># under the terms of the GNU Lesser General Public License as published by
+&lt;span class="ln"> 6&lt;/span># the Free Software Foundation; either version 2.1 of the License, or
+&lt;span class="ln"> 7&lt;/span># (at your option) any later version.
+&lt;span class="ln"> 8&lt;/span>
+&lt;span class="ln"> 9&lt;/span># This unit gets pulled automatically into multi-user.target by
+&lt;span class="ln">10&lt;/span># systemd-rc-local-generator if /etc/rc.d/rc.local is executable.
+&lt;span class="ln">11&lt;/span>[Unit]
+&lt;span class="ln">12&lt;/span>Description=/etc/rc.d/rc.local Compatibility
+&lt;span class="ln">13&lt;/span>ConditionFileIsExecutable=/etc/rc.d/rc.local
+&lt;span class="ln">14&lt;/span>After=network.target
+&lt;span class="ln">15&lt;/span>
+&lt;span class="ln">16&lt;/span>[Service]
+&lt;span class="ln">17&lt;/span>Type=forking
+&lt;span class="ln">18&lt;/span>ExecStart=/etc/rc.d/rc.local start
+&lt;span class="ln">19&lt;/span>TimeoutSec=0
+&lt;span class="ln">20&lt;/span>RemainAfterExit=yes
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>As mentionned, the &lt;code>/etc/rc.d/rc.local&lt;/code> must be created and executable. Let's do it !&lt;/p>
+&lt;p>&lt;code>vi /etc/rc.d/rc.local&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="cp">#!/bin/sh -e
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="cp">&lt;/span>&lt;span class="c1">#&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># rc.local&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="c1">#&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="c1"># This script is executed at the end of each multiuser runlevel.&lt;/span>
+&lt;span class="ln"> 6&lt;/span>&lt;span class="c1"># Make sure that the script will &amp;#34;exit 0&amp;#34; on success or any other&lt;/span>
+&lt;span class="ln"> 7&lt;/span>&lt;span class="c1"># value on error.&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="c1">#&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="c1"># In order to enable or disable this script just change the execution&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="c1"># bits.&lt;/span>
+&lt;span class="ln">11&lt;/span>&lt;span class="c1">#&lt;/span>
+&lt;span class="ln">12&lt;/span>&lt;span class="c1"># By default this script does nothing.&lt;/span>
+&lt;span class="ln">13&lt;/span>
+&lt;span class="ln">14&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="c1"># Change defaut SCSI timeout on all disks&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="k">for&lt;/span> d in &lt;span class="sb">`&lt;/span>ls /dev/sd* &lt;span class="p">|&lt;/span> egrep &lt;span class="s2">&amp;#34;sd[a-z]&lt;/span>$&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="sb">`&lt;/span>
+&lt;span class="ln">17&lt;/span>&lt;span class="k">do&lt;/span>
+&lt;span class="ln">18&lt;/span> &lt;span class="nb">echo&lt;/span> &lt;span class="m">180&lt;/span> &amp;gt; /sys/block/&lt;span class="sb">`&lt;/span>basename &lt;span class="nv">$d&lt;/span>&lt;span class="sb">`&lt;/span>/device/timeout
+&lt;span class="ln">19&lt;/span>&lt;span class="k">done&lt;/span>
+&lt;span class="ln">20&lt;/span>
+&lt;span class="ln">21&lt;/span>&lt;span class="nb">exit&lt;/span> &lt;span class="m">0&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>When saved, we change the file permission to make it executable:&lt;/p>
+&lt;p>&lt;code>chmod +x /etc/rc.d/rc.local&lt;/code>&lt;/p>
+&lt;p>Then we activate the &lt;code>rc-local&lt;/code> on system startup:&lt;/p>
+&lt;p>&lt;code>systemctl enable rc-local&lt;/code>&lt;/p>
+&lt;p>And we test it&lt;/p>
+&lt;p>&lt;code>systemctl start rc-local&lt;/code>&lt;/p>
+&lt;p>No restart is needed to apply the new timeout settings. At every system startup, the &lt;code>rc.local&lt;/code> file will be instantiate and the timeout value increased from 30 seconds to 180.&lt;/p>
+&lt;h1 id="check-new-timeout-value">Check new timeout value&lt;/h1>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="k">for&lt;/span> d in &lt;span class="sb">`&lt;/span>ls /dev/sd* &lt;span class="p">|&lt;/span> egrep &lt;span class="s2">&amp;#34;sd[a-z]&lt;/span>$&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="sb">`&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;span class="ln">2&lt;/span> &lt;span class="nb">printf&lt;/span> &lt;span class="s2">&amp;#34;`basename &lt;/span>&lt;span class="nv">$d&lt;/span>&lt;span class="s2">`: &amp;#34;&lt;/span>
+&lt;span class="ln">3&lt;/span> cat /sys/block/&lt;span class="sb">`&lt;/span>basename &lt;span class="nv">$d&lt;/span>&lt;span class="sb">`&lt;/span>/device/timeout&lt;span class="p">;&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="k">done&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>sda: 180
+&lt;span class="ln"> 2&lt;/span>sdb: 180
+&lt;span class="ln"> 3&lt;/span>sdc: 180
+&lt;span class="ln"> 4&lt;/span>sdd: 180
+&lt;span class="ln"> 5&lt;/span>sde: 180
+&lt;span class="ln"> 6&lt;/span>sdf: 180
+&lt;span class="ln"> 7&lt;/span>sdg: 180
+&lt;span class="ln"> 8&lt;/span>sdh: 180
+&lt;span class="ln"> 9&lt;/span>sdi: 180
+&lt;span class="ln">10&lt;/span>sdj: 180
+&lt;span class="ln">11&lt;/span>sdk: 180
+&lt;span class="ln">12&lt;/span>sdl: 180
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Each block device should now use a 180 second timeout for SCSI commands.&lt;/p></description></item><item><title>VMware - VCSA or PSC appliance won't boot after hard shutdown</title><link>https://vuptime.io/post/2017-05-10-vmware-vcsa-psc-wont-boot/</link><pubDate>Wed, 10 May 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/05/10/VMware-VCSA-PSC-wont-boot/</guid><description>
+&lt;p>I started using the VMware &lt;em>Photon&lt;/em> based appliances to deploy vCenter services (VCSA) and PSC with the 6.5 version several months ago.&lt;/p>
+&lt;p>It's really stable and I appreciate to use it daily and to replace the windows based services with the appliance ones. But a couple of days ago, I had a bad suprise in a lab environment where 2 PSC instances were unable to boot after a hard power-off.&lt;/p>
+&lt;p>Here is a screenshot of the PSC console during the boot sequence:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/psc-wont-boot-1.png"/>&lt;figcaption>
+&lt;h4>PSC console during the boot sequence&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>When logging with root credentials, I wasn't able to start services (as network) but I was able to manually set an IP address to the ethernet interface.&lt;/p>
+&lt;p>It tooks me quite a lot of time, searching in logs, to find out the root cause:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>journalctl -xb
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/psc-wont-boot-2.png"/>&lt;figcaption>
+&lt;h4>The root cause&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>&lt;code>/dev/mapper/log_vg-log&lt;/code> partition was in error during the boot filesystem check.&lt;/p>
+&lt;p>To fix it quickly (and dirty):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>fsck.ext4 /dev/mapper/log_vg-log -y
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>-y&lt;/code> option is set to accept the default error fixing suggested by the fsck.ext4 tool.&lt;/p>
+&lt;p>From that point, a simple reboot was necessary to get back the lab service up.&lt;/p></description></item></channel></rss>

@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vcd on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/vcd/</link><description>Recent content in vcd on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 17 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/vcd/feed.xml" rel="self" type="application/rss+xml"/><item><title>Extending VMware vCloud Director functionalities</title><link>https://vuptime.io/post/2019-05-06-extending-vcloud-director-functionalities/</link><pubDate>Mon, 06 May 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/05/06/extending-vcloud-director-functionalities/</guid><description>
+&lt;p>This post is the English translation of the one published on &lt;a href="https://blog.groupe-sii.com/etendre-les-capacites-du-portail-vmware-vcloud-director/">blog.groupe-sii.com&lt;/a> to present a new kind of development activities in SII Group: the extension of the &lt;em>VMware vCloud Director&lt;/em> portal.&lt;/p>
+&lt;p>The post will explain the concept that enables the extension of this VMware product to add new functionalities to the native portal and to provide a consistent user experience to final customers.&lt;/p>
+&lt;h2 id="introduction-to-vmware-vcloud-director">Introduction to VMware vCloud Director&lt;/h2>
+&lt;p>VMware vCloud Director is a quite common reference in virtualized infrastructures, especially for &lt;em>Service Providers&lt;/em> (for mutualized cloud hosting) or major companies with sizable infrastructure.&lt;/p>
+&lt;p>Its concept is based on a simplified view, targeting VM users, to consume IaaS (&lt;em>Infrastructure-as-a-Service&lt;/em>) resources with tenant or service-based restrictions.&lt;/p>
+&lt;p>Natively, vCloud Director (vCD) interface is an overlay of other VMware's product as vCenter/vSphere, et NSX-V (for &lt;em>Software-Defined Networking&lt;/em>) and its features are limited to the consumption of VM, storage and network resources (both &lt;em>L2&lt;/em> &amp;amp; &lt;em>L3&lt;/em>).&lt;/p>
+&lt;h2 id="vmware-vcloud-director-extensions">VMware vCloud Director extensions&lt;/h2>
+&lt;p>Since the 9.1 version (&lt;a href="https://docs.vmware.com/en/vCloud-Director/9.1/rn/rel_notes_vcloud_director_91.html">2018, march&lt;/a>), vCloud Director cames with an extensibility feature. This allows to the platform administrator to extend the features perimeter.&lt;/p>
+&lt;p>Indeed, through a dedicated development, it is possible to create the technical context to execute the automation linked to new features to add to the vCD portal (UI, API, backend, third party interconnect...).&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Example&lt;/strong> : Provide to end-users a &lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/samples/ticketing">support-ticketing-interface integrated to the vCD portal&lt;/a>.&lt;/p>
+&lt;/blockquote>
+&lt;p>The publication perimeter for a custom extension can be set according to the plateform needs and the extension. So it is possible to publish it for:&lt;/p>
+&lt;ul>
+&lt;li>Platform system administrators&lt;/li>
+&lt;li>Customer's organizations with, at choice:
+&lt;ul>
+&lt;li>All organizations at the same time&lt;/li>
+&lt;li>Only some selected organizations&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/vcd_extensionpublish.png"/>&lt;figcaption>
+&lt;h4>Example of the choice for extension&amp;#39;s publication&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="extend-vcds-ui">Extend vCD's UI&lt;/h3>
+&lt;p>Probably the most obvious benefit of the extensibility feature of vCloud Director is the capacity to integrate in a single user interface (&lt;em>UI&lt;/em>), new sections to give access to added features.&lt;/p>
+&lt;p>This includes the addition of a customized item in the main navigation menu:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/vcd_extensionmenu.png"/>&lt;figcaption>
+&lt;h4>Example of navigation menu extension&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>It also includes the ability to add custom pages to display the content of extension(s). As those pages are loaded inside the vCD UI, it is recommended to reuse style and components of the native interface to offer an unified user experience (&lt;em>UX&lt;/em>).&lt;/p>
+&lt;p>As vCD uses the open-source &lt;a href="https://clarity.design/">Clarity&lt;/a> framework, mainly developed by VMware, for the HTML5 interface, it is possible to reuse its components (&lt;strong>Angular&lt;/strong>), styles and best practices.&lt;/p>
+&lt;h3 id="extend-vcds-api">Extend vCD's API&lt;/h3>
+&lt;p>A second possibility offer by the extensibility kit of vCloud Director is to extend the perimeter of URI allowed in the vCloud API. With this API extension, it is now possible to use a standard vCloud API path (&lt;code>https://&amp;lt;vcloudserver&amp;gt;/api/&lt;/code>) to request information and actions for an extension.&lt;/p>
+&lt;p>Let's take an example:&lt;/p>
+&lt;blockquote>
+&lt;p>Our &lt;code>coffee&lt;/code> extension aims to provide a feature to create &lt;em>coffee machine&lt;/em> order through vCD portal.&lt;/p>
+&lt;p>Requests sent to vCloud API at this path : &lt;code>https://&amp;lt;vcloudserver&amp;gt;/api/coffee/order&lt;/code> and for instance, a &lt;code>POST&lt;/code> request type (and its appropriate parameters) will start a new order to the coffee machine. A &lt;code>GET&lt;/code> request will list the previous commands etc.&lt;/p>
+&lt;/blockquote>
+&lt;p>To handle the extension related customized requests, a backend server is necessary. This server can be hosted on a dedicated host (or the vCD server (&lt;em>cell&lt;/em>) but not recommended) and can be written in any language of your choice (Python, Java, Node etc.). Messages received by vCD on the extension path (&lt;code>coffee&lt;/code>) will be forwarded to an intermediate RabbitMQ server to be consumed by the extension backend. Once the request content is processed, response content is sent to the AMQP server and consumed by vCD to provide an answer.&lt;/p>
+&lt;p>For our example:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/architecture_overview.png"/>&lt;figcaption>
+&lt;h4>Used paths for requests on Coffee extension&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;ol>
+&lt;li>The user initiates a request (through the UI or directly through the exposed API extension).&lt;/li>
+&lt;li>vCD compiles this request to an AMQP message with an extension-specific routing key fro the RabbitMQ server.&lt;/li>
+&lt;li>The Extension's backend server can consume the message, make appropriate pre-checks (rights management, pre-requisites, open external connections etc.)&lt;/li>
+&lt;li>One or many API requests are sent to the &lt;em>coffee machine&lt;/em> to create the order.&lt;/li>
+&lt;li>The &lt;em>Coffee machine&lt;/em> answers with appropriate data: Ex: &lt;em>&amp;quot;Order preparation in progress&amp;quot;&lt;/em> or the list of previous orders.&lt;/li>
+&lt;li>Extension's backend server process the data from the &lt;em>Coffee machine&lt;/em> (formatting, selection of items etc.) and is able to sent back the answer to initial vCD message through a dedicated queue (known from &lt;code>reply-to&lt;/code> field in initial AMQP message).&lt;/li>
+&lt;li>vCD can now consume the answer from RabbitMQ and use the content as a response from the API call initiated by the user.&lt;/li>
+&lt;/ol>
+&lt;h3 id="extensibility-kit-of-vcloud-director">Extensibility kit of vCloud Director&lt;/h3>
+&lt;p>To help the development of vCD's extensions, VMware provides a &lt;em>SDK&lt;/em> that contains:&lt;/p>
+&lt;ul>
+&lt;li>Minimal code for a UI extension (&lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/vcd-plugin-seed">&lt;em>vcd-plugin-seed&lt;/em>&lt;/a>).&lt;/li>
+&lt;li>Some simple &lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/samples">extensions samples&lt;/a>:
+&lt;ul>
+&lt;li>&lt;em>About page&lt;/em>: no API&lt;/li>
+&lt;li>&lt;em>Ticketing&lt;/em>: Extension to create and display support tickets with a non-persistent API in Python.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="practical-implementation-from-sii-group-lumext">Practical implementation from SII Group: LUMExt&lt;/h2>
+&lt;p>As the &lt;em>coffee machine&lt;/em> is purely fictitious (even if it could be very useful ☺️), but the need for extensions in vCloud Director is not lacking.&lt;/p>
+&lt;p>At SII Group, we had chosen to develop an interface to manage LDAP based users trough the vCloud Director portal.&lt;/p>
+&lt;h3 id="présentation">Présentation&lt;/h3>
+&lt;p>Natively, vCloud Director supports the authentication from both local and LDAP based users. Sadly, for LDAP based users, it is not possible to edit user's information or to create new one from vCD. Only attachment to an organization is possible.&lt;/p>
+&lt;p>If you are a &lt;em>Service Provider&lt;/em> hosting customers that do not want to manage their own LDAP server to create users for vCD access, but aim to use a single source of authentication for multiple usages (vCD, VM's OS etc.): a mutualized LDAP server can be a useful service.&lt;/p>
+&lt;p>&lt;strong>LUMExt&lt;/strong> (&lt;strong>L&lt;/strong>DAP &lt;strong>U&lt;/strong>ser &lt;strong>M&lt;/strong>anagement &lt;strong>Ext&lt;/strong>ension for vCloud Director) aims to provide a vCD-integrated management of LDAP-based users.&lt;/p>
+&lt;p>Once a user is created in the LDAP server, it is possible to associate it with an organization and a role to allow its connection to the vCD portal.&lt;/p>
+&lt;h3 id="api">API&lt;/h3>
+&lt;p>This extension API is based on a Python script &lt;code>lumext&lt;/code> that initiates a new applicative &lt;em>thread&lt;/em> for each request from the AMQP queue. In the benefits of using per-request Python &lt;em>thread&lt;/em>, we can mention:&lt;/p>
+&lt;ul>
+&lt;li>Processing of multiples requests at the same time&lt;/li>
+&lt;li>The process of a request does not affect the process of other request (current or future ones), even in case of error.&lt;/li>
+&lt;/ul>
+&lt;p>To consume and publish (&lt;em>consumer/publisher&lt;/em> roles) messages with AMQP protocol, we use the &lt;a href="https://pypi.org/project/kombu/">&lt;code>Kombu&lt;/code>&lt;/a> Python package as it turns out to be very reliable and to provide easy support for &lt;em>thread&lt;/em> usage.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Note :&lt;/strong> VMware's examples use the &lt;a href="https://pypi.org/project/pika/">&lt;code>Pika&lt;/code>&lt;/a> module for the same kind of usage.&lt;/p>
+&lt;/blockquote>
+&lt;p>We also have developed a &lt;em>MessageWorker&lt;/em> named &lt;a href="https://pypi.org/project/VcdExtMessageWorker/">&lt;code>VcdExtMessageWorker&lt;/code>&lt;/a> to start business-related threads. These extension-&lt;em>threads&lt;/em> represent the potential complexity of the feature to add to vCD (applicative workflow, data analysis, third party requests, etc.). &lt;em>MessageWorker&lt;/em> is generic and can be attached to other kind of extension-threads for other kind of purposes.&lt;/p>
+&lt;p>In the case of &lt;strong>LUMExt&lt;/strong>, &lt;code>VcdExtMessageWorker&lt;/code> initiates a new thread of &lt;em>lumext worker&lt;/em> for each request. This one is in charge of the request-analysis (is it a listing request or a user-creation one, user-edition ?). Once the request is processed, the answer is published to the &lt;code>reply-to&lt;/code> queue of the RabbitMQ server and consumed by vCD.&lt;/p>
+&lt;p>REST API extension provides the following paths to the users:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>/api&lt;/code> : root of vCD APIs (native)
+&lt;ul>
+&lt;li>&lt;code>/api/{org_id}&lt;/code> : root of an organization (native)
+&lt;ul>
+&lt;li>&lt;code>/api/{org_id}/lumext&lt;/code> : root of the extension (lumext)
+&lt;ul>
+&lt;li>&lt;code>/api/{org_id}/lumext/user&lt;/code> : (lumext)
+&lt;ul>
+&lt;li>&lt;code>GET&lt;/code> : list users&lt;/li>
+&lt;li>&lt;code>POST&lt;/code> : create user&lt;/li>
+&lt;li>&lt;code>/api/{org_id}/lumext/user/{login}&lt;/code> : (lumext)
+&lt;ul>
+&lt;li>&lt;code>DELETE&lt;/code> : delete current user&lt;/li>
+&lt;li>&lt;code>PUT&lt;/code> : edit current user&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Same API is available for both organization's administrators to setup automation tools (to create users, for example) and for the UI that fully relies on this API to access data.&lt;/p>
+&lt;p>Finally, the usage of AMQP protocol, &lt;em>stateless threads&lt;/em> and our &lt;em>MessageWorker&lt;/em> based on Kombu allows to horizontally scale our extension backend to multiple nodes if necessary (to ensure high availability or load balancing).&lt;/p>
+&lt;h3 id="ui">UI&lt;/h3>
+&lt;p>The &lt;strong>LUMExt&lt;/strong> user interface is fully integrated to the vCD portal and is based on the same UI components (&lt;em>Angular&lt;/em>) and the same graphic charter (based on open-source &lt;a href="https://clarity.design/">Clarity&lt;/a> framework from VMware).&lt;/p>
+&lt;p>The main navigation menu is supplemented with a new link to access to the &lt;strong>LUMExt&lt;/strong> pages.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_menu.png"/>&lt;figcaption>
+&lt;h4>Main navigation menu&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>By default, LDAP based users list is displayed:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_userlisting.png"/>&lt;figcaption>
+&lt;h4>LUMExt, users list&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>In the following screenshot, it is interesting to notice that only the middle part is developed for the extension. Navigation menu on top and tasks list on the bottom are vCD natives (and cannot be modified).&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_userlisting_zoning_en.png"/>&lt;figcaption>
+&lt;h4>LUMExt, users list - Zoning&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>To create a new user, some form fields are requested:&lt;/p>
+&lt;ul>
+&lt;li>Login&lt;/li>
+&lt;li>Name&lt;/li>
+&lt;li>Password (customized or client-side generated with minimal security requirements)&lt;/li>
+&lt;li>Password confirmation&lt;/li>
+&lt;li>Description (optional)&lt;/li>
+&lt;/ul>
+&lt;p>The data are sent to the backend and store in the LDAP server in appropriate directory fields.&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_usercreation.png"/>&lt;figcaption>
+&lt;h4>LUMExt, user creation&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>&lt;strong>LUMExt&lt;/strong> UI also provides user edition and user deletion and a specific wizard for password reset operation.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Note :&lt;/strong> LDAP based groups support is intended but not yet developed.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>&lt;strong>LUMExt&lt;/strong> is an internal SII project that we &amp;quot;opensource&amp;quot; (MIT license) on &lt;a href="https://github.com/groupe-sii/lumext">github&lt;/a> to demonstrate the extensibility abilities of vCloud Director with a technical and complete use-case.&lt;/p>
+&lt;p>Since about 6 months, our teams have working on these kind of &lt;em>plugins&lt;/em> development for our customers to extend the available features of the vCD portal with tools for their customers (as &lt;em>&amp;quot;Service Provider&amp;quot;&lt;/em>).&lt;/p>
+&lt;p>It is also a great example of the combined work of developers and infrastrucure engineering in our teams, when, in computer science history, both jobs are more and more linked together.&lt;/p>
+&lt;p>Illustration credits go to:&lt;/p>
+&lt;ul>
+&lt;li>Applications-ristretto.svg - &lt;a href="https://commons.wikimedia.org/wiki/File:Applications-ristretto.svg">Sebastian Kraft - GPL&lt;/a>&lt;/li>
+&lt;li>RRZE-icon-set - &lt;a href="https://github.com/RRZE-PP/rrze-icon-set/">Regional Computing Centre of Erlangen (RRZE) - CC-by-sa/3.0&lt;/a>&lt;/li>
+&lt;li>Screenshots from LUMExt are SII group own work&lt;/li>
+&lt;/ul></description></item><item><title>VMware vCloud Director – Change SSL certificates</title><link>https://vuptime.io/post/2018-07-24-vmware-vcloud-director-change-ssl-certificates/</link><pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/07/24/vmware-vcloud-director-change-ssl-certificates/</guid><description>
+&lt;p>The following procedure is a self-reminder of How-To replace the certificates of a VMware &lt;strong>vCloud Director&lt;/strong> deployment.&lt;/p>
+&lt;h1 id="prepare-informations">Prepare informations&lt;/h1>
+&lt;p>Here is a configuration sample for a single cell deployment. Change settings according to your needs:&lt;/p>
+&lt;blockquote>
+&lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;lri.lcl&amp;#34;&lt;/span>
+&lt;span class="ln"> 2&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># API and HTTP host info&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="nv">HTTP_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;vuptime-vcd&amp;#39;&lt;/span>
+&lt;span class="ln"> 5&lt;/span>&lt;span class="nv">HTTP_IP&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;10.10.110.3&amp;#39;&lt;/span>
+&lt;span class="ln"> 6&lt;/span>&lt;span class="nv">HTTP_FQDN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">.&lt;/span>&lt;span class="nv">$DOMAIN&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln"> 7&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="c1"># Console proxy host info&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="nv">CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;vuptime-vcd-vmrc&amp;#39;&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="nv">CONSOLE_PROXY_IP&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;10.10.110.4&amp;#39;&lt;/span>
+&lt;span class="ln">11&lt;/span>&lt;span class="nv">CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">.&lt;/span>&lt;span class="nv">$DOMAIN&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln">12&lt;/span>
+&lt;span class="ln">13&lt;/span>&lt;span class="c1"># Others certificates information&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="nv">VALIDITY&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">365&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="nv">CERT_DNAME_INFO&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;OU=vUptime-IO, O=Example Corp, L=Rennes, S=Britain, C=FR&amp;#34;&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="nv">CA_CERT_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/tmp/ca-root.cert&amp;#34;&lt;/span>
+&lt;span class="ln">17&lt;/span>
+&lt;span class="ln">18&lt;/span>&lt;span class="c1"># Keytool informations&lt;/span>
+&lt;span class="ln">19&lt;/span>&lt;span class="nv">KEYTOOL_BIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$VCLOUD_JAVA_HOME&lt;/span>&lt;span class="s2">/bin/keytool&amp;#34;&lt;/span>
+&lt;span class="ln">20&lt;/span>&lt;span class="nv">KS_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>&lt;span class="s2">/data/transfer/certificates.ks&amp;#34;&lt;/span>
+&lt;span class="ln">21&lt;/span>&lt;span class="nv">KS_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;VMware1!&amp;#39;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="create-unsigned-certificates">Create unsigned certificates&lt;/h1>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="se">&lt;/span> -keypass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="se">&lt;/span> -genkeypair &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="se">&lt;/span> -keyalg RSA &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="se">&lt;/span> -keysize &lt;span class="m">2048&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="se">&lt;/span> -validity &lt;span class="nv">$VALIDITY&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="se">&lt;/span> -dname &lt;span class="s2">&amp;#34;CN=&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">, &lt;/span>&lt;span class="nv">$CERT_DNAME_INFO&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$HTTP_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln">13&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
+&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">18&lt;/span>&lt;span class="se">&lt;/span> -keypass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">19&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;span class="ln">20&lt;/span>&lt;span class="se">&lt;/span> -keyalg RSA &lt;span class="se">\
+&lt;/span>&lt;span class="ln">21&lt;/span>&lt;span class="se">&lt;/span> -genkeypair &lt;span class="se">\
+&lt;/span>&lt;span class="ln">22&lt;/span>&lt;span class="se">&lt;/span> -keysize &lt;span class="m">2048&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">23&lt;/span>&lt;span class="se">&lt;/span> -validity &lt;span class="nv">$VALIDITY&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">24&lt;/span>&lt;span class="se">&lt;/span> -dname &lt;span class="s2">&amp;#34;CN=&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">, &lt;/span>&lt;span class="nv">$CERT_DNAME_INFO&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">25&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="create-certificate-requests-for-ca-signing">Create certificate requests for CA-signing&lt;/h1>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="se">&lt;/span> -certreq &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$HTTP_FQDN&lt;/span>.csr &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$HTTP_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln"> 9&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="se">&lt;/span> -certreq &lt;span class="se">\
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
+&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>.csr &lt;span class="se">\
+&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Send CSR files to your (internal/external) CA for signing, and copy them to cell:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>ca-root.crt&lt;/code>: the CA certificate&lt;/li>
+&lt;li>&lt;code>vuptime-vcd.lri.lcl.crt&lt;/code>: HTTP certificate&lt;/li>
+&lt;li>&lt;code>vuptime-vcd-vmrc.lri.lcl.crt&lt;/code>: ConsoleProxy certificate&lt;/li>
+&lt;/ul>
+&lt;h1 id="import-signed-certificates-in-the-keystore">Import signed certificates in the keystore&lt;/h1>
+&lt;p>First, we import the CA certificate:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -import &lt;span class="se">\
+&lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -alias root &lt;span class="se">\
+&lt;/span>&lt;span class="ln">7&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CA_CERT_PATH&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then the 2 applications certificates:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="se">&lt;/span> -import &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$HTTP_FQDN&lt;/span>.crt
+&lt;span class="ln"> 8&lt;/span>
+&lt;span class="ln"> 9&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="se">&lt;/span> -import &lt;span class="se">\
+&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>.crt
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -list
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="apply-certificates-to-the-services">Apply certificates to the services&lt;/h1>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>chown vcloud: &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="c1"># Set owner of the keystore to vcloud user&lt;/span>
+&lt;span class="ln">2&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool certificates -j -k &lt;span class="nv">$KS_PATH&lt;/span> -w &lt;span class="nv">$KS_PASSWORD&lt;/span>
+&lt;span class="ln">3&lt;/span>service vmware-vcd restart
+&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>VMware - Patch the vCloud Director cacerts file</title><link>https://vuptime.io/post/2017-08-30-vmware-patch-vclouddirector-cacerts-file/</link><pubDate>Wed, 30 Aug 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/08/30/VMware-Patch-vCloudDirector-cacerts-file/</guid><description>
+&lt;p>When you install a VMware vCloud Director instance, it comes with an embedded JRE (&lt;em>Java Runtime Environment&lt;/em>). For example, vCloud Director includes JRE 1.8.0_121 :&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/java -version
+&lt;span class="ln">2&lt;/span>java version &lt;span class="s2">&amp;#34;1.8.0_121&amp;#34;&lt;/span>
+&lt;span class="ln">3&lt;/span>Java&lt;span class="o">(&lt;/span>TM&lt;span class="o">)&lt;/span> SE Runtime Environment &lt;span class="o">(&lt;/span>build 1.8.0_121-b13&lt;span class="o">)&lt;/span>
+&lt;span class="ln">4&lt;/span>Java HotSpot&lt;span class="o">(&lt;/span>TM&lt;span class="o">)&lt;/span> 64-Bit Server VM &lt;span class="o">(&lt;/span>build 25.121-b13, mixed mode&lt;span class="o">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>JRE includes it's own keystore for trusted SSL certificates, the &lt;code>cacerts&lt;/code> file. This file is depending on both oracle/Java and VMware/vCloud releasing and if your certification authority root certificate isn't included, you may experienced issue when trying to communicate with products securized with SSL certificates (example : &lt;a href="https://vuptime.io/2017/08/02/VMware-ExploreVCD-catalog-publishing-feature/">Catalog synchronization between two vCloud Director entities&lt;/a>).&lt;/p>
+&lt;p>It's possible to find SSL related issues by looking at the &lt;code>$VCLOUD_HOME/logs/vcloud-container-debug.log&lt;/code> file where you may find errors like:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>...
+&lt;span class="ln">2&lt;/span>javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+&lt;span class="ln">3&lt;/span>...
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The following post shows how to add a new trusted (root and/or intermediate) certificates to the JRE cacerts keystore.&lt;/p>
+&lt;h1 id="is-you-certification-authority-already-trusted-">Is you certification authority already trusted ?&lt;/h1>
+&lt;p>According to the authority that issued your certificates, get the corresponding &lt;code>crt&lt;/code> files and their sha1 fingerprint.&lt;/p>
+&lt;p>For example, if you use &lt;a href="https://letsencrypt.org">Let's Encrypt&lt;/a> :&lt;/p>
+&lt;p>In &lt;a href="https://letsencrypt.org/certificates/">Let's Encrypt case, you need 2 certificates&lt;/a>:&lt;/p>
+&lt;ul>
+&lt;li>DST Root CA X3&lt;/li>
+&lt;li>Let's Encrypt Authority X3&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get crt files&lt;/span>
+&lt;span class="ln">2&lt;/span>curl -s &lt;span class="s2">&amp;#34;https://pastebin.com/raw/63dQV36A&amp;#34;&lt;/span> &amp;gt; DSTRootCAX3.crt
+&lt;span class="ln">3&lt;/span>curl -s &lt;span class="s2">&amp;#34;https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt&amp;#34;&lt;/span> &amp;gt; LetsEncryptAuthorityX3.crt
+&lt;span class="ln">4&lt;/span>&lt;span class="c1"># calculate fingerprint&lt;/span>
+&lt;span class="ln">5&lt;/span>&lt;span class="nv">intermediate&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>openssl x509 -in /tmp/LetsEncryptAuthorityX3.crt -fingerprint -sha1 -noout &lt;span class="p">|&lt;/span> cut -d&lt;span class="s1">&amp;#39;=&amp;#39;&lt;/span> -f2&lt;span class="k">)&lt;/span>
+&lt;span class="ln">6&lt;/span>&lt;span class="nv">root&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>openssl x509 -in /tmp/DSTRootCAX3.crt -fingerprint -sha1 -noout &lt;span class="p">|&lt;/span> cut -d&lt;span class="s1">&amp;#39;=&amp;#39;&lt;/span> -f2&lt;span class="k">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now you have two variables &lt;code>$root&lt;/code> and &lt;code>$intermediate&lt;/code> with cert authority sha1:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$root&lt;/span>&lt;span class="s2">
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s2">&lt;/span>&lt;span class="nv">$intermediate&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln">3&lt;/span>DA:C9:02:4F:54:D8:F6:DF:94:93:5F:B1:73:26:38:CA:6A:D7:7C:13
+&lt;span class="ln">4&lt;/span>E6:A3:B4:5B:06:2D:50:9B:33:82:28:2D:19:6E:FE:97:D5:95:6C:CB
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Let's look in the keystore to check if the certificates are already trusted. For this, we use the Java &lt;code>keytool&lt;/code> script that allow to manage the Java's keystore :&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i -B1 &lt;span class="nv">$root&lt;/span>
+&lt;span class="ln">2&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i -B1 &lt;span class="nv">$intermediate&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no result, for both commands, you should add your certification authority to the trusted ones.&lt;/p>
+&lt;p>By default, the JRE keystore is &lt;em>protected&lt;/em> with a password: &lt;code>changeit&lt;/code>.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> : The letsencrypt sample is purely fictional as the Root certificate &lt;code>DSTRootCAX3&lt;/code> is already included in the included JRE keystore. But for the post, we will act as it is not.&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="update-jre-keystore">Update JRE keystore&lt;/h1>
+&lt;p>So your certification authority, possible internal and self-signed, is not known from the JRE keystore and you need to communicate between your vCloud Director and product using certificates issued from this authority. Therefore an update of the trusted certificates is required.&lt;/p>
+&lt;p>We still use the (&lt;em>fabulous&lt;/em>) Java &lt;code>keytool&lt;/code> script to insert new certificates to the keystore.&lt;/p>
+&lt;p>These operations needs to be done on &lt;strong>each cells&lt;/strong> of your vCloud Director instance as the JRE keystore is not shared between members.&lt;/p>
+&lt;h2 id="take-a-backup-of-cacerts-file">Take a backup of cacerts file&lt;/h2>
+&lt;p>Take a backup of the embedded keystore, to be able to rollback if necessary (md5sum is used to quiclky check that we copy the file without error):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts ~/cacerts_jre.backup
+&lt;span class="ln">2&lt;/span>md5sum ~/cacerts_jre.backup &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>#2ecfd7e5a8789c3f0e68ae85a26dea23 ~/cacerts_jre.backup
+&lt;span class="ln">2&lt;/span>#2ecfd7e5a8789c3f0e68ae85a26dea23 $VCLOUD_HOME/jre/lib/security/cacerts
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="add-the-ca-certs-to-the-keystore">Add the CA certs to the keystore&lt;/h2>
+&lt;p>Time to update keystore content :&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -import -trustcacerts &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -alias identrustdstx3 &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -file /tmp/DSTRootCAX3.crt &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="se">&lt;/span> -storepass changeit
+&lt;span class="ln"> 7&lt;/span>
+&lt;span class="ln"> 8&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool &lt;span class="se">\
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="se">&lt;/span> -import -trustcacerts &lt;span class="se">\
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="se">&lt;/span> -alias letsencryptx3 &lt;span class="se">\
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="se">&lt;/span> -file /tmp/LetsEncryptAuthorityX3.crt &lt;span class="se">\
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts &lt;span class="se">\
+&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="se">&lt;/span> -storepass changeit
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And we check:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i &lt;span class="nv">$root&lt;/span> -c
+&lt;span class="ln">2&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i &lt;span class="nv">$intermediate&lt;/span> -c
+&lt;span class="ln">4&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>One result is found for each certificate : good.&lt;/p>
+&lt;p>It's also possible to look in keystore for a specific alias entry without &lt;code>grep&lt;/code>, but depending on used alias, I consider that it's possible to miss a match (that's why I prefer to calculate the fingerprint and made a search on it):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit -alias &lt;span class="s2">&amp;#34;identrustdstx3&amp;#34;&lt;/span>
+&lt;span class="ln">2&lt;/span>identrustdstx3, Aug 25, 2016, trustedCertEntry,
+&lt;span class="ln">3&lt;/span>Certificate fingerprint &lt;span class="o">(&lt;/span>SHA1&lt;span class="o">)&lt;/span>: DA:C9:02:4F:54:D8:F6:DF:94:93:5F:B1:73:26:38:CA:6A:D7:7C:13
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="shutdown-cell">Shutdown cell&lt;/h1>
+&lt;p>Once done, each cell needs to be 'service-restarted' in order to use the new keystore:&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>
+&lt;/blockquote>
+&lt;p>Quiesce the cell, to not accept new incoming job on this specific cell:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -quiesce &lt;span class="nb">true&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check that there is no more running job:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -status
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>
+&lt;/blockquote>
+&lt;p>Shutdown services:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -shutdown
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then restart services:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service vmware-vcd start
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Have a look on the startup of the service through the logs:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>tail -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/logs/cell.log &lt;span class="p">|&lt;/span> grep -i &lt;span class="s2">&amp;#34;Application Initialization&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>When all cells are restarted, your issue with certificate chain should be solved.&lt;/p></description></item><item><title>VMware - Explore vCloud Director catalog publishing feature</title><link>https://vuptime.io/post/2017-08-02-vmware-explorevcd-catalog-publishing-feature/</link><pubDate>Wed, 02 Aug 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/08/02/VMware-ExploreVCD-catalog-publishing-feature/</guid><description>
+&lt;p>VMware introduced in version 5.5 of vCloud Director, a feature to externaly expose catalogs and if necessary, to subscribe to an externaly exposed one.&lt;/p>
+&lt;p>This is useful to synchronize catalog between two (or more) vCloud Director instances.&lt;/p>
+&lt;h1 id="basic-usage">Basic usage&lt;/h1>
+&lt;p>The two following sections are extracts from the &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.admin.doc/GUID-1A098021-07C4-44BA-AB9D-9D48FD4CA812.html">VMware documentation about VCD Catalogs&lt;/a>.&lt;/p>
+&lt;h2 id="publish-a-catalog-to-an-external-organization">Publish a Catalog to an External Organization&lt;/h2>
+&lt;p>You can publish a catalog externally to make its vApp templates and media files available for subscription by organizations outside the vCloud Director installation.&lt;/p>
+&lt;ol>
+&lt;li>Enable external catalog publishing for the organization&lt;/li>
+&lt;li>Click Catalog and select My Organization's Catalogs in the left pane.&lt;/li>
+&lt;li>On the Catalogs tab, right-click the catalog name and select Publish Settings.&lt;/li>
+&lt;li>On the External Publishing tab, select Enabled and supply a password for the catalog feed.&lt;/li>
+&lt;/ol>
+&lt;p>The subscription URL is provided and can be shared with external organizations for subscription.&lt;/p>
+&lt;h2 id="subscribe-to-an-external-catalog-feed">Subscribe to an External Catalog Feed&lt;/h2>
+&lt;ol>
+&lt;li>Click Catalogs and select My Organization's Catalogs in the left pane.&lt;/li>
+&lt;li>Click Add Catalog and type a name and optional description for the catalog feed.&lt;/li>
+&lt;li>Select Subscribe to an external catalog and click Next.&lt;/li>
+&lt;li>Select the type of storage to use for this catalog feed and click Next.&lt;/li>
+&lt;li>Add other members if necessary&lt;/li>
+&lt;li>Review the catalog feed settings and click Finish.&lt;/li>
+&lt;/ol>
+&lt;h1 id="exploring-the-catalog-content">Exploring the catalog content&lt;/h1>
+&lt;p>Previous section are describing trivial usage of Externaly shared catalogs on vCloud Director. The following will explore the catalog content and how to retrieve Metadata or data of catalog from outside a vCloud Director environment.&lt;/p>
+&lt;h2 id="what-is-behind-the-shared-uri">What is behind the shared URI&lt;/h2>
+&lt;p>Let see what is available through the given subscription link:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;vcspVersion&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;urn:uuid:4c8f39ca-b7ef-4bac-acf4-c377401a729d&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Catalogue France&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 6&lt;/span> &lt;span class="nt">&amp;#34;description&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Catalog items from France Cloud&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="nt">&amp;#34;created&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2017-07-19T15:18:52.923Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="nt">&amp;#34;itemType&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.CatalogItem&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 9&lt;/span> &lt;span class="nt">&amp;#34;itemsHref&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;items&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">10&lt;/span> &lt;span class="nt">&amp;#34;capabilities&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">11&lt;/span> &lt;span class="nt">&amp;#34;transferIn&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;httpGet&amp;#34;&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">12&lt;/span> &lt;span class="nt">&amp;#34;transferOut&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;httpGet&amp;#34;&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">13&lt;/span> &lt;span class="nt">&amp;#34;generateIds&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;span class="ln">14&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln">15&lt;/span> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-u&lt;/code> option is used to pass authentification informations to the HTTP request header. As we do not set any user, the credentials only contains password, following the &amp;quot;:&amp;quot; separator.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-s&lt;/code> option make culr mute the progress or error messages. Remove it to see potential error for debuging.&lt;/p>
+&lt;/blockquote>
+&lt;p>This request give us metadata about the catalog : name, description, version... And &lt;code>itemsHref&lt;/code> give us clue to continue exploration and list the catalog items.&lt;/p>
+&lt;h2 id="list-items">List items&lt;/h2>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/items
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="s2">&amp;#34;itemType&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.CatalogItem&amp;#34;&lt;/span>&lt;span class="err">,&lt;/span>
+&lt;span class="ln"> 2&lt;/span> &lt;span class="s2">&amp;#34;items&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;vcspVersion&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 5&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;urn:uuid:46713c7b-3f72-472d-bb4e-97122b99e884&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 6&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Puppet-Debian9x64&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="nt">&amp;#34;created&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2017-07-19T15:20:41.470Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 8&lt;/span> &lt;span class="nt">&amp;#34;description&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Debian 9 for x64 with puppet pre-configuration&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln"> 9&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.ovf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">10&lt;/span> &lt;span class="nt">&amp;#34;files&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">11&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;descriptor.ovf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">12&lt;/span> &lt;span class="nt">&amp;#34;etag&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;95ad8688-4b1b-419f-aa34-50bcf0e5c395&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">13&lt;/span> &lt;span class="nt">&amp;#34;size&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="mi">12302&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">14&lt;/span> &lt;span class="nt">&amp;#34;hrefs&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/46713c7b-3f72-472d-bb4e-97122b99e884/file/descriptor.ovf&amp;#34;&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">15&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">16&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;descriptor.mf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">17&lt;/span> &lt;span class="nt">&amp;#34;etag&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;95ad8688-4b1b-419f-aa34-50bcf0e5c395&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">18&lt;/span> &lt;span class="nt">&amp;#34;size&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="mi">163&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">19&lt;/span> &lt;span class="nt">&amp;#34;hrefs&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/46713c7b-3f72-472d-bb4e-97122b99e884/file/descriptor.mf&amp;#34;&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">20&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">21&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vm-3453bb14-5093-4c6a-ac64-4f41e4380ec6-disk-0.vmdk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">22&lt;/span> &lt;span class="nt">&amp;#34;etag&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;95ad8688-4b1b-419f-aa34-50bcf0e5c395&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">23&lt;/span> &lt;span class="nt">&amp;#34;size&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="mi">976322048&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">24&lt;/span> &lt;span class="nt">&amp;#34;hrefs&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/46713c7b-3f72-472d-bb4e-97122b99e884/file/vm-3453bb14-5093-4c6a-ac64-4f41e4380ec6-disk-0.vmdk&amp;#34;&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">25&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">26&lt;/span> &lt;span class="nt">&amp;#34;properties&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">27&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;span class="ln">28&lt;/span> &lt;span class="nt">&amp;#34;selfHref&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/46713c7b-3f72-472d-bb4e-97122b99e884/&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">29&lt;/span> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">30&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;STRING&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">31&lt;/span> &lt;span class="nt">&amp;#34;domain&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;SYSTEM&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">32&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vapp.origin.id&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">33&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;fc98dff4-3239-433d-be71-6756c11c5db8&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">34&lt;/span> &lt;span class="nt">&amp;#34;visibility&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;READONLY&amp;#34;&lt;/span>
+&lt;span class="ln">35&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">36&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;STRING&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">37&lt;/span> &lt;span class="nt">&amp;#34;domain&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;SYSTEM&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">38&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vapp.origin.name&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">39&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Puppet-Debian9x64&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">40&lt;/span> &lt;span class="nt">&amp;#34;visibility&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;READONLY&amp;#34;&lt;/span>
+&lt;span class="ln">41&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">42&lt;/span> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;STRING&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">43&lt;/span> &lt;span class="nt">&amp;#34;domain&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;SYSTEM&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">44&lt;/span> &lt;span class="nt">&amp;#34;key&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vapp.origin.type&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">45&lt;/span> &lt;span class="nt">&amp;#34;value&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;com.vmware.vcloud.entity.vapptemplate&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">46&lt;/span> &lt;span class="nt">&amp;#34;visibility&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;READONLY&amp;#34;&lt;/span>
+&lt;span class="ln">47&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">],&lt;/span>
+&lt;span class="ln">48&lt;/span> &lt;span class="nt">&amp;#34;vms&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="ln">49&lt;/span> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;puppet-debian9x64&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;span class="ln">50&lt;/span> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">51&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">]&lt;/span>
+&lt;span class="ln">52&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="p">]&lt;/span>&lt;span class="err">,&lt;/span>
+&lt;span class="ln">53&lt;/span> &lt;span class="s2">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>
+&lt;span class="ln">54&lt;/span>&lt;span class="err">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This part of the catalog is much more interesting as it shows us informations about its content. There are also pointer to download the files corresponding to the catalog's files, including vAPP.&lt;/p>
+&lt;h2 id="download-files-from-catalog">Download files from catalog&lt;/h2>
+&lt;p>So if we need to download the OVF file (for example):&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -i -u :MyPassword &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf
+&lt;span class="ln">3&lt;/span>HTTP/1.1 &lt;span class="m">302&lt;/span> Found
+&lt;span class="ln">4&lt;/span>Date: Tue, &lt;span class="m">01&lt;/span> Aug &lt;span class="m">2017&lt;/span> 14:37:22 GMT
+&lt;span class="ln">5&lt;/span>X-VMWARE-VCLOUD-REQUEST-ID: &lt;span class="m">000000000000000000000000000000000000001&lt;/span>
+&lt;span class="ln">6&lt;/span>Content-Language: en-US
+&lt;span class="ln">7&lt;/span>Location: https://moncloud.enfrance.net/transfer/0474fbe8-5ebe-4d69-ae27-790fae40c9d9/descriptor.ovf
+&lt;span class="ln">8&lt;/span>Content-Length: &lt;span class="m">0&lt;/span>
+&lt;span class="ln">9&lt;/span>...
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-i&lt;/code> option is used to include the HTTP response headers in the output.&lt;/p>
+&lt;/blockquote>
+&lt;p>Oups, it's a &lt;code>302&lt;/code> redirect so we need to follow redirect. 2 choices:&lt;/p>
+&lt;ul>
+&lt;li>You adapt the request with the &lt;code>Location&lt;/code> path from the HTTP response header&lt;/li>
+&lt;li>You add &lt;code>-L&lt;/code> option to curl to follow redirects&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -L -u :MyPassword &lt;span class="se">\
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf &amp;gt; myVapp/descriptor.ovf
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>
+&lt;/blockquote>
+&lt;p>And you can proceed similarly for the other files for each VM of the vApp:&lt;/p>
+&lt;ul>
+&lt;li>descriptor.mf&lt;/li>
+&lt;li>disk-*.vmdk&lt;/li>
+&lt;/ul>
+&lt;p>Now you can explore VCD externaly published catalogs, from outside of a vCloud Director user interface. As it's possible to download catalog content, it's possible to imagine synchronization of the catalog on other product as a raw vCenter+vSphere environment.&lt;/p></description></item></channel></rss>

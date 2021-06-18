@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ansible on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/ansible/</link><description>Recent content in Ansible on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 18 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/ansible/feed.xml" rel="self" type="application/rss+xml"/><item><title>Ansible/Day 1 of a newly deployed VM in my home lab</title><link>https://vuptime.io/post/2020-02-18-ansible-day1-of-a-newly-deployed-vm-in-lab/</link><pubDate>Tue, 18 Feb 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/02/18/Ansible-day1-of-a-newly-deployed-vm-in-lab/</guid><description>
+&lt;p>Ansible is &lt;a href="https://vuptime.io/2018/02/07/ansible-vmware_modules_-_first_steps/">a great tool for someone as lazy as I can be&lt;/a> and it helps me daily to automatize some regular or time consuming tasks.&lt;/p>
+&lt;p>Ansible way to manage remote resources Linux based OS is mainly based on SSH protocol when it deals with OS or application customization/settings/configuration. By using public-key authentication mechanism it is possible to avoid using password and being prompt for every action.&lt;/p>
+&lt;p>This post will explain how I setup a newly deployed VM in my lab environment to be usable by Ansible+public-key authentication.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Warning:&lt;/strong> Most of the following described tasks may affect the security of the target environment. I mainly use them in a lab environment for testing / debugging purposes. Be carreful of using those examples for other needs.&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>root&lt;/code> password expiration policy and &lt;em>shell idle timeout&lt;/em> are security policies that can be required in a production environment (and so, do not apply the example tasks in such case.)&lt;/li>
+&lt;li>SSH server authentication keys are very important for security concerns too and should not be blindly trusted.&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h2 id="server-authentication">Server authentication&lt;/h2>
+&lt;p>When you connect by SSH to a remote server, you need to trust the key provided by the server. You probably already know the below message:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh root@mynewserver
+&lt;span class="ln">2&lt;/span>The authenticity of host &lt;span class="s1">&amp;#39;mynewserver (10.10.100.2)&amp;#39;&lt;/span> can&lt;span class="err">&amp;#39;&lt;/span>t be established.
+&lt;span class="ln">3&lt;/span>ECDSA key fingerprint is SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE.
+&lt;span class="ln">4&lt;/span>Are you sure you want to &lt;span class="k">continue&lt;/span> connecting &lt;span class="o">(&lt;/span>yes/no&lt;span class="o">)&lt;/span>?
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And as most of users, you probably never check the fingerprint before accepting to store it in a &lt;code>known_hosts&lt;/code> file.&lt;/p>
+&lt;p>In a highly secure environment, it is highly recommended to cross-check this fingerprint from the server itself before trusting it. This can be achieved by using the &lt;code>ssh-keygen -l&lt;/code> command:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
+&lt;span class="ln">2&lt;/span>&lt;span class="m">256&lt;/span> SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE root@mynewserver &lt;span class="o">(&lt;/span>ECDSA&lt;span class="o">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> the fingerprints of key generated during the instance deployment, is commonly available in the console logs: it could help to retrieve it for comparison.&lt;/p>
+&lt;/blockquote>
+&lt;p>In the above example, the &lt;em>ECDSA&lt;/em> fingerprint match and you can trust it by accepting the confirmation from the SSH client.&lt;/p>
+&lt;h3 id="blind-trust-ssh-servers-keys-with-ansible">Blind trust SSH servers keys with Ansible&lt;/h3>
+&lt;p>For system out of production (testing purpose), I do not make the above check and I make a &lt;em>&amp;quot;blind&amp;quot;&lt;/em> consent on the first seen key.&lt;/p>
+&lt;p>I use the following Ansible tasks to do so:&lt;/p>
+&lt;p>{% raw %}&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Remove any existing fingerprints from known_hosts&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">local_action&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">shell&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ inventory_hostname }};&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ inventory_hostname_short }};&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ lookup(&amp;#39;dig&amp;#39;, &amp;#39;{{ inventory_hostname }}&amp;#39;)}}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">retries&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">delay&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">3&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Add host rsa and ecdsa fingerprints to known_hosts&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">local_action&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">shell&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keyscan {{ inventory_hostname_short }} &amp;gt;&amp;gt; $HOME/.ssh/known_hosts&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keyscan {{ inventory_hostname }} &amp;gt;&amp;gt; $HOME/.ssh/known_hosts&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
+&lt;p>Applied to a specific inventory or host group, it will remove existing key from the &lt;code>known_hosts&lt;/code> file and add it again based on the result of a &lt;code>ssh-keyscan&lt;/code>.&lt;/p>
+&lt;h2 id="public-key-user-authentication">Public key user authentication&lt;/h2>
+&lt;p>As we have seen, server can be authenticated using SSH public keys. We can also use this mechanism to authenticate user(s) against a server.&lt;/p>
+&lt;p>Here is a quick(&amp;amp;dirty) explanation of the process:&lt;/p>
+&lt;ol>
+&lt;li>User generates a personal private key&lt;/li>
+&lt;li>User provides the public key (generated from the private key) to the server where he needs to connect to.&lt;/li>
+&lt;li>The user's public key is stored in an &lt;code>authorized_keys&lt;/code> file (&lt;code>'~/.ssh/authorized_keys&lt;/code> or &lt;code>/etc/ssh/authorized_keys/%u&lt;/code>.&lt;/li>
+&lt;li>When user connect to this server+account, he uses its private key to authenticate and a check is made between the provided informations and the content of &lt;code>authorized_keys&lt;/code> file.&lt;/li>
+&lt;li>If key is trusted, user can access to the server. If not, user connection is rejected (or he needs to use another method, like password prompt.)&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> it is possible to provide public keys to store on the instance at deployment. In that case, public key authentication is immediately available on the server.&lt;/p>
+&lt;/blockquote>
+&lt;p>If you don't use a &lt;code>cloud-init&lt;/code> based clone or server creation, you can use an Ansible playbook to push keys to the target server:&lt;/p>
+&lt;p>{% raw %}&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln">1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Upload ssh key&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">authorized_key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">user&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ authorized_keys_path }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">state&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">present&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">7&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">manage_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ lookup(&amp;#39;file&amp;#39;, &amp;#39;~/.ssh/id_rsa.pub&amp;#39;) }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
+&lt;p>And if there is no already deployed authorized key to enable Ansible user to connect to your instance, you can use a one-shot &lt;code>--ask-pass&lt;/code> option to run your playbook:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml --ask-pass
+&lt;span class="ln">2&lt;/span>SSH password: *********
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will be prompt to provide the account password. Once pushed, you can use the public key as an authentication mechanism for Ansible instead of passwords:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>Please note that &lt;code>--ask-pass&lt;/code> is no more necessary to run a playbook, based on SSH protocol to your target once the ansible user public key is installed.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="password-expiration">Password expiration&lt;/h2>
+&lt;p>When using editor's appliance (like VMware's ones), you may need to reconfigure the password expiration for the &lt;code>root&lt;/code> account. For lab and testing purposes, I fully disable the expiration policy with the following tasks:&lt;/p>
+&lt;p>{% raw %}&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln">1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Check expiration for {{ admin_user }} password&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">shell&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;getent shadow {{ admin_user }} | cut -d&amp;#39;:&amp;#39; -f5&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">register&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pw_invalid_expiration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">changed_when&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">7&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Unset expiration for {{ admin_user }} password&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">shell&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;chage -M -1 {{ admin_user }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">when&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pw_invalid_expiration.stdout != &amp;#39;&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
+&lt;h2 id="shell-idle-timeout">Shell idle timeout&lt;/h2>
+&lt;p>As for the above policy, I have a couple of ansible tasks to disable the &lt;a href="https://www.thegeekstuff.com/2010/05/tmout-exit-bash-shell-when-no-activity/">&lt;em>shell idle timeout&lt;/em>&lt;/a> in lab and testing environments:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Changing SSH session TMOUT - part 1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">lineinfile&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/etc/profile.d/tmout.sh&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">regexp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;^TMOUT.*&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">line&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;TMOUT=&amp;#34;&amp;#34;&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Changing SSH session TMOUT - part 2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">lineinfile&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/etc/profile.d/tmout.sh&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">regexp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;.*readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">line&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;#readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>Warning:&lt;/strong> As mentionned above, most of the previous tasks may affect the security of the target environment: use this content with caution.&lt;/p>
+&lt;/blockquote></description></item></channel></rss>

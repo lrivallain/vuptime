@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>esxi on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/esxi/</link><description>Recent content in esxi on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 26 Feb 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/esxi/feed.xml" rel="self" type="application/rss+xml"/><item><title>Play with VM snapshots and linked-clones with ESXi command line tools</title><link>https://vuptime.io/post/2015-02-26-play-vm-snapshots-esxi-command-line-tools/</link><pubDate>Thu, 26 Feb 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/02/26/play-vm-snapshots-esxi-command-line-tools/</guid><description>
+&lt;p>In this article, we will see how to create, commit, revert-to virtual machine snapshots from ESXi command line. We will also talk about the very useful &amp;quot;linked clones&amp;quot; that are related to the snapshot feature.&lt;/p>
+&lt;h1 id="prerequisites">Prerequisites&lt;/h1>
+&lt;p>You only need to have a running VM on the ESXi and to know its Vmid:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span> $ vim-cmd vmsvc/getallvms
+&lt;span class="ln">2&lt;/span> Vmid Name File Guest OS Version Annotation
+&lt;span class="ln">3&lt;/span> &lt;span class="m">3&lt;/span> CentosTest &lt;span class="o">[&lt;/span>LocalDatastore_001&lt;span class="o">]&lt;/span> CentosTest/CentosTest.vmx otherLinuxGuest vmx-10&lt;/code>&lt;/pre>&lt;/div>
+&lt;h1 id="snapshots">Snapshots&lt;/h1>
+&lt;p>Here is the VMware definition of VM snapshot feature (&lt;a href="https://www.vmware.com/support/ws4/doc/preserve_snapshot_ws.html" title="Snapshot definition">source&lt;/a>):&lt;/p>
+&lt;blockquote>
+&lt;p>The snapshot feature is most useful when you want to preserve the state of the virtual machine so you can return to the same state repeatedly.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>You can take a snapshot of a virtual machine at any time and revert to that snapshot at any time.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>You can take a snapshot while a virtual machine is powered on, powered off or suspended. A snapshot preserves the virtual machine just as it was when you took the snapshot - the state of the data on all the virtual machine's disks and whether the virtual machine was powered on, powered off or suspended.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="create-snapshots">Create snapshots&lt;/h2>
+&lt;p>To create a snapshot, you can use the 'vim-cmd' command:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.create 3 snap01 'snap01 description'
+&lt;/code>&lt;/pre>
+&lt;p>Command usage is:&lt;/p>
+&lt;blockquote>
+&lt;p>Usage: snapshot.create vmid [snapshotName] [snapshotDescription] [includeMemory] [quiesced]&lt;/p>
+&lt;/blockquote>
+&lt;p>So you can make a snapshot with VM memory and quiesced:&lt;/p>
+&lt;pre>&lt;code>vim-cmd vmsvc/snapshot.create 3 &amp;quot;SnapName&amp;quot; &amp;quot;Snap Description&amp;quot; 1 1
+&lt;/code>&lt;/pre>
+&lt;h2 id="get-snapshots-list">Get snapshot(s) list&lt;/h2>
+&lt;p>You may need to get the list of VM snapshots:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.get 3
+Get Snapshot:
+|-ROOT
+--Snapshot Name : snap01
+--Snapshot Id : 1
+--Snapshot Desciption : snap01 description
+--Snapshot Created On : 2/23/2015 18:12:50
+--Snapshot State : powered on
+--|-CHILD
+----Snapshot Name : snap02
+----Snapshot Id : 2
+----Snapshot Desciption : snap02 description
+----Snapshot Created On : 2/23/2015 18:13:15
+----Snapshot State : powered off
+----|-CHILD
+------Snapshot Name : snap03
+------Snapshot Id : 3
+------Snapshot Desciption : snap03 description
+------Snapshot Created On : 2/23/2015 18:13:32
+------Snapshot State : powered off
+------|-CHILD
+--------Snapshot Name : snap04
+--------Snapshot Id : 4
+--------Snapshot Desciption : snap04 description
+--------Snapshot Created On : 2/23/2015 18:13:59
+--------Snapshot State : powered off
+&lt;/code>&lt;/pre>
+&lt;p>The list is displayed as a tree according to the parents or children of a snapshot.&lt;/p>
+&lt;h2 id="removecommit-a-snapshot">Remove/Commit a snapshot&lt;/h2>
+&lt;p>As you can create and list snapshot(s) for a VM, you can remove them. Deletion operation is also called the &amp;quot;commit&amp;quot; as all recent changes made from the moment the snapshot is taken, are committed to the based disk or the parent snapshot disk file.&lt;/p>
+&lt;p>To remove or commit a snapshot for a VM:&lt;/p>
+&lt;blockquote>
+&lt;p>Usage: snapshot.remove vmid snapId&lt;/p>
+&lt;/blockquote>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.remove 3 4
+Remove Snapshot:
+|-ROOT
+--Snapshot Name : snap01
+--Snapshot Id : 1
+--Snapshot Desciption : snap01 description
+--Snapshot Created On : 2/23/2015 18:12:50
+--Snapshot State : powered off
+--|-CHILD
+----Snapshot Name : snap02
+----Snapshot Id : 2
+----Snapshot Desciption : snap02 description
+----Snapshot Created On : 2/23/2015 18:13:15
+----Snapshot State : powered off
+----|-CHILD
+------Snapshot Name : snap03
+------Snapshot Id : 3
+------Snapshot Desciption : snap03 description
+------Snapshot Created On : 2/23/2015 18:13:32
+------Snapshot State : powered off
+&lt;/code>&lt;/pre>
+&lt;p>There is also a &lt;code>snapshot.removeall&lt;/code> argument to remove... all snapshots on a VM. \o/&lt;/p>
+&lt;h2 id="revert-to-a-snapshot">Revert to a snapshot&lt;/h2>
+&lt;p>Goal of VM snapshot is not to only create, list or remove snapshots... It's to be able to revert the VM state to the moment you take the snapshot. To do so, you can use the &lt;code>snapshot.revert&lt;/code> argument.&lt;/p>
+&lt;blockquote>
+&lt;p>Usage: snapshot.revert vmid snapshotId suppressPowerOff&lt;/p>
+&lt;/blockquote>
+&lt;p>So to revert to the first snapshot of the VM with Vmid 3:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.revert 3 1 0
+Revert Snapshot:
+|-ROOT
+--Snapshot Name : snap01
+--Snapshot Id : 1
+--Snapshot Desciption : snap01 description
+--Snapshot Created On : 2/23/2015 18:12:50
+--Snapshot State : powered on
+...
+&lt;/code>&lt;/pre>
+&lt;p>This will restore VM, powered-on (!), at the state where you take the first snapshot. Last option is to revert to snapshot with or without memory content:&lt;/p>
+&lt;pre>&lt;code>suppressPowerOff = 0
+|-&amp;gt; With RAM content
+|-&amp;gt; Virtual machine is restored with power-on state
+suppressPowerOff = 1
+|-&amp;gt; Without RAM content
+|-&amp;gt; Virtual machine is restored with power-off state
+&lt;/code>&lt;/pre>
+&lt;h1 id="linked-clone">Linked clone&lt;/h1>
+&lt;p>Linked-clone definition (&lt;a href="https://pubs.vmware.com/workstation-9/index.jsp?topic=%2Fcom.vmware.ws.using.doc%2FGUID-BA264A65-C50F-4345-A787-DCC5C5324DD1.html" title="Linked clone definition">source&lt;/a>):&lt;/p>
+&lt;blockquote>
+&lt;p>A linked clone is a copy of a virtual machine that shares virtual disks with the parent virtual machine in an ongoing manner.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Because a linked clone is made from a snapshot of the parent, disk space is conserved and multiple virtual machines can use the same software installation. All files available on the parent at the moment you take the snapshot continue to remain available to the linked clone.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent. A linked clone must have access to the parent. Without access to the parent, you cannot use a linked clone.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="create-a-linked-clone">Create a linked clone&lt;/h2>
+&lt;p>Create a reference snapshot on a source VM. This will be our base for clones.&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.create 3 &amp;quot;ReferenceSnapshot&amp;quot; &amp;quot;Used for linked clones of Centos VM&amp;quot;
+Create Snapshot:
+$ vim-cmd vmsvc/snapshot.get 3
+Get Snapshot:
+|-ROOT
+--Snapshot Name : ReferenceSnapshot
+--Snapshot Id : 7
+--Snapshot Desciption : Used for linked clones of Centos VM
+--Snapshot Created On : 2/24/2015 21:22:25
+--Snapshot State : powered off
+&lt;/code>&lt;/pre>
+&lt;p>To have more understandable command lines, we set in variable the reference and destination path:&lt;/p>
+&lt;pre>&lt;code>src=&amp;quot;/vmfs/volumes/LocalDatastore_001/CentosTest&amp;quot;
+dst=&amp;quot;/vmfs/volumes/LocalDatastore_001/LinkedClone1&amp;quot;
+&lt;/code>&lt;/pre>
+&lt;p>First step for a linked clone from command line, is to create a destination folder :&lt;/p>
+&lt;pre>&lt;code>mkdir $dst
+&lt;/code>&lt;/pre>
+&lt;p>Then we copy reference VM's &lt;code>.vmx&lt;/code> file and the &lt;code>.vmdk&lt;/code> (including the &lt;code>-delta&lt;/code> file) corresponding to our reference snapshot:&lt;/p>
+&lt;pre>&lt;code>$ cat $src/CentosTest.vmx | grep fileName
+ide1:0.fileName = &amp;quot;cdrom0&amp;quot;
+scsi0:0.fileName = &amp;quot;CentosTest-000001.vmdk&amp;quot; **cp $src/CentosTest-000001*.vmdk $dst/
+$ cp $src/CentosTest.vmx $dst/
+$ ls $dst
+CentosTest-000001-delta.vmdk CentosTest-000001.vmdk CentosTest.vmx
+&lt;/code>&lt;/pre>
+&lt;p>Then we rename files:&lt;/p>
+&lt;pre>&lt;code>$ mv $dst/*-delta.vmdk $dst/LinkedClone1-000001-delta.vmdk
+mv $dst/*000001.vmdk $dst/LinkedClone1-000001.vmdk
+mv $dst/*.vmx $dst/LinkedClone1.vmx
+$ ls $dst
+LinkedClone1-000001-delta.vmdk LinkedClone1-000001.vmdk LinkedClone1.vmx
+&lt;/code>&lt;/pre>
+&lt;p>Great ! Now we need to edit &lt;code>LinkedClone1.vmx&lt;/code> file to made some changes:&lt;/p>
+&lt;ul>
+&lt;li>remove &lt;code>sched.swap.derivedName&lt;/code> line&lt;/li>
+&lt;li>remove &lt;code>uuid.location&lt;/code> line&lt;/li>
+&lt;li>remove &lt;code>uuid.bios&lt;/code> line&lt;/li>
+&lt;li>remove &lt;code>ethernet0.generatedAddress&lt;/code> line (if generated mac address)&lt;/li>
+&lt;li>remove &lt;code>extendedConfigFile&lt;/code> line if present&lt;/li>
+&lt;/ul>
+&lt;p>Then, edit the following lines:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>displayName&lt;/code> according to the name you whant to display in ESXi list of VMs&lt;/li>
+&lt;li>&lt;code>scsi0:0.fileName&lt;/code> with vmdk new name&lt;/li>
+&lt;li>&lt;code>ethernet0.address&lt;/code> if not a generated address&lt;/li>
+&lt;/ul>
+&lt;p>Last changes to made are in on the &lt;code>LinkedClone1-000001.vmdk&lt;/code> file:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Extent description&lt;/code>, adapt the file name according to the delta file name of you linked clone.&lt;/li>
+&lt;li>&lt;code>parentFileNameHint&lt;/code> with absolute path of the source vmdk file: ex: &lt;code>/vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmdk&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>Last step is to register and start our VM:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd solo/registervm $dst/LinkedClone1.vmx
+$ vim-cmd vmsvc/getallvms
+Vmid Name File Guest OS Version
+3 CentosTest [LocalDatastore_001] CentosTest/CentosTest.vmx otherLinuxGuest vmx-10
+6 CentosTest [LocalDatastore_001] LinkedClone1/LinkedClone1.vmx otherLinuxGuest vmx-10
+$ vim-cmd vmsvc/power.on 6 &amp;amp;&amp;amp; echo &amp;quot;Powered ON&amp;quot;
+Powering on VM:
+Powered ON
+&lt;/code>&lt;/pre>
+&lt;p>You can now check the benefits of a linked clone by looking at the size of the vdisk of this new VM:&lt;/p>
+&lt;pre>&lt;code>$ ls -lh delta.vmdk
+-rw------- 1 root root 16.0M Feb 24 22:19 LinkedClone1-000001-delta.vmdk
+&lt;/code>&lt;/pre>
+&lt;p>And if we modify or create some file in the linkedClone VM, the vdisk usage increase:&lt;/p>
+&lt;pre>&lt;code>$ ls -lh delta.vmdk
+-rw------- 1 root root 32.0M Feb 24 22:24 LinkedClone1-000001-delta.vmdk
+&lt;/code>&lt;/pre>
+&lt;p>Very useful to have tiny VM for specific usage !&lt;/p>
+&lt;h2 id="convert-a-linked-clone-to-a-full-clone">Convert a linked clone to a full clone&lt;/h2>
+&lt;p>If you need to convert your LinkedClone VM to a virtual machine without link to the reference VM, you can use the vmkfstool:&lt;/p>
+&lt;pre>&lt;code>$ vmkfstools -d thin -i /vmfs/volumes/LocalDatastore_001/LinkedClone1/LinkedClone1-000001.vmdk /vmfs/volumes/LocalDatastore_001/LinkedClone1/LinkedClone1_full.vmdk
+Destination disk format: VMFS thin-provisioned
+Cloning disk '/vmfs/volumes/LocalDatastore_001/LinkedClone1/LinkedClone1-000001.vmdk'...
+Clone: 100% done.
+&lt;/code>&lt;/pre>
+&lt;p>Then you can compare the &lt;code>linked-cloned&lt;/code> and the &lt;code>full-cloned&lt;/code> vmdk(s):&lt;/p>
+&lt;pre>&lt;code>$ ls -lh *.vmdk
+-rw------- 1 root root 32.0M Feb 25 01:23 LinkedClone1-000001-delta.vmdk
+-rw------- 1 root root 369 Feb 24 22:17 LinkedClone1-000001.vmdk
+-rw------- 1 root root 8.0G Feb 25 18:34 LinkedClone1_full-flat.vmdk
+-rw------- 1 root root 528 Feb 25 18:34 LinkedClone1_full.vmdk
+&lt;/code>&lt;/pre>
+&lt;p>Finally you can (with powered-off VM) change vmdk path on the vmx file to use the newly created vmdk, and reload the vmx by using:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/reload 6
+&lt;/code>&lt;/pre>
+&lt;p>End ! Enjoy with VM snapshots and linked clones !&lt;/p></description></item><item><title>Nested VMware ESXi with virtualbox - Your first nested-virtual-machine</title><link>https://vuptime.io/post/2015-02-10-nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</link><pubDate>Tue, 10 Feb 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/02/10/nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</guid><description>
+&lt;p>Now that we've seen &lt;a href="https://vuptime.io/2015/01/25/nested-esxi-virtualbox/" title="Nested ESXi on Virtualbox">how to create a nested-ESXi&lt;/a> on virtualbox, we may need to have some content in order to test commands of procedures.&lt;/p>
+&lt;h2 id="local-datastore">Local datastore&lt;/h2>
+&lt;h3 id="disk-creation">Disk creation&lt;/h3>
+&lt;p>To create a local datastore, you'll have to add a new virtual disk to your nested ESXi:&lt;/p>
+&lt;p>First step is to create a SATA disk controller:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"/>&lt;figcaption>
+&lt;h4>Add a SATA controller&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Next, create a new disk on the SATA controller:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"/>&lt;figcaption>
+&lt;h4>Add a new disk&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>I've choose to set:&lt;/p>
+&lt;ul>
+&lt;li>vmdk file type&lt;/li>
+&lt;li>10GB&lt;/li>
+&lt;li>Dynamic allocation&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"/>&lt;figcaption>
+&lt;h4>My additional disk settings&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>When the vdisk is connected, ESXi started, get it's name before creating a VMFS file system. Name should be something close to &lt;code>_/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBxcxxxxxxxxxxxxxxx__&lt;/code>&lt;/p>
+&lt;p>Here is a tip to only get un-partitionned disks locally connected to the ESXi:&lt;/p>
+&lt;pre>&lt;code>$ fdisk -l | grep partition
+Disk /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__ doesn't contain a valid partition table
+&lt;/code>&lt;/pre>
+&lt;h3 id="disk-partition">Disk partition&lt;/h3>
+&lt;p>When the new disk is located on the &lt;code>/dev/disks/&lt;/code>, check the partition table:&lt;/p>
+&lt;pre>&lt;code>$ partedUtil get /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_
+1305 255 63 20971520
+&lt;/code>&lt;/pre>
+&lt;p>This indicates that there is no partition on this disk and every sector is free space.&lt;/p>
+&lt;p>We also need the number of sector on the disk. This information is the last number of the previous command: 20971520 here.&lt;/p>
+&lt;p>Then we can create the first partition.&lt;/p>
+&lt;pre>&lt;code>$ partedUtil set &amp;quot;/vmfs/devices/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_&amp;quot; &amp;quot;1 128 20971519 251 0&amp;quot;
+0 0 0 0
+1 128 20971519 251 0
+&lt;/code>&lt;/pre>
+&lt;p>In this example, we create a partition number 1, starting at sector 128 and ending at sector 20971519 (20971520-1), with type 251 = 0xFB.&lt;/p>
+&lt;p>And we can check the result:&lt;/p>
+&lt;pre>&lt;code>$ partedUtil get /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_
+1305 255 63 20971520
+1 128 20971519 251 0
+&lt;/code>&lt;/pre>
+&lt;p>Now we have a free partition ! And we can apply a vmfs5 file-system:&lt;/p>
+&lt;pre>&lt;code>$ vmkfstools -C vmfs5 -b 1m -S LocalDatastore_001 /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1
+create fs deviceName:'/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1', fsShortName:'vmfs5', fsName:'LocalDatastore_001'
+deviceFullPath:/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1 deviceFile:t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1
+VMFS5 file system creation is deprecated on a BIOS/MBR partition on device 't10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1'
+Checking if remote hosts are using this device as a valid file system. This may take a few seconds...
+Creating vmfs5 file system on &amp;quot;t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1&amp;quot; with blockSize 1048576 and volume label &amp;quot;LocalDatastore_001&amp;quot;.
+Successfully created new volume: 54d15e2c-eeeeeeee-9cff-080027b1c126
+&lt;/code>&lt;/pre>
+&lt;p>In this case, we create a vmfs5 datastore, with &lt;code>LocalDatastore_001&lt;/code> name and 1Mb block size.&lt;/p>
+&lt;p>And to check that datastore is ready:&lt;/p>
+&lt;pre>&lt;code>$ esxcli storage filesystem list
+Mount Point Volume Name UUID Mounted Type Size Free
+------------------------------------------------- ------------------ ----------------------------------- ------- ------ ----------- ----------
+/vmfs/volumes/54d15e2c-eeeeeeee-9cff-080027b1c126 LocalDatastore_001 54d15e2c-eeeeeeee-9cff-080027b1c126 true VMFS-5 10468982784 9545187328
+&lt;/code>&lt;/pre>
+&lt;p>We are now ready to create VM.&lt;/p>
+&lt;h2 id="dummy-virtual-machine">Dummy virtual machine&lt;/h2>
+&lt;p>Sometimes, you may need to have empty, but working, virtual machines for testing. The following command create a dummy VM named &lt;em>TestVM&lt;/em> and stored on the local datastore:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/createdummyvm testVM [LocalDatastore_001]/testVM/testVM.vmx
+1
+&lt;/code>&lt;/pre>
+&lt;p>Checking:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/getallvms
+Vmid Name File Guest OS Version Annotation
+1 testVM [LocalDatastore_001] testVM/testVM.vmx otherGuest vmx-10
+&lt;/code>&lt;/pre>
+&lt;p>Houra !&lt;/p>
+&lt;p>Now we can play with this VM:&lt;/p>
+&lt;p>Starting the VM:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/power.on 1
+Powering on VM:
+&lt;/code>&lt;/pre>
+&lt;p>Get runtime informations about the running VM:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/get.runtime 1
+Runtime information
+(vim.vm.RuntimeInfo) {
+dynamicType = &amp;lt;unset&amp;gt;,
+host = 'vim.HostSystem:ha-host',
+connectionState = &amp;quot;connected&amp;quot;,
+powerState = &amp;quot;poweredOn&amp;quot;,
+faultToleranceState = &amp;quot;notConfigured&amp;quot;,
+dasVmProtection = (vim.vm.RuntimeInfo.DasProtectionState) null,
+toolsInstallerMounted = false,
+suspendTime = &amp;lt;unset&amp;gt;,
+bootTime = &amp;quot;2015-02-04T00:28:55.507435Z&amp;quot;,
+suspendInterval = 0,
+question = (vim.vm.QuestionInfo) null,
+memoryOverhead = 36478976,
+maxCpuUsage = 2496,
+maxMemoryUsage = 32,
+numMksConnections = 0,
+recordReplayState = &amp;quot;inactive&amp;quot;,
+cleanPowerOff = &amp;lt;unset&amp;gt;,
+needSecondaryReason = &amp;lt;unset&amp;gt;,
+onlineStandby = false,
+minRequiredEVCModeKey = &amp;lt;unset&amp;gt;,
+consolidationNeeded = false,
+featureRequirement = (vim.vm.FeatureRequirement) [
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.SSE3&amp;quot;,
+featureName = &amp;quot;cpuid.SSE3&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+},
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.SSSE3&amp;quot;,
+featureName = &amp;quot;cpuid.SSSE3&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+},
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.NX&amp;quot;,
+featureName = &amp;quot;cpuid.NX&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+},
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.RDTSCP&amp;quot;,
+featureName = &amp;quot;cpuid.RDTSCP&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+},
+(vim.vm.FeatureRequirement) {
+dynamicType = &amp;lt;unset&amp;gt;,
+key = &amp;quot;cpuid.Intel&amp;quot;,
+featureName = &amp;quot;cpuid.Intel&amp;quot;,
+value = &amp;quot;Bool:Min:1&amp;quot;,
+}
+],
+vFlashCacheAllocation = 0,
+}
+&lt;/code>&lt;/pre>
+&lt;p>Power-off:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/power.off 1
+Powering off VM:
+&lt;/code>&lt;/pre>
+&lt;p>Get informations about the datastore location of VM:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/get.datastores 1
+name LocalDatastore_001
+url /vmfs/volumes/54d15e2c-eeeeeeee-9cff-080027b1c126
+capacity 10468982784
+freeSpace 9544138752
+accessible 1
+type VMFS
+multipleHostAccess &amp;lt;unset&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h2 id="imported-virtual-machine">Imported virtual machine&lt;/h2>
+&lt;p>A dummy VM is usefull to test ESXi command line tools, but in some case you may want to test more complex VM settings. In that case, you can import an existing VM to your ESXi and run it.&lt;/p>
+&lt;h3 id="prerequisites">Prerequisites&lt;/h3>
+&lt;p>Create a virtual machine on virtual box with :&lt;/p>
+&lt;ul>
+&lt;li>SCSI/LsiLogic controller for main storage&lt;/li>
+&lt;li>Bridged network connection (keep in mind the used mac address)&lt;/li>
+&lt;li>Fixed IP settings&lt;/li>
+&lt;/ul>
+&lt;p>You'll also need the ovftools installed on your system: &lt;a href="https://www.vmware.com/support/developer/ovf/" title="Install OVFtools">see instructions on VMware website&lt;/a>&lt;/p>
+&lt;h3 id="export">Export&lt;/h3>
+&lt;p>To export a virtual machine on virtualbox you can use the File/Export menu or the following command line:&lt;/p>
+&lt;pre>&lt;code>$ vboxmanage export CentosTest -o CentosTest.ova
+0%...10%...
+&lt;/code>&lt;/pre>
+&lt;p>Next operation is to convert the .ova file to a &lt;code>.vmx&lt;/code> one that can be used on ESXi:&lt;/p>
+&lt;pre>&lt;code>$ ovftool --lax CentosTest.ova CentosTest.vmx
+Opening OVA source: CentosTest.ova
+Opening VMX target: CentosTest.vmx
+Warning:
+- Line 25: Unsupported hardware family 'virtualbox-2.2'.
+Writing VMX file: CentosTest.vmx
+Transfer Completed
+Warning:
+- No manifest entry found for: 'CentosTest-disk1.vmdk'.
+- No manifest file found.
+Completed successfully
+&lt;/code>&lt;/pre>
+&lt;p>Now we have a &lt;code>.vmx&lt;/code> and its &lt;code>.vmdk&lt;/code> file:&lt;/p>
+&lt;pre>&lt;code>$ du -ch *
+976M CentosTest-disk1.vmdk
+402M CentosTest.ova
+12K CentosTest.vmx
+1,4G total
+&lt;/code>&lt;/pre>
+&lt;h3 id="import">Import&lt;/h3>
+&lt;p>To import the vmx&amp;amp;vmdk file as a VM to our nested ESXi we also use the ovftool:&lt;/p>
+&lt;pre>&lt;code>$ ovftool \
+--name=&amp;quot;CentosTest&amp;quot; \
+-dm=thin -ds=LocalDatastore_001 \
+--net:&amp;quot;bridged&amp;quot;=&amp;quot;VM Network&amp;quot; \
+CentosTest.vmx vi://root@192.168.1.16/
+Opening VMX source: CentosTest.vmx
+Enter login information for target vi://192.168.1.16/
+Username: root
+Password: *********
+Opening VI target: vi://root@192.168.1.16:443/
+Warning:
+- The specified operating system identifier '' (id: 79) is not supported on the selected host. It will be mapped to the following OS identifier: 'Other Linux (32-bit)'.
+Deploying to VI: vi://root@192.168.1.16:443/
+Transfer Completed
+Completed successfully
+&lt;/code>&lt;/pre>
+&lt;p>This command will import the virtual machine on ESXi with following settings:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-dm=thin&lt;/code> : force to use thin provisioning method for disk&lt;/li>
+&lt;li>&lt;code>-ds=LocalDatastore_001&lt;/code> : target datastore&lt;/li>
+&lt;li>&lt;code>--net:&amp;quot;bridged&amp;quot;=&amp;quot;VM Network&amp;quot;&lt;/code> : Map the bridged network to the &lt;code>VM Network&lt;/code> one on ESXi&lt;/li>
+&lt;/ul>
+&lt;p>We can check the import from the ESXi shell:&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/getallvms
+Vmid Name File Guest OS Version Annotation
+2 CentosTest [LocalDatastore_001] CentosTest/CentosTest.vmx otherLinuxGuest vmx-10
+&lt;/code>&lt;/pre>
+&lt;h3 id="enable-network-from-nested-vm">Enable network from nested-VM&lt;/h3>
+&lt;p>To keep the mac address you already set in virtualBox:&lt;/p>
+&lt;pre>&lt;code>$ sed -i &amp;quot;s/ethernet0\.addressType \= \&amp;quot;generated\&amp;quot;/ethernet0\.addressType \= \&amp;quot;static\&amp;quot;/g&amp;quot; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
+echo &amp;quot;ethernet0.address=\&amp;quot;08:00:27:47:76:67\&amp;quot;&amp;quot; &amp;gt;&amp;gt; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
+&lt;/code>&lt;/pre>
+&lt;p>If you powerOn the VM now, you'll not be able to join it on the network from another computer than the nested ESXi. This limitation is link to the nested ESXi VM configuration. You'll need to enable &amp;quot;promiscuous mode&amp;quot; on the ESXi VM. By command line:&lt;/p>
+&lt;pre>&lt;code>$ vboxmanage controlvm NestedESXi nicpromisc1 allow-all
+&lt;/code>&lt;/pre>
+&lt;p>With a poweredOn VM On ESXi you should now be able to join the LAN or to join nested VM from LAN too.&lt;/p>
+&lt;h2 id="add-vnc-support-to-vm">Add VNC support to VM&lt;/h2>
+&lt;p>If you want to be able to get a view or access to virtual machine, you have to setup VNC access on VM and on ESXi firewall.&lt;/p>
+&lt;h3 id="vm-setup-for-vnc">VM setup for VNC&lt;/h3>
+&lt;p>First step is to edit the VM vmx file to add some informations (&lt;em>VM needs to be powered-off&lt;/em>):&lt;/p>
+&lt;pre>&lt;code>$ echo &amp;quot;RemoteDisplay.vnc.enabled = \&amp;quot;true\&amp;quot;
+RemoteDisplay.vnc.port = \&amp;quot;5800\&amp;quot;
+RemoteDisplay.vnc.password = \&amp;quot;125678\&amp;quot; \
+RemoteDisplay.vnc.keymap = \&amp;quot;fr\&amp;quot;&amp;quot; &amp;gt;&amp;gt; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
+&lt;/code>&lt;/pre>
+&lt;p>Now we reload VM config file :&lt;/p>
+&lt;pre>&lt;code>$ vim-cmd vmsvc/reload 2
+&lt;/code>&lt;/pre>
+&lt;p>You can start/stop/do-everything-you-want on your newly imported VM !&lt;/p>
+&lt;h3 id="firewall-configuration-for-vnc">Firewall configuration for VNC&lt;/h3>
+&lt;p>We create a folder on our Datastore to store the FW configuration files:&lt;/p>
+&lt;pre>&lt;code>$ mkdir /vmfs/volumes/LocalDatastore_001/firewall/
+&lt;/code>&lt;/pre>
+&lt;p>And we create our first firewall custom script:&lt;/p>
+&lt;pre>&lt;code>$ echo &amp;quot;&amp;lt;!-- Custom firewall configuration information --&amp;gt;
+&amp;lt;ConfigRoot&amp;gt;
+&amp;lt;!-- VNC --&amp;gt;
+&amp;lt;service id='0038'&amp;gt;
+&amp;lt;id&amp;gt;VNC&amp;lt;/id&amp;gt;
+&amp;lt;rule id='0000'&amp;gt;
+&amp;lt;direction&amp;gt;inbound&amp;lt;/direction&amp;gt;
+&amp;lt;protocol&amp;gt;tcp&amp;lt;/protocol&amp;gt;
+&amp;lt;porttype&amp;gt;dst&amp;lt;/porttype&amp;gt;
+&amp;lt;port&amp;gt;
+&amp;lt;begin&amp;gt;5800&amp;lt;/begin&amp;gt;
+&amp;lt;end&amp;gt;5999&amp;lt;/end&amp;gt;
+&amp;lt;/port&amp;gt;
+&amp;lt;/rule&amp;gt;
+&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;
+&amp;lt;required&amp;gt;false&amp;lt;/required&amp;gt;
+&amp;lt;/service&amp;gt;
+&amp;lt;/ConfigRoot&amp;gt;&amp;quot; &amp;gt; /vmfs/volumes/LocalDatastore_001/VPNtoVM.xml
+&lt;/code>&lt;/pre>
+&lt;p>This will create a new set of rules and rules for opening TCP ports 5800 to 5999 for VNC usage.&lt;/p>
+&lt;p>Then we test our configuration file:&lt;/p>
+&lt;pre>&lt;code>$ cp /vmfs/volumes/LocalDatastore_001/firewall/*.xml /etc/vmware/firewall/
+$ esxcli network firewall refresh
+$ esxcli network firewall ruleset list | grep VNC
+VNC true
+$ esxcli network firewall ruleset rule list | grep VNC
+VNC Inbound TCP Dst 1234 1234
+&lt;/code>&lt;/pre>
+&lt;p>It seems OK but if you reboot the ESXi, these changes will be lost. In order to keep them working, we use the &lt;code>/etc/rc.local.d/local.sh&lt;/code> script to copy and refresh rules on starting process:&lt;/p>
+&lt;pre>&lt;code>$ echo &amp;quot;$(cat /etc/rc.local.d/local.sh | grep -v exit)
+# Copy custom firewall configurations
+cp /vmfs/volumes/LocalDatastore_001/firewall/*.xml /etc/vmware/firewall/
+esxcli network firewall refresh
+exit 0&amp;quot; &amp;gt; /etc/rc.local.d/local.sh
+&lt;/code>&lt;/pre>
+&lt;p>And if you need to be more restrictive about the authorized IP address:&lt;/p>
+&lt;pre>&lt;code>$ esxcli network firewall ruleset set --allowed-all false --ruleset-id=VNC
+$ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ruleset-id=VNC
+&lt;/code>&lt;/pre>
+&lt;p>... to only accept IP address from a subnet to access to VNC features.&lt;/p>
+&lt;p>And you just need a VNC client software to access to your VM console with following settings:&lt;/p>
+&lt;ul>
+&lt;li>server IP : ip of your nested ESXi&lt;/li>
+&lt;li>server port : port you choose for VNC settings on the VM&lt;/li>
+&lt;li>password : VNC password on VM settings&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"/>&lt;figcaption>
+&lt;h4>VNC access to a virtual machine&lt;/h4>
+&lt;/figcaption>
+&lt;/figure></description></item><item><title>Nested VMware ESXi with virtualbox</title><link>https://vuptime.io/post/2015-01-25-nested-esxi-virtualbox/</link><pubDate>Sun, 25 Jan 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/01/25/nested-esxi-virtualbox/</guid><description>
+&lt;p>For testing cases it could be very useful to host a nested (= virtualized) VMware ESXi on your desk or laptop machine. For my own needs, I had to install an ESXi on virtualbox. Here is my tutorial.&lt;/p>
+&lt;h1 id="installation">Installation&lt;/h1>
+&lt;h2 id="prerequisites">Prerequisites&lt;/h2>
+&lt;p>In order to install an ESXi 5.5 you'll have to provide:&lt;/p>
+&lt;ul>
+&lt;li>64-bit x86 processor with at least 2 cores&lt;/li>
+&lt;li>4 GB of RAM (we'll see how to deal if you don't have/want to give 4GB of RAM to the nested ESXi)&lt;/li>
+&lt;li>Intel-VT or AMD-V compatible processors&lt;/li>
+&lt;li>1 GB of disk for system&lt;/li>
+&lt;/ul>
+&lt;p>In order to create small virtual machines for tests, you'll have to add more disk space, in a second device.&lt;/p>
+&lt;p>You'll also need an ESXi iso file for installation.&lt;/p>
+&lt;h2 id="esxi-virtual-machine-creation">ESXi Virtual Machine creation&lt;/h2>
+&lt;p>In virtualbox, create a new virtual machine with following settings:&lt;/p>
+&lt;ul>
+&lt;li>Choose the name&lt;/li>
+&lt;li>Type: Linux&lt;/li>
+&lt;li>GuestOS: Other Linux (64-bit)&lt;/li>
+&lt;li>Memory: &amp;gt;= 4GB (or less if necessary)&lt;/li>
+&lt;li>Create a new virtual disk device&lt;/li>
+&lt;li>Choose one of disk type choice (no big difference)&lt;/li>
+&lt;li>Dynamic space allocation&lt;/li>
+&lt;li>Size: 1GB&lt;/li>
+&lt;/ul>
+&lt;p>When virtual machine is created, edit settings to set 2 vCPU cores:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox01.png"/>&lt;figcaption>
+&lt;h4>Edit VM CPU settings&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Then mount the iso file to the DVD device:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox02.png"/>&lt;figcaption>
+&lt;h4>Add ISO file to the virtual machine&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Then you can edit the network settings (I need to use the existing local network so I used &amp;quot;bridged adapter&amp;quot; setting:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox03.png"/>&lt;figcaption>
+&lt;h4>Change network adapter settings&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Then save changes in configuration and start virtual machine.&lt;/p>
+&lt;h2 id="esxi-installation-and-setup">ESXi installation and setup&lt;/h2>
+&lt;p>ESXi installer will be automatically started on the virtual machine. During the process, installer will load some libraries and modules and check the available &amp;quot;hardware&amp;quot; on the virtual machine. According to the hardware settings, it could take some time before the first human action:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox04.png"/>&lt;figcaption>
+&lt;h4>First human action in ESXi installation process&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="optional-bypassing-the-minimal-requirements-check">(optional) Bypassing the minimal requirements check&lt;/h3>
+&lt;p>If you give less than minimal requirements to your nested ESXi virtual machine. You'll we need to bypass the requirements checks to be able to install ESXi. To do so, open ESXi console by pressing [ALT]+[F1].&lt;/p>
+&lt;p>Then login with &amp;quot;root&amp;quot; and no password:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox05.png"/>&lt;figcaption>
+&lt;h4>Login to the ESXi console&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>When logged in:&lt;/p>
+&lt;pre>&lt;code>$ cd /usr/lib/vmware/weasel/util
+$ rm upgrade_precheck.pyc
+$ mv upgrade_precheck.py upgrade_precheck.py.old
+$ cp upgrade_precheck.py.old upgrade_precheck.py
+$ vi upgrade_precheck.py
+&lt;/code>&lt;/pre>
+&lt;p>You'll need to find the following line (simple way is to type [ESC]+&lt;code>/MEM_MIN&lt;/code>):&lt;/p>
+&lt;pre>&lt;code>MEM_MIN_SIZE = (4*1024) * SIZE_MiB
+&lt;/code>&lt;/pre>
+&lt;p>Change the &amp;quot;4&amp;quot; according to the number of GB you can give to your machine:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox06.png"/>&lt;figcaption>
+&lt;h4>Bypassing min-memory check&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Save file and exit: [ESC]+&lt;code>:wq!&lt;/code>&lt;/p>
+&lt;p>Kill the installer process:&lt;/p>
+&lt;pre>&lt;code>$ ps -c | grep weasel
+$ kill –9 &amp;lt;PYTHON PROCESS ID&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>Then go back to the installer mode: [ALT]+[F2]&lt;/p>
+&lt;h3 id="back-to-the-installation">Back to the installation&lt;/h3>
+&lt;ul>
+&lt;li>Press [Enter] to start installation process.&lt;/li>
+&lt;li>[F11] to accept EULA&lt;/li>
+&lt;li>Select the vbox disk for system installation and press [Enter]:&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox07.png"/>&lt;figcaption>
+&lt;h4>Select boot device&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;ul>
+&lt;li>Select a keyboard layout according to your computer and press [Enter]&lt;/li>
+&lt;li>Enter a password and confirm&lt;/li>
+&lt;li>Then wait for hardware checking process&lt;/li>
+&lt;li>Installer will warn you about one or more hardware settings but should let you finish the installation process by pressing [Enter]:&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox08.png"/>&lt;figcaption>
+&lt;h4>Last step of installation process&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;ul>
+&lt;li>Press [F11] to start installation on disk.&lt;/li>
+&lt;/ul>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox09.png"/>&lt;figcaption>
+&lt;h4>Installation in progress&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>When ended, you can restart the virtual machine and enjoy your new ESXi installation.&lt;/p>
+&lt;h1 id="customize-your-nested-esxi">Customize your nested ESXI&lt;/h1>
+&lt;p>Following step are optional.&lt;/p>
+&lt;h2 id="ip-settings">IP settings&lt;/h2>
+&lt;p>If you use the bridge network adapter and don't have a DHCP server, you may have to set the IP settings to the ESXi:&lt;/p>
+&lt;p>When ESXi is started, press [ALT]+[F2] to open &amp;quot;edit settings&amp;quot; panel and login:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox10.png"/>&lt;figcaption>
+&lt;h4>Login to the ESXi console&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Select &lt;code>Configure Management network&lt;/code>:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox12.png"/>&lt;figcaption>
+&lt;h4>Configure management network&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Edit IP settings according to your LAN or your needs:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox11.png"/>&lt;figcaption>
+&lt;h4>Change IP settings&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Once it's done, press [ESC] then [Y] to validate and apply changes.&lt;/p>
+&lt;h2 id="ssh-server">SSH Server&lt;/h2>
+&lt;p>To simplify the access to the ESXi command line tools, I use the embedded SSH server. To enable it:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox13.png"/>&lt;figcaption>
+&lt;h4>Enable SSH server in troubleshooting options&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Then enable SSH server by selecting &lt;code>Enable SSH&lt;/code> and pressing [Enter]:&lt;/p>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox14.png"/>&lt;figcaption>
+&lt;h4>Enable SSH server&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Now you can login to your server by ssh:&lt;/p>
+&lt;pre>&lt;code>$ ssh root@192.168.1.16
+Password: **********
+The time and date of this login have been sent to the system logs.
+VMware offers supported, powerful system administration tools. Please
+see www.vmware.com/go/sysadmintools for details.
+The ESXi Shell can be disabled by an administrative user. See the
+vSphere Security documentation for more information.
+~ # hostname
+NestedESXi55.lan
+&lt;/code>&lt;/pre>
+&lt;p>I prefer to use SSH key to login. To copy you public key to the ESXi server:&lt;/p>
+&lt;pre>&lt;code>$ cat ~/.ssh/id_rsa.pub | ssh root@192.168.1.16 &amp;quot;cat - &amp;gt;&amp;gt; /etc/ssh/keys-root/authorized_keys&amp;quot;
+Password: *********
+&lt;/code>&lt;/pre>
+&lt;p>Then you can check the correct behavior of login with SSH key:&lt;/p>
+&lt;pre>&lt;code>$ssh root@192.168.1.16
+The time and date of this login have been sent to the system logs.
+VMware offers supported, powerful system administration tools. Please
+see www.vmware.com/go/sysadmintools for details.
+The ESXi Shell can be disabled by an administrative user. See the
+vSphere Security documentation for more information.
+~ # hostname
+NestedESXi55.lan
+&lt;/code>&lt;/pre>
+&lt;h1 id="conclusion">Conclusion&lt;/h1>
+&lt;p>Installing a nested VMware ESXi on virtualbox is an easy way to test commands or to get used to ESXi command line usage. As we can bypass the minimal requirements checks, you do not need a huge computer to run the famous enterprise-class, &lt;a href="https://en.wikipedia.org/wiki/Hypervisor#Classification" title="Hypervisor">type-1&lt;/a> &lt;a href="https://en.wikipedia.org/wiki/Hypervisor" title="Hypervisor">hypervisor&lt;/a>. But with this kind of configuration, you'll not be able to run several virtual-machines in good conditions.&lt;/p></description></item></channel></rss>
