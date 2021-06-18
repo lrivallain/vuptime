@@ -1,6 +1,6 @@
 main:
 - name: Home
-  url: ''
+  url: '/'
   weight: 1
 - name: KB cards
   url: /cards/
