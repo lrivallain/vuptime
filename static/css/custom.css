@@ -1,12 +1,20 @@
 /* Define custom variables for colors based on curent theme */
 html {
-    --card-bg: var(--haze);
+    /*--card-bg: var(--haze);*/                       /* Grey BG for cards in single mode view */
+    --inlineCode-color: rgb(194, 29, 0);            /* (default) color for inline code */
 }
 
 html[data-mode="dim"] {
-    --card-bg: var(--bg);
+    --card-bg: var(--bg);                             /* (default) bg color for kb cards */
+    --inlineCode-color: rgb(169, 76, 59);           /* (custom) color for inline code */
 }
 
+@media (prefers-color-scheme: dark) {
+    html:not([data-mode="lit"]) {
+        --card-bg: var(--post-bg);                    /* (default) bg color for kb cards */
+        --inlineCode-color: rgb(169, 76, 59);       /* (custom) color for inline code */
+    }
+}
 
 /* Header logo */
 .nav_brand .logo {
@@ -70,4 +78,9 @@ figure figcaption h4:before {
 /* About page */
 .about-vexpert {
     width:30rem;
+}
+
+/* Inline code */
+code.noClass {
+    color: var(--inlineCode-color);
 }
