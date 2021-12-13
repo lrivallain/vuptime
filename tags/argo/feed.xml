@@ -34,10 +34,10 @@
 &lt;li>A deployed Argo instance (+&lt;code>argo&lt;/code> cli): &lt;a href="https://argoproj.github.io/argo/quick-start/">Quick Start&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>A clone of the below repository:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/openfaas-fn.git
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/openfaas-fn.git
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> openfaas-fn/veba-to-argo-fn
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="deploy-the-argo-echoer-template-wf">Deploy the Argo &lt;em>echoer&lt;/em> template WF&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo template create echoer-argowf.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo template create echoer-argowf.yaml
 &lt;span class="ln">2&lt;/span>argo template list
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
@@ -49,8 +49,8 @@
 &lt;h2 id="configure-the-function">Configure the function&lt;/h2>
 &lt;h3 id="argo-config-secret">Argo config secret&lt;/h3>
 &lt;p>Copy and customize the &lt;code>argoconfig.example.yaml&lt;/code> file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp argoconfig.example.yaml argoconfig.yaml
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">argoserver&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp argoconfig.example.yaml argoconfig.yaml
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">argoserver&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">server&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">argo.vlab.lcl&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">argo&lt;/span>&lt;span class="w">
@@ -62,7 +62,7 @@
 &lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">coming-from&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">veba&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">foo&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bar&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Deploy this configuration file as a new &lt;em>faas&lt;/em> secret.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create argoconfig --from-file&lt;span class="o">=&lt;/span>argoconfig.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create argoconfig --from-file&lt;span class="o">=&lt;/span>argoconfig.yaml
 &lt;span class="ln">2&lt;/span>faas-cli secret list
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
@@ -70,7 +70,7 @@
 &lt;span class="ln">6&lt;/span>argoconfig
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="stackyaml">&lt;code>stack.yaml&lt;/code>&lt;/h3>
 &lt;p>Edit the &lt;code>stack.yaml&lt;/code> according to your needs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1.0&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1.0&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">provider&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">openfaas&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gateway&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http://openfaas.vlab.local&lt;/span>&lt;span class="w">
@@ -87,9 +87,9 @@
 &lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">topic&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">VmCreatedEvent, VmClonedEvent, VmRegisteredEvent, DrsVmPoweredOnEvent, VmPoweredOnEvent&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we need to pull the OpenFaaS language template for the specified lang in our stack.yml file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="deploy-the-function">Deploy the function&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yaml
 &lt;span class="ln">2&lt;/span>faas-cli list
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
@@ -97,11 +97,11 @@
 &lt;span class="ln">6&lt;/span>veba-to-argo-echoer &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="test">Test&lt;/h3>
 &lt;p>You can also check the function from the UI and do a first test by running:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{&amp;#34;id&amp;#34;: &amp;#34;test&amp;#34;, &amp;#34;source&amp;#34;: &amp;#34;sourcetest&amp;#34;, &amp;#34;subject&amp;#34;: &amp;#34;any&amp;#34;, &amp;#34;data&amp;#34;: {}}&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{&amp;#34;id&amp;#34;: &amp;#34;test&amp;#34;, &amp;#34;source&amp;#34;: &amp;#34;sourcetest&amp;#34;, &amp;#34;subject&amp;#34;: &amp;#34;any&amp;#34;, &amp;#34;data&amp;#34;: {}}&amp;#39;&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> &lt;span class="p">|&lt;/span> faas-cli invoke veba-to-argo-echoer
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>This should produce an excecution of a Worklow based on the echoer template in Argo.&lt;/p>
 &lt;h3 id="results">Results&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>argo get @latest
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>argo get @latest
 &lt;span class="ln"> 2&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
 &lt;span class="ln"> 4&lt;/span>
@@ -122,7 +122,7 @@
 &lt;span class="ln">19&lt;/span>STEP TEMPLATE PODNAME DURATION MESSAGE
 &lt;span class="ln">20&lt;/span> ✔ echoer-7ldps echoer/echo echoer-7ldps 26s
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And in the logs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo logs @latest
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo logs @latest
 &lt;span class="ln">2&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
 &lt;span class="ln">4&lt;/span>echoer-7ldps: &lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;id&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;test&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;source&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;sourcetest&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;subject&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;any&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;data&amp;#34;&lt;/span>: &lt;span class="o">{}}&lt;/span>
@@ -140,7 +140,7 @@
 &lt;/figure>
 &lt;h3 id="retries">Retries&lt;/h3>
 &lt;p>If needed, you can re-run an existing instance of a workflow (with the same inputs) with the following kind of command:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo resubmit @latest --watch
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo resubmit @latest --watch
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="veba-event">VEBA event&lt;/h2>
 &lt;p>In the same way, if you trigger on of the vCenter events configured in your &lt;code>stack.yaml&lt;/code> file (like &lt;code>VmCreatedEvent, VmClonedEvent, VmRegisteredEvent, DrsVmPoweredOnEvent, VmPoweredOnEvent&lt;/code> in the provided example) from you vCenter server:&lt;/p>
 &lt;ol>

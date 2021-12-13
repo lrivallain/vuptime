@@ -6,7 +6,7 @@
 &lt;p>The first step to setup CSE is to prepare an appliance that will host the CSE server component. In my case, I used a freshly deployed Ubuntu 20.04 LTS server, deployed from the ubuntu cloud images repository: &lt;a href="https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.ova">https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.ova&lt;/a>&lt;/p>
 &lt;p>Once the appliance is up and running, I setup the proxy information:&lt;/p>
 &lt;p>&lt;code>W.X.Y.Z&lt;/code> is the IP address of my HTTP based proxy.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;HTTP_PROXY=W.X.Y.Z:3128
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;HTTP_PROXY=W.X.Y.Z:3128
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s2">HTTPS_PROXY=W.X.Y.Z:3128
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s2">NO_PROXY=.vlab.lcl,192.168.0.0/16,127.0.0.1,localhost&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> sudo tee -a /etc/environment &amp;gt;/dev/null
 &lt;span class="ln">4&lt;/span>
@@ -16,7 +16,7 @@
 &lt;span class="ln">8&lt;/span>
 &lt;span class="ln">9&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Acquire::http::proxy \&amp;#34;http://W.X.Y.Z:3128\&amp;#34;;&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> sudo tee -a /etc/apt/apt.conf &amp;gt;/dev/null
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>A quick test:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl https://google.com
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl https://google.com
 &lt;span class="ln">2&lt;/span>&amp;lt;HTML&amp;gt;&amp;lt;HEAD&amp;gt;&amp;lt;meta http-equiv&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;content-type&amp;#34;&lt;/span> &lt;span class="nv">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;text/html;charset=utf-8&amp;#34;&lt;/span>&amp;gt;
 &lt;span class="ln">3&lt;/span>&amp;lt;TITLE&amp;gt;301 Moved&amp;lt;/TITLE&amp;gt;&amp;lt;/HEAD&amp;gt;&amp;lt;BODY&amp;gt;
 &lt;span class="ln">4&lt;/span>&amp;lt;H1&amp;gt;301 Moved&amp;lt;/H1&amp;gt;
@@ -26,13 +26,13 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>It works.&lt;/p>
 &lt;h3 id="cse-server-components">CSE server components&lt;/h3>
 &lt;p>Let's install software components required for CSE:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># vcd-cli + CSE&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># vcd-cli + CSE&lt;/span>
 &lt;span class="ln">2&lt;/span>sudo apt-get install python3-pip gcc -y
 &lt;span class="ln">3&lt;/span>sudo pip3 install vcd-cli
 &lt;span class="ln">4&lt;/span>sudo pip3 install container-service-extension&lt;span class="o">==&lt;/span>2.6.1
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Yep, still using CSE 2.6 for backwards compatibility.&lt;/p>
 &lt;p>Next, we install &lt;code>kubectl&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># kubectl&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># kubectl&lt;/span>
 &lt;span class="ln">2&lt;/span>curl -LO &lt;span class="s2">&amp;#34;https://storage.googleapis.com/kubernetes-release/release/&lt;/span>&lt;span class="k">$(&lt;/span>curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt&lt;span class="k">)&lt;/span>&lt;span class="s2">/bin/linux/amd64/kubectl&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>chmod +x ./kubectl
 &lt;span class="ln">4&lt;/span>sudo mv ./kubectl /usr/local/bin/kubectl
@@ -40,21 +40,21 @@
 &lt;span class="ln">6&lt;/span>kubectl version --client
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="vcd-cli-integration">&lt;code>vcd&lt;/code> CLI integration&lt;/h3>
 &lt;p>Quick method to integrate the &lt;code>cse&lt;/code> CLI to the &lt;code>vcd&lt;/code> CLI:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p ~/.vcd-cli/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p ~/.vcd-cli/
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;extensions:
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s2">- container_service_extension.client.cse&amp;#34;&lt;/span> &amp;gt;&amp;gt; ~/.vcd-cli/profiles.yaml
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Test it:&lt;/span>
 &lt;span class="ln">5&lt;/span>vcd cse version
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="authentication-key-pairs">Authentication key pairs&lt;/h3>
 &lt;p>If needed, create a SSH key pair to be used from this appliance, to the K8S nodes for maintenance:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh-keygen
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh-keygen
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="cse-configuration">CSE configuration&lt;/h2>
 &lt;p>Once our appliance is ready to host CSE server, we can configure it:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir ~/.cse
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir ~/.cse
 &lt;span class="ln">2&lt;/span>cse sample -o ~/.cse/decrypted-config.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>This command will create a &lt;code>~/.cse/decrypted-config.yaml&lt;/code> file to configure according to the &lt;a href="https://vmware.github.io/container-service-extension/cse2_6/CSE_CONFIG.html">reference documentation&lt;/a>.&lt;/p>
 &lt;p>To ease the testing, I made a &lt;em>fork&lt;/em> of the &lt;a href="https://github.com/vmware/container-service-extension-templates">official templates repository&lt;/a> to my GitHub workspace with &lt;a href="https://github.com/lrivallain/container-service-extension-templates">only one ubuntu based template&lt;/a>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">templates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">templates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">compute_policy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">2&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">deprecated&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w">
@@ -76,21 +76,21 @@
 &lt;/span>&lt;span class="ln">20&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;ubuntu-16.04_k8-1.17_weave-2.6.0&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">21&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;ubuntu-16.04_k8-1.18_weave-2.6.5&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we encrypt the file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse encrypt ~/.cse/decrypted-config.yaml --output ~/.cse/config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse encrypt ~/.cse/decrypted-config.yaml --output ~/.cse/config.yaml
 &lt;span class="ln">2&lt;/span>chmod &lt;span class="m">600&lt;/span> config.yaml
 &lt;span class="ln">3&lt;/span>rm ~/.cse/decrypted-config.yaml &lt;span class="c1"># otherwise it will be useless to encrypt it&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If you need to decrypt it (for example to edit the content):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse decrypt ~/.cse/config.yaml --output ~/.cse/decrypted-config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse decrypt ~/.cse/config.yaml --output ~/.cse/decrypted-config.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you can run the install process...&lt;/p>
 &lt;blockquote>
 &lt;p>&lt;strong>!!!BUT!!!&lt;/strong> We will kill it when the process will download the OVA file(s) in order to hack the content of customization scripts:&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># !! cut the execution when the OVA is downloading !! CTRL+C&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>When the script is stopped, it is possible to edit the content of customization scripts to insert the proxy settings. In my case:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vi ~/.cse_scripts/ubuntu-16.04_k8-1.18_weave-2.6.5_rev1/cust.sh
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vi ~/.cse_scripts/ubuntu-16.04_k8-1.18_weave-2.6.5_rev1/cust.sh
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>I added the following lines at the beginning of the file, just after the line &lt;code>set -e&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># proxy setup&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># proxy setup&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;HTTP_PROXY=W.X.Y.Z:3128
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="s2">HTTPS_PROXY=W.X.Y.Z:3128
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s2">NO_PROXY=.vlab.lcl,192.168.0.0/16,127.0.0.1,localhost&amp;#34;&lt;/span> &amp;gt;&amp;gt; /etc/environment
@@ -104,9 +104,9 @@
 &lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="s2">Environment=\&amp;#34;NO_PROXY=.vlab.lcl,192.168.0.0/16,127.0.0.1,localhost\&amp;#34;
 &lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &amp;gt;&amp;gt; /etc/systemd/system/docker.service.d/override.conf
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Save+quit etc. And we re-run the CSE initialisation command:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And your template will now being built using the HTTP proxy you specified. After the template preparation, the template is added to the available ones:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse template list -c ~/.cse/config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse template list -c ~/.cse/config.yaml
 &lt;span class="ln">2&lt;/span>Password &lt;span class="k">for&lt;/span> config file decryption:
 &lt;span class="ln">3&lt;/span>Decrypting &lt;span class="s1">&amp;#39;config.yaml&amp;#39;&lt;/span>
 &lt;span class="ln">4&lt;/span>name revision compute_policy &lt;span class="nb">local&lt;/span> remote
@@ -117,7 +117,7 @@
 &lt;/blockquote>
 &lt;h3 id="patching-pika-for-python-38">Patching Pika for Python 3.8&lt;/h3>
 &lt;p>In the next steps, if you use Python version 3.8 (you can check it by running &lt;code> python3 -V&lt;/code> command), you may have an issue with an error message like:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vcd cse template list
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vcd cse template list
 &lt;span class="ln">2&lt;/span>Usage: vcd cse template list &lt;span class="o">[&lt;/span>OPTIONS&lt;span class="o">]&lt;/span>
 &lt;span class="ln">3&lt;/span>Try &lt;span class="s2">&amp;#34;vcd cse template list -h&amp;#34;&lt;/span> &lt;span class="k">for&lt;/span> help.
 &lt;span class="ln">4&lt;/span>
@@ -127,23 +127,23 @@
 &lt;ol>
 &lt;li>Download manually this &lt;a href="https://gist.github.com/lrivallain/be77cd8ffd731649705ae7b1e139d8d3#file-pika-1254-patch">patch file&lt;/a> and run &lt;code>patch&lt;/code> command:&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo patch /usr/local/lib/python3.8/dist-packages/pika/compat.py &amp;lt; pika-1254.patch
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo patch /usr/local/lib/python3.8/dist-packages/pika/compat.py &amp;lt; pika-1254.patch
 &lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
 &lt;li>All in one command (you should check the content of a downloaded file before applying it to you environment):&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s &lt;span class="s1">&amp;#39;https://gist.githubusercontent.com/lrivallain/be77cd8ffd731649705ae7b1e139d8d3/raw/d35069fab35f179dd1a76f29607367424d87314a/pika-1254.patch&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> sudo patch /usr/local/lib/python3.8/dist-packages/pika/compat.py
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s &lt;span class="s1">&amp;#39;https://gist.githubusercontent.com/lrivallain/be77cd8ffd731649705ae7b1e139d8d3/raw/d35069fab35f179dd1a76f29607367424d87314a/pika-1254.patch&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> sudo patch /usr/local/lib/python3.8/dist-packages/pika/compat.py
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="tests">Tests&lt;/h3>
 &lt;p>The following command will run the CSE server services in foreground mode&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse run -c ~/.cse/config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse run -c ~/.cse/config.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>After a series of checks, the process should display a message like:&lt;/p>
 &lt;blockquote>
 &lt;p>&lt;code>waiting for requests (ctrl+c to close)&lt;/code>&lt;/p>
 &lt;/blockquote>
 &lt;p>You can test it by running the following commands from another terminal instance:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vcd login vcd.vlab.lcl &amp;lt;org&amp;gt; &amp;lt;username&amp;gt;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vcd login vcd.vlab.lcl &amp;lt;org&amp;gt; &amp;lt;username&amp;gt;
 &lt;span class="ln">2&lt;/span>vcd cse template list
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And you should get a list of templates ready for deployment:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>name revision is_default catalog
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>name revision is_default catalog
 &lt;span class="ln">2&lt;/span>-------------------------------- ---------- ------------ ---------
 &lt;span class="ln">3&lt;/span>ubuntu-16.04_k8-1.18_weave-2.6.5 &lt;span class="m">1&lt;/span> Yes cse
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
@@ -151,15 +151,15 @@
 &lt;/blockquote>
 &lt;h3 id="finalize-installation">Finalize installation&lt;/h3>
 &lt;p>Using the CSE server in foreground mode is not the easiest way for day-to-day operations, so we will enable it as a system service:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get the service files from the CSE repository&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get the service files from the CSE repository&lt;/span>
 &lt;span class="ln">2&lt;/span>curl -L https://github.com/vmware/container-service-extension/raw/2.6.1_ga/cse.service &amp;gt; ~/.cse/cse.service
 &lt;span class="ln">3&lt;/span>curl -L https://github.com/vmware/container-service-extension/raw/2.6.1_ga/cse.sh &amp;gt; ~/.cse/cse.sh
 &lt;span class="ln">4&lt;/span>chmod +x ~/.cse/cse.sh
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Edit the &lt;code>CSE_CONFIG_PATH&lt;/code> value of &lt;code>~/.cse/cse.sh&lt;/code> according to the path where is stored your configuration file. For my setup:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">CSE_CONFIG_PATH&lt;/span>&lt;span class="o">=&lt;/span>/home/ubuntu/.cse/config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">CSE_CONFIG_PATH&lt;/span>&lt;span class="o">=&lt;/span>/home/ubuntu/.cse/config.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Edit the &lt;code>ExecStart&lt;/code>, &lt;code>User&lt;/code>, &lt;code>WorkingDirectory&lt;/code> value of &lt;code>~/.cse/cse.service&lt;/code> according to your environment. I also add an &lt;code>Environment&lt;/code> statement to store the password of the configuration file and my proxy settings.&lt;/p>
 &lt;p>For my setup:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="ln"> 1&lt;/span>&lt;span class="k">[Unit]&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="ln"> 1&lt;/span>&lt;span class="k">[Unit]&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="na">Description&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">Container Service Extension for VMware vCloud Director&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="na">Wants&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">network-online.target&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="na">After&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">network-online.target&lt;/span>
@@ -178,7 +178,7 @@
 &lt;span class="ln">17&lt;/span>&lt;span class="k">[Install]&lt;/span>
 &lt;span class="ln">18&lt;/span>&lt;span class="na">WantedBy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">default.target&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you can enable, start and check this new service:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo cp .cse/cse.service /etc/systemd/system/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo cp .cse/cse.service /etc/systemd/system/
 &lt;span class="ln">2&lt;/span>sudo systemctl &lt;span class="nb">enable&lt;/span> cse
 &lt;span class="ln">3&lt;/span>sudo systemctl start cse
 &lt;span class="ln">4&lt;/span>sudo systemctl status cse
@@ -244,7 +244,7 @@
 &lt;p>As this post is following the steps made in the &lt;a href="https://vuptime.io/2020/04/01/rest-loves-swagger-demo/">part 1&lt;/a>, I strongly encourage you to start with the previous post.&lt;/p>
 &lt;h2 id="pre-requisites">Pre-requisites&lt;/h2>
 &lt;p>Same as previous post + we will rely on some environment variables to set some local settings:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Exporting vCenter env...&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Exporting vCenter env...&amp;#34;&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;vcsa.vupti.me&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_USERNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;demo@vsphere.local&amp;#34;&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;************&amp;#39;&lt;/span>
@@ -254,7 +254,7 @@
 &lt;span class="ln">8&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCD_USERNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;demo@orgdemo&amp;#34;&lt;/span>
 &lt;span class="ln">9&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCD_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;************&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vcenter-sdk-with-codegen">vCenter SDK with Codegen&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
 &lt;span class="ln"> 2&lt;/span>curl -sk https://&lt;span class="nv">$VMWARE_VCENTER_HOSTNAME&lt;/span>/apiexplorer/json/vcenter.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> &amp;gt; codegen/in/vcenter.json
 &lt;span class="ln"> 4&lt;/span>
@@ -278,7 +278,7 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>So in the above section, we created a new API SDK for a subset of vCenter REST APIs (and we do not rely on the &lt;a href="http://vmware.github.io/pyvmomi/">&lt;code>pyvmomi&lt;/code>&lt;/a> project).&lt;/p>
 &lt;p>We can now use it:&lt;/p>
 &lt;h3 id="prepare-a-client-object">Prepare a client object&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vc_client&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vc_client&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">vc_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
@@ -299,7 +299,7 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>So we import our new &lt;code>vc_client&lt;/code> module, we setup the target hostname and the authentication settings.&lt;/p>
 &lt;h3 id="get-a-new-session">Get a new session&lt;/h3>
 &lt;p>New goal: getting a session to use a &lt;em>cookie-based&lt;/em> authentication instead of providing username/password for each request:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Starting a new session&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="n">s&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">call_api&lt;/span>&lt;span class="p">(&lt;/span>
@@ -319,14 +319,14 @@
 &lt;span class="ln">18&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;Client cookies updated: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">cookie&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>As you see, we rely on our module code by using the &lt;code>client.call_api&lt;/code> instruction and the cookie update: &lt;code>client.cookie = s[2].get('Set-Cookie')&lt;/code>.&lt;/p>
 &lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCENTER Starting a new session
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCENTER Starting a new session
 &lt;span class="ln">2&lt;/span>DEMO_VCENTER New session is created
 &lt;span class="ln">3&lt;/span>DEMO_VCENTER Setting new session authorization token in cookies
 &lt;span class="ln">4&lt;/span>DEMO_VCENTER Client cookies updated: vmware-api-session-id=5cebc...;Path=/rest;Secure;HttpOnly
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-some-content">Get some content&lt;/h3>
 &lt;p>We will use our new session to get some data from the vCenter API.&lt;/p>
 &lt;p>Listing VMs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List VM&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List VM&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Listing VMs...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="n">instance&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vc_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">VM_Api&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="n">vm&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">instance&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">list&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="p">:&lt;/span>
@@ -335,7 +335,7 @@
 &lt;span class="ln">7&lt;/span> &lt;span class="p">)&lt;/span>
 &lt;span class="ln">8&lt;/span> &lt;span class="n">keep_last&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vm&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>DEMO_VCENTER Listing VMs...
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>DEMO_VCENTER Listing VMs...
 &lt;span class="ln"> 2&lt;/span>DEMO_VCENTER LRI_RancherMaster: POWERED_ON / vCPU: 4 / Mem: 8192 Mb
 &lt;span class="ln"> 3&lt;/span>DEMO_VCENTER LRI_vRO: POWERED_ON / vCPU: 2 / Mem: 6144 Mb
 &lt;span class="ln"> 4&lt;/span>DEMO_VCENTER LRI_vcd: POWERED_ON / vCPU: 2 / Mem: 12288 Mb
@@ -349,7 +349,7 @@
 &lt;span class="ln">12&lt;/span>DEMO_VCENTER DCScope: POWERED_ON / vCPU: 2 / Mem: 8192 Mb
 &lt;span class="ln">13&lt;/span>DEMO_VCENTER FaH_1.0.0_01: POWERED_ON / vCPU: 8 / Mem: 8192 Mb
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>As you can see, we kept the last VM from the list to get more details:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get more details for last VM&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get more details for last VM&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Getting details about last VM...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="n">vm_detailled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">instance&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">keep_last&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">vm&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Data:&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">+&lt;/span>
@@ -360,7 +360,7 @@
 &lt;span class="ln"> 9&lt;/span>&lt;span class="n">nic&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vm_detailled&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">nics&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>
 &lt;span class="ln">10&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">keep_last&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2"> MAC address: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">nic&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">mac_address&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong> (only the VM details content):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;memory&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;hot_add_limit_mi_b&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;hot_add_enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
@@ -493,7 +493,7 @@
 &lt;span class="ln">131&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vcloud-director-sdk-with-codegen">vCloud Director SDK with Codegen&lt;/h2>
 &lt;p>Last example, using vCloud Director.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
 &lt;span class="ln"> 2&lt;/span>curl -sk https://&lt;span class="nv">$VMWARE_VCD_HOSTNAME&lt;/span>/api-explorer/tenant/orgdemo/cloudapi.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> &amp;gt; codegen/in/cloudapi.json
 &lt;span class="ln"> 4&lt;/span>
@@ -516,7 +516,7 @@
 &lt;span class="ln">21&lt;/span>pip install codegen/out/python-vcd
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="prepare-a-client-object-1">Prepare a client object&lt;/h3>
 &lt;p>We import our new &lt;code>vcd_client&lt;/code> module, we setup the target hostname, the authentication settings.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vcd_client&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vcd_client&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">vcd_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
@@ -535,7 +535,7 @@
 &lt;span class="ln">17&lt;/span>&lt;span class="c1"># Create a client&lt;/span>
 &lt;span class="ln">18&lt;/span>&lt;span class="n">client&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ApiClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-a-new-session-1">Get a new session&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Starting a new session&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="n">s&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SessionsApi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
@@ -554,13 +554,13 @@
 &lt;span class="ln">17&lt;/span>&lt;span class="n">client&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ApiClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">18&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;Client credentials updated to use access token: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">s_headers&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;X-VMWARE-VCLOUD-ACCESS-TOKEN&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Starting a new session
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Starting a new session
 &lt;span class="ln">2&lt;/span>DEMO_VCD New session is created
 &lt;span class="ln">3&lt;/span>DEMO_VCD Setting new session authorization token in headers
 &lt;span class="ln">4&lt;/span>DEMO_VCD Client credentials updated to use access token: eyJhbGciOiJSUzI1NiJ9...
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-some-content-1">Get some content&lt;/h3>
 &lt;p>We will use our session and list our rights in the current organization:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List rights of the current user&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List rights of the current user&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Getting rights of the current user&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="n">rapi&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">RightsApi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="n">page&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">page_size&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">25&lt;/span>
@@ -570,7 +570,7 @@
 &lt;span class="ln">8&lt;/span>&lt;span class="k">except&lt;/span> &lt;span class="n">ApiException&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="ln">9&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Exception when calling RightsApi-&amp;gt;query_rights: &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong> (only fist part):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Getting rights of the current user
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Getting rights of the current user
 &lt;span class="ln">2&lt;/span>DEMO_VCD Organization vDC Gateway: Configure DNS - urn:vcloud:right:d85b0e92-b9e8-31af-9b19-23cd00cae7e7 - MODIFY
 &lt;span class="ln">3&lt;/span>DEMO_VCD Organization vDC Gateway: View DNS - urn:vcloud:right:c6563392-f6b3-3dd6-9720-b304e6319672 - VIEW
 &lt;span class="ln">4&lt;/span>DEMO_VCD Token: Manage - urn:vcloud:right:23e7a571-4928-3c49-891f-f835474a9dc3 - MODIFY
@@ -599,15 +599,15 @@
 &lt;h3 id="docker">Docker&lt;/h3>
 &lt;p>First, we need a docker setup (in order to avoid installing locally, the codegen software). I won't explain how to install and configure a docker host, this is not the point of the post.&lt;/p>
 &lt;p>We get the docker image of Swagger Codegen:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker pull swaggerapi/swagger-codegen-cli
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker pull swaggerapi/swagger-codegen-cli
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If you prefer a local installation of Codegen, &lt;a href="https://github.com/swagger-api/swagger-codegen#compatibility">it is possible&lt;/a> but you will need to modify some of the following commands.&lt;/p>
 &lt;h3 id="folders-structure">Folders structure&lt;/h3>
 &lt;p>For the tests, we will create 2 folders, for &lt;code>in&lt;/code>put files and &lt;code>out&lt;/code>put ones within a &lt;code>codegen&lt;/code> folder:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p codegen/in/ codegen/out/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p codegen/in/ codegen/out/
 &lt;span class="ln">2&lt;/span>ls codegen/ &lt;span class="c1"># should output &amp;#34;in out&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="python">Python&lt;/h3>
 &lt;p>We will create some python modules for test. I suggest to use a virtualenv if you want to proceed the same tests and to install some dependencies:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/requirements.txt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/requirements.txt
 &lt;span class="ln">2&lt;/span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
 &lt;span class="ln">3&lt;/span>pip install -r requirements.txt
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
@@ -618,9 +618,9 @@
 &lt;h2 id="available-languages">Available languages&lt;/h2>
 &lt;p>Codegen supports tons of output languages. To demonstrate it, we can use the following command:&lt;/p>
 &lt;p>(The &lt;code>sed&lt;/code> part is only to prettify the ouput)&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>docker run --rm swaggerapi/swagger-codegen-cli langs | sed &amp;#39;s/,/\n /g&amp;#39;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>docker run --rm swaggerapi/swagger-codegen-cli langs | sed &amp;#39;s/,/\n /g&amp;#39;
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The output of the command will be something like:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>Available languages: [ada
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>Available languages: [ada
 &lt;span class="ln"> 2&lt;/span> ada-server
 &lt;span class="ln"> 3&lt;/span> akka-scala
 &lt;span class="ln"> 4&lt;/span> android
@@ -722,35 +722,35 @@
 &lt;li>Store the result in a file&lt;/li>
 &lt;li>Display the first lines&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s https://api.chucknorris.io/documentation &lt;span class="p">|&lt;/span> python -m json.tool &amp;gt; codegen/in/chucknorris.json
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s https://api.chucknorris.io/documentation &lt;span class="p">|&lt;/span> python -m json.tool &amp;gt; codegen/in/chucknorris.json
 &lt;span class="ln">2&lt;/span>head -n &lt;span class="m">25&lt;/span> codegen/in/chucknorris.json
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You should see the content of a swagger file, with the API description.&lt;/p>
 &lt;h3 id="package-configuration">Package configuration&lt;/h3>
 &lt;p>We will create a Codegen configuration file for a python module, with some information about naming and versioning.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s1"> &amp;#34;packageName&amp;#34;:&amp;#34;chucknorris_client&amp;#34;,
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s1"> &amp;#34;projectName&amp;#34;:&amp;#34;chucknorris-client&amp;#34;,
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="s1"> &amp;#34;packageVersion&amp;#34;:&amp;#34;1.0.0&amp;#34;
 &lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="s1">}&amp;#39;&lt;/span> &amp;gt; codegen/in/config_chucknorris_client.json
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="sdk-generation">SDK generation&lt;/h3>
 &lt;p>Now we specify to Codegen, to use both API documentation file and package configuration one to create a new &lt;strong>&lt;code>python&lt;/code>&lt;/strong> based client SDK:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> swaggerapi/swagger-codegen-cli generate &lt;span class="se">\
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -i /local/in/chucknorris.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -o /local/out/python-chucknorris &lt;span class="se">\
 &lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -c /local/in/config_chucknorris_client.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -l python
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We now have a new python module:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ls codegen/out/python-chucknorris/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ls codegen/out/python-chucknorris/
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Output:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>README.md git_push.sh test
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>README.md git_push.sh test
 &lt;span class="ln">2&lt;/span>chucknorris_client requirements.txt test-requirements.txt
 &lt;span class="ln">3&lt;/span>docs setup.py tox.ini
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And we can pip install this module:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install codegen/out/python-chucknorris/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install codegen/out/python-chucknorris/
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="use-our-new-module">Use our new module&lt;/h3>
 &lt;p>We create and run the following python file to use our new module:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">chucknorris_client&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">chucknorris_client&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">chucknorris_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
 &lt;span class="ln"> 3&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
@@ -772,21 +772,21 @@
 &lt;span class="ln">20&lt;/span> &lt;span class="s2">&amp;#34;Exception when calling JokeControllerApi-&amp;gt;get_random_joke_value_using_get: &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">e&lt;/span>
 &lt;span class="ln">21&lt;/span> &lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You can now run it and get the following result:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_CHUCKNORRIS Create an API client
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_CHUCKNORRIS Create an API client
 &lt;span class="ln">2&lt;/span>DEMO_CHUCKNORRIS Target the Joke Controller
 &lt;span class="ln">3&lt;/span>DEMO_CHUCKNORRIS Get a random joke:
 &lt;span class="ln">4&lt;/span>DEMO_CHUCKNORRIS Chuck Norris was worshipped as a god by the Eskimos. That is why they had igloos modelled after his signature move.
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Please consider that most of the python code we used is about the logger and not the complexity of getting a random Chuck Norris fact. If you don't, Chuck Norris may come to you for an explaination.&lt;/p>
 &lt;h3 id="same-with-go-">Same with Go ?&lt;/h3>
 &lt;p>Lets do the same, with Go:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> swaggerapi/swagger-codegen-cli generate &lt;span class="se">\
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -i /local/in/chucknorris.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -o /local/out/gochucknorris &lt;span class="se">\
 &lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -DpackageName&lt;span class="o">=&lt;/span>gochucknorris &lt;span class="se">\
 &lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -l go
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>Go&lt;/code> test file (for example: &lt;code>codegen/chuck.go&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
 &lt;span class="ln"> 2&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="s">&amp;#34;log&amp;#34;&lt;/span>
@@ -809,7 +809,7 @@
 &lt;span class="ln">21&lt;/span> &lt;span class="p">}&lt;/span>
 &lt;span class="ln">22&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And the result of a &lt;code>go run codegen/chuck.go&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>2020/04/01 17:28:11 New API client with empty configuration
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>2020/04/01 17:28:11 New API client with empty configuration
 &lt;span class="ln">2&lt;/span>2020/04/01 17:28:11 Get random joke
 &lt;span class="ln">3&lt;/span>2020/04/01 17:28:12 Chuck Norris can levitate birds.
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="conclusion">Conclusion&lt;/h2>
@@ -986,7 +986,7 @@
 &lt;blockquote>
 &lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;lri.lcl&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;lri.lcl&amp;#34;&lt;/span>
 &lt;span class="ln"> 2&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># API and HTTP host info&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="nv">HTTP_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;vuptime-vcd&amp;#39;&lt;/span>
@@ -1008,7 +1008,7 @@
 &lt;span class="ln">20&lt;/span>&lt;span class="nv">KS_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>&lt;span class="s2">/data/transfer/certificates.ks&amp;#34;&lt;/span>
 &lt;span class="ln">21&lt;/span>&lt;span class="nv">KS_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;VMware1!&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="create-unsigned-certificates">Create unsigned certificates&lt;/h1>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
@@ -1034,7 +1034,7 @@
 &lt;/span>&lt;span class="ln">24&lt;/span>&lt;span class="se">&lt;/span> -dname &lt;span class="s2">&amp;#34;CN=&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">, &lt;/span>&lt;span class="nv">$CERT_DNAME_INFO&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln">25&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="create-certificate-requests-for-ca-signing">Create certificate requests for CA-signing&lt;/h1>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
@@ -1059,7 +1059,7 @@
 &lt;/ul>
 &lt;h1 id="import-signed-certificates-in-the-keystore">Import signed certificates in the keystore&lt;/h1>
 &lt;p>First, we import the CA certificate:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
@@ -1067,7 +1067,7 @@
 &lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -alias root &lt;span class="se">\
 &lt;/span>&lt;span class="ln">7&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CA_CERT_PATH&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then the 2 applications certificates:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
@@ -1082,24 +1082,24 @@
 &lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="se">&lt;/span> -import &lt;span class="se">\
 &lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
 &lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>.crt
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -list
 &lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="apply-certificates-to-the-services">Apply certificates to the services&lt;/h1>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>chown vcloud: &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="c1"># Set owner of the keystore to vcloud user&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>chown vcloud: &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="c1"># Set owner of the keystore to vcloud user&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool certificates -j -k &lt;span class="nv">$KS_PATH&lt;/span> -w &lt;span class="nv">$KS_PASSWORD&lt;/span>
 &lt;span class="ln">3&lt;/span>service vmware-vcd restart
 &lt;/code>&lt;/pre>&lt;/div></description></item><item><title>VMware - Patch the vCloud Director cacerts file</title><link>https://vuptime.io/post/2017-08-30-vmware-patch-vclouddirector-cacerts-file/</link><pubDate>Wed, 30 Aug 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/08/30/VMware-Patch-vCloudDirector-cacerts-file/</guid><description>
 &lt;p>When you install a VMware vCloud Director instance, it comes with an embedded JRE (&lt;em>Java Runtime Environment&lt;/em>). For example, vCloud Director includes JRE 1.8.0_121 :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/java -version
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/java -version
 &lt;span class="ln">2&lt;/span>java version &lt;span class="s2">&amp;#34;1.8.0_121&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>Java&lt;span class="o">(&lt;/span>TM&lt;span class="o">)&lt;/span> SE Runtime Environment &lt;span class="o">(&lt;/span>build 1.8.0_121-b13&lt;span class="o">)&lt;/span>
 &lt;span class="ln">4&lt;/span>Java HotSpot&lt;span class="o">(&lt;/span>TM&lt;span class="o">)&lt;/span> 64-Bit Server VM &lt;span class="o">(&lt;/span>build 25.121-b13, mixed mode&lt;span class="o">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>JRE includes it's own keystore for trusted SSL certificates, the &lt;code>cacerts&lt;/code> file. This file is depending on both oracle/Java and VMware/vCloud releasing and if your certification authority root certificate isn't included, you may experienced issue when trying to communicate with products securized with SSL certificates (example : &lt;a href="https://vuptime.io/2017/08/02/VMware-ExploreVCD-catalog-publishing-feature/">Catalog synchronization between two vCloud Director entities&lt;/a>).&lt;/p>
 &lt;p>It's possible to find SSL related issues by looking at the &lt;code>$VCLOUD_HOME/logs/vcloud-container-debug.log&lt;/code> file where you may find errors like:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>...
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>...
 &lt;span class="ln">2&lt;/span>javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
 &lt;span class="ln">3&lt;/span>...
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The following post shows how to add a new trusted (root and/or intermediate) certificates to the JRE cacerts keystore.&lt;/p>
@@ -1111,19 +1111,19 @@
 &lt;li>DST Root CA X3&lt;/li>
 &lt;li>Let's Encrypt Authority X3&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get crt files&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get crt files&lt;/span>
 &lt;span class="ln">2&lt;/span>curl -s &lt;span class="s2">&amp;#34;https://pastebin.com/raw/63dQV36A&amp;#34;&lt;/span> &amp;gt; DSTRootCAX3.crt
 &lt;span class="ln">3&lt;/span>curl -s &lt;span class="s2">&amp;#34;https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt&amp;#34;&lt;/span> &amp;gt; LetsEncryptAuthorityX3.crt
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># calculate fingerprint&lt;/span>
 &lt;span class="ln">5&lt;/span>&lt;span class="nv">intermediate&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>openssl x509 -in /tmp/LetsEncryptAuthorityX3.crt -fingerprint -sha1 -noout &lt;span class="p">|&lt;/span> cut -d&lt;span class="s1">&amp;#39;=&amp;#39;&lt;/span> -f2&lt;span class="k">)&lt;/span>
 &lt;span class="ln">6&lt;/span>&lt;span class="nv">root&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>openssl x509 -in /tmp/DSTRootCAX3.crt -fingerprint -sha1 -noout &lt;span class="p">|&lt;/span> cut -d&lt;span class="s1">&amp;#39;=&amp;#39;&lt;/span> -f2&lt;span class="k">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Now you have two variables &lt;code>$root&lt;/code> and &lt;code>$intermediate&lt;/code> with cert authority sha1:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$root&lt;/span>&lt;span class="s2">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$root&lt;/span>&lt;span class="s2">
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s2">&lt;/span>&lt;span class="nv">$intermediate&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>DA:C9:02:4F:54:D8:F6:DF:94:93:5F:B1:73:26:38:CA:6A:D7:7C:13
 &lt;span class="ln">4&lt;/span>E6:A3:B4:5B:06:2D:50:9B:33:82:28:2D:19:6E:FE:97:D5:95:6C:CB
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Let's look in the keystore to check if the certificates are already trusted. For this, we use the Java &lt;code>keytool&lt;/code> script that allow to manage the Java's keystore :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i -B1 &lt;span class="nv">$root&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i -B1 &lt;span class="nv">$root&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i -B1 &lt;span class="nv">$intermediate&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no result, for both commands, you should add your certification authority to the trusted ones.&lt;/p>
 &lt;p>By default, the JRE keystore is &lt;em>protected&lt;/em> with a password: &lt;code>changeit&lt;/code>.&lt;/p>
@@ -1136,13 +1136,13 @@
 &lt;p>These operations needs to be done on &lt;strong>each cells&lt;/strong> of your vCloud Director instance as the JRE keystore is not shared between members.&lt;/p>
 &lt;h2 id="take-a-backup-of-cacerts-file">Take a backup of cacerts file&lt;/h2>
 &lt;p>Take a backup of the embedded keystore, to be able to rollback if necessary (md5sum is used to quiclky check that we copy the file without error):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts ~/cacerts_jre.backup
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts ~/cacerts_jre.backup
 &lt;span class="ln">2&lt;/span>md5sum ~/cacerts_jre.backup &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>#2ecfd7e5a8789c3f0e68ae85a26dea23 ~/cacerts_jre.backup
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>#2ecfd7e5a8789c3f0e68ae85a26dea23 ~/cacerts_jre.backup
 &lt;span class="ln">2&lt;/span>#2ecfd7e5a8789c3f0e68ae85a26dea23 $VCLOUD_HOME/jre/lib/security/cacerts
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="add-the-ca-certs-to-the-keystore">Add the CA certs to the keystore&lt;/h2>
 &lt;p>Time to update keystore content :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -import -trustcacerts &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -alias identrustdstx3 &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -file /tmp/DSTRootCAX3.crt &lt;span class="se">\
@@ -1156,13 +1156,13 @@
 &lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts &lt;span class="se">\
 &lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="se">&lt;/span> -storepass changeit
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And we check:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i &lt;span class="nv">$root&lt;/span> -c
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i &lt;span class="nv">$root&lt;/span> -c
 &lt;span class="ln">2&lt;/span>&lt;span class="m">1&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i &lt;span class="nv">$intermediate&lt;/span> -c
 &lt;span class="ln">4&lt;/span>&lt;span class="m">1&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>One result is found for each certificate : good.&lt;/p>
 &lt;p>It's also possible to look in keystore for a specific alias entry without &lt;code>grep&lt;/code>, but depending on used alias, I consider that it's possible to miss a match (that's why I prefer to calculate the fingerprint and made a search on it):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit -alias &lt;span class="s2">&amp;#34;identrustdstx3&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit -alias &lt;span class="s2">&amp;#34;identrustdstx3&amp;#34;&lt;/span>
 &lt;span class="ln">2&lt;/span>identrustdstx3, Aug 25, 2016, trustedCertEntry,
 &lt;span class="ln">3&lt;/span>Certificate fingerprint &lt;span class="o">(&lt;/span>SHA1&lt;span class="o">)&lt;/span>: DA:C9:02:4F:54:D8:F6:DF:94:93:5F:B1:73:26:38:CA:6A:D7:7C:13
 &lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="shutdown-cell">Shutdown cell&lt;/h1>
@@ -1171,18 +1171,18 @@
 &lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>
 &lt;/blockquote>
 &lt;p>Quiesce the cell, to not accept new incoming job on this specific cell:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -quiesce &lt;span class="nb">true&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -quiesce &lt;span class="nb">true&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Check that there is no more running job:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -status
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -status
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>
 &lt;/blockquote>
 &lt;p>Shutdown services:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -shutdown
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -shutdown
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then restart services:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service vmware-vcd start
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service vmware-vcd start
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Have a look on the startup of the service through the logs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>tail -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/logs/cell.log &lt;span class="p">|&lt;/span> grep -i &lt;span class="s2">&amp;#34;Application Initialization&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>tail -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/logs/cell.log &lt;span class="p">|&lt;/span> grep -i &lt;span class="s2">&amp;#34;Application Initialization&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>
 &lt;/blockquote>
@@ -1213,9 +1213,9 @@
 &lt;p>Previous section are describing trivial usage of Externaly shared catalogs on vCloud Director. The following will explore the catalog content and how to retrieve Metadata or data of catalog from outside a vCloud Director environment.&lt;/p>
 &lt;h2 id="what-is-behind-the-shared-uri">What is behind the shared URI&lt;/h2>
 &lt;p>Let see what is available through the given subscription link:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;vcspVersion&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;urn:uuid:4c8f39ca-b7ef-4bac-acf4-c377401a729d&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
@@ -1239,9 +1239,9 @@
 &lt;/blockquote>
 &lt;p>This request give us metadata about the catalog : name, description, version... And &lt;code>itemsHref&lt;/code> give us clue to continue exploration and list the catalog items.&lt;/p>
 &lt;h2 id="list-items">List items&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/items
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="s2">&amp;#34;itemType&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.CatalogItem&amp;#34;&lt;/span>&lt;span class="err">,&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="s2">&amp;#34;itemType&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.CatalogItem&amp;#34;&lt;/span>&lt;span class="err">,&lt;/span>
 &lt;span class="ln"> 2&lt;/span> &lt;span class="s2">&amp;#34;items&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;vcspVersion&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
@@ -1298,7 +1298,7 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>This part of the catalog is much more interesting as it shows us informations about its content. There are also pointer to download the files corresponding to the catalog's files, including vAPP.&lt;/p>
 &lt;h2 id="download-files-from-catalog">Download files from catalog&lt;/h2>
 &lt;p>So if we need to download the OVF file (for example):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -i -u :MyPassword &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -i -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf
 &lt;span class="ln">3&lt;/span>HTTP/1.1 &lt;span class="m">302&lt;/span> Found
 &lt;span class="ln">4&lt;/span>Date: Tue, &lt;span class="m">01&lt;/span> Aug &lt;span class="m">2017&lt;/span> 14:37:22 GMT
@@ -1315,7 +1315,7 @@
 &lt;li>You adapt the request with the &lt;code>Location&lt;/code> path from the HTTP response header&lt;/li>
 &lt;li>You add &lt;code>-L&lt;/code> option to curl to follow redirects&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -L -u :MyPassword &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -L -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf &amp;gt; myVapp/descriptor.ovf
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>

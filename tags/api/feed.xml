@@ -57,7 +57,7 @@
 &lt;p>As this post is following the steps made in the &lt;a href="https://vuptime.io/2020/04/01/rest-loves-swagger-demo/">part 1&lt;/a>, I strongly encourage you to start with the previous post.&lt;/p>
 &lt;h2 id="pre-requisites">Pre-requisites&lt;/h2>
 &lt;p>Same as previous post + we will rely on some environment variables to set some local settings:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Exporting vCenter env...&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Exporting vCenter env...&amp;#34;&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;vcsa.vupti.me&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_USERNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;demo@vsphere.local&amp;#34;&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCENTER_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;************&amp;#39;&lt;/span>
@@ -67,7 +67,7 @@
 &lt;span class="ln">8&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCD_USERNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;demo@orgdemo&amp;#34;&lt;/span>
 &lt;span class="ln">9&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">VMWARE_VCD_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;************&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vcenter-sdk-with-codegen">vCenter SDK with Codegen&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
 &lt;span class="ln"> 2&lt;/span>curl -sk https://&lt;span class="nv">$VMWARE_VCENTER_HOSTNAME&lt;/span>/apiexplorer/json/vcenter.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> &amp;gt; codegen/in/vcenter.json
 &lt;span class="ln"> 4&lt;/span>
@@ -91,7 +91,7 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>So in the above section, we created a new API SDK for a subset of vCenter REST APIs (and we do not rely on the &lt;a href="http://vmware.github.io/pyvmomi/">&lt;code>pyvmomi&lt;/code>&lt;/a> project).&lt;/p>
 &lt;p>We can now use it:&lt;/p>
 &lt;h3 id="prepare-a-client-object">Prepare a client object&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vc_client&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vc_client&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">vc_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
@@ -112,7 +112,7 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>So we import our new &lt;code>vc_client&lt;/code> module, we setup the target hostname and the authentication settings.&lt;/p>
 &lt;h3 id="get-a-new-session">Get a new session&lt;/h3>
 &lt;p>New goal: getting a session to use a &lt;em>cookie-based&lt;/em> authentication instead of providing username/password for each request:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Starting a new session&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="n">s&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">call_api&lt;/span>&lt;span class="p">(&lt;/span>
@@ -132,14 +132,14 @@
 &lt;span class="ln">18&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;Client cookies updated: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">cookie&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>As you see, we rely on our module code by using the &lt;code>client.call_api&lt;/code> instruction and the cookie update: &lt;code>client.cookie = s[2].get('Set-Cookie')&lt;/code>.&lt;/p>
 &lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCENTER Starting a new session
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCENTER Starting a new session
 &lt;span class="ln">2&lt;/span>DEMO_VCENTER New session is created
 &lt;span class="ln">3&lt;/span>DEMO_VCENTER Setting new session authorization token in cookies
 &lt;span class="ln">4&lt;/span>DEMO_VCENTER Client cookies updated: vmware-api-session-id=5cebc...;Path=/rest;Secure;HttpOnly
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-some-content">Get some content&lt;/h3>
 &lt;p>We will use our new session to get some data from the vCenter API.&lt;/p>
 &lt;p>Listing VMs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List VM&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List VM&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Listing VMs...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="n">instance&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vc_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">VM_Api&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="n">vm&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">instance&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">list&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="p">:&lt;/span>
@@ -148,7 +148,7 @@
 &lt;span class="ln">7&lt;/span> &lt;span class="p">)&lt;/span>
 &lt;span class="ln">8&lt;/span> &lt;span class="n">keep_last&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vm&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>DEMO_VCENTER Listing VMs...
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>DEMO_VCENTER Listing VMs...
 &lt;span class="ln"> 2&lt;/span>DEMO_VCENTER LRI_RancherMaster: POWERED_ON / vCPU: 4 / Mem: 8192 Mb
 &lt;span class="ln"> 3&lt;/span>DEMO_VCENTER LRI_vRO: POWERED_ON / vCPU: 2 / Mem: 6144 Mb
 &lt;span class="ln"> 4&lt;/span>DEMO_VCENTER LRI_vcd: POWERED_ON / vCPU: 2 / Mem: 12288 Mb
@@ -162,7 +162,7 @@
 &lt;span class="ln">12&lt;/span>DEMO_VCENTER DCScope: POWERED_ON / vCPU: 2 / Mem: 8192 Mb
 &lt;span class="ln">13&lt;/span>DEMO_VCENTER FaH_1.0.0_01: POWERED_ON / vCPU: 8 / Mem: 8192 Mb
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>As you can see, we kept the last VM from the list to get more details:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get more details for last VM&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get more details for last VM&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Getting details about last VM...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="n">vm_detailled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">instance&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">keep_last&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">vm&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Data:&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">+&lt;/span>
@@ -173,7 +173,7 @@
 &lt;span class="ln"> 9&lt;/span>&lt;span class="n">nic&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vm_detailled&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">nics&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">value&lt;/span>
 &lt;span class="ln">10&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">keep_last&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2"> MAC address: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">nic&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">mac_address&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong> (only the VM details content):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;memory&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;hot_add_limit_mi_b&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;hot_add_enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
@@ -306,7 +306,7 @@
 &lt;span class="ln">131&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vcloud-director-sdk-with-codegen">vCloud Director SDK with Codegen&lt;/h2>
 &lt;p>Last example, using vCloud Director.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get the API swagger description&lt;/span>
 &lt;span class="ln"> 2&lt;/span>curl -sk https://&lt;span class="nv">$VMWARE_VCD_HOSTNAME&lt;/span>/api-explorer/tenant/orgdemo/cloudapi.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> &amp;gt; codegen/in/cloudapi.json
 &lt;span class="ln"> 4&lt;/span>
@@ -329,7 +329,7 @@
 &lt;span class="ln">21&lt;/span>pip install codegen/out/python-vcd
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="prepare-a-client-object-1">Prepare a client object&lt;/h3>
 &lt;p>We import our new &lt;code>vcd_client&lt;/code> module, we setup the target hostname, the authentication settings.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vcd_client&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">vcd_client&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">vcd_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
@@ -348,7 +348,7 @@
 &lt;span class="ln">17&lt;/span>&lt;span class="c1"># Create a client&lt;/span>
 &lt;span class="ln">18&lt;/span>&lt;span class="n">client&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ApiClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-a-new-session-1">Get a new session&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Get a new session&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Starting a new session&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="n">s&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SessionsApi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
@@ -367,13 +367,13 @@
 &lt;span class="ln">17&lt;/span>&lt;span class="n">client&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ApiClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">18&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;Client credentials updated to use access token: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">s_headers&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;X-VMWARE-VCLOUD-ACCESS-TOKEN&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Starting a new session
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Starting a new session
 &lt;span class="ln">2&lt;/span>DEMO_VCD New session is created
 &lt;span class="ln">3&lt;/span>DEMO_VCD Setting new session authorization token in headers
 &lt;span class="ln">4&lt;/span>DEMO_VCD Client credentials updated to use access token: eyJhbGciOiJSUzI1NiJ9...
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="get-some-content-1">Get some content&lt;/h3>
 &lt;p>We will use our session and list our rights in the current organization:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List rights of the current user&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List rights of the current user&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Getting rights of the current user&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="n">rapi&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcd_client&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">RightsApi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">client&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="n">page&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">page_size&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">25&lt;/span>
@@ -383,7 +383,7 @@
 &lt;span class="ln">8&lt;/span>&lt;span class="k">except&lt;/span> &lt;span class="n">ApiException&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="ln">9&lt;/span> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Exception when calling RightsApi-&amp;gt;query_rights: &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Output&lt;/strong> (only fist part):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Getting rights of the current user
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_VCD Getting rights of the current user
 &lt;span class="ln">2&lt;/span>DEMO_VCD Organization vDC Gateway: Configure DNS - urn:vcloud:right:d85b0e92-b9e8-31af-9b19-23cd00cae7e7 - MODIFY
 &lt;span class="ln">3&lt;/span>DEMO_VCD Organization vDC Gateway: View DNS - urn:vcloud:right:c6563392-f6b3-3dd6-9720-b304e6319672 - VIEW
 &lt;span class="ln">4&lt;/span>DEMO_VCD Token: Manage - urn:vcloud:right:23e7a571-4928-3c49-891f-f835474a9dc3 - MODIFY
@@ -412,15 +412,15 @@
 &lt;h3 id="docker">Docker&lt;/h3>
 &lt;p>First, we need a docker setup (in order to avoid installing locally, the codegen software). I won't explain how to install and configure a docker host, this is not the point of the post.&lt;/p>
 &lt;p>We get the docker image of Swagger Codegen:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker pull swaggerapi/swagger-codegen-cli
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker pull swaggerapi/swagger-codegen-cli
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If you prefer a local installation of Codegen, &lt;a href="https://github.com/swagger-api/swagger-codegen#compatibility">it is possible&lt;/a> but you will need to modify some of the following commands.&lt;/p>
 &lt;h3 id="folders-structure">Folders structure&lt;/h3>
 &lt;p>For the tests, we will create 2 folders, for &lt;code>in&lt;/code>put files and &lt;code>out&lt;/code>put ones within a &lt;code>codegen&lt;/code> folder:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p codegen/in/ codegen/out/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p codegen/in/ codegen/out/
 &lt;span class="ln">2&lt;/span>ls codegen/ &lt;span class="c1"># should output &amp;#34;in out&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="python">Python&lt;/h3>
 &lt;p>We will create some python modules for test. I suggest to use a virtualenv if you want to proceed the same tests and to install some dependencies:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/requirements.txt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/requirements.txt
 &lt;span class="ln">2&lt;/span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
 &lt;span class="ln">3&lt;/span>pip install -r requirements.txt
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
@@ -431,9 +431,9 @@
 &lt;h2 id="available-languages">Available languages&lt;/h2>
 &lt;p>Codegen supports tons of output languages. To demonstrate it, we can use the following command:&lt;/p>
 &lt;p>(The &lt;code>sed&lt;/code> part is only to prettify the ouput)&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>docker run --rm swaggerapi/swagger-codegen-cli langs | sed &amp;#39;s/,/\n /g&amp;#39;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>docker run --rm swaggerapi/swagger-codegen-cli langs | sed &amp;#39;s/,/\n /g&amp;#39;
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The output of the command will be something like:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>Available languages: [ada
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>Available languages: [ada
 &lt;span class="ln"> 2&lt;/span> ada-server
 &lt;span class="ln"> 3&lt;/span> akka-scala
 &lt;span class="ln"> 4&lt;/span> android
@@ -535,35 +535,35 @@
 &lt;li>Store the result in a file&lt;/li>
 &lt;li>Display the first lines&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s https://api.chucknorris.io/documentation &lt;span class="p">|&lt;/span> python -m json.tool &amp;gt; codegen/in/chucknorris.json
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s https://api.chucknorris.io/documentation &lt;span class="p">|&lt;/span> python -m json.tool &amp;gt; codegen/in/chucknorris.json
 &lt;span class="ln">2&lt;/span>head -n &lt;span class="m">25&lt;/span> codegen/in/chucknorris.json
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You should see the content of a swagger file, with the API description.&lt;/p>
 &lt;h3 id="package-configuration">Package configuration&lt;/h3>
 &lt;p>We will create a Codegen configuration file for a python module, with some information about naming and versioning.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s1"> &amp;#34;packageName&amp;#34;:&amp;#34;chucknorris_client&amp;#34;,
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s1"> &amp;#34;projectName&amp;#34;:&amp;#34;chucknorris-client&amp;#34;,
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="s1"> &amp;#34;packageVersion&amp;#34;:&amp;#34;1.0.0&amp;#34;
 &lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="s1">}&amp;#39;&lt;/span> &amp;gt; codegen/in/config_chucknorris_client.json
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="sdk-generation">SDK generation&lt;/h3>
 &lt;p>Now we specify to Codegen, to use both API documentation file and package configuration one to create a new &lt;strong>&lt;code>python&lt;/code>&lt;/strong> based client SDK:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> swaggerapi/swagger-codegen-cli generate &lt;span class="se">\
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -i /local/in/chucknorris.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -o /local/out/python-chucknorris &lt;span class="se">\
 &lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -c /local/in/config_chucknorris_client.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -l python
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We now have a new python module:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ls codegen/out/python-chucknorris/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ls codegen/out/python-chucknorris/
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Output:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>README.md git_push.sh test
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>README.md git_push.sh test
 &lt;span class="ln">2&lt;/span>chucknorris_client requirements.txt test-requirements.txt
 &lt;span class="ln">3&lt;/span>docs setup.py tox.ini
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And we can pip install this module:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install codegen/out/python-chucknorris/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install codegen/out/python-chucknorris/
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="use-our-new-module">Use our new module&lt;/h3>
 &lt;p>We create and run the following python file to use our new module:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">chucknorris_client&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="nn">chucknorris_client&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">chucknorris_client.rest&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">ApiException&lt;/span>
 &lt;span class="ln"> 3&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="kn">from&lt;/span> &lt;span class="nn">utils&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="o">*&lt;/span>
@@ -585,21 +585,21 @@
 &lt;span class="ln">20&lt;/span> &lt;span class="s2">&amp;#34;Exception when calling JokeControllerApi-&amp;gt;get_random_joke_value_using_get: &lt;/span>&lt;span class="si">%s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">e&lt;/span>
 &lt;span class="ln">21&lt;/span> &lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You can now run it and get the following result:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_CHUCKNORRIS Create an API client
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>DEMO_CHUCKNORRIS Create an API client
 &lt;span class="ln">2&lt;/span>DEMO_CHUCKNORRIS Target the Joke Controller
 &lt;span class="ln">3&lt;/span>DEMO_CHUCKNORRIS Get a random joke:
 &lt;span class="ln">4&lt;/span>DEMO_CHUCKNORRIS Chuck Norris was worshipped as a god by the Eskimos. That is why they had igloos modelled after his signature move.
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Please consider that most of the python code we used is about the logger and not the complexity of getting a random Chuck Norris fact. If you don't, Chuck Norris may come to you for an explaination.&lt;/p>
 &lt;h3 id="same-with-go-">Same with Go ?&lt;/h3>
 &lt;p>Lets do the same, with Go:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>docker run --rm -v &lt;span class="si">${&lt;/span>&lt;span class="nv">PWD&lt;/span>&lt;span class="si">}&lt;/span>/codegen:/local &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> swaggerapi/swagger-codegen-cli generate &lt;span class="se">\
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -i /local/in/chucknorris.json &lt;span class="se">\
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -o /local/out/gochucknorris &lt;span class="se">\
 &lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -DpackageName&lt;span class="o">=&lt;/span>gochucknorris &lt;span class="se">\
 &lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -l go
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>Go&lt;/code> test file (for example: &lt;code>codegen/chuck.go&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="ln"> 1&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
 &lt;span class="ln"> 2&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="s">&amp;#34;log&amp;#34;&lt;/span>
@@ -622,7 +622,7 @@
 &lt;span class="ln">21&lt;/span> &lt;span class="p">}&lt;/span>
 &lt;span class="ln">22&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And the result of a &lt;code>go run codegen/chuck.go&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>2020/04/01 17:28:11 New API client with empty configuration
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>2020/04/01 17:28:11 New API client with empty configuration
 &lt;span class="ln">2&lt;/span>2020/04/01 17:28:11 Get random joke
 &lt;span class="ln">3&lt;/span>2020/04/01 17:28:12 Chuck Norris can levitate birds.
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="conclusion">Conclusion&lt;/h2>
@@ -637,7 +637,7 @@
 &lt;p>If you have already used the vRealize Automation REST API, you should have noticed that there is around twenty &lt;a href="https://code.vmware.com/apis/39/vrealize-automation">endpoints&lt;/a> !&lt;/p>
 &lt;p>On this article, we'll take the example of listing all the blueprints using vRO.&lt;/p>
 &lt;p>The REST API call to perform this operation is :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>https://vra-fqdn/composition-service/api/blueprints
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>https://vra-fqdn/composition-service/api/blueprints
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Thereby the endpoint is &lt;code>composition service&lt;/code>.&lt;/p>
 &lt;h1 id="find-the-vcac-endpoint">Find the vCAC endpoint&lt;/h1>
 &lt;p>Once the vRealize Automation REST endpoint defined, you need to find it on the vCAC plugin.&lt;/p>
@@ -647,7 +647,7 @@
 &lt;p>It will collect all the vRealize Automation REST endpoints.&lt;/p>
 &lt;p>On the result, locate your endpoint and get the &lt;code>typeId&lt;/code> which is the endpoint name on the vCAC plugin.&lt;br>
 In this case, the vCAC endpoint found is &lt;code>com.vmware.csp.core.cafe.catalog.requested.item.info.provider&lt;/code> for the &lt;code>composition-service&lt;/code>.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;@type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;EndPoint&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ed42c762-1487-458a-bc33-b7efc285b426&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;createdDate&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
@@ -667,7 +667,7 @@ In this case, the vCAC endpoint found is &lt;code>com.vmware.csp.core.cafe.catal
 object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCAFEHost/createRestClient">createRestClient()&lt;/a> with the vCAC endpoint on the parameter.&lt;/p>
 &lt;p>You will be able to do some basic REST operations like &lt;a href="http://vroapi.com/Class/vCACCAFE/7.3.0/vCACCAFERestClient">GET, POST and PUT&lt;/a>.&lt;/p>
 &lt;p>Here is the code to list all the blueprints defined on a vRA tenant :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="cm">/*
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="cm">/*
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="cm"> * List all the blueprints defined on a tenant
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="cm"> *
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="cm"> * @param {vCACCAFEHost} host Targeted vCACAFE Host Tenant.

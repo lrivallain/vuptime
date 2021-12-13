@@ -25,9 +25,9 @@
 &lt;p>Previous section are describing trivial usage of Externaly shared catalogs on vCloud Director. The following will explore the catalog content and how to retrieve Metadata or data of catalog from outside a vCloud Director environment.&lt;/p>
 &lt;h2 id="what-is-behind-the-shared-uri">What is behind the shared URI&lt;/h2>
 &lt;p>Let see what is available through the given subscription link:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span>&lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;vcspVersion&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;urn:uuid:4c8f39ca-b7ef-4bac-acf4-c377401a729d&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
@@ -51,9 +51,9 @@
 &lt;/blockquote>
 &lt;p>This request give us metadata about the catalog : name, description, version... And &lt;code>itemsHref&lt;/code> give us clue to continue exploration and list the catalog items.&lt;/p>
 &lt;h2 id="list-items">List items&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/items
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="s2">&amp;#34;itemType&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.CatalogItem&amp;#34;&lt;/span>&lt;span class="err">,&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="s2">&amp;#34;itemType&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="s2">&amp;#34;vcsp.CatalogItem&amp;#34;&lt;/span>&lt;span class="err">,&lt;/span>
 &lt;span class="ln"> 2&lt;/span> &lt;span class="s2">&amp;#34;items&amp;#34;&lt;/span> &lt;span class="err">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;vcspVersion&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;version&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
@@ -110,7 +110,7 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>This part of the catalog is much more interesting as it shows us informations about its content. There are also pointer to download the files corresponding to the catalog's files, including vAPP.&lt;/p>
 &lt;h2 id="download-files-from-catalog">Download files from catalog&lt;/h2>
 &lt;p>So if we need to download the OVF file (for example):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -i -u :MyPassword &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -i -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf
 &lt;span class="ln">3&lt;/span>HTTP/1.1 &lt;span class="m">302&lt;/span> Found
 &lt;span class="ln">4&lt;/span>Date: Tue, &lt;span class="m">01&lt;/span> Aug &lt;span class="m">2017&lt;/span> 14:37:22 GMT
@@ -127,7 +127,7 @@
 &lt;li>You adapt the request with the &lt;code>Location&lt;/code> path from the HTTP response header&lt;/li>
 &lt;li>You add &lt;code>-L&lt;/code> option to curl to follow redirects&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -L -u :MyPassword &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s -L -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf &amp;gt; myVapp/descriptor.ovf
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>

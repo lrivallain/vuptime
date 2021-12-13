@@ -2,7 +2,7 @@
 &lt;p>In this article, we will see how to create, commit, revert-to virtual machine snapshots from ESXi command line. We will also talk about the very useful &amp;quot;linked clones&amp;quot; that are related to the snapshot feature.&lt;/p>
 &lt;h1 id="prerequisites">Prerequisites&lt;/h1>
 &lt;p>You only need to have a running VM on the ESXi and to know its Vmid:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span> $ vim-cmd vmsvc/getallvms
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span> $ vim-cmd vmsvc/getallvms
 &lt;span class="ln">2&lt;/span> Vmid Name File Guest OS Version Annotation
 &lt;span class="ln">3&lt;/span> &lt;span class="m">3&lt;/span> CentosTest &lt;span class="o">[&lt;/span>LocalDatastore_001&lt;span class="o">]&lt;/span> CentosTest/CentosTest.vmx otherLinuxGuest vmx-10&lt;/code>&lt;/pre>&lt;/div>
 &lt;h1 id="snapshots">Snapshots&lt;/h1>

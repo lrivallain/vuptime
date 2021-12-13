@@ -6,7 +6,7 @@
 &lt;p>The first step to setup CSE is to prepare an appliance that will host the CSE server component. In my case, I used a freshly deployed Ubuntu 20.04 LTS server, deployed from the ubuntu cloud images repository: &lt;a href="https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.ova">https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.ova&lt;/a>&lt;/p>
 &lt;p>Once the appliance is up and running, I setup the proxy information:&lt;/p>
 &lt;p>&lt;code>W.X.Y.Z&lt;/code> is the IP address of my HTTP based proxy.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;HTTP_PROXY=W.X.Y.Z:3128
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;HTTP_PROXY=W.X.Y.Z:3128
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s2">HTTPS_PROXY=W.X.Y.Z:3128
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s2">NO_PROXY=.vlab.lcl,192.168.0.0/16,127.0.0.1,localhost&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> sudo tee -a /etc/environment &amp;gt;/dev/null
 &lt;span class="ln">4&lt;/span>
@@ -16,7 +16,7 @@
 &lt;span class="ln">8&lt;/span>
 &lt;span class="ln">9&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Acquire::http::proxy \&amp;#34;http://W.X.Y.Z:3128\&amp;#34;;&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> sudo tee -a /etc/apt/apt.conf &amp;gt;/dev/null
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>A quick test:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl https://google.com
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl https://google.com
 &lt;span class="ln">2&lt;/span>&amp;lt;HTML&amp;gt;&amp;lt;HEAD&amp;gt;&amp;lt;meta http-equiv&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;content-type&amp;#34;&lt;/span> &lt;span class="nv">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;text/html;charset=utf-8&amp;#34;&lt;/span>&amp;gt;
 &lt;span class="ln">3&lt;/span>&amp;lt;TITLE&amp;gt;301 Moved&amp;lt;/TITLE&amp;gt;&amp;lt;/HEAD&amp;gt;&amp;lt;BODY&amp;gt;
 &lt;span class="ln">4&lt;/span>&amp;lt;H1&amp;gt;301 Moved&amp;lt;/H1&amp;gt;
@@ -26,13 +26,13 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>It works.&lt;/p>
 &lt;h3 id="cse-server-components">CSE server components&lt;/h3>
 &lt;p>Let's install software components required for CSE:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># vcd-cli + CSE&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># vcd-cli + CSE&lt;/span>
 &lt;span class="ln">2&lt;/span>sudo apt-get install python3-pip gcc -y
 &lt;span class="ln">3&lt;/span>sudo pip3 install vcd-cli
 &lt;span class="ln">4&lt;/span>sudo pip3 install container-service-extension&lt;span class="o">==&lt;/span>2.6.1
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Yep, still using CSE 2.6 for backwards compatibility.&lt;/p>
 &lt;p>Next, we install &lt;code>kubectl&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># kubectl&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># kubectl&lt;/span>
 &lt;span class="ln">2&lt;/span>curl -LO &lt;span class="s2">&amp;#34;https://storage.googleapis.com/kubernetes-release/release/&lt;/span>&lt;span class="k">$(&lt;/span>curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt&lt;span class="k">)&lt;/span>&lt;span class="s2">/bin/linux/amd64/kubectl&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>chmod +x ./kubectl
 &lt;span class="ln">4&lt;/span>sudo mv ./kubectl /usr/local/bin/kubectl
@@ -40,21 +40,21 @@
 &lt;span class="ln">6&lt;/span>kubectl version --client
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="vcd-cli-integration">&lt;code>vcd&lt;/code> CLI integration&lt;/h3>
 &lt;p>Quick method to integrate the &lt;code>cse&lt;/code> CLI to the &lt;code>vcd&lt;/code> CLI:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p ~/.vcd-cli/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir -p ~/.vcd-cli/
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;extensions:
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s2">- container_service_extension.client.cse&amp;#34;&lt;/span> &amp;gt;&amp;gt; ~/.vcd-cli/profiles.yaml
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Test it:&lt;/span>
 &lt;span class="ln">5&lt;/span>vcd cse version
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="authentication-key-pairs">Authentication key pairs&lt;/h3>
 &lt;p>If needed, create a SSH key pair to be used from this appliance, to the K8S nodes for maintenance:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh-keygen
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh-keygen
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="cse-configuration">CSE configuration&lt;/h2>
 &lt;p>Once our appliance is ready to host CSE server, we can configure it:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir ~/.cse
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir ~/.cse
 &lt;span class="ln">2&lt;/span>cse sample -o ~/.cse/decrypted-config.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>This command will create a &lt;code>~/.cse/decrypted-config.yaml&lt;/code> file to configure according to the &lt;a href="https://vmware.github.io/container-service-extension/cse2_6/CSE_CONFIG.html">reference documentation&lt;/a>.&lt;/p>
 &lt;p>To ease the testing, I made a &lt;em>fork&lt;/em> of the &lt;a href="https://github.com/vmware/container-service-extension-templates">official templates repository&lt;/a> to my GitHub workspace with &lt;a href="https://github.com/lrivallain/container-service-extension-templates">only one ubuntu based template&lt;/a>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">templates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">templates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">compute_policy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">2&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">deprecated&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w">
@@ -76,21 +76,21 @@
 &lt;/span>&lt;span class="ln">20&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;ubuntu-16.04_k8-1.17_weave-2.6.0&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">21&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;ubuntu-16.04_k8-1.18_weave-2.6.5&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we encrypt the file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse encrypt ~/.cse/decrypted-config.yaml --output ~/.cse/config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse encrypt ~/.cse/decrypted-config.yaml --output ~/.cse/config.yaml
 &lt;span class="ln">2&lt;/span>chmod &lt;span class="m">600&lt;/span> config.yaml
 &lt;span class="ln">3&lt;/span>rm ~/.cse/decrypted-config.yaml &lt;span class="c1"># otherwise it will be useless to encrypt it&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If you need to decrypt it (for example to edit the content):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse decrypt ~/.cse/config.yaml --output ~/.cse/decrypted-config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse decrypt ~/.cse/config.yaml --output ~/.cse/decrypted-config.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you can run the install process...&lt;/p>
 &lt;blockquote>
 &lt;p>&lt;strong>!!!BUT!!!&lt;/strong> We will kill it when the process will download the OVA file(s) in order to hack the content of customization scripts:&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># !! cut the execution when the OVA is downloading !! CTRL+C&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>When the script is stopped, it is possible to edit the content of customization scripts to insert the proxy settings. In my case:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vi ~/.cse_scripts/ubuntu-16.04_k8-1.18_weave-2.6.5_rev1/cust.sh
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vi ~/.cse_scripts/ubuntu-16.04_k8-1.18_weave-2.6.5_rev1/cust.sh
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>I added the following lines at the beginning of the file, just after the line &lt;code>set -e&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># proxy setup&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># proxy setup&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;HTTP_PROXY=W.X.Y.Z:3128
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="s2">HTTPS_PROXY=W.X.Y.Z:3128
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s2">NO_PROXY=.vlab.lcl,192.168.0.0/16,127.0.0.1,localhost&amp;#34;&lt;/span> &amp;gt;&amp;gt; /etc/environment
@@ -104,9 +104,9 @@
 &lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="s2">Environment=\&amp;#34;NO_PROXY=.vlab.lcl,192.168.0.0/16,127.0.0.1,localhost\&amp;#34;
 &lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &amp;gt;&amp;gt; /etc/systemd/system/docker.service.d/override.conf
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Save+quit etc. And we re-run the CSE initialisation command:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And your template will now being built using the HTTP proxy you specified. After the template preparation, the template is added to the available ones:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse template list -c ~/.cse/config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse template list -c ~/.cse/config.yaml
 &lt;span class="ln">2&lt;/span>Password &lt;span class="k">for&lt;/span> config file decryption:
 &lt;span class="ln">3&lt;/span>Decrypting &lt;span class="s1">&amp;#39;config.yaml&amp;#39;&lt;/span>
 &lt;span class="ln">4&lt;/span>name revision compute_policy &lt;span class="nb">local&lt;/span> remote
@@ -117,7 +117,7 @@
 &lt;/blockquote>
 &lt;h3 id="patching-pika-for-python-38">Patching Pika for Python 3.8&lt;/h3>
 &lt;p>In the next steps, if you use Python version 3.8 (you can check it by running &lt;code> python3 -V&lt;/code> command), you may have an issue with an error message like:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vcd cse template list
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vcd cse template list
 &lt;span class="ln">2&lt;/span>Usage: vcd cse template list &lt;span class="o">[&lt;/span>OPTIONS&lt;span class="o">]&lt;/span>
 &lt;span class="ln">3&lt;/span>Try &lt;span class="s2">&amp;#34;vcd cse template list -h&amp;#34;&lt;/span> &lt;span class="k">for&lt;/span> help.
 &lt;span class="ln">4&lt;/span>
@@ -127,23 +127,23 @@
 &lt;ol>
 &lt;li>Download manually this &lt;a href="https://gist.github.com/lrivallain/be77cd8ffd731649705ae7b1e139d8d3#file-pika-1254-patch">patch file&lt;/a> and run &lt;code>patch&lt;/code> command:&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo patch /usr/local/lib/python3.8/dist-packages/pika/compat.py &amp;lt; pika-1254.patch
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo patch /usr/local/lib/python3.8/dist-packages/pika/compat.py &amp;lt; pika-1254.patch
 &lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
 &lt;li>All in one command (you should check the content of a downloaded file before applying it to you environment):&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s &lt;span class="s1">&amp;#39;https://gist.githubusercontent.com/lrivallain/be77cd8ffd731649705ae7b1e139d8d3/raw/d35069fab35f179dd1a76f29607367424d87314a/pika-1254.patch&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> sudo patch /usr/local/lib/python3.8/dist-packages/pika/compat.py
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -s &lt;span class="s1">&amp;#39;https://gist.githubusercontent.com/lrivallain/be77cd8ffd731649705ae7b1e139d8d3/raw/d35069fab35f179dd1a76f29607367424d87314a/pika-1254.patch&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> sudo patch /usr/local/lib/python3.8/dist-packages/pika/compat.py
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="tests">Tests&lt;/h3>
 &lt;p>The following command will run the CSE server services in foreground mode&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse run -c ~/.cse/config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cse run -c ~/.cse/config.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>After a series of checks, the process should display a message like:&lt;/p>
 &lt;blockquote>
 &lt;p>&lt;code>waiting for requests (ctrl+c to close)&lt;/code>&lt;/p>
 &lt;/blockquote>
 &lt;p>You can test it by running the following commands from another terminal instance:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vcd login vcd.vlab.lcl &amp;lt;org&amp;gt; &amp;lt;username&amp;gt;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vcd login vcd.vlab.lcl &amp;lt;org&amp;gt; &amp;lt;username&amp;gt;
 &lt;span class="ln">2&lt;/span>vcd cse template list
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And you should get a list of templates ready for deployment:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>name revision is_default catalog
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>name revision is_default catalog
 &lt;span class="ln">2&lt;/span>-------------------------------- ---------- ------------ ---------
 &lt;span class="ln">3&lt;/span>ubuntu-16.04_k8-1.18_weave-2.6.5 &lt;span class="m">1&lt;/span> Yes cse
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
@@ -151,15 +151,15 @@
 &lt;/blockquote>
 &lt;h3 id="finalize-installation">Finalize installation&lt;/h3>
 &lt;p>Using the CSE server in foreground mode is not the easiest way for day-to-day operations, so we will enable it as a system service:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get the service files from the CSE repository&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get the service files from the CSE repository&lt;/span>
 &lt;span class="ln">2&lt;/span>curl -L https://github.com/vmware/container-service-extension/raw/2.6.1_ga/cse.service &amp;gt; ~/.cse/cse.service
 &lt;span class="ln">3&lt;/span>curl -L https://github.com/vmware/container-service-extension/raw/2.6.1_ga/cse.sh &amp;gt; ~/.cse/cse.sh
 &lt;span class="ln">4&lt;/span>chmod +x ~/.cse/cse.sh
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Edit the &lt;code>CSE_CONFIG_PATH&lt;/code> value of &lt;code>~/.cse/cse.sh&lt;/code> according to the path where is stored your configuration file. For my setup:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">CSE_CONFIG_PATH&lt;/span>&lt;span class="o">=&lt;/span>/home/ubuntu/.cse/config.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">CSE_CONFIG_PATH&lt;/span>&lt;span class="o">=&lt;/span>/home/ubuntu/.cse/config.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Edit the &lt;code>ExecStart&lt;/code>, &lt;code>User&lt;/code>, &lt;code>WorkingDirectory&lt;/code> value of &lt;code>~/.cse/cse.service&lt;/code> according to your environment. I also add an &lt;code>Environment&lt;/code> statement to store the password of the configuration file and my proxy settings.&lt;/p>
 &lt;p>For my setup:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="ln"> 1&lt;/span>&lt;span class="k">[Unit]&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="ln"> 1&lt;/span>&lt;span class="k">[Unit]&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="na">Description&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">Container Service Extension for VMware vCloud Director&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="na">Wants&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">network-online.target&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="na">After&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">network-online.target&lt;/span>
@@ -178,7 +178,7 @@
 &lt;span class="ln">17&lt;/span>&lt;span class="k">[Install]&lt;/span>
 &lt;span class="ln">18&lt;/span>&lt;span class="na">WantedBy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">default.target&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you can enable, start and check this new service:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo cp .cse/cse.service /etc/systemd/system/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo cp .cse/cse.service /etc/systemd/system/
 &lt;span class="ln">2&lt;/span>sudo systemctl &lt;span class="nb">enable&lt;/span> cse
 &lt;span class="ln">3&lt;/span>sudo systemctl start cse
 &lt;span class="ln">4&lt;/span>sudo systemctl status cse

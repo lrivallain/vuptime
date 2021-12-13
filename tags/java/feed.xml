@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>java on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/java/</link><description>Recent content in java on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 30 Aug 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/java/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware - Patch the vCloud Director cacerts file</title><link>https://vuptime.io/post/2017-08-30-vmware-patch-vclouddirector-cacerts-file/</link><pubDate>Wed, 30 Aug 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/08/30/VMware-Patch-vCloudDirector-cacerts-file/</guid><description>
 &lt;p>When you install a VMware vCloud Director instance, it comes with an embedded JRE (&lt;em>Java Runtime Environment&lt;/em>). For example, vCloud Director includes JRE 1.8.0_121 :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/java -version
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/java -version
 &lt;span class="ln">2&lt;/span>java version &lt;span class="s2">&amp;#34;1.8.0_121&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>Java&lt;span class="o">(&lt;/span>TM&lt;span class="o">)&lt;/span> SE Runtime Environment &lt;span class="o">(&lt;/span>build 1.8.0_121-b13&lt;span class="o">)&lt;/span>
 &lt;span class="ln">4&lt;/span>Java HotSpot&lt;span class="o">(&lt;/span>TM&lt;span class="o">)&lt;/span> 64-Bit Server VM &lt;span class="o">(&lt;/span>build 25.121-b13, mixed mode&lt;span class="o">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>JRE includes it's own keystore for trusted SSL certificates, the &lt;code>cacerts&lt;/code> file. This file is depending on both oracle/Java and VMware/vCloud releasing and if your certification authority root certificate isn't included, you may experienced issue when trying to communicate with products securized with SSL certificates (example : &lt;a href="https://vuptime.io/2017/08/02/VMware-ExploreVCD-catalog-publishing-feature/">Catalog synchronization between two vCloud Director entities&lt;/a>).&lt;/p>
 &lt;p>It's possible to find SSL related issues by looking at the &lt;code>$VCLOUD_HOME/logs/vcloud-container-debug.log&lt;/code> file where you may find errors like:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>...
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>...
 &lt;span class="ln">2&lt;/span>javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
 &lt;span class="ln">3&lt;/span>...
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The following post shows how to add a new trusted (root and/or intermediate) certificates to the JRE cacerts keystore.&lt;/p>
@@ -18,19 +18,19 @@
 &lt;li>DST Root CA X3&lt;/li>
 &lt;li>Let's Encrypt Authority X3&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get crt files&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># get crt files&lt;/span>
 &lt;span class="ln">2&lt;/span>curl -s &lt;span class="s2">&amp;#34;https://pastebin.com/raw/63dQV36A&amp;#34;&lt;/span> &amp;gt; DSTRootCAX3.crt
 &lt;span class="ln">3&lt;/span>curl -s &lt;span class="s2">&amp;#34;https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt&amp;#34;&lt;/span> &amp;gt; LetsEncryptAuthorityX3.crt
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># calculate fingerprint&lt;/span>
 &lt;span class="ln">5&lt;/span>&lt;span class="nv">intermediate&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>openssl x509 -in /tmp/LetsEncryptAuthorityX3.crt -fingerprint -sha1 -noout &lt;span class="p">|&lt;/span> cut -d&lt;span class="s1">&amp;#39;=&amp;#39;&lt;/span> -f2&lt;span class="k">)&lt;/span>
 &lt;span class="ln">6&lt;/span>&lt;span class="nv">root&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>openssl x509 -in /tmp/DSTRootCAX3.crt -fingerprint -sha1 -noout &lt;span class="p">|&lt;/span> cut -d&lt;span class="s1">&amp;#39;=&amp;#39;&lt;/span> -f2&lt;span class="k">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Now you have two variables &lt;code>$root&lt;/code> and &lt;code>$intermediate&lt;/code> with cert authority sha1:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$root&lt;/span>&lt;span class="s2">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$root&lt;/span>&lt;span class="s2">
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s2">&lt;/span>&lt;span class="nv">$intermediate&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>DA:C9:02:4F:54:D8:F6:DF:94:93:5F:B1:73:26:38:CA:6A:D7:7C:13
 &lt;span class="ln">4&lt;/span>E6:A3:B4:5B:06:2D:50:9B:33:82:28:2D:19:6E:FE:97:D5:95:6C:CB
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Let's look in the keystore to check if the certificates are already trusted. For this, we use the Java &lt;code>keytool&lt;/code> script that allow to manage the Java's keystore :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i -B1 &lt;span class="nv">$root&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i -B1 &lt;span class="nv">$root&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i -B1 &lt;span class="nv">$intermediate&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no result, for both commands, you should add your certification authority to the trusted ones.&lt;/p>
 &lt;p>By default, the JRE keystore is &lt;em>protected&lt;/em> with a password: &lt;code>changeit&lt;/code>.&lt;/p>
@@ -43,13 +43,13 @@
 &lt;p>These operations needs to be done on &lt;strong>each cells&lt;/strong> of your vCloud Director instance as the JRE keystore is not shared between members.&lt;/p>
 &lt;h2 id="take-a-backup-of-cacerts-file">Take a backup of cacerts file&lt;/h2>
 &lt;p>Take a backup of the embedded keystore, to be able to rollback if necessary (md5sum is used to quiclky check that we copy the file without error):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts ~/cacerts_jre.backup
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts ~/cacerts_jre.backup
 &lt;span class="ln">2&lt;/span>md5sum ~/cacerts_jre.backup &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>#2ecfd7e5a8789c3f0e68ae85a26dea23 ~/cacerts_jre.backup
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>#2ecfd7e5a8789c3f0e68ae85a26dea23 ~/cacerts_jre.backup
 &lt;span class="ln">2&lt;/span>#2ecfd7e5a8789c3f0e68ae85a26dea23 $VCLOUD_HOME/jre/lib/security/cacerts
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="add-the-ca-certs-to-the-keystore">Add the CA certs to the keystore&lt;/h2>
 &lt;p>Time to update keystore content :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -import -trustcacerts &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -alias identrustdstx3 &lt;span class="se">\
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -file /tmp/DSTRootCAX3.crt &lt;span class="se">\
@@ -63,13 +63,13 @@
 &lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts &lt;span class="se">\
 &lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="se">&lt;/span> -storepass changeit
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And we check:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i &lt;span class="nv">$root&lt;/span> -c
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i &lt;span class="nv">$root&lt;/span> -c
 &lt;span class="ln">2&lt;/span>&lt;span class="m">1&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit &lt;span class="p">|&lt;/span> grep -i &lt;span class="nv">$intermediate&lt;/span> -c
 &lt;span class="ln">4&lt;/span>&lt;span class="m">1&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>One result is found for each certificate : good.&lt;/p>
 &lt;p>It's also possible to look in keystore for a specific alias entry without &lt;code>grep&lt;/code>, but depending on used alias, I consider that it's possible to miss a match (that's why I prefer to calculate the fingerprint and made a search on it):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit -alias &lt;span class="s2">&amp;#34;identrustdstx3&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/bin/keytool -list -keystore &lt;span class="nv">$VCLOUD_HOME&lt;/span>/jre/lib/security/cacerts -storepass changeit -alias &lt;span class="s2">&amp;#34;identrustdstx3&amp;#34;&lt;/span>
 &lt;span class="ln">2&lt;/span>identrustdstx3, Aug 25, 2016, trustedCertEntry,
 &lt;span class="ln">3&lt;/span>Certificate fingerprint &lt;span class="o">(&lt;/span>SHA1&lt;span class="o">)&lt;/span>: DA:C9:02:4F:54:D8:F6:DF:94:93:5F:B1:73:26:38:CA:6A:D7:7C:13
 &lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="shutdown-cell">Shutdown cell&lt;/h1>
@@ -78,18 +78,18 @@
 &lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>
 &lt;/blockquote>
 &lt;p>Quiesce the cell, to not accept new incoming job on this specific cell:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -quiesce &lt;span class="nb">true&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -quiesce &lt;span class="nb">true&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Check that there is no more running job:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -status
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -status
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>
 &lt;/blockquote>
 &lt;p>Shutdown services:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -shutdown
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -shutdown
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then restart services:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service vmware-vcd start
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service vmware-vcd start
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Have a look on the startup of the service through the logs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>tail -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/logs/cell.log &lt;span class="p">|&lt;/span> grep -i &lt;span class="s2">&amp;#34;Application Initialization&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>tail -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/logs/cell.log &lt;span class="p">|&lt;/span> grep -i &lt;span class="s2">&amp;#34;Application Initialization&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>
 &lt;/blockquote>

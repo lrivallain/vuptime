@@ -22,10 +22,10 @@
 &lt;/figure>
 &lt;h2 id="install-the-new-version">Install the new version&lt;/h2>
 &lt;p>From a python environment with &lt;code>pip&lt;/code> installed:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install vro-package-diff
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install vro-package-diff
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
 &lt;h3 id="get-the-help">Get the help&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>vro-diff --help
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>vro-diff --help
 &lt;span class="ln"> 2&lt;/span>Usage: vro-diff &lt;span class="o">[&lt;/span>OPTIONS&lt;span class="o">]&lt;/span> REFERENCE_PACKAGE COMPARED_PACKAGE
 &lt;span class="ln"> 3&lt;/span>
 &lt;span class="ln"> 4&lt;/span>Start a diff operation between two vRO packages.
@@ -40,11 +40,11 @@
 &lt;span class="ln">13&lt;/span>-h, --help Show this message and exit.
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="examples">Examples&lt;/h3>
 &lt;p>Compare two packages:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then display legend (&lt;code>--legend&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then exit with error if there is conflicts (&lt;code>-–test&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$?&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The script will exit with the number of items with a conflict situation.&lt;/p>
 &lt;p>This &lt;code>-–test&lt;/code> option can be usefull to implement CI/CD pipelines to compare, then upload(if there is no conflict) vRO packages.&lt;/p>
@@ -59,15 +59,15 @@
 &lt;h2 id="installation">Installation&lt;/h2>
 &lt;p>&lt;strong>Requirements:&lt;/strong> Python 3 and &lt;code>pip&lt;/code> installed.&lt;/p>
 &lt;p>Download:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/vro-package-diff.git
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/vro-package-diff.git
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> vro-package-diff
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>(optionnal) Create python virtualenv:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>virtualenv -p python3 --no-site-packages venv
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>virtualenv -p python3 --no-site-packages venv
 &lt;span class="ln">2&lt;/span>. venv/bin/activate
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Install required python packages:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>python ./vro_package_diff.py packageA.package packageB.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>python ./vro_package_diff.py packageA.package packageB.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>With:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>packageA.package&lt;/code> : oldest package file&lt;/li>
@@ -79,7 +79,7 @@
 &lt;p>According to the hosted training session, the needs may differ significantly and we need to quickly clean and recreate a &lt;em>&amp;quot;training&amp;quot;&lt;/em> tenant.&lt;/p>
 &lt;p>I have developed a quick helper to produce a new environment in short term: &lt;a href="https://gist.github.com/lrivallain/619c35cfb91048a635ddefc60788b3cc">buildlab.sh &lt;/a>&lt;/p>
 &lt;p>Here is an usage example:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Following command will create:&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Following command will create:&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="c1"># * instance(s) named &amp;#34;training&amp;#34;&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># * based on ubuntu image&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="c1"># * start 10* instances&lt;/span>
@@ -121,7 +121,7 @@
 &lt;li>VMware Tools in the &lt;code>guestinfo.ovfEnv&lt;/code> variable&lt;/li>
 &lt;/ul>
 &lt;p>Here is an example of OVF environment of a VM with customized properties:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-xml" data-lang="xml">&lt;span class="ln"> 1&lt;/span>&lt;span class="cp">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-xml" data-lang="xml">&lt;span class="ln"> 1&lt;/span>&lt;span class="cp">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="nt">&amp;lt;Environment&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="na">xmlns=&lt;/span>&lt;span class="s">&amp;#34;http://schemas.dmtf.org/ovf/environment/1&amp;#34;&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="na">xmlns:xsi=&lt;/span>&lt;span class="s">&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;&lt;/span>
@@ -208,9 +208,9 @@
 &lt;h2 id="vmware-tools">VMware tools&lt;/h2>
 &lt;p>If you choose &lt;code>VMware tools&lt;/code> transport method for OVF environment, according to the used OS type, the method to retrieve properties can vary a bit. Here are two samples to get the XML representation.&lt;/p>
 &lt;p>On &lt;strong>Windows&lt;/strong>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="s2">&amp;#34;C:\Program Files\VMware\VMware Tools\VMwareService.exe&amp;#34;&lt;/span> -cmd &lt;span class="s2">&amp;#34;info-get guestinfo.ovfEnv&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="s2">&amp;#34;C:\Program Files\VMware\VMware Tools\VMwareService.exe&amp;#34;&lt;/span> -cmd &lt;span class="s2">&amp;#34;info-get guestinfo.ovfEnv&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>On &lt;strong>Linux&lt;/strong>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>/usr/bin/vmtoolsd --cmd &lt;span class="s1">&amp;#39;info-get guestinfo.ovfEnv&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>/usr/bin/vmtoolsd --cmd &lt;span class="s1">&amp;#39;info-get guestinfo.ovfEnv&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="iso-image">ISO image&lt;/h2>
 &lt;p>If you choose &lt;code>ISO image&lt;/code> transport method for OVF environment, you need to :&lt;/p>
 &lt;ol>
@@ -219,7 +219,7 @@
 &lt;/ol>
 &lt;h2 id="properties-usage">Properties usage&lt;/h2>
 &lt;p>Here is a very simple Python helper to deal with the XML blob from OVF environment to export properties:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="ch">#!/usr/bin/env python&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="ch">#!/usr/bin/env python&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="c1"># -*- coding: utf-8 -*-&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s2"> This script retrieves information from guestInfo.ovfEnv and
@@ -249,7 +249,7 @@
 &lt;span class="ln">28&lt;/span>&lt;span class="n">properties&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">get_ovf_properties&lt;/span>&lt;span class="p">()&lt;/span>
 &lt;span class="ln">29&lt;/span>&lt;span class="n">pprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">properties&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">indent&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">width&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">80&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>From here, it is pretty simple to customize the guest OS. For example, to change the root password based on &lt;code>root_password&lt;/code> properties:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="n">chpasswd_cmd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;/usr/sbin/chpasswd&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="ln"> 1&lt;/span>&lt;span class="n">chpasswd_cmd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;/usr/sbin/chpasswd&amp;#34;&lt;/span>
 &lt;span class="ln"> 2&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="k">def&lt;/span> &lt;span class="nf">change_linux_password&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">user&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">new_password&lt;/span>&lt;span class="p">):&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
@@ -269,12 +269,12 @@
 &lt;p>Full script for the customization of the guestOS can be found here: &lt;a href="https://gist.github.com/lrivallain/77d9dda42bf77ddce1fc3bf2ee69e37a">get-ovfenv.py&lt;/a>&lt;/p></description></item><item><title>Password factory</title><link>https://vuptime.io/post/2017-01-03-password-factory/</link><pubDate>Tue, 03 Jan 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/01/03/password-factory/</guid><description>
 &lt;p>A quick tip to easily generate random password from a bash command line.&lt;/p>
 &lt;p>Add the following lines to your &lt;code>bashrc&lt;/code> file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">alias&lt;/span> &lt;span class="nv">genalphanumpasswd&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;tr -cd &amp;#39;&lt;/span>&lt;span class="se">\&amp;#39;&lt;/span>&lt;span class="s1">&amp;#39;[:alnum:]&amp;#39;&lt;/span>&lt;span class="se">\&amp;#39;&lt;/span>&lt;span class="s1">&amp;#39; &amp;lt; /dev/urandom | fold -w30 | head -n1&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">alias&lt;/span> &lt;span class="nv">genalphanumpasswd&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;tr -cd &amp;#39;&lt;/span>&lt;span class="se">\&amp;#39;&lt;/span>&lt;span class="s1">&amp;#39;[:alnum:]&amp;#39;&lt;/span>&lt;span class="se">\&amp;#39;&lt;/span>&lt;span class="s1">&amp;#39; &amp;lt; /dev/urandom | fold -w30 | head -n1&amp;#39;&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">alias&lt;/span> &lt;span class="nv">genpasswd&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;tr -cd &amp;#39;&lt;/span>&lt;span class="se">\&amp;#39;&lt;/span>&lt;span class="s1">&amp;#39;[:graph:]&amp;#39;&lt;/span>&lt;span class="se">\&amp;#39;&lt;/span>&lt;span class="s1">&amp;#39; &amp;lt; /dev/urandom | fold -w30 | head -n1&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Save and source it:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>. ~/.bashrc
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>. ~/.bashrc
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you can use it:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>$ genalphanumpasswd
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>$ genalphanumpasswd
 &lt;span class="ln">2&lt;/span>i?&lt;span class="sb">`&lt;/span>c8.f&lt;span class="o">{&lt;/span>Ba^NXwu^9&lt;span class="o">)&lt;/span>VD~dao*?S*Bi
 &lt;span class="ln">3&lt;/span>$ genalphanumpasswd
 &lt;span class="ln">4&lt;/span>75kDvC3fwJAMPPv2CVdEDwNzvHFAZU

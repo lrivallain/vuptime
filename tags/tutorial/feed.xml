@@ -3,13 +3,13 @@
 &lt;p>In the following post, I will try to explain how to use it with some VMware modules from ansible installation to the management of a vCenter based infrastructure.&lt;/p>
 &lt;h1 id="ansible-installation">Ansible installation&lt;/h1>
 &lt;p>I suggest to use Ansible from the &lt;a href="https://github.com/ansible/ansible">github repository&lt;/a> to be able to use the most recent modules from the repository as there is a lot of work in progress on the VMware related modules:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/ansible/ansible.git &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nb">cd&lt;/span> ansible/
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/ansible/ansible.git &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nb">cd&lt;/span> ansible/
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Personally, I prefer to use a python virtual environment to manage a test or stable environment:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo pip install virtualenv
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo pip install virtualenv
 &lt;span class="ln">2&lt;/span>virtualenv --system-site-packages venv
 &lt;span class="ln">3&lt;/span>. venv/bin/activate
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Install the ansible requirements, and the VMware python sdk:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
 &lt;span class="ln">2&lt;/span>pip install pyvmomi
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We are now ready to use ansible with VMware modules.&lt;/p>
 &lt;h1 id="ansible-usage-with-vmware-vcenter">Ansible usage with VMware vCenter&lt;/h1>
@@ -23,7 +23,7 @@
 &lt;li>web frontend&lt;/li>
 &lt;li>backend workers&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span> [10.10.10.107.0/24] External Network
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span> [10.10.10.107.0/24] External Network
 &lt;span class="ln"> 2&lt;/span> +--------------------+-------------+-------------------+
 &lt;span class="ln"> 3&lt;/span> | |
 &lt;span class="ln"> 4&lt;/span> | |
@@ -52,7 +52,7 @@
 &lt;span class="ln">27&lt;/span> +---------+ +---------+ +---------+
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>To simplify the sample, all virtual machines will not be configured at the application level: we will only cover the deployment of new VM with OS ready for usage.&lt;/p>
 &lt;p>We create an &lt;em>INI-like&lt;/em> (one of Ansible's defaults) inventory file named &lt;code>sample-app01.inv&lt;/code> with the following content:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="ln"> 1&lt;/span>&lt;span class="k">[frontweb]&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="ln"> 1&lt;/span>&lt;span class="k">[frontweb]&lt;/span>
 &lt;span class="ln"> 2&lt;/span>&lt;span class="na">web01 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.107.1&amp;#34;&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="na">web02 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.107.2&amp;#34;&lt;/span>
 &lt;span class="ln"> 4&lt;/span>
@@ -101,7 +101,7 @@
 &lt;/blockquote>
 &lt;h3 id="dynamic-input-for-some-values">Dynamic input for some values&lt;/h3>
 &lt;p>To manage VM in the vCenter inventory, it's necessary to have credentials for the target. In the following playbook part, we ask user to enter credentials when running the playbook:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Credentials for vCenter API&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="l">workers&lt;/span>&lt;span class="w">
@@ -127,7 +127,7 @@
 &lt;h3 id="clone-specification-with-vmware_guest-module">Clone specification with vmware_guest module&lt;/h3>
 &lt;p>Ansible's &lt;em>vmware_guest&lt;/em> module is used to manages virtual machines in vCenter or standalone ESXi. It allows to check the presence and configuration of VM and to proceed changes according to the result: clone, reconfiguration...&lt;/p>
 &lt;p>Here is a sample task based on the &lt;em>vmware_guest&lt;/em> to deploy a &lt;em>worker&lt;/em>'s VM from a linked-clone operation:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>- &lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workers&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>- &lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workers&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gather_facts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">no&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">connection&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">local&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w">
@@ -166,7 +166,7 @@
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We do the same for the &lt;em>frontweb&lt;/em> servers with 2 network attachement. See this gist for the full playbook content : &lt;a href="https://gist.github.com/lrivallain/a2fc8443ef4433623d0add3601ab7115#file-create_linked_vms_2tiers-yml">file-create_linked_vms_2tiers-yml&lt;/a>.&lt;/p>
 &lt;h1 id="run-an-ansible-playbook-on-inventory">Run an Ansible playbook on inventory&lt;/h1>
 &lt;p>To run the playbook:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>./bin/ansible-playbook -i sample-app01.inv create_linked_vms_2tiers.yml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>./bin/ansible-playbook -i sample-app01.inv create_linked_vms_2tiers.yml
 &lt;span class="ln"> 2&lt;/span>Enter vcenter hostname &lt;span class="o">[&lt;/span>vcsa01-rennes.lri.lcl&lt;span class="o">]&lt;/span>:
 &lt;span class="ln"> 3&lt;/span>Enter vcenter username &lt;span class="o">[&lt;/span>administrator@vsphere.local&lt;span class="o">]&lt;/span>:
 &lt;span class="ln"> 4&lt;/span>Enter vcenter password :
@@ -180,7 +180,7 @@
 &lt;span class="ln">12&lt;/span>ok: &lt;span class="o">[&lt;/span>web01&lt;span class="o">]&lt;/span>
 &lt;span class="ln">13&lt;/span>ok: &lt;span class="o">[&lt;/span>web02&lt;span class="o">]&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>In the first part of the execution, credentials are requested to continue. Then Ansible will check if inventory VM's are well &lt;code>poweredon&lt;/code> are requested in the playbook and if not, will start creation task :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>PLAY &lt;span class="o">[&lt;/span>workers&lt;span class="o">]&lt;/span> *************************************************************************************
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>PLAY &lt;span class="o">[&lt;/span>workers&lt;span class="o">]&lt;/span> *************************************************************************************
 &lt;span class="ln"> 2&lt;/span>
 &lt;span class="ln"> 3&lt;/span>TASK &lt;span class="o">[&lt;/span>Deploy workers nodes&lt;span class="o">]&lt;/span> ************************************************************************
 &lt;span class="ln"> 4&lt;/span>changed: &lt;span class="o">[&lt;/span>worker03&lt;span class="o">]&lt;/span>

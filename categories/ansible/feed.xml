@@ -11,13 +11,13 @@
 &lt;/blockquote>
 &lt;h2 id="server-authentication">Server authentication&lt;/h2>
 &lt;p>When you connect by SSH to a remote server, you need to trust the key provided by the server. You probably already know the below message:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh root@mynewserver
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh root@mynewserver
 &lt;span class="ln">2&lt;/span>The authenticity of host &lt;span class="s1">&amp;#39;mynewserver (10.10.100.2)&amp;#39;&lt;/span> can&lt;span class="err">&amp;#39;&lt;/span>t be established.
 &lt;span class="ln">3&lt;/span>ECDSA key fingerprint is SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE.
 &lt;span class="ln">4&lt;/span>Are you sure you want to &lt;span class="k">continue&lt;/span> connecting &lt;span class="o">(&lt;/span>yes/no&lt;span class="o">)&lt;/span>?
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And as most of users, you probably never check the fingerprint before accepting to store it in a &lt;code>known_hosts&lt;/code> file.&lt;/p>
 &lt;p>In a highly secure environment, it is highly recommended to cross-check this fingerprint from the server itself before trusting it. This can be achieved by using the &lt;code>ssh-keygen -l&lt;/code> command:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
 &lt;span class="ln">2&lt;/span>&lt;span class="m">256&lt;/span> SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE root@mynewserver &lt;span class="o">(&lt;/span>ECDSA&lt;span class="o">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> the fingerprints of key generated during the instance deployment, is commonly available in the console logs: it could help to retrieve it for comparison.&lt;/p>
@@ -27,7 +27,7 @@
 &lt;p>For system out of production (testing purpose), I do not make the above check and I make a &lt;em>&amp;quot;blind&amp;quot;&lt;/em> consent on the first seen key.&lt;/p>
 &lt;p>I use the following Ansible tasks to do so:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Remove any existing fingerprints from known_hosts&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">local_action&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">shell&lt;/span>&lt;span class="w">
@@ -59,7 +59,7 @@
 &lt;/blockquote>
 &lt;p>If you don't use a &lt;code>cloud-init&lt;/code> based clone or server creation, you can use an Ansible playbook to push keys to the target server:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln">1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln">1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Upload ssh key&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">authorized_key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">user&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">root&lt;/span>&lt;span class="w">
@@ -69,17 +69,17 @@
 &lt;/span>&lt;span class="ln">8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ lookup(&amp;#39;file&amp;#39;, &amp;#39;~/.ssh/id_rsa.pub&amp;#39;) }}&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
 &lt;p>And if there is no already deployed authorized key to enable Ansible user to connect to your instance, you can use a one-shot &lt;code>--ask-pass&lt;/code> option to run your playbook:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml --ask-pass
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml --ask-pass
 &lt;span class="ln">2&lt;/span>SSH password: *********
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You will be prompt to provide the account password. Once pushed, you can use the public key as an authentication mechanism for Ansible instead of passwords:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>Please note that &lt;code>--ask-pass&lt;/code> is no more necessary to run a playbook, based on SSH protocol to your target once the ansible user public key is installed.&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="password-expiration">Password expiration&lt;/h2>
 &lt;p>When using editor's appliance (like VMware's ones), you may need to reconfigure the password expiration for the &lt;code>root&lt;/code> account. For lab and testing purposes, I fully disable the expiration policy with the following tasks:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln">1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln">1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Check expiration for {{ admin_user }} password&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">shell&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;getent shadow {{ admin_user }} | cut -d&amp;#39;:&amp;#39; -f5&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">register&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pw_invalid_expiration&lt;/span>&lt;span class="w">
@@ -91,7 +91,7 @@
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
 &lt;h2 id="shell-idle-timeout">Shell idle timeout&lt;/h2>
 &lt;p>As for the above policy, I have a couple of ansible tasks to disable the &lt;a href="https://www.thegeekstuff.com/2010/05/tmout-exit-bash-shell-when-no-activity/">&lt;em>shell idle timeout&lt;/em>&lt;/a> in lab and testing environments:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Changing SSH session TMOUT - part 1&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">lineinfile&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/etc/profile.d/tmout.sh&lt;/span>&lt;span class="w">

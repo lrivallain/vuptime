@@ -9,7 +9,7 @@
 &lt;/blockquote>
 &lt;h2 id="create-a-namespace">Create a namespace&lt;/h2>
 &lt;p>The following commands will create a namespace &lt;code>vmware-fn&lt;/code> to host and run automation functions.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; vmware-fn-ns.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; vmware-fn-ns.yaml
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="s">---
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="s">apiVersion: v1
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s">kind: Namespace
@@ -27,7 +27,7 @@
 &lt;p>Of course: you can customize this target namespace and even re-use an existing one.&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="create-a-broker">Create a Broker&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; mt-broker.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; mt-broker.yaml
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="s">---
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="s">apiVersion: eventing.knative.dev/v1
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s">kind: Broker
@@ -44,7 +44,7 @@
 &lt;span class="ln">15&lt;/span>vmware-event-broker 23s True
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="prepare-event-router-configuration">Prepare event-router configuration&lt;/h3>
 &lt;p>Create an &lt;code>override.yaml&lt;/code> with your settings:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; override.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; override.yaml
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="s">eventrouter:
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="s"> config:
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s"> logLevel: debug
@@ -67,18 +67,18 @@
 &lt;/blockquote>
 &lt;h3 id="helm-deployment">Helm deployment&lt;/h3>
 &lt;p>If not already done, we will register the &lt;em>veba&lt;/em> helm-charts registry and get metadata locally:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># register chart repo and update chart information&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># register chart repo and update chart information&lt;/span>
 &lt;span class="ln">2&lt;/span>helm repo add vmware-veba https://projects.registry.vmware.com/chartrepo/veba
 &lt;span class="ln">3&lt;/span>helm repo update
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>At this time, the support of knative with &lt;code>helm&lt;/code> &lt;em>vmware event router&lt;/em> deployment method is only supported in chart version &amp;gt;= v0.6.2. Ensure that this version is available:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>helm search repo event-router --versions &lt;span class="p">|&lt;/span> grep v0.6.2
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>helm search repo event-router --versions &lt;span class="p">|&lt;/span> grep v0.6.2
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">3&lt;/span>vmware-veba/event-router v0.6.2 v0.6.0 The VMware Event Router is used to connect to v...
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Lets deploy it.&lt;/p>
 &lt;blockquote>
 &lt;p>Here we create a specific namespace &lt;code>vmware&lt;/code> for this purpose but you can reuse &lt;code>vmware-fn&lt;/code> or any other one.&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>helm install -n vmware --create-namespace veba-knative vmware-veba/event-router -f override.yaml --wait --version v0.6.2
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>helm install -n vmware --create-namespace veba-knative vmware-veba/event-router -f override.yaml --wait --version v0.6.2
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME: veba-knative
 &lt;span class="ln">4&lt;/span>LAST DEPLOYED: Wed May &lt;span class="m">5&lt;/span> 12:55:39 &lt;span class="m">2021&lt;/span>
@@ -87,7 +87,7 @@
 &lt;span class="ln">7&lt;/span>REVISION: &lt;span class="m">1&lt;/span>
 &lt;span class="ln">8&lt;/span>TEST SUITE: None
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We can now check that the deployment status:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>helm list --namespace vmware
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>helm list --namespace vmware
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME NAMESPACE REVISION STATUS CHART APP VERSION
 &lt;span class="ln">4&lt;/span>veba-knative vmware &lt;span class="m">1&lt;/span> deployed event-router-v0.6.2 v0.6.0
@@ -101,7 +101,7 @@
 &lt;h2 id="deploy-a-sample-echo-function">Deploy a sample &lt;em>echo&lt;/em> function&lt;/h2>
 &lt;p>The first (and very useful!) thing we can do, is to &lt;em>echo&lt;/em> cloud events occurring in the target vCenter server.&lt;/p>
 &lt;p>VEBA team provide multiple &lt;em>echo&lt;/em> samples (python or powershell based). Here we will use the python-based one provided by &lt;a href="https://github.com/embano1/kn-echo">@embano1/kn-echo&lt;/a>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; kn-py-echo.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; kn-py-echo.yaml
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="s">---
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="s">apiVersion: serving.knative.dev/v1
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s">kind: Service
@@ -135,7 +135,7 @@
 &lt;span class="ln">32&lt;/span>service.serving.knative.dev/kn-py-echo-svc created
 &lt;span class="ln">33&lt;/span>trigger.eventing.knative.dev/kn-py-echo-trigger created
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We can check what was created:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>kn service list -n vmware-fn
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>kn service list -n vmware-fn
 &lt;span class="ln"> 2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln"> 3&lt;/span>NAME URL LATEST AGE CONDITIONS READY REASON
 &lt;span class="ln"> 4&lt;/span>kn-py-echo-svc http://kn-py-echo-svc.vmware-fn.example.com kn-py-echo-svc-00001 3m34s &lt;span class="m">3&lt;/span> OK / &lt;span class="m">3&lt;/span> True
@@ -150,22 +150,22 @@
 &lt;span class="ln">13&lt;/span>NAME READY STATUS RESTARTS AGE
 &lt;span class="ln">14&lt;/span>kn-py-echo-svc-00001-deployment-7d8fcf598-5g8f7 2/2 Running &lt;span class="m">0&lt;/span> 63s
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>As we specified &lt;code>autoscaling.knative.dev/minScale: &amp;quot;0&amp;quot;&lt;/code> in the service definition, the deployed pods may or may not be deployed at a specific time: if there is no event fired by vCenter for a period of time, Knative Serving will terminate the pod associated to the service, and recreate it when new event will arrive:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get pod -n vmware-fn
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get pod -n vmware-fn
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME READY STATUS RESTARTS AGE
 &lt;span class="ln">4&lt;/span>No resources found in vmware-fn namespace.
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If you want to look at incoming events, get the current running pod name and look at its logs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl logs -n vmware-fn kn-py-echo-svc-00001-deployment-7d8fcf598-ngtdd user-container -f
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl logs -n vmware-fn kn-py-echo-svc-00001-deployment-7d8fcf598-ngtdd user-container -f
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="deploy-vm-creation-attr-function">Deploy &lt;em>vm-creation-attr&lt;/em> function&lt;/h2>
 &lt;p>I also did a re-write of the &lt;a href="https://github.com/lrivallain/openfaas-fn/tree/master/vm-creation-attr-fn">&lt;em>vm-creation-attr&lt;/em> function&lt;/a> I did write for OpenFaaS process to be knative compliant.&lt;/p>
 &lt;blockquote>
 &lt;p>As a reminder, I did a(nother long) post a few month back &lt;a href="https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/#first-function">about this function&lt;/a>. The main goal is to populate &lt;em>custom attributes&lt;/em> values for VM object based on the user who created the VM, the creation date and the last-poweredon date.&lt;/p>
 &lt;/blockquote>
 &lt;p>The knative function is hosted on GitHub: &lt;a href="https://github.com/lrivallain/kn-vm-creation-attr-fn">lrivallain/kn-vm-creation-attr-fn&lt;/a>. You can get the &lt;code>function.yaml&lt;/code> file to start the deployment:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -LO https://raw.githubusercontent.com/lrivallain/kn-vm-creation-attr-fn/main/function.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -LO https://raw.githubusercontent.com/lrivallain/kn-vm-creation-attr-fn/main/function.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="configuration">Configuration&lt;/h3>
 &lt;p>Edit the content of &lt;code>function.yaml&lt;/code> to configure the following settings:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># In `ConfigMap` section&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># In `ConfigMap` section&lt;/span>
 &lt;span class="ln"> 2&lt;/span>VC_SERVER: vcsa.local
 &lt;span class="ln"> 3&lt;/span>VC_USER: test@vsphere.local
 &lt;span class="ln"> 4&lt;/span>VC_SSLVERIFY: True
@@ -176,13 +176,13 @@
 &lt;span class="ln"> 9&lt;/span>&lt;span class="c1"># In `Secret` section&lt;/span>
 &lt;span class="ln">10&lt;/span>VC_PASSWORD: Vk13YXJlMSEK
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>VC_PASSWORD&lt;/code> is base64 encoded: you can generate it by using a command like:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> -n &lt;span class="s2">&amp;#34;YourP@ssw0rd&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> base64
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> -n &lt;span class="s2">&amp;#34;YourP@ssw0rd&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> base64
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We assume that you use the previously mentioned &lt;code>vmware-event-broker&lt;/code> broker name, but you can change it by using:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sed -i s/vmware-event-broker/NAMEOFYOURBROKER/ &lt;span class="k">function&lt;/span>.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sed -i s/vmware-event-broker/NAMEOFYOURBROKER/ &lt;span class="k">function&lt;/span>.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="deploy">Deploy&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl appy -n vmware-fn -f &lt;span class="k">function&lt;/span>.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl appy -n vmware-fn -f &lt;span class="k">function&lt;/span>.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you can check the result with following commands:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kn service list -n vmware-fn
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kn service list -n vmware-fn
 &lt;span class="ln">2&lt;/span>
 &lt;span class="ln">3&lt;/span>kn trigger list -n vmware-fn
 &lt;span class="ln">4&lt;/span>
@@ -192,7 +192,7 @@
 &lt;/blockquote>
 &lt;h3 id="test">Test&lt;/h3>
 &lt;p>By looking at pod logs, you can see the actions resulting from the incoming events:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>172.17.0.1 - - [04/May/2021 14:08:00] &amp;#34;POST / HTTP/1.1&amp;#34; 204 -
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>172.17.0.1 - - [04/May/2021 14:08:00] &amp;#34;POST / HTTP/1.1&amp;#34; 204 -
 &lt;span class="ln"> 2&lt;/span>2021-05-04 14:08:00,230 INFO werkzeug Thread-3 : 172.17.0.1 - - [04/May/2021 14:08:00] &amp;#34;POST / HTTP/1.1&amp;#34; 204 -
 &lt;span class="ln"> 3&lt;/span>2021-05-04 14:09:18,462 DEBUG handler Thread-4 : &amp;#34;***cloud event*** {&amp;#34;attributes&amp;#34;: {&amp;#34;specversion&amp;#34;: &amp;#34;1.0&amp;#34;, &amp;#34;id&amp;#34;: &amp;#34;42516969-218a-406f-9ccc-db387befc4bf&amp;#34;,
 &lt;span class="ln"> 4&lt;/span>&amp;#34;source&amp;#34;: &amp;#34;https://vcsa.local/sdk&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;com.vmware.event.router/event&amp;#34;, &amp;#34;datacontenttype&amp;#34;: &amp;#34;application/json&amp;#34;, &amp;#34;subject&amp;#34;: &amp;#34;DrsVmPoweredOnEvent&amp;#34;, &amp;#34;time&amp;#34;: &amp;#34;2021-05-04T07:33:33.773581268Z&amp;#34;, &amp;#34;knativearrivaltime&amp;#34;: &amp;#34;2021-05-04T07:33:33.772937393Z&amp;#34;}, &amp;#34;data&amp;#34;: {&amp;#34;Key&amp;#34;: 992270, &amp;#34;ChainId&amp;#34;: 992267, &amp;#34;CreatedTime&amp;#34;: &amp;#34;2021-05-04T07:33:32.759Z&amp;#34;, &amp;#34;UserName&amp;#34;: &amp;#34;VSPHERE.LOCAL\\test-user&amp;#34;, &amp;#34;Datacenter&amp;#34;: {&amp;#34;Name&amp;#34;: &amp;#34;Datacenter&amp;#34;, &amp;#34;Datacenter&amp;#34;: {&amp;#34;Type&amp;#34;: &amp;#34;Datacenter&amp;#34;, &amp;#34;Value&amp;#34;: &amp;#34;datacenter-21&amp;#34;}}, &amp;#34;ComputeResource&amp;#34;: {&amp;#34;Name&amp;#34;: &amp;#34;Cluster01&amp;#34;, &amp;#34;ComputeResource&amp;#34;: {&amp;#34;Type&amp;#34;: &amp;#34;ClusterComputeResource&amp;#34;, &amp;#34;Value&amp;#34;: &amp;#34;domain-c84&amp;#34;}}, &amp;#34;Host&amp;#34;: {&amp;#34;Name&amp;#34;: &amp;#34;esxi1.local&amp;#34;, &amp;#34;Host&amp;#34;: {&amp;#34;Type&amp;#34;: &amp;#34;HostSystem&amp;#34;, &amp;#34;Value&amp;#34;: &amp;#34;host-34&amp;#34;}}, &amp;#34;Vm&amp;#34;: {&amp;#34;Name&amp;#34;: &amp;#34;TestVM&amp;#34;, &amp;#34;Vm&amp;#34;: {&amp;#34;Type&amp;#34;: &amp;#34;VirtualMachine&amp;#34;, &amp;#34;Value&amp;#34;: &amp;#34;vm-596&amp;#34;}}, &amp;#34;Ds&amp;#34;: null, &amp;#34;Net&amp;#34;: null, &amp;#34;Dvs&amp;#34;: null, &amp;#34;FullFormattedMessage&amp;#34;: &amp;#34;DRS powered On TestVM on esxi1.local in Datacenter&amp;#34;, &amp;#34;ChangeTag&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;Template&amp;#34;: false}
@@ -205,7 +205,7 @@
 &lt;span class="ln">11&lt;/span>2021-05-04 14:09:19,777 INFO werkzeug Thread-4 : 172.17.0.1 - - [04/May/2021 14:09:19] &amp;#34;POST / HTTP/1.1&amp;#34; 204 -
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="is-it-serverless">Is it serverless?&lt;/h2>
 &lt;p>With a &lt;code>autoscaling.knative.dev/minScale: &amp;quot;0&amp;quot;&lt;/code> annotation setting (as provided by default in the above functions), have look at the pods list to see the result of an event:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>k get pods --watch -n vmware-fn
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>k get pods --watch -n vmware-fn
 &lt;span class="ln"> 2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln"> 3&lt;/span>kn-vm-creation-attr-fn-service-00002-deployment-848865fdd-xgvb9 0/2 Pending &lt;span class="m">0&lt;/span> 0s
 &lt;span class="ln"> 4&lt;/span>kn-vm-creation-attr-fn-service-00002-deployment-848865fdd-xgvb9 0/2 ContainerCreating &lt;span class="m">0&lt;/span> 1s
@@ -254,35 +254,35 @@
 &lt;/blockquote>
 &lt;p>The following process also relies on &lt;code>helm&lt;/code> to deploy the vmware event router.&lt;/p>
 &lt;p>We will use the (current) latest version of knative, but you can probably change the value of the following setting according to the &lt;a href="https://github.com/knative/operator/releases">knative latest available release&lt;/a>.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;v0.22.0&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;v0.22.0&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="knative-serving">Knative Serving&lt;/h3>
 &lt;p>&lt;a href="https://knative.dev/docs/install/install-serving-with-yaml/">Knative documentation&lt;/a> is really helpful for the following steps. I will only put together the commands I used in my setup:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># custom resources definitions&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># custom resources definitions&lt;/span>
 &lt;span class="ln">2&lt;/span>kubectl apply -f https://github.com/knative/serving/releases/download/&lt;span class="si">${&lt;/span>&lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="si">}&lt;/span>/serving-crds.yaml
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Knative Serving core components&lt;/span>
 &lt;span class="ln">5&lt;/span>kubectl apply -f https://github.com/knative/serving/releases/download/&lt;span class="si">${&lt;/span>&lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="si">}&lt;/span>/serving-core.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>A new &lt;code>knative-serving&lt;/code> namespace will be deployed on the cluster with some core resources.&lt;/p>
 &lt;p>Then we install and configure Kourier to act as our Ingress controller:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># Install and configure Kourier&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># Install and configure Kourier&lt;/span>
 &lt;span class="ln">2&lt;/span>kubectl apply -f https://raw.githubusercontent.com/knative/serving/&lt;span class="si">${&lt;/span>&lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="si">}&lt;/span>/third_party/kourier-latest/kourier.yaml
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Specfiy knative Serving to use Kourier&lt;/span>
 &lt;span class="ln">5&lt;/span>kubectl patch configmap/config-network --namespace knative-serving --type merge --patch &lt;span class="s1">&amp;#39;{&amp;#34;data&amp;#34;:{&amp;#34;ingress.class&amp;#34;:&amp;#34;kourier.ingress.networking.knative.dev&amp;#34;}}&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Depending on the target platform you use, you may, or may not have a value already set for the &lt;code>External-IP&lt;/code> of the &lt;code>kourier&lt;/code> service.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl -n kourier-system get service kourier
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl -n kourier-system get service kourier
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME TYPE CLUSTER-IP EXTERNAL-IP PORT&lt;span class="o">(&lt;/span>S&lt;span class="o">)&lt;/span> AGE
 &lt;span class="ln">4&lt;/span>kourier LoadBalancer 10.43.165.137 pending 80:30471/TCP,443:32405/TCP 10m
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If you have a pending value (like in my on-premise setup), you can manually assign an IP address to the service:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl patch service kourier -p &lt;span class="s1">&amp;#39;{&amp;#34;spec&amp;#34;: {&amp;#34;type&amp;#34;: &amp;#34;LoadBalancer&amp;#34;, &amp;#34;externalIPs&amp;#34;:[&amp;#34;192.168.1.36&amp;#34;]}}&amp;#39;&lt;/span> -n kourier-system
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl patch service kourier -p &lt;span class="s1">&amp;#39;{&amp;#34;spec&amp;#34;: {&amp;#34;type&amp;#34;: &amp;#34;LoadBalancer&amp;#34;, &amp;#34;externalIPs&amp;#34;:[&amp;#34;192.168.1.36&amp;#34;]}}&amp;#39;&lt;/span> -n kourier-system
 &lt;span class="ln">2&lt;/span>
 &lt;span class="ln">3&lt;/span>kubectl -n kourier-system get service kourier
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">5&lt;/span>NAME TYPE CLUSTER-IP EXTERNAL-IP PORT&lt;span class="o">(&lt;/span>S&lt;span class="o">)&lt;/span> AGE
 &lt;span class="ln">6&lt;/span>kourier LoadBalancer 10.43.165.137 192.168.1.36 80:30471/TCP,443:32405/TCP 10m
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You can have a quick look at running pods on your `` namespace to see if everything is running fine:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get pods -n knative-serving
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get pods -n knative-serving
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME READY STATUS RESTARTS AGE
 &lt;span class="ln">4&lt;/span>3scale-kourier-control-67c86f4f69-6mnwr 1/1 Running &lt;span class="m">0&lt;/span> 11m
@@ -292,7 +292,7 @@
 &lt;span class="ln">8&lt;/span>webhook-ff79fddb7-gjvwq 1/1 Running &lt;span class="m">0&lt;/span> 11m
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="knative-eventing">Knative Eventing&lt;/h3>
 &lt;p>As for the Serving component, you can rely on a very clear &lt;a href="https://knative.dev/docs/install/install-eventing-with-yaml/">documentation to install the Eventing component&lt;/a>.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># custom resources definitions&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># custom resources definitions&lt;/span>
 &lt;span class="ln"> 2&lt;/span>kubectl apply -f https://github.com/knative/eventing/releases/download/&lt;span class="si">${&lt;/span>&lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="si">}&lt;/span>/eventing-crds.yaml
 &lt;span class="ln"> 3&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="c1"># Knative Eventing core components&lt;/span>
@@ -311,10 +311,10 @@
 &lt;/blockquote>
 &lt;p>Here, the default &lt;em>MT Channel Based Broker&lt;/em> relies on a default, unsuitable for production, &lt;em>In-Memory&lt;/em> channel.&lt;/p>
 &lt;p>We will only use the &lt;em>clusterDefault&lt;/em> settings but, if needed, you can edit the broker configuration by using the next command:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl edit cm -n knative-eventing config-br-defaults
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl edit cm -n knative-eventing config-br-defaults
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="knative-cli">knative CLI&lt;/h3>
 &lt;p>Event if &lt;code>kubectl&lt;/code> could be used to manage knative components, a &lt;code>kn&lt;/code> CLI tool is also available with completion of otherwise complex procedures such as auto-scaling and traffic splitting.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl https://github.com/knative/client/releases/download/&lt;span class="si">${&lt;/span>&lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="si">}&lt;/span>/kn-linux-amd64 -L &amp;gt; kn
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl https://github.com/knative/client/releases/download/&lt;span class="si">${&lt;/span>&lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="si">}&lt;/span>/kn-linux-amd64 -L &amp;gt; kn
 &lt;span class="ln">2&lt;/span>chmod +x kn
 &lt;span class="ln">3&lt;/span>sudo mv kn /usr/local/bin/kn
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Test it&lt;/span>
@@ -392,11 +392,11 @@
 &lt;li>As a pre-requesite to local build, you will need Hugo engine installed: &lt;a href="https://gohugo.io/getting-started/quick-start/">Quick Start&lt;/a>&lt;/li>
 &lt;li>Clone the repository with submodules:&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone --recursive https://github.com/lrivallain/git-book-kubernetes.git
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone --recursive https://github.com/lrivallain/git-book-kubernetes.git
 &lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
 &lt;li>Push changes to a new branch:&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># new branch:&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># new branch:&lt;/span>
 &lt;span class="ln">2&lt;/span>git checkout -b &lt;span class="s2">&amp;#34;my-changes&amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="c1"># &amp;lt;do changes here !&amp;gt;&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># test your changes with:&lt;/span>
@@ -442,10 +442,10 @@
 &lt;li>A deployed Argo instance (+&lt;code>argo&lt;/code> cli): &lt;a href="https://argoproj.github.io/argo/quick-start/">Quick Start&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>A clone of the below repository:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/openfaas-fn.git
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/openfaas-fn.git
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> openfaas-fn/veba-to-argo-fn
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="deploy-the-argo-echoer-template-wf">Deploy the Argo &lt;em>echoer&lt;/em> template WF&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo template create echoer-argowf.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo template create echoer-argowf.yaml
 &lt;span class="ln">2&lt;/span>argo template list
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
@@ -457,8 +457,8 @@
 &lt;h2 id="configure-the-function">Configure the function&lt;/h2>
 &lt;h3 id="argo-config-secret">Argo config secret&lt;/h3>
 &lt;p>Copy and customize the &lt;code>argoconfig.example.yaml&lt;/code> file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp argoconfig.example.yaml argoconfig.yaml
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">argoserver&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp argoconfig.example.yaml argoconfig.yaml
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">argoserver&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">server&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">argo.vlab.lcl&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">argo&lt;/span>&lt;span class="w">
@@ -470,7 +470,7 @@
 &lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">coming-from&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">veba&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">foo&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bar&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Deploy this configuration file as a new &lt;em>faas&lt;/em> secret.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create argoconfig --from-file&lt;span class="o">=&lt;/span>argoconfig.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create argoconfig --from-file&lt;span class="o">=&lt;/span>argoconfig.yaml
 &lt;span class="ln">2&lt;/span>faas-cli secret list
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
@@ -478,7 +478,7 @@
 &lt;span class="ln">6&lt;/span>argoconfig
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="stackyaml">&lt;code>stack.yaml&lt;/code>&lt;/h3>
 &lt;p>Edit the &lt;code>stack.yaml&lt;/code> according to your needs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1.0&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1.0&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">provider&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">openfaas&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gateway&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http://openfaas.vlab.local&lt;/span>&lt;span class="w">
@@ -495,9 +495,9 @@
 &lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">topic&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">VmCreatedEvent, VmClonedEvent, VmRegisteredEvent, DrsVmPoweredOnEvent, VmPoweredOnEvent&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we need to pull the OpenFaaS language template for the specified lang in our stack.yml file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="deploy-the-function">Deploy the function&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yaml
 &lt;span class="ln">2&lt;/span>faas-cli list
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
@@ -505,11 +505,11 @@
 &lt;span class="ln">6&lt;/span>veba-to-argo-echoer &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="test">Test&lt;/h3>
 &lt;p>You can also check the function from the UI and do a first test by running:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{&amp;#34;id&amp;#34;: &amp;#34;test&amp;#34;, &amp;#34;source&amp;#34;: &amp;#34;sourcetest&amp;#34;, &amp;#34;subject&amp;#34;: &amp;#34;any&amp;#34;, &amp;#34;data&amp;#34;: {}}&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;{&amp;#34;id&amp;#34;: &amp;#34;test&amp;#34;, &amp;#34;source&amp;#34;: &amp;#34;sourcetest&amp;#34;, &amp;#34;subject&amp;#34;: &amp;#34;any&amp;#34;, &amp;#34;data&amp;#34;: {}}&amp;#39;&lt;/span> &lt;span class="se">\
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> &lt;span class="p">|&lt;/span> faas-cli invoke veba-to-argo-echoer
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>This should produce an excecution of a Worklow based on the echoer template in Argo.&lt;/p>
 &lt;h3 id="results">Results&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>argo get @latest
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>argo get @latest
 &lt;span class="ln"> 2&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
 &lt;span class="ln"> 4&lt;/span>
@@ -530,7 +530,7 @@
 &lt;span class="ln">19&lt;/span>STEP TEMPLATE PODNAME DURATION MESSAGE
 &lt;span class="ln">20&lt;/span> ✔ echoer-7ldps echoer/echo echoer-7ldps 26s
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And in the logs:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo logs @latest
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo logs @latest
 &lt;span class="ln">2&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="c1"># Expected output&lt;/span>
 &lt;span class="ln">4&lt;/span>echoer-7ldps: &lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;id&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;test&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;source&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;sourcetest&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;subject&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;any&amp;#34;&lt;/span>, &lt;span class="s2">&amp;#34;data&amp;#34;&lt;/span>: &lt;span class="o">{}}&lt;/span>
@@ -548,7 +548,7 @@
 &lt;/figure>
 &lt;h3 id="retries">Retries&lt;/h3>
 &lt;p>If needed, you can re-run an existing instance of a workflow (with the same inputs) with the following kind of command:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo resubmit @latest --watch
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>argo resubmit @latest --watch
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="veba-event">VEBA event&lt;/h2>
 &lt;p>In the same way, if you trigger on of the vCenter events configured in your &lt;code>stack.yaml&lt;/code> file (like &lt;code>VmCreatedEvent, VmClonedEvent, VmRegisteredEvent, DrsVmPoweredOnEvent, VmPoweredOnEvent&lt;/code> in the provided example) from you vCenter server:&lt;/p>
 &lt;ol>
@@ -596,26 +596,26 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>&lt;a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">&lt;code>kubectl&lt;/code>&lt;/a> is the standard CLI tool to operate K8S resources.&lt;/p>
 &lt;p>Once installed, you need to link your K8S cluster configuration file. There are multiple methods to do so, so I prefer to link the official documentation for &lt;a href="https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/">Organizing Cluster Access Using kubeconfig Files&lt;/a>.&lt;/p>
 &lt;p>You can check the setup by running:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># Display the current configuration&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># Display the current configuration&lt;/span>
 &lt;span class="ln">2&lt;/span>kubectl config view
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Get client and server version&lt;/span>
 &lt;span class="ln">5&lt;/span>kubectl version --short
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The last command should output something close to this:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>Client Version: v1.19.3
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>Client Version: v1.19.3
 &lt;span class="ln">2&lt;/span>Server Version: v1.19.2
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="helm-cli">&lt;code>helm&lt;/code> cli&lt;/h3>
 &lt;p>The &lt;code>helm&lt;/code> cli will provide a simple way to deploy both OpenFaaS and VEBA stacks:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 &lt;span class="p">|&lt;/span> sudo bash
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 &lt;span class="p">|&lt;/span> sudo bash
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="faas-cli">&lt;code>faas-cli&lt;/code>&lt;/h3>
 &lt;p>The &lt;a href="https://github.com/openfaas/faas-cli">&lt;code>faas-cli&lt;/code>&lt;/a> requirement is linked to the usage of the OpenFaaS processor in the following setup.&lt;/p>
 &lt;p>Here is one installation method:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -sSL https://cli.openfaas.com &lt;span class="p">|&lt;/span> sudo sh
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -sSL https://cli.openfaas.com &lt;span class="p">|&lt;/span> sudo sh
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>You can also use an alternative installation method described in the &lt;a href="https://github.com/openfaas/faas-cli">&lt;code>faas-cli&lt;/code> project GitHub repository&lt;/a>.&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="openfaas-deployment">OpenFaaS deployment&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl create ns openfaas
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl create ns openfaas
 &lt;span class="ln">2&lt;/span>kubectl create ns openfaas-fn
 &lt;span class="ln">3&lt;/span>helm repo add openfaas https://openfaas.github.io/faas-netes
 &lt;span class="ln">4&lt;/span>helm repo update
@@ -624,9 +624,9 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;span class="ln">7&lt;/span>&lt;span class="se">&lt;/span> --set &lt;span class="nv">functionNamespace&lt;/span>&lt;span class="o">=&lt;/span>openfaas-fn &lt;span class="se">\
 &lt;/span>&lt;span class="ln">8&lt;/span>&lt;span class="se">&lt;/span> --set &lt;span class="nv">generateBasicAuth&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">true&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You can check the deployment status by running:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl -n openfaas get deployments -l &lt;span class="s2">&amp;#34;release=openfaas, app=openfaas&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl -n openfaas get deployments -l &lt;span class="s2">&amp;#34;release=openfaas, app=openfaas&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Once deployed, you can get the generated password and the endpoint URL by:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># Get password&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># Get password&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">OF_PASS&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="k">$(&lt;/span>kubectl -n openfaas get secret basic-auth -o &lt;span class="nv">jsonpath&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;{.data.basic-auth-password}&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> base64 --decode&lt;span class="k">))&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$OF_PASS&lt;/span>
 &lt;span class="ln">4&lt;/span>
@@ -638,9 +638,9 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>Create a DNS record for your new openfaas fqdn then&lt;/li>
 &lt;li>Create the following file:&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir openfaas
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir openfaas
 &lt;span class="ln">2&lt;/span>vi openfaas/ingress.yml
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">networking.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">networking.k8s.io/v1beta1&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Ingress&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">openfaas-gateway-ingress&lt;/span>&lt;span class="w">
@@ -656,12 +656,12 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">serviceName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">servicePort&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Deploy it:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl apply -f ingress.yml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl apply -f ingress.yml
 &lt;span class="ln">2&lt;/span>kubectl get ingress -n openfaas
 &lt;span class="ln">3&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;export OPENFAAS_URL=http://&lt;/span>&lt;span class="k">$(&lt;/span>kubectl get ingress -n openfaas 2&amp;gt;/dev/null&lt;span class="p">|&lt;/span> grep &lt;span class="s2">&amp;#34;gateway-&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> awk &lt;span class="s1">&amp;#39;{print $3}&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="check-the-deployment">Check the deployment&lt;/h3>
 &lt;p>If you requested the OpenFaaS deployment, you now have a set of pods in the &lt;code>openfaas&lt;/code> namespace:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>kubectl get pods -n openfaas
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>kubectl get pods -n openfaas
 &lt;span class="ln"> 2&lt;/span>&lt;span class="c1"># You should get a new set of running pods&lt;/span>
 &lt;span class="ln"> 3&lt;/span>NAME READY STATUS RESTARTS AGE
 &lt;span class="ln"> 4&lt;/span>basic-auth-plugin-bc899c574-6hzhf 1/1 Running &lt;span class="m">0&lt;/span> 18h
@@ -674,7 +674,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="login-to-your-openfaas-cli-and-ui">Login to your OpenFaaS cli and UI&lt;/h3>
 &lt;h4 id="login-to-faas-cli">Login to &lt;code>faas-cli&lt;/code>&lt;/h4>
 &lt;p>We now need to get the OpenFaaS URI to use the &lt;code>faas-cli&lt;/code> client:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$OF_PASS&lt;/span> &lt;span class="p">|&lt;/span> faas-cli login --password-stdin
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$OF_PASS&lt;/span> &lt;span class="p">|&lt;/span> faas-cli login --password-stdin
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>A warning will recommend you to use an HTTPS endpoint instead of the HTTP one: let's ignore it for the moment.&lt;/p>
 &lt;/blockquote>
@@ -689,9 +689,9 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>The VEBA deployment on K8S is quite simple and does not require a lot of configuration.&lt;/p>
 &lt;h3 id="prepare-an-override-file">Prepare an override file&lt;/h3>
 &lt;p>Prepare an &lt;code>override.yml&lt;/code> file to provide to veba its deployment settings:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir veba
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>mkdir veba
 &lt;span class="ln">2&lt;/span>vim veba/override.yml
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">eventrouter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">eventrouter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">config&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">logLevel&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">debug&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">vcenter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
@@ -706,14 +706,14 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">password&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>---------&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="deploy-veba-to-your-kubernetes-cluster">Deploy VEBA to your Kubernetes cluster&lt;/h3>
 &lt;p>VEBA team provides a &lt;em>helm&lt;/em> chart to handle the deployment:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>helm repo add vmware-veba https://projects.registry.vmware.com/chartrepo/veba
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>helm repo add vmware-veba https://projects.registry.vmware.com/chartrepo/veba
 &lt;span class="ln">2&lt;/span>helm repo update
 &lt;span class="ln">3&lt;/span>helm install -n vc-veba --create-namespace vc-veba vmware-veba/event-router -f veba/override.yml
 &lt;span class="ln">4&lt;/span>kubectl -n vc-veba logs deploy/router -f
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You should get logs from the startup of the envent router pod.&lt;/p>
 &lt;h3 id="check-the-deployment-1">Check the deployment&lt;/h3>
 &lt;p>Few minutes later, you should have a new VEBA deployment:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl -n vc-veba get deployments
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl -n vc-veba get deployments
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># You should get a ready router&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME READY UP-TO-DATE AVAILABLE AGE
 &lt;span class="ln">4&lt;/span>router 1/1 &lt;span class="m">1&lt;/span> &lt;span class="m">1&lt;/span> 18h
@@ -744,11 +744,11 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>A config file, passed as a K8S secret to our function, used to store credentials and other environment specific variables. In my example, it's a &lt;em>YAML&lt;/em> file: &lt;code>vcconfig.yml&lt;/code>.&lt;/li>
 &lt;/ul>
 &lt;p>To simplify this post, I invite you to clone this sample repository:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/veba-sample-custom-attribute.git
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/veba-sample-custom-attribute.git
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> veba-sample-custom-attribute/
 &lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="stackyaml-file">&lt;code>stack.yaml&lt;/code> file&lt;/h4>
 &lt;p>This description file is used by VEBA to create the function run on our function-processor.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1.0&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1.0&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">provider&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">openfaas&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gateway&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http://openfaas.vlab.lcl&lt;/span>&lt;span class="w">
@@ -801,8 +801,8 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/ul>
 &lt;h3 id="vcconfigyaml">&lt;code>vcconfig.yaml&lt;/code>&lt;/h3>
 &lt;p>This is a quite simple configuration file to rename to the expected name:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp vcconfig.example.yaml vcconfig.yaml
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">vcenter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp vcconfig.example.yaml vcconfig.yaml
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">vcenter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">server&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">vcsa-fqdn&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">user&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">service-account@vsphere.local&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">password&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;**********&amp;#34;&lt;/span>&lt;span class="w">
@@ -822,30 +822,30 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;h2 id="deploy-our-function">Deploy our function&lt;/h2>
 &lt;p>We now got function code, configuration, and the VEBA over K8S deployed. Let's deploy our function.&lt;/p>
 &lt;p>First step is to create the &amp;quot;&lt;em>secret&lt;/em>&amp;quot; to store our local configuration:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create vcconfig --from-file&lt;span class="o">=&lt;/span>vcconfig.yml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create vcconfig --from-file&lt;span class="o">=&lt;/span>vcconfig.yml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And to confirm if it worked, we can lookup for the &lt;code>vcconfig&lt;/code> secret in a new namespace named: &lt;code>openfaas-fn&lt;/code> (for OpenFaaS Function)&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get secrets -n openfaas-fn vcconfig
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get secrets -n openfaas-fn vcconfig
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME TYPE DATA AGE
 &lt;span class="ln">4&lt;/span>vcconfig Opaque &lt;span class="m">1&lt;/span> 2m53s
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we need to pull the OpenFaaS language template for the specified &lt;code>lang&lt;/code> in our &lt;code>stack.yml&lt;/code> file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>In fact, this command will pull all (12) the languages templates from the &lt;code>openfaas&lt;/code> registry, not only the one you are looking for.&lt;/p>
 &lt;/blockquote>
 &lt;p>We are ready to deploy our &lt;em>Function-as-a-Service&lt;/em>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yml
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">3&lt;/span>Deploying: vm-creation-attr.
 &lt;span class="ln">4&lt;/span>Deployed. &lt;span class="m">202&lt;/span> Accepted.
 &lt;span class="ln">5&lt;/span>URL: http://openfaas.vlab.lcl/function/vm-creation-attr.openfaas-fn
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We can check that a new pod is now part of the &lt;code>openfaas-fn&lt;/code> namespace:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>$ kubectl get pods -n openfaas-fn
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>$ kubectl get pods -n openfaas-fn
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME READY STATUS RESTARTS AGE
 &lt;span class="ln">4&lt;/span>vm-creation-attr-65d9f75464-lf2sk 1/1 Running &lt;span class="m">0&lt;/span> 94s
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And our function is well listed in &lt;code>faas-cli&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli list
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli list
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>Function Invocations Replicas
 &lt;span class="ln">4&lt;/span>vm-creation-attr &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
@@ -859,7 +859,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;h3 id="follow-function-invocation">Follow function invocation&lt;/h3>
 &lt;p>There is two way to follow the function invocation(s).&lt;/p>
 &lt;p>By using &lt;code>kubectl&lt;/code> logs and specifing the &lt;code>openfaas-fn&lt;/code> namespace, the pod name (from above commands), and the &lt;code>--tail&lt;/code> and/or &lt;code>--follow&lt;/code> args:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl logs -n openfaas-fn vm-creation-attr-65d9f75464-lf2sk --tail &lt;span class="m">100&lt;/span> --follow
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl logs -n openfaas-fn vm-creation-attr-65d9f75464-lf2sk --tail &lt;span class="m">100&lt;/span> --follow
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>2020/11/01 14:41:26 Version: 0.18.1 SHA: b46be5a4d9d9d55da9c4b1e50d86346e0afccf2d
 &lt;span class="ln">4&lt;/span>2020/11/01 14:41:26 Timeouts: read: 5s, write: 5s hard: 0s.
@@ -867,7 +867,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;span class="ln">6&lt;/span>2020/11/01 14:41:26 Writing lock-file to: /tmp/.lock
 &lt;span class="ln">7&lt;/span>2020/11/01 14:41:26 Metrics listening on port: &lt;span class="m">8081&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Or with &lt;code>faas-cli&lt;/code> command:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli logs vm-creation-attr --tail &lt;span class="m">100&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli logs vm-creation-attr --tail &lt;span class="m">100&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>2020-11-01T14:41:26Z 2020/11/01 14:41:26 Version: 0.18.1 SHA: b46be5a4d9d9d55da9c4b1e50d86346e0afccf2d
 &lt;span class="ln">4&lt;/span>2020-11-01T14:41:26Z 2020/11/01 14:41:26 Timeouts: read: 5s, write: 5s hard: 0s.
@@ -935,30 +935,30 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>&lt;a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">&lt;code>kubectl&lt;/code>&lt;/a> is the standard CLI tool to operate K8S resources.&lt;/p>
 &lt;p>Once installed, you need to link your K8S cluster configuration file. There are multiple methods to do so, so I prefer to link the official documentation for &lt;a href="https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/">Organizing Cluster Access Using kubeconfig Files&lt;/a>.&lt;/p>
 &lt;p>You can check the setup by running:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># Display the current configuration&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># Display the current configuration&lt;/span>
 &lt;span class="ln">2&lt;/span>kubectl config view
 &lt;span class="ln">3&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="c1"># Get client and server version&lt;/span>
 &lt;span class="ln">5&lt;/span>kubectl version --short
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The last command should output something close to this:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>Client Version: v1.19.3
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>Client Version: v1.19.3
 &lt;span class="ln">2&lt;/span>Server Version: v1.19.2
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="faas-cli">&lt;code>faas-cli&lt;/code>&lt;/h3>
 &lt;p>The &lt;a href="https://github.com/openfaas/faas-cli">&lt;code>faas-cli&lt;/code>&lt;/a> requirement is linked to the usage of the OpenFaaS processor in the following setup.&lt;/p>
 &lt;p>Here is one installation method:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -sSL https://cli.openfaas.com &lt;span class="p">|&lt;/span> sudo sh
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>curl -sSL https://cli.openfaas.com &lt;span class="p">|&lt;/span> sudo sh
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>You can also use an alternative installation method described in the &lt;a href="https://github.com/openfaas/faas-cli">&lt;code>faas-cli&lt;/code> project GitHub repository&lt;/a>.&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="veba-deployment-on-kubernetes">VEBA deployment on Kubernetes&lt;/h2>
 &lt;p>The VEBA deployment on K8S is quite simple and does not require a lot of configuration.&lt;/p>
 &lt;h3 id="get-the-veba-code-and-dependencies">Get the VEBA code and dependencies&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/vmware-samples/vcenter-event-broker-appliance
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/vmware-samples/vcenter-event-broker-appliance
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> vcenter-event-broker-appliance/vmware-event-router/hack
 &lt;span class="ln">3&lt;/span>git clone https://github.com/openfaas/faas-netes -b &lt;span class="s2">&amp;#34;0.9.2&amp;#34;&lt;/span> --single-branch
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="deploy-veba-to-your-kubernetes-cluster">Deploy VEBA to your Kubernetes cluster&lt;/h3>
 &lt;p>VEBA team provide a setup script to handle the deployment:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>bash create_k8s_config.sh
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>bash create_k8s_config.sh
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>You will be prompted to provide some settings there:&lt;/p>
 &lt;ul>
 &lt;li>vCenter Server FQDN&lt;/li>
@@ -969,13 +969,13 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>Then you are prompted to review the settings and in order to proceed the VEBA deployment.&lt;/p>
 &lt;h3 id="check-the-deployment">Check the deployment&lt;/h3>
 &lt;p>Few minutes later, you should have a new VEBA deployment:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get pods -n vmware
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get pods -n vmware
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># You should get a running pod&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME READY STATUS RESTARTS AGE
 &lt;span class="ln">4&lt;/span>vmware-event-router-859b97c894-bxx94 1/1 Running &lt;span class="m">0&lt;/span> 25m
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="#VMware%20Event%20Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
 &lt;p>If you requested the OpenFaaS deployment, you now have a set of pods in the &lt;code>openfaas&lt;/code> namespace:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>kubectl get pods -n openfaas
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>kubectl get pods -n openfaas
 &lt;span class="ln"> 2&lt;/span>&lt;span class="c1"># You should get a new set of running pods&lt;/span>
 &lt;span class="ln"> 3&lt;/span>NAME READY STATUS RESTARTS AGE
 &lt;span class="ln"> 4&lt;/span>alertmanager-66556574f7-g225s 1/1 Running &lt;span class="m">0&lt;/span> 27m
@@ -991,11 +991,11 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;h3 id="login-to-your-openfaas-cli-and-ui">Login to your OpenFaaS cli and UI&lt;/h3>
 &lt;h4 id="login-to-faas-cli">Login to &lt;code>faas-cli&lt;/code>&lt;/h4>
 &lt;p>We now need to get the OpenFaaS URI to use the &lt;code>faas-cli&lt;/code> client. The following one-liner should provide you the appropriate information:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;export OPENFAAS_URL=http://&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>kubectl -n openfaas describe pods &lt;span class="k">$(&lt;/span>kubectl -n openfaas get pods &lt;span class="p">|&lt;/span> grep &lt;span class="s2">&amp;#34;gateway-&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> awk &lt;span class="s1">&amp;#39;{print $1}&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span> &lt;span class="p">|&lt;/span> grep &lt;span class="s2">&amp;#34;^Node:&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> awk -F &lt;span class="s2">&amp;#34;/&amp;#34;&lt;/span> &lt;span class="s1">&amp;#39;{print $2}&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;:31112&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;export OPENFAAS_URL=http://&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>kubectl -n openfaas describe pods &lt;span class="k">$(&lt;/span>kubectl -n openfaas get pods &lt;span class="p">|&lt;/span> grep &lt;span class="s2">&amp;#34;gateway-&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> awk &lt;span class="s1">&amp;#39;{print $1}&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span> &lt;span class="p">|&lt;/span> grep &lt;span class="s2">&amp;#34;^Node:&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> awk -F &lt;span class="s2">&amp;#34;/&amp;#34;&lt;/span> &lt;span class="s1">&amp;#39;{print $2}&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;:31112&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The above command output give you the command to run, to setup the &lt;code>OPENFAAS_URL&lt;/code> environment variable. This variable then can be used as an endpoint by the &lt;code>faas-cli&lt;/code> tool.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">OPENFAAS_URL&lt;/span>&lt;span class="o">=&lt;/span>https://&amp;lt;node ip&amp;gt;:31112
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">OPENFAAS_URL&lt;/span>&lt;span class="o">=&lt;/span>https://&amp;lt;node ip&amp;gt;:31112
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And to login:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;**YourPassword**&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> faas-cli login --password-stdin
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;**YourPassword**&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> faas-cli login --password-stdin
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>A warning will recommend you to use an HTTPS endpoint instead of the HTTP one: let's ignore it for the moment.&lt;/p>
 &lt;/blockquote>
@@ -1027,11 +1027,11 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>A config file, passed as a K8S secret to our function, used to store credentials and other environment specific variables. In my example, it's a &lt;em>YAML&lt;/em> file: &lt;code>vcconfig.yml&lt;/code>.&lt;/li>
 &lt;/ul>
 &lt;p>To simplify this post, I invite you to clone this sample repository:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/veba-sample-custom-attribute.git
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/veba-sample-custom-attribute.git
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> veba-sample-custom-attribute/
 &lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="stackyaml-file">&lt;code>stack.yaml&lt;/code> file&lt;/h4>
 &lt;p>This description file is used by VEBA to create the function run on our function-processor.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">provider&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">provider&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">openfaas&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gateway&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http://&amp;lt;node ip&amp;gt;:31112&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">functions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
@@ -1081,8 +1081,8 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/ul>
 &lt;h3 id="vcconfigyaml">&lt;code>vcconfig.yaml&lt;/code>&lt;/h3>
 &lt;p>This is a quite simple configuration file to rename to the expected name:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp vcconfig.example.yaml vcconfig.yaml
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">vcenter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>cp vcconfig.example.yaml vcconfig.yaml
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">vcenter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">server&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">vcsa-fqdn&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">user&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">service-account@vsphere.local&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">password&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;**********&amp;#34;&lt;/span>&lt;span class="w">
@@ -1102,30 +1102,30 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;h2 id="deploy-our-function">Deploy our function&lt;/h2>
 &lt;p>We now got function code, configuration, and the VEBA over K8S deployed. Let's deploy our function.&lt;/p>
 &lt;p>First step is to create the &amp;quot;&lt;em>secret&lt;/em>&amp;quot; to store our local configuration:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create vcconfig --from-file&lt;span class="o">=&lt;/span>vcconfig.yml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli secret create vcconfig --from-file&lt;span class="o">=&lt;/span>vcconfig.yml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And to confirm if it worked, we can lookup for the &lt;code>vcconfig&lt;/code> secret in a new namespace named: &lt;code>openfaas-fn&lt;/code> (for OpenFaaS Function)&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get secrets -n openfaas-fn vcconfig
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl get secrets -n openfaas-fn vcconfig
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME TYPE DATA AGE
 &lt;span class="ln">4&lt;/span>vcconfig Opaque &lt;span class="m">1&lt;/span> 2m53s
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we need to pull the OpenFaaS language template for the specified &lt;code>lang&lt;/code> in our &lt;code>stack.yml&lt;/code> file:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas template store pull python3
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>In fact, this command will pull all (12) the languages templates from the &lt;code>openfaas&lt;/code> registry, not only the one you are looking for.&lt;/p>
 &lt;/blockquote>
 &lt;p>We are ready to deploy our &lt;em>Function-as-a-Service&lt;/em>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli deploy -f stack.yml
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output&lt;/span>
 &lt;span class="ln">3&lt;/span>Deploying: vm-creation-attr.
 &lt;span class="ln">4&lt;/span>Deployed. &lt;span class="m">202&lt;/span> Accepted.
 &lt;span class="ln">5&lt;/span>URL: http://10.6.30.114:31112/function/vm-creation-attr.openfaas-fn
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We can check that a new pod is now part of the &lt;code>openfaas-fn&lt;/code> namespace:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>$ kubectl get pods -n openfaas-fn
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>$ kubectl get pods -n openfaas-fn
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>NAME READY STATUS RESTARTS AGE
 &lt;span class="ln">4&lt;/span>vm-creation-attr-65d9f75464-lf2sk 1/1 Running &lt;span class="m">0&lt;/span> 94s
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And our function is well listed in &lt;code>faas-cli&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli list
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli list
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>Function Invocations Replicas
 &lt;span class="ln">4&lt;/span>vm-creation-attr &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
@@ -1139,7 +1139,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;h3 id="follow-function-invocation">Follow function invocation&lt;/h3>
 &lt;p>There is two way to follow the function invocation(s).&lt;/p>
 &lt;p>By using &lt;code>kubectl&lt;/code> logs and specifing the &lt;code>openfaas-fn&lt;/code> namespace, the pod name (from above commands), and the &lt;code>--tail&lt;/code> and/or &lt;code>--follow&lt;/code> args:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl logs -n openfaas-fn vm-creation-attr-65d9f75464-lf2sk --tail &lt;span class="m">100&lt;/span> --follow
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>kubectl logs -n openfaas-fn vm-creation-attr-65d9f75464-lf2sk --tail &lt;span class="m">100&lt;/span> --follow
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>2020/11/01 14:41:26 Version: 0.18.1 SHA: b46be5a4d9d9d55da9c4b1e50d86346e0afccf2d
 &lt;span class="ln">4&lt;/span>2020/11/01 14:41:26 Timeouts: read: 5s, write: 5s hard: 0s.
@@ -1147,7 +1147,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;span class="ln">6&lt;/span>2020/11/01 14:41:26 Writing lock-file to: /tmp/.lock
 &lt;span class="ln">7&lt;/span>2020/11/01 14:41:26 Metrics listening on port: &lt;span class="m">8081&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Or with &lt;code>faas-cli&lt;/code> command:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli logs vm-creation-attr --tail &lt;span class="m">100&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>faas-cli logs vm-creation-attr --tail &lt;span class="m">100&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="c1"># Output:&lt;/span>
 &lt;span class="ln">3&lt;/span>2020-11-01T14:41:26Z 2020/11/01 14:41:26 Version: 0.18.1 SHA: b46be5a4d9d9d55da9c4b1e50d86346e0afccf2d
 &lt;span class="ln">4&lt;/span>2020-11-01T14:41:26Z 2020/11/01 14:41:26 Timeouts: read: 5s, write: 5s hard: 0s.

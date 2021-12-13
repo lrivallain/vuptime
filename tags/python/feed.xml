@@ -22,10 +22,10 @@
 &lt;/figure>
 &lt;h2 id="install-the-new-version">Install the new version&lt;/h2>
 &lt;p>From a python environment with &lt;code>pip&lt;/code> installed:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install vro-package-diff
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install vro-package-diff
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
 &lt;h3 id="get-the-help">Get the help&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>vro-diff --help
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>vro-diff --help
 &lt;span class="ln"> 2&lt;/span>Usage: vro-diff &lt;span class="o">[&lt;/span>OPTIONS&lt;span class="o">]&lt;/span> REFERENCE_PACKAGE COMPARED_PACKAGE
 &lt;span class="ln"> 3&lt;/span>
 &lt;span class="ln"> 4&lt;/span>Start a diff operation between two vRO packages.
@@ -40,11 +40,11 @@
 &lt;span class="ln">13&lt;/span>-h, --help Show this message and exit.
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="examples">Examples&lt;/h3>
 &lt;p>Compare two packages:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then display legend (&lt;code>--legend&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then exit with error if there is conflicts (&lt;code>-–test&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$?&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The script will exit with the number of items with a conflict situation.&lt;/p>
 &lt;p>This &lt;code>-–test&lt;/code> option can be usefull to implement CI/CD pipelines to compare, then upload(if there is no conflict) vRO packages.&lt;/p>
@@ -220,15 +220,15 @@
 &lt;h2 id="installation">Installation&lt;/h2>
 &lt;p>&lt;strong>Requirements:&lt;/strong> Python 3 and &lt;code>pip&lt;/code> installed.&lt;/p>
 &lt;p>Download:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/vro-package-diff.git
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/vro-package-diff.git
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> vro-package-diff
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>(optionnal) Create python virtualenv:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>virtualenv -p python3 --no-site-packages venv
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>virtualenv -p python3 --no-site-packages venv
 &lt;span class="ln">2&lt;/span>. venv/bin/activate
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Install required python packages:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>python ./vro_package_diff.py packageA.package packageB.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>python ./vro_package_diff.py packageA.package packageB.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>With:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>packageA.package&lt;/code> : oldest package file&lt;/li>

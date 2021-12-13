@@ -9,7 +9,7 @@ The VirtualMachine object has a property called &lt;code>VirtualMachineName&lt;/
 &lt;/figure>
 &lt;p>Here is the javascript code in order to get this virtual machine machine.
 It will return a object of type &lt;a href="http://www.vroapi.com/Class/vCAC/7.2.0/VCACEntity">VCAC:Entity&lt;/a>.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1">// Inputs : vcacHost : vCAC:vCACHOST
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1">// Inputs : vcacHost : vCAC:vCACHOST
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="c1">&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="c1">// Define the virtual machine name to search
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;TESTVM02&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
@@ -51,7 +51,7 @@ The request is simple, we'll use the method &lt;code>get_property&lt;/code> on t
 &lt;/figcaption>
 &lt;/figure>
 &lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln">1&lt;/span>&lt;span class="c1">// Get the first virtual machine on the result (There is only one as we used the filter)
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln">1&lt;/span>&lt;span class="c1">// Get the first virtual machine on the result (There is only one as we used the filter)
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vm&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vms&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">];&lt;/span>
 &lt;span class="ln">3&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmVcpu&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMCPUs&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmRam&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMTotalMemoryMB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
@@ -63,7 +63,7 @@ The request is simple, we'll use the method &lt;code>get_property&lt;/code> on t
 &lt;p>Everything is working well, but now we also want to display the virtual machine hard-disks.
 There is a property name called &lt;code>VMDiskHardware&lt;/code> but not directly accessible because this is a child object of &lt;code>VirtualMachine&lt;/code>.&lt;/p>
 &lt;p>Using LINQPAD, we can access to this property by using the method &lt;code>expand&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-c#" data-lang="c#">&lt;span class="ln">1&lt;/span>&lt;span class="n">VirtualMachines&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Expand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;VMDiskHardware&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Where&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">v&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">VirtualMachineName&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="s">&amp;#34;TESTVM02&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c#" data-lang="c#">&lt;span class="ln">1&lt;/span>&lt;span class="n">VirtualMachines&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Expand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;VMDiskHardware&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Where&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">v&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">VirtualMachineName&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="s">&amp;#34;TESTVM02&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_disks.png"/>&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
@@ -74,7 +74,7 @@ This method has 2 parameters :&lt;/p>
 &lt;li>The first one is your IaaS manager ( &lt;code>vCAC:vCACHost&lt;/code> object on vRO )&lt;/li>
 &lt;li>The second is the link name ( the child object name ).&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln">1&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmDisks&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getLink&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vcacHost&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;VMDiskHardware&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln">1&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmDisks&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getLink&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vcacHost&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;VMDiskHardware&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">2&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="nx">each&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmDisk&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="nx">vmDisks&lt;/span>&lt;span class="p">){&lt;/span>
 &lt;span class="ln">3&lt;/span> &lt;span class="nx">diskName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vmDisk&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;DiskName&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;span class="ln">4&lt;/span> &lt;span class="nx">diskSize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vmDisk&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Capacity&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
@@ -91,7 +91,7 @@ This method has 2 parameters :&lt;/p>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1">// Inputs : startDate : Date; vcacHost : vCAC:vCACHOST
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1">// Inputs : startDate : Date; vcacHost : vCAC:vCACHOST
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="c1">&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">formatDate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">startDate&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;yyyy-MM-dd&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39;T00:00:00&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;span class="ln"> 4&lt;/span>
@@ -146,10 +146,10 @@ This method has 2 parameters :&lt;/p>
 &lt;/figure>
 &lt;h2 id="install-the-new-version">Install the new version&lt;/h2>
 &lt;p>From a python environment with &lt;code>pip&lt;/code> installed:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install vro-package-diff
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install vro-package-diff
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
 &lt;h3 id="get-the-help">Get the help&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>vro-diff --help
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>vro-diff --help
 &lt;span class="ln"> 2&lt;/span>Usage: vro-diff &lt;span class="o">[&lt;/span>OPTIONS&lt;span class="o">]&lt;/span> REFERENCE_PACKAGE COMPARED_PACKAGE
 &lt;span class="ln"> 3&lt;/span>
 &lt;span class="ln"> 4&lt;/span>Start a diff operation between two vRO packages.
@@ -164,11 +164,11 @@ This method has 2 parameters :&lt;/p>
 &lt;span class="ln">13&lt;/span>-h, --help Show this message and exit.
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="examples">Examples&lt;/h3>
 &lt;p>Compare two packages:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then display legend (&lt;code>--legend&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then exit with error if there is conflicts (&lt;code>-–test&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$?&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The script will exit with the number of items with a conflict situation.&lt;/p>
 &lt;p>This &lt;code>-–test&lt;/code> option can be usefull to implement CI/CD pipelines to compare, then upload(if there is no conflict) vRO packages.&lt;/p>
@@ -183,15 +183,15 @@ This method has 2 parameters :&lt;/p>
 &lt;h2 id="installation">Installation&lt;/h2>
 &lt;p>&lt;strong>Requirements:&lt;/strong> Python 3 and &lt;code>pip&lt;/code> installed.&lt;/p>
 &lt;p>Download:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/vro-package-diff.git
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/lrivallain/vro-package-diff.git
 &lt;span class="ln">2&lt;/span>&lt;span class="nb">cd&lt;/span> vro-package-diff
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>(optionnal) Create python virtualenv:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>virtualenv -p python3 --no-site-packages venv
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>virtualenv -p python3 --no-site-packages venv
 &lt;span class="ln">2&lt;/span>. venv/bin/activate
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Install required python packages:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>python ./vro_package_diff.py packageA.package packageB.package
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>python ./vro_package_diff.py packageA.package packageB.package
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>With:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>packageA.package&lt;/code> : oldest package file&lt;/li>

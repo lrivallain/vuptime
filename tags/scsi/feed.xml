@@ -4,11 +4,11 @@
 &lt;p>As system's logs reports SCSI timeout on write operations, I remember myself that the default 30 seconds timeout could be insufficient in some virtualized environment. So the proposal to fix it, is the modification of timeout to a higher value.&lt;/p>
 &lt;h1 id="default-appliances-settings">Default appliance's settings&lt;/h1>
 &lt;p>We can display the current (default at this time) value of SCSI timeout for any block device of the system with the following command (based on &lt;code>sysfs&lt;/code>, a &lt;a href="https://en.wikipedia.org/wiki/Sysfs">pseudo file system provided by the Linux kernel&lt;/a> since version 2.6):&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="k">for&lt;/span> d in &lt;span class="sb">`&lt;/span>ls /dev/sd* &lt;span class="p">|&lt;/span> egrep &lt;span class="s2">&amp;#34;sd[a-z]&lt;/span>$&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="sb">`&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="k">for&lt;/span> d in &lt;span class="sb">`&lt;/span>ls /dev/sd* &lt;span class="p">|&lt;/span> egrep &lt;span class="s2">&amp;#34;sd[a-z]&lt;/span>$&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="sb">`&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
 &lt;span class="ln">2&lt;/span> &lt;span class="nb">printf&lt;/span> &lt;span class="s2">&amp;#34;`basename &lt;/span>&lt;span class="nv">$d&lt;/span>&lt;span class="s2">`: &amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span> cat /sys/block/&lt;span class="sb">`&lt;/span>basename &lt;span class="nv">$d&lt;/span>&lt;span class="sb">`&lt;/span>/device/timeout&lt;span class="p">;&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="k">done&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>sda: 30
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>sda: 30
 &lt;span class="ln"> 2&lt;/span>sdb: 30
 &lt;span class="ln"> 3&lt;/span>sdc: 30
 &lt;span class="ln"> 4&lt;/span>sdd: 30
@@ -22,7 +22,7 @@
 &lt;span class="ln">12&lt;/span>sdl: 30
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Following command shows the same informations:&lt;/p>
 &lt;p>&lt;code>find /sys/class/scsi_generic/*/device/timeout -exec grep -H . '{}' \;&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:30
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:30
 &lt;span class="ln"> 2&lt;/span>/sys/class/scsi_generic/sg10/device/timeout:30
 &lt;span class="ln"> 3&lt;/span>/sys/class/scsi_generic/sg11/device/timeout:30
 &lt;span class="ln"> 4&lt;/span>/sys/class/scsi_generic/sg12/device/timeout:30
@@ -37,10 +37,10 @@
 &lt;span class="ln">13&lt;/span>/sys/class/scsi_generic/sg9/device/timeout:30
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>As mentionned in &lt;a href="http://kb.vmware.com/kb/1009465">KB #1009465 &lt;em>Increasing the disk timeout values for a Linux 2.6 virtual machine&lt;/em>&lt;/a>, VMware tools creates a &lt;code>udev&lt;/code> rule at &lt;code>/etc/udev/rules.d/99-vmware-scsi-udev.rules&lt;/code> that sets the timeout to 180 seconds for each VMware virtual disk device and reloads the &lt;code>udev&lt;/code> rules so that it takes effect immediately. But on the Photon appliance this udev rule doesn't exists anymore :&lt;/p>
 &lt;p>&lt;code>ls -l /etc/udev/rules.d/*vmware*&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>-rw-r--r-- 1 root root 268 Sep 30 2016 /etc/udev/rules.d/99-vmware-hotplug.rules
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>-rw-r--r-- 1 root root 268 Sep 30 2016 /etc/udev/rules.d/99-vmware-hotplug.rules
 &lt;span class="ln">2&lt;/span>-rw-r--r-- 1 root root 104 Oct 22 2016 /etc/udev/rules.d/99-vmware-udev.rules
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>To compare only&lt;/strong>: on a &amp;quot;non-Photon based&amp;quot; Linux VM, a &lt;code>/etc/udev/rules.d/99-vmware-scsi-udev.rules&lt;/code> file exists (created by the VMware-tools installer) and contains:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>#
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>#
 &lt;span class="ln">2&lt;/span># VMware SCSI devices Timeout adjustment
 &lt;span class="ln">3&lt;/span>#
 &lt;span class="ln">4&lt;/span># Modify the timeout value for VMware SCSI devices so that
@@ -78,7 +78,7 @@
 &lt;/table>
 &lt;p>VMware Support team confirms that the expected value is 180 seconds as configured in &lt;strong>VCSA 6.0 build-3339084&lt;/strong>:&lt;/p>
 &lt;p>&lt;code>find /sys/class/scsi_generic/*/device/timeout -exec grep -H . '{}' \;&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:180
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:180
 &lt;span class="ln"> 2&lt;/span>/sys/class/scsi_generic/sg1/device/timeout:180
 &lt;span class="ln"> 3&lt;/span>/sys/class/scsi_generic/sg10/device/timeout:180
 &lt;span class="ln"> 4&lt;/span>/sys/class/scsi_generic/sg11/device/timeout:30
@@ -100,7 +100,7 @@
 &lt;h2 id="vcsa-upgrade-way">VCSA upgrade way&lt;/h2>
 &lt;p>It's not mentionned in the &lt;a href="https://docs.vmware.com/en/VMware-vSphere/6.5/rn/vsphere-vcenter-server-651-release-notes.html#storage-issues-resolved">Relase Notes&lt;/a>, but &lt;strong>VCSA 6.5 build 5973321&lt;/strong> include a fix for the missing udev rule with openvm-tools :&lt;/p>
 &lt;p>&lt;code>find /sys/class/scsi_generic/*/device/timeout -exec grep -H . '{}' \;&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:30
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>/sys/class/scsi_generic/sg0/device/timeout:30
 &lt;span class="ln"> 2&lt;/span>/sys/class/scsi_generic/sg10/device/timeout:180
 &lt;span class="ln"> 3&lt;/span>/sys/class/scsi_generic/sg11/device/timeout:180
 &lt;span class="ln"> 4&lt;/span>/sys/class/scsi_generic/sg12/device/timeout:180
@@ -116,7 +116,7 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>An upgrade is the best way to avoid this issue.&lt;/p>
 &lt;h2 id="manually-add-the-udev-rule">Manually add the udev rule&lt;/h2>
 &lt;p>It's possible to manually add the missing udev rule and to apply it :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;
 &lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="s2">ACTION==\&amp;#34;add\&amp;#34;, SUBSYSTEMS==\&amp;#34;scsi\&amp;#34;, ATTRS{vendor}==\&amp;#34;VMware*\&amp;#34; , ATTRS{model}==\&amp;#34;Virtual disk*\&amp;#34;, RUN+=\&amp;#34;/bin/sh -c &amp;#39;echo 180 &amp;gt;/sys&lt;/span>&lt;span class="nv">$DEVPATH&lt;/span>&lt;span class="s2">/device/timeout&amp;#39;\&amp;#34;
 &lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="s2">ACTION==\&amp;#34;add\&amp;#34;, SUBSYSTEMS==\&amp;#34;scsi\&amp;#34;, ATTRS{vendor}==\&amp;#34;VMware*\&amp;#34; , ATTRS{model}==\&amp;#34;VMware Virtual S\&amp;#34;, RUN+=\&amp;#34;/bin/sh -c &amp;#39;echo 180 &amp;gt;/sys&lt;/span>&lt;span class="nv">$DEVPATH&lt;/span>&lt;span class="s2">/device/timeout&amp;#39;\&amp;#34;
 &lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &amp;gt; /etc/udev/rules.d/99-vmware-scsi-udev.rules
@@ -124,7 +124,7 @@
 &lt;h2 id="the-rclocal-way">The rc.local way&lt;/h2>
 &lt;p>By default , there is no created rc.local file on the Photon based appliance to run simple commands at every system startup. But it's simple to find out where to create this file by displaying the systemd &lt;code>rc-local&lt;/code> service configuration:&lt;/p>
 &lt;p>&lt;code>systemctl cat rc-local&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span># /etc/systemd/system/rc-local.service
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span># /etc/systemd/system/rc-local.service
 &lt;span class="ln"> 2&lt;/span># This file is part of systemd.
 &lt;span class="ln"> 3&lt;/span>#
 &lt;span class="ln"> 4&lt;/span># systemd is free software; you can redistribute it and/or modify it
@@ -146,7 +146,7 @@
 &lt;span class="ln">20&lt;/span>RemainAfterExit=yes
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>As mentionned, the &lt;code>/etc/rc.d/rc.local&lt;/code> must be created and executable. Let's do it !&lt;/p>
 &lt;p>&lt;code>vi /etc/rc.d/rc.local&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="cp">#!/bin/sh -e
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="cp">#!/bin/sh -e
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="cp">&lt;/span>&lt;span class="c1">#&lt;/span>
 &lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># rc.local&lt;/span>
 &lt;span class="ln"> 4&lt;/span>&lt;span class="c1">#&lt;/span>
@@ -175,11 +175,11 @@
 &lt;p>&lt;code>systemctl start rc-local&lt;/code>&lt;/p>
 &lt;p>No restart is needed to apply the new timeout settings. At every system startup, the &lt;code>rc.local&lt;/code> file will be instantiate and the timeout value increased from 30 seconds to 180.&lt;/p>
 &lt;h1 id="check-new-timeout-value">Check new timeout value&lt;/h1>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="k">for&lt;/span> d in &lt;span class="sb">`&lt;/span>ls /dev/sd* &lt;span class="p">|&lt;/span> egrep &lt;span class="s2">&amp;#34;sd[a-z]&lt;/span>$&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="sb">`&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="k">for&lt;/span> d in &lt;span class="sb">`&lt;/span>ls /dev/sd* &lt;span class="p">|&lt;/span> egrep &lt;span class="s2">&amp;#34;sd[a-z]&lt;/span>$&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="sb">`&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
 &lt;span class="ln">2&lt;/span> &lt;span class="nb">printf&lt;/span> &lt;span class="s2">&amp;#34;`basename &lt;/span>&lt;span class="nv">$d&lt;/span>&lt;span class="s2">`: &amp;#34;&lt;/span>
 &lt;span class="ln">3&lt;/span> cat /sys/block/&lt;span class="sb">`&lt;/span>basename &lt;span class="nv">$d&lt;/span>&lt;span class="sb">`&lt;/span>/device/timeout&lt;span class="p">;&lt;/span>
 &lt;span class="ln">4&lt;/span>&lt;span class="k">done&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>sda: 180
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>sda: 180
 &lt;span class="ln"> 2&lt;/span>sdb: 180
 &lt;span class="ln"> 3&lt;/span>sdc: 180
 &lt;span class="ln"> 4&lt;/span>sdd: 180

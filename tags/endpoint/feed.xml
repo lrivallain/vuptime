@@ -4,7 +4,7 @@
 &lt;p>If you have already used the vRealize Automation REST API, you should have noticed that there is around twenty &lt;a href="https://code.vmware.com/apis/39/vrealize-automation">endpoints&lt;/a> !&lt;/p>
 &lt;p>On this article, we'll take the example of listing all the blueprints using vRO.&lt;/p>
 &lt;p>The REST API call to perform this operation is :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>https://vra-fqdn/composition-service/api/blueprints
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>https://vra-fqdn/composition-service/api/blueprints
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Thereby the endpoint is &lt;code>composition service&lt;/code>.&lt;/p>
 &lt;h1 id="find-the-vcac-endpoint">Find the vCAC endpoint&lt;/h1>
 &lt;p>Once the vRealize Automation REST endpoint defined, you need to find it on the vCAC plugin.&lt;/p>
@@ -14,7 +14,7 @@
 &lt;p>It will collect all the vRealize Automation REST endpoints.&lt;/p>
 &lt;p>On the result, locate your endpoint and get the &lt;code>typeId&lt;/code> which is the endpoint name on the vCAC plugin.&lt;br>
 In this case, the vCAC endpoint found is &lt;code>com.vmware.csp.core.cafe.catalog.requested.item.info.provider&lt;/code> for the &lt;code>composition-service&lt;/code>.&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;@type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;EndPoint&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ed42c762-1487-458a-bc33-b7efc285b426&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;createdDate&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
@@ -34,7 +34,7 @@ In this case, the vCAC endpoint found is &lt;code>com.vmware.csp.core.cafe.catal
 object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCAFEHost/createRestClient">createRestClient()&lt;/a> with the vCAC endpoint on the parameter.&lt;/p>
 &lt;p>You will be able to do some basic REST operations like &lt;a href="http://vroapi.com/Class/vCACCAFE/7.3.0/vCACCAFERestClient">GET, POST and PUT&lt;/a>.&lt;/p>
 &lt;p>Here is the code to list all the blueprints defined on a vRA tenant :&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="cm">/*
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="cm">/*
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="cm"> * List all the blueprints defined on a tenant
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="cm"> *
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="cm"> * @param {vCACCAFEHost} host Targeted vCACAFE Host Tenant.
@@ -59,7 +59,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;/figure>
 &lt;p>This information is coming from the keystone database, so we need to proceed a c&lt;/p>
 &lt;p>List endpoints list, filtered on interface &lt;code>public&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>$ openstack endpoint list --interface public&lt;span class="s2">&amp;#34;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>$ openstack endpoint list --interface public&lt;span class="s2">&amp;#34;
 &lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
 &lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="s2">| ID | Region | Service Name | Service Type | Enabled | Interface | URL |
 &lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
@@ -72,7 +72,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="s2">| ********b0ba4d6c87e4c20e18230a39 | RegionOne | nova | compute | True | public | http://controller:8774/v2.1/%(tenant_id)s |
 &lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The same information from database side:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>$ mysql keystone
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>$ mysql keystone
 &lt;span class="ln"> 2&lt;/span>MariaDB [keystone]&amp;gt; select id,url from keystone.endpoint where interface=&amp;#39;public&amp;#39; ;
 &lt;span class="ln"> 3&lt;/span>+----------------------------------+----------------------------------------------+
 &lt;span class="ln"> 4&lt;/span>| id | url |
@@ -87,11 +87,11 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;span class="ln">13&lt;/span>+----------------------------------+----------------------------------------------+
 &lt;span class="ln">14&lt;/span>7 rows in set (0.00 sec)
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>The query to change the endpoint url:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>MariaDB [keystone]&amp;gt; update keystone.endpoint SET url = REPLACE(url, &amp;#39;controller&amp;#39;, &amp;#39;newurl.domain.tld&amp;#39;) WHERE interface=&amp;#39;public&amp;#39;;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>MariaDB [keystone]&amp;gt; update keystone.endpoint SET url = REPLACE(url, &amp;#39;controller&amp;#39;, &amp;#39;newurl.domain.tld&amp;#39;) WHERE interface=&amp;#39;public&amp;#39;;
 &lt;span class="ln">2&lt;/span>Query OK, 7 rows affected (0.00 sec)
 &lt;span class="ln">3&lt;/span>Rows matched: 7 Changed: 7 Warnings: 0
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>And the result:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>MariaDB [keystone]&amp;gt; select id,url from keystone.endpoint where interface=&amp;#39;public&amp;#39; ;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>MariaDB [keystone]&amp;gt; select id,url from keystone.endpoint where interface=&amp;#39;public&amp;#39; ;
 &lt;span class="ln"> 2&lt;/span>+----------------------------------+----------------------------------------------------------+
 &lt;span class="ln"> 3&lt;/span>| id | url |
 &lt;span class="ln"> 4&lt;/span>+----------------------------------+----------------------------------------------------------+
@@ -105,7 +105,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;span class="ln">12&lt;/span>+----------------------------------+----------------------------------------------------------+
 &lt;span class="ln">13&lt;/span>7 rows in set (0.00 sec)
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>To apply the change, we restart memcached and keystone service:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service keystone restart
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service keystone restart
 &lt;span class="ln">2&lt;/span>service memcached restart
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Now the endpoint displayed from the horizon portal is updated with the new URL :&lt;/p>
 &lt;figure>&lt;img src="https://vuptime.io/images/MigrateOpenstackKeystoneUrl/after.png"/>&lt;figcaption>
