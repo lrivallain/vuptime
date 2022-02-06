@@ -56,7 +56,7 @@ With the AVS REST API you could easly the following parts of you AVS deployment:
   * Virtual Machine grouping
 * Other AVS clouds links
 
-> This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to directly use VMware REST APIs, the documentation and endpoint are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances.
+> This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.
 
 ### Collection import
 
@@ -101,7 +101,7 @@ Sadly in the export/import process of Postman collection, a variable used for au
 3. Enter: `{{accessToken}}` to reference your token variable
 4. Save and quit this tab
 
-> This has to done only once when you import the collection. When you will regenerate an access token this variable will remain to access to the updated value.
+> This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.
 
 ### Testing
 
@@ -112,7 +112,7 @@ You can now test the collection by listing the AVS deployments in your subscript
 
 ## Conclusion
 
-Even if this collection covers the complete AVS REST API (version 2021-12-01), the official reference documentation remains the one from the Azure docs website: [Azure VMware REST API](https://docs.microsoft.com/en-us/rest/api/avs/) which contains much more documentation to explain the content of each request and response.
+Even if this collection covers the 100% of the current AVS REST API (version 2021-12-01), the official reference documentation remains the one from the Azure docs website: [Azure VMware REST API](https://docs.microsoft.com/en-us/rest/api/avs/) which contains **much more documentation** to explain the content of each request and response. I strongly encourage everyone to have a look to this documentation before using the Postman collection.
 
 In the next post, we will review some examples of the AVS REST API by using a very useful tool: `az rest`.
 
