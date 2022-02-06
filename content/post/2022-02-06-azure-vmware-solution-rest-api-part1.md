@@ -25,7 +25,7 @@ Working on Azure VMware Solution since a couple of months now, I found very usef
 
 After a period of time, I did collect enought sample to consider doing a full [Postman](https://www.postman.com/) collection and by doing that, I was also considering to cover the complete [Azure VMware REST API](https://docs.microsoft.com/en-us/rest/api/avs/) (and not only the parts that I already used).
 
-# The Postman collection
+## The Postman collection
 
 I can find a complete Postman collection to use AVS REST API in the following GitHub repository: [Azure VMware Solution REST API Postman collection](https://github.com/lrivallain/avs-rest-api-postman-collection) `avs-rest-api-postman-collection.json`.
 
@@ -58,13 +58,13 @@ With the AVS REST API you could easly the following parts of you AVS deployment:
 
 > This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to directly use VMware REST APIs, the documentation and endpoint are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances.
 
-## Collection import
+### Collection import
 
 From Postman, web or desktop client, you could import the collection by refering to the following link: [https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json](https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json).
 
 You may also need to import the *environment* sample to populate your own data: [https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json](https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json).
 
-## Login
+### Login
 
 In order to use the collection, you will have to enter some information like:
 
@@ -88,7 +88,7 @@ Eventually, use the value in the `accessToken` section of your environment.
 
 > The token generated with `get-access-token` is valid for only one hour. For other token generation methods you can refer to the [Azure documentation](https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad).
 
-### Setup `accessToken` for all API calls
+#### Setup `accessToken` for all API calls
 
 Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:
 
@@ -103,19 +103,19 @@ Sadly in the export/import process of Postman collection, a variable used for au
 
 > This has to done only once when you import the collection. When you will regenerate an access token this variable will remain to access to the updated value.
 
-## Testing
+### Testing
 
 You can now test the collection by listing the AVS deployments in your subscription:
 
 ![List AVS SDDC](/images/avs-api/list-avs-sddc.png)
 
 
-# Conclusion
+## Conclusion
 
-Even if this collection covers the complete AVS REST API (version )
+Even if this collection covers the complete AVS REST API (version 2021-12-01), the official reference documentation remains the one from the Azure docs website: [Azure VMware REST API](https://docs.microsoft.com/en-us/rest/api/avs/) which contains much more documentation to explain the content of each request and response.
 
-In the next post, we will review some usefull examples of the AVS REST API
+In the next post, we will review some examples of the AVS REST API by using a very useful tool: `az rest`.
 
-## Credits
+### Credits
 
 Title photo by [Rod Long](https://unsplash.com/@rodlong) on [Unsplash](https://unsplash.com/photos/vpOeXr5wmR4)
