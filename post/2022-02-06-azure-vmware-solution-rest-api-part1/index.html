@@ -93,21 +93,23 @@ Share on:
 <h2>Overview</h2>
 <nav id=TableOfContents>
 <ul>
-<li><a href=#collection-import>Collection import</a></li>
-<li><a href=#login>Login</a>
+<li><a href=#the-postman-collection>The Postman collection</a>
 <ul>
-<li><a href=#setup-accesstoken-for-all-api-calls>Setup <code>accessToken</code> for all API calls</a></li>
-</ul>
-</li>
+<li><a href=#collection-import>Collection import</a></li>
+<li><a href=#login>Login</a></li>
 <li><a href=#testing>Testing</a></li>
 </ul>
+</li>
+<li><a href=#conclusion>Conclusion</a>
 <ul>
 <li><a href=#credits>Credits</a></li>
+</ul>
+</li>
 </ul>
 </nav>
 <p>Working on Azure VMware Solution since a couple of months now, I found very usefull to have a prepared list of API calls on a notebook or quick-reference document.</p>
 <p>After a period of time, I did collect enought sample to consider doing a full <a href=https://www.postman.com/>Postman</a> collection and by doing that, I was also considering to cover the complete <a href=https://docs.microsoft.com/en-us/rest/api/avs/>Azure VMware REST API</a> (and not only the parts that I already used).</p>
-<h1 id=the-postman-collection>The Postman collection</h1>
+<h2 id=the-postman-collection>The Postman collection</h2>
 <p>I can find a complete Postman collection to use AVS REST API in the following GitHub repository: <a href=https://github.com/lrivallain/avs-rest-api-postman-collection>Azure VMware Solution REST API Postman collection</a> <code>avs-rest-api-postman-collection.json</code>.</p>
 <p>This repository also contains an <em>environment example</em> you could use to populate your API calls: <code>avs-rest-api-postman_environment.json</code>.</p>
 <p>With the AVS REST API you could easly the following parts of you AVS deployment:</p>
@@ -147,10 +149,10 @@ Share on:
 <blockquote>
 <p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to directly use VMware REST APIs, the documentation and endpoint are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances.</p>
 </blockquote>
-<h2 id=collection-import>Collection import</h2>
+<h3 id=collection-import>Collection import</h3>
 <p>From Postman, web or desktop client, you could import the collection by refering to the following link: <a href=https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json>https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json</a>.</p>
 <p>You may also need to import the <em>environment</em> sample to populate your own data: <a href=https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json>https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json</a>.</p>
-<h2 id=login>Login</h2>
+<h3 id=login>Login</h3>
 <p>In order to use the collection, you will have to enter some information like:</p>
 <ul>
 <li>subscription ID: <code>subscriptionId</code></li>
@@ -165,7 +167,7 @@ Share on:
 <blockquote>
 <p>The token generated with <code>get-access-token</code> is valid for only one hour. For other token generation methods you can refer to the <a href=https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad>Azure documentation</a>.</p>
 </blockquote>
-<h3 id=setup-accesstoken-for-all-api-calls>Setup <code>accessToken</code> for all API calls</h3>
+<h4 id=setup-accesstoken-for-all-api-calls>Setup <code>accessToken</code> for all API calls</h4>
 <p>Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:</p>
 <p><img src=/images/avs-api/authentication-configuration.png alt="Set the token value to a variable reference"></p>
 <p><strong>Procedure</strong>:</p>
@@ -178,13 +180,13 @@ Share on:
 <blockquote>
 <p>This has to done only once when you import the collection. When you will regenerate an access token this variable will remain to access to the updated value.</p>
 </blockquote>
-<h2 id=testing>Testing</h2>
+<h3 id=testing>Testing</h3>
 <p>You can now test the collection by listing the AVS deployments in your subscription:</p>
 <p><img src=/images/avs-api/list-avs-sddc.png alt="List AVS SDDC"></p>
-<h1 id=conclusion>Conclusion</h1>
-<p>Even if this collection covers the complete AVS REST API (version )</p>
-<p>In the next post, we will review some usefull examples of the AVS REST API</p>
-<h2 id=credits>Credits</h2>
+<h2 id=conclusion>Conclusion</h2>
+<p>Even if this collection covers the complete AVS REST API (version 2021-12-01), the official reference documentation remains the one from the Azure docs website: <a href=https://docs.microsoft.com/en-us/rest/api/avs/>Azure VMware REST API</a> which contains much more documentation to explain the content of each request and response.</p>
+<p>In the next post, we will review some examples of the AVS REST API by using a very useful tool: <code>az rest</code>.</p>
+<h3 id=credits>Credits</h3>
 <p>Title photo by <a href=https://unsplash.com/@rodlong>Rod Long</a> on <a href=https://unsplash.com/photos/vpOeXr5wmR4>Unsplash</a></p>
 <div id=disqus_thread></div>
 <script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//lri-ovh.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
