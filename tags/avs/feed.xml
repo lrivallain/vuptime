@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>avs on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/avs/</link><description>Recent content in avs on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sun, 06 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/avs/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure VMware Solutions REST API - part 1: Postman collection</title><link>https://vuptime.io/post/2022-02-06-azure-vmware-solution-rest-api-part1/</link><pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/01/06/azure-vmware-solution-rest-api-part1/</guid><description>
+&lt;p>Working on Azure VMware Solution since a couple of months now, I found very usefull to have a prepared list of API calls on a notebook or quick-reference document.&lt;/p>
+&lt;p>After a period of time, I did collect enought sample to consider doing a full &lt;a href="https://www.postman.com/">Postman&lt;/a> collection and by doing that, I was also considering to cover the complete &lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/">Azure VMware REST API&lt;/a> (and not only the parts that I already used).&lt;/p>
+&lt;h1 id="the-postman-collection">The Postman collection&lt;/h1>
+&lt;p>I can find a complete Postman collection to use AVS REST API in the following GitHub repository: &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection">Azure VMware Solution REST API Postman collection&lt;/a> &lt;code>avs-rest-api-postman-collection.json&lt;/code>.&lt;/p>
+&lt;p>This repository also contains an &lt;em>environment example&lt;/em> you could use to populate your API calls: &lt;code>avs-rest-api-postman_environment.json&lt;/code>.&lt;/p>
+&lt;p>With the AVS REST API you could easly the following parts of you AVS deployment:&lt;/p>
+&lt;ul>
+&lt;li>The SDDC itself
+&lt;ul>
+&lt;li>Credentials&lt;/li>
+&lt;li>Endpoints&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>The &lt;em>Express Route&lt;/em> authorizations&lt;/li>
+&lt;li>&lt;em>Global Reach&lt;/em> connections&lt;/li>
+&lt;li>Clusters
+&lt;ul>
+&lt;li>Datastores&lt;/li>
+&lt;li>Virtual machines grouping&lt;/li>
+&lt;li>Placement policies&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Addons&lt;/li>
+&lt;li>AVS scripts&lt;/li>
+&lt;li>HCX&lt;/li>
+&lt;li>Quota and Trial availability&lt;/li>
+&lt;li>Workload networks:
+&lt;ul>
+&lt;li>DHCP&lt;/li>
+&lt;li>DNS&lt;/li>
+&lt;li>Segments&lt;/li>
+&lt;li>Public IPs&lt;/li>
+&lt;li>Port mirroring&lt;/li>
+&lt;li>Gateways (NSX-T Tiers 1)&lt;/li>
+&lt;li>Virtual Machine grouping&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Other AVS clouds links&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to directly use VMware REST APIs, the documentation and endpoint are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="collection-import">Collection import&lt;/h2>
+&lt;p>From Postman, web or desktop client, you could import the collection by refering to the following link: &lt;a href="https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json">https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json&lt;/a>.&lt;/p>
+&lt;p>You may also need to import the &lt;em>environment&lt;/em> sample to populate your own data: &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json">https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json&lt;/a>.&lt;/p>
+&lt;h2 id="login">Login&lt;/h2>
+&lt;p>In order to use the collection, you will have to enter some information like:&lt;/p>
+&lt;ul>
+&lt;li>subscription ID: &lt;code>subscriptionId&lt;/code>&lt;/li>
+&lt;li>resource-group name: &lt;code>resourceGroupName&lt;/code>&lt;/li>
+&lt;li>authorization token: &lt;code>resourceGroupName&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>The easiest way to get an authentication token is by using &lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure Command-Line Interface&lt;/a>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az account get-access-token --subscription 01010101-0101-0101-0101-010101010101
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>You can pick the &lt;code>accessToken&lt;/code> value returned or use &lt;code>jq&lt;/code> to only get this value:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az account get-access-token --subscription 01010101-0101-0101-0101-010101010101 &lt;span class="p">|&lt;/span> jq &lt;span class="s2">&amp;#34;.accessToken&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Eventually, use the value in the &lt;code>accessToken&lt;/code> section of your environment.&lt;/p>
+&lt;blockquote>
+&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="setup-accesstoken-for-all-api-calls">Setup &lt;code>accessToken&lt;/code> for all API calls&lt;/h3>
+&lt;p>Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/avs-api/authentication-configuration.png" alt="Set the token value to a variable reference">&lt;/p>
+&lt;p>&lt;strong>Procedure&lt;/strong>:&lt;/p>
+&lt;ol>
+&lt;li>Click on the collection name&lt;/li>
+&lt;li>On the right pane, select the &lt;em>current token/access token&lt;/em> field&lt;/li>
+&lt;li>Enter: &lt;code>{{accessToken}}&lt;/code> to reference your token variable&lt;/li>
+&lt;li>Save and quit this tab&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>This has to done only once when you import the collection. When you will regenerate an access token this variable will remain to access to the updated value.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="testing">Testing&lt;/h2>
+&lt;p>You can now test the collection by listing the AVS deployments in your subscription:&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/avs-api/list-avs-sddc.png" alt="List AVS SDDC">&lt;/p>
+&lt;h1 id="conclusion">Conclusion&lt;/h1>
+&lt;p>Even if this collection covers the complete AVS REST API (version )&lt;/p>
+&lt;p>In the next post, we will review some usefull examples of the AVS REST API&lt;/p>
+&lt;h2 id="credits">Credits&lt;/h2>
+&lt;p>Title photo by &lt;a href="https://unsplash.com/@rodlong">Rod Long&lt;/a> on &lt;a href="https://unsplash.com/photos/vpOeXr5wmR4">Unsplash&lt;/a>&lt;/p></description></item></channel></rss>
