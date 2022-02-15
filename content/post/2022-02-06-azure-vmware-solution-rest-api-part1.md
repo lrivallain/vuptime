@@ -70,7 +70,7 @@ In order to use the collection, you will have to enter some information like:
 
 * subscription ID: `subscriptionId`
 * resource-group name: `resourceGroupName`
-* authorization token: `resourceGroupName`
+* authorization token: `accessToken`
 
 The easiest way to get an authentication token is by using [Azure Command-Line Interface](https://docs.microsoft.com/en-us/cli/azure/):
 
