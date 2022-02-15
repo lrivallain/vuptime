@@ -6,7 +6,7 @@ introDescription: >
 ga_analytics: UA-5631150-7
 numberOfTagsShown: 15
 fallBackOgImage: logos/favicon_500px.png
-codeMaxLines: 7
+codeMaxLines: 30
 codeLineNumbers: false
 enableMathNotation: false
 mainSections:
