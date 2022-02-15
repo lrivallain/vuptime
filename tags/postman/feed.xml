@@ -49,7 +49,7 @@
 &lt;ul>
 &lt;li>subscription ID: &lt;code>subscriptionId&lt;/code>&lt;/li>
 &lt;li>resource-group name: &lt;code>resourceGroupName&lt;/code>&lt;/li>
-&lt;li>authorization token: &lt;code>resourceGroupName&lt;/code>&lt;/li>
+&lt;li>authorization token: &lt;code>accessToken&lt;/code>&lt;/li>
 &lt;/ul>
 &lt;p>The easiest way to get an authentication token is by using &lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure Command-Line Interface&lt;/a>:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az account get-access-token --subscription 01010101-0101-0101-0101-010101010101

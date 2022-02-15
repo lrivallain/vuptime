@@ -1,4 +1,215 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>azure vmware solution on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/azure-vmware-solution/</link><description>Recent content in azure vmware solution on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sun, 06 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/azure-vmware-solution/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure VMware Solutions REST API - part 1: Postman collection</title><link>https://vuptime.io/post/2022-02-06-azure-vmware-solution-rest-api-part1/</link><pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/01/06/azure-vmware-solution-rest-api-part1/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>azure vmware solution on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/azure-vmware-solution/</link><description>Recent content in azure vmware solution on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 15 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/azure-vmware-solution/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure VMware Solutions REST API - part 2: `az rest`</title><link>https://vuptime.io/post/2022-02-15-azure-vmware-solution-rest-api-part2/</link><pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/01/15/azure-vmware-solution-rest-api-part2/</guid><description>
+&lt;p>After a discovery of Azure VMware Solution REST API through the &lt;a href="https://vuptime.io/2022/01/06/azure-vmware-solution-rest-api-part1/">Postman collection&lt;/a> in &lt;em>part 1&lt;/em>, we will use some of the fundamentals API calls through &lt;code>az rest&lt;/code>, a useful subset of the &lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure Command-Line Interface&lt;/a>.&lt;/p>
+&lt;p>Compared to Postman, I consider &lt;code>az rest&lt;/code> an easier way to discover Azure REST API in a blog post as it doesn't require to post screenshots or long code samples to narrate the exploration. But of course, you could use the &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection">AVS Postman collection&lt;/a> to achieve the same purpose or any other REST client tool (httpie, curl etc.): this is the great power of REST APIs.&lt;/p>
+&lt;h2 id="preparation">Preparation&lt;/h2>
+&lt;p>A big benefit of using &lt;code>az rest&lt;/code> to manage an Azure product, like Azure VMware Solution, through its REST API is that the tool already manages the authentication or provide a simple way to connect to your tenant and to execute request without manually providing authentication tokens.&lt;/p>
+&lt;h3 id="login">Login&lt;/h3>
+&lt;p>If you have not already logged-in to your tenant, you can follow the next steps:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az login
+&lt;span class="ln">2&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="c1"># Or, if you manage multiple tenants, you can add the --tenant parameter to login to it:&lt;/span>
+&lt;span class="ln">4&lt;/span>az login --tenant xxxxxxxxxxx.onmicrosoft.com
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>By default, this command will open a web browser asking you to connect to your azure tenant. Once logged-in your browser, you can close the tab and the CLI will successfully be connected.&lt;/p>
+&lt;p>If your terminal session cannot connect to a web browser (if you use a remote session like SSH for example), you can use:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az login --use-device-code
+&lt;span class="ln">2&lt;/span>&lt;span class="c1"># To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code ********** to authenticate.&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>After opening the &lt;a href="https://microsoft.com/devicelogin">provided link&lt;/a> and used the token, your CLI should be connected.&lt;/p>
+&lt;p>You can check your connection information with:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az account show --output table
+&lt;span class="ln">2&lt;/span>
+&lt;span class="ln">3&lt;/span>EnvironmentName HomeTenantId IsDefault Name State TenantId
+&lt;span class="ln">4&lt;/span>----------------- ------------------------------------ ----------- ---------------------------- ------- ------------------------------------
+&lt;span class="ln">5&lt;/span>AzureCloud ********-****-****-****-************ True Azure VMware Solutions Tests Enabled ********-****-****-****-************
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="subscription">Subscription&lt;/h3>
+&lt;p>If you use multiple subscriptions (it is recommended!), you can select to one hosting your AVS:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># List available subscriptions&lt;/span>
+&lt;span class="ln">2&lt;/span>az account subscription list --output table
+&lt;span class="ln">3&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="c1"># Select one subscription&lt;/span>
+&lt;span class="ln">5&lt;/span>az account &lt;span class="nb">set&lt;/span> --subscription ********-****-****-****-************
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="sddc-base-uri">SDDC base URI&lt;/h3>
+&lt;p>To achieve quick and successfully REST requests on a specific resource, it could be useful to get its &lt;em>base URI&lt;/em> and to store it in an environment variable.&lt;/p>
+&lt;p>For an AVS resource, this base URI is built like:&lt;/p>
+&lt;p>&lt;code>https://management.azure.com/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCEGROUP_NAME}/providers/Microsoft.AVS/privateClouds/${SDDC_NAME}&lt;/code>&lt;/p>
+&lt;p>With the following components:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>https://management.azure.com&lt;/code>: The Azure REST API domain endpoint&lt;/li>
+&lt;li>&lt;code>/subscriptions/${SUBSCRIPTION_ID}&lt;/code>&lt;/li>
+&lt;li>&lt;code>resourceGroups/${RESOURCEGROUP_NAME}&lt;/code>&lt;/li>
+&lt;li>&lt;code>/providers/Microsoft.AVS&lt;/code>: A pointer to the AVS resources provider&lt;/li>
+&lt;li>&lt;code>/privateClouds/${SDDC_NAME}&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>With the following commands, you can easily populate an AVS base URI:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">SUBSCRIPTION_ID&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;********-****-****-****-************&amp;#34;&lt;/span>
+&lt;span class="ln">2&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">RESOURCEGROUP_NAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;resourceGroupName&amp;#34;&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">SDDC_NAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;AVS-Tests&amp;#34;&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;https://management.azure.com/subscriptions/&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SUBSCRIPTION_ID&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/resourceGroups/&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">RESOURCEGROUP_NAME&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/providers/Microsoft.AVS/privateClouds/&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_NAME&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="api-version">API version&lt;/h3>
+&lt;p>When using Azure API, you need to specify the API version you want to use. For AVS, I currently use version &lt;em>2021-12-01&lt;/em> (the last version currently available):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">API_VERSION&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;api-version=2021-12-01&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="avs-endpoints-and-credentials-management">AVS endpoints and credentials management&lt;/h2>
+&lt;p>When you need to connect to an AVS system, you need two mandatory information:&lt;/p>
+&lt;ul>
+&lt;li>The endpoints name&lt;/li>
+&lt;li>The credentials to use&lt;/li>
+&lt;/ul>
+&lt;p>The endpoints can be retrieved from (&lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/private-clouds/get">Doc.&lt;/a>):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># The global information about the AVS deployment:&lt;/span>
+&lt;span class="ln"> 2&lt;/span>az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln"> 3&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="c1"># A filtered result from the previous request:&lt;/span>
+&lt;span class="ln"> 5&lt;/span>az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> jq &lt;span class="s2">&amp;#34;.properties.endpoints&amp;#34;&lt;/span>
+&lt;span class="ln"> 6&lt;/span>&lt;span class="o">{&lt;/span>
+&lt;span class="ln"> 7&lt;/span> &lt;span class="s2">&amp;#34;hcxCloudManager&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;https://10.100.100.9/&amp;#34;&lt;/span>,
+&lt;span class="ln"> 8&lt;/span> &lt;span class="s2">&amp;#34;nsxtManager&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;https://10.100.100.3/&amp;#34;&lt;/span>,
+&lt;span class="ln"> 9&lt;/span> &lt;span class="s2">&amp;#34;vcsa&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;https://10.100.100.2/&amp;#34;&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And credentials (&lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/private-clouds/list-admin-credentials">Doc.&lt;/a>):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az rest -m post -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/listAdminCredentials?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln">2&lt;/span>&lt;span class="o">{&lt;/span>
+&lt;span class="ln">3&lt;/span> &lt;span class="s2">&amp;#34;nsxtPassword&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;***************&amp;#34;&lt;/span>,
+&lt;span class="ln">4&lt;/span> &lt;span class="s2">&amp;#34;nsxtUsername&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;admin&amp;#34;&lt;/span>,
+&lt;span class="ln">5&lt;/span> &lt;span class="s2">&amp;#34;vcenterPassword&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;***************&amp;#34;&lt;/span>,
+&lt;span class="ln">6&lt;/span> &lt;span class="s2">&amp;#34;vcenterUsername&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;cloudadmin@vsphere.local&amp;#34;&lt;/span>
+&lt;span class="ln">7&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>
+&lt;/blockquote>
+&lt;p>With this information, you can now connect to your AVS instance.&lt;/p>
+&lt;h2 id="avs-network-management">AVS network management&lt;/h2>
+&lt;p>Some parts of an AVS workload management can be made through the Azure API and portal (in replacement or addition to the VMware products API or UI).&lt;/p>
+&lt;h3 id="nsx-t-tier1-gateway">NSX-T Tier1 gateway&lt;/h3>
+&lt;p>When dealing with NSX-T based networks, the Tier1 gateway (T1 GW) is an important element to consider.&lt;/p>
+&lt;p>In a vast majority of scenarios (including the AVS deployment model), the T1 GW is considered the first router component, accessible from a workload to communicate with network items out of its subnet.&lt;/p>
+&lt;p>By default, a first T1 GW is deployed with AVS and you can retrieve details about it by using (&lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/workload-networks/get-gateway">Doc.&lt;/a>):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/workloadNetworks/default/gateways?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="dhcp-service">DHCP service&lt;/h3>
+&lt;p>It is possible to rely on the T1 GW to provide DHCP leases within network segment. The DHCP service can run as a &lt;em>server&lt;/em> or a &lt;em>relay&lt;/em> from another server.&lt;/p>
+&lt;p>The simpliest role to configure is the &lt;em>server&lt;/em> one:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Prepare data for the request&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="nv">server_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;DHCPServer&amp;#34;&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="nv">body&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt;EOF
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s">{
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="s"> &amp;#34;properties&amp;#34;: {
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="s"> &amp;#34;displayName&amp;#34;: &amp;#34;${DHCPServer}&amp;#34;,
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="s"> &amp;#34;revision&amp;#34;: 0,
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="s"> &amp;#34;dhcpType&amp;#34;: &amp;#34;SERVER&amp;#34;,
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="s"> &amp;#34;serverAddress&amp;#34;: &amp;#34;10.100.104.1/24&amp;#34;,
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="s"> &amp;#34;leaseTime&amp;#34;:null
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="s"> }
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="s">}
+&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="s">EOF&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;span class="ln">15&lt;/span>
+&lt;span class="ln">16&lt;/span>&lt;span class="c1"># Create the DHCP service&lt;/span>
+&lt;span class="ln">17&lt;/span>az rest -m put -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/workloadNetworks/default/dhcpConfigurations/&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">DHCPServer&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> --body &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">body&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="nsx-t-segments">NSX-T Segments&lt;/h3>
+&lt;p>For example, you can Create, Read, Update or Delete (&lt;a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">C.R.U.D.&lt;/a>) &lt;strong>NSX-T segments&lt;/strong> with the Azure API:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="c1"># Prepare data for the request&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="nv">segment_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;VM-tests-109&amp;#34;&lt;/span> &lt;span class="c1"># Name of segment to create&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="nv">t1_gw_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;TNTXX-T1&amp;#34;&lt;/span> &lt;span class="c1"># T1 GW name&lt;/span>
+&lt;span class="ln"> 4&lt;/span>&lt;span class="nv">body&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt;EOF
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="s">{
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="s"> &amp;#34;properties&amp;#34;: {
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="s"> &amp;#34;displayName&amp;#34;: &amp;#34;${segment_name}&amp;#34;,
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="s"> &amp;#34;connectedGateway&amp;#34;: &amp;#34;${t1_gw_name}&amp;#34;,
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="s"> &amp;#34;subnet&amp;#34;: {
+&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="s"> &amp;#34;dhcpRanges&amp;#34;: [
+&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="s"> &amp;#34;10.100.109.10-10.100.109.100&amp;#34;
+&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="s"> ],
+&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="s"> &amp;#34;gatewayAddress&amp;#34;: &amp;#34;10.100.109.1/24&amp;#34;
+&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="s"> },
+&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="s"> &amp;#34;revision&amp;#34;: 0
+&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="s"> }
+&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="s">}
+&lt;/span>&lt;span class="ln">18&lt;/span>&lt;span class="s">EOF&lt;/span>
+&lt;span class="ln">19&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;span class="ln">20&lt;/span>
+&lt;span class="ln">21&lt;/span>&lt;span class="c1"># Create segment&lt;/span>
+&lt;span class="ln">22&lt;/span>az rest -m put -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/workloadNetworks/default/segments/&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">segment_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> --body &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">body&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln">23&lt;/span>
+&lt;span class="ln">24&lt;/span>&lt;span class="c1"># Get the new segment&lt;/span>
+&lt;span class="ln">25&lt;/span>az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/workloadNetworks/default/segments/&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">segment_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln">26&lt;/span>
+&lt;span class="ln">27&lt;/span>&lt;span class="c1"># Output&lt;/span>
+&lt;span class="ln">28&lt;/span>&lt;span class="o">{&lt;/span>
+&lt;span class="ln">29&lt;/span> &lt;span class="s2">&amp;#34;id&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;/subscriptions/********-****-****-****-************/resourceGroups/resourceGroupName/providers/Microsoft.AVS/privateClouds/AVS-Tests/workloadNetworks/default/segments/VM-tests-109&amp;#34;&lt;/span>,
+&lt;span class="ln">30&lt;/span> &lt;span class="s2">&amp;#34;name&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;VM-tests-109&amp;#34;&lt;/span>,
+&lt;span class="ln">31&lt;/span> &lt;span class="s2">&amp;#34;properties&amp;#34;&lt;/span>: &lt;span class="o">{&lt;/span>
+&lt;span class="ln">32&lt;/span> &lt;span class="s2">&amp;#34;connectedGateway&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;TNTXX-T1&amp;#34;&lt;/span>,
+&lt;span class="ln">33&lt;/span> &lt;span class="s2">&amp;#34;displayName&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;VM-tests-109&amp;#34;&lt;/span>,
+&lt;span class="ln">34&lt;/span> &lt;span class="s2">&amp;#34;provisioningState&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;Fulfilled&amp;#34;&lt;/span>,
+&lt;span class="ln">35&lt;/span> &lt;span class="s2">&amp;#34;revision&amp;#34;&lt;/span>: 0,
+&lt;span class="ln">36&lt;/span> &lt;span class="s2">&amp;#34;status&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;IN_PROGRESS&amp;#34;&lt;/span>,
+&lt;span class="ln">37&lt;/span> &lt;span class="s2">&amp;#34;subnet&amp;#34;&lt;/span>: &lt;span class="o">{&lt;/span>
+&lt;span class="ln">38&lt;/span> &lt;span class="s2">&amp;#34;dhcpRanges&amp;#34;&lt;/span>: &lt;span class="o">[&lt;/span>
+&lt;span class="ln">39&lt;/span> &lt;span class="s2">&amp;#34;10.100.109.10-10.100.109.100&amp;#34;&lt;/span>
+&lt;span class="ln">40&lt;/span> &lt;span class="o">]&lt;/span>,
+&lt;span class="ln">41&lt;/span> &lt;span class="s2">&amp;#34;gatewayAddress&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;10.100.109.1/24&amp;#34;&lt;/span>
+&lt;span class="ln">42&lt;/span> &lt;span class="o">}&lt;/span>
+&lt;span class="ln">43&lt;/span> &lt;span class="o">}&lt;/span>,
+&lt;span class="ln">44&lt;/span> &lt;span class="s2">&amp;#34;resourceGroup&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;resourceGroupName&amp;#34;&lt;/span>,
+&lt;span class="ln">45&lt;/span> &lt;span class="s2">&amp;#34;type&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;Microsoft.AVS/privateClouds/workloadNetworks/segments&amp;#34;&lt;/span>
+&lt;span class="ln">46&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="avs-interconnectivity-management">AVS interconnectivity management&lt;/h2>
+&lt;p>When your AVS instance is deployed, you will certainly need to connect it with external components like other Azure Resources, jump servers, on-premises resources etc.&lt;/p>
+&lt;p>I will not cover &lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/concepts-networking">all the available AVS interconnectivity solutions&lt;/a> in this post but here is a list of supported ones:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-manage-subnet">Azure vNet connect&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/expressroute/expressroute-introduction">ExpressRoute&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/expressroute/expressroute-global-reach">ExpressRoute Global Reach&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>In this post, we will see how-to setup an &lt;em>ExpressRoute&lt;/em> circuit.&lt;/p>
+&lt;h3 id="expressroute">ExpressRoute&lt;/h3>
+&lt;p>The first information to collect is the &lt;em>ExpressRoute ID&lt;/em> or &lt;em>Circuit ID&lt;/em>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> jq &lt;span class="s2">&amp;#34;.properties.circuit&amp;#34;&lt;/span>
+&lt;span class="ln">2&lt;/span>
+&lt;span class="ln">3&lt;/span>&lt;span class="c1"># Output&lt;/span>
+&lt;span class="ln">4&lt;/span>&lt;span class="o">{&lt;/span>
+&lt;span class="ln">5&lt;/span> &lt;span class="s2">&amp;#34;expressRouteID&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;/subscriptions/********-****-****-****-************/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteCircuits/tntxx-cust-p02-westeurope-er&amp;#34;&lt;/span>,
+&lt;span class="ln">6&lt;/span> &lt;span class="s2">&amp;#34;expressRoutePrivatePeeringID&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;/subscriptions/********-****-****-****-************/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteCircuits/tntxx-cust-p02-westeurope-er/peerings/AzurePrivatePeering&amp;#34;&lt;/span>,
+&lt;span class="ln">7&lt;/span> &lt;span class="s2">&amp;#34;primarySubnet&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;10.100.100.232/30&amp;#34;&lt;/span>,
+&lt;span class="ln">8&lt;/span> &lt;span class="s2">&amp;#34;secondarySubnet&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;10.100.100.236/30&amp;#34;&lt;/span>
+&lt;span class="ln">9&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We keep only the &lt;code>expressRouteID&lt;/code> information to create a new &lt;em>ExpressRoute&lt;/em> &lt;em>authorization key&lt;/em>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">connection_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;expressroute-test&amp;#34;&lt;/span> &lt;span class="c1"># name the future authorization key&lt;/span>
+&lt;span class="ln"> 2&lt;/span>&lt;span class="nv">sddc_er_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> jq &lt;span class="s2">&amp;#34;.properties.circuit.expressRouteID&amp;#34;&lt;/span>&lt;span class="k">)&lt;/span> &lt;span class="c1"># store the expressRouteID&lt;/span>
+&lt;span class="ln"> 3&lt;/span>&lt;span class="nv">body&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>cat &lt;span class="s">&amp;lt;&amp;lt;EOF
+&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s">{
+&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="s"> &amp;#34;properties&amp;#34;: {
+&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="s"> &amp;#34;expressRouteId&amp;#34;: ${sddc_er_id}
+&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="s"> }
+&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="s">}
+&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="s">EOF&lt;/span>
+&lt;span class="ln">10&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;span class="ln">11&lt;/span>
+&lt;span class="ln">12&lt;/span>az rest -m put -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/authorizations/&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">connection_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> --body &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">body&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;span class="ln">13&lt;/span>
+&lt;span class="ln">14&lt;/span>&lt;span class="c1"># Output&lt;/span>
+&lt;span class="ln">15&lt;/span>&lt;span class="o">{&lt;/span>
+&lt;span class="ln">16&lt;/span> &lt;span class="s2">&amp;#34;id&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;/subscriptions/********-****-****-****-************/resourceGroups/resourceGroupName/providers/Microsoft.AVS/privateClouds/AVS-CSU-FR-LRI/authorizations/expressroute-test&amp;#34;&lt;/span>,
+&lt;span class="ln">17&lt;/span> &lt;span class="s2">&amp;#34;name&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;expressroute-test&amp;#34;&lt;/span>,
+&lt;span class="ln">18&lt;/span> &lt;span class="s2">&amp;#34;properties&amp;#34;&lt;/span>: &lt;span class="o">{&lt;/span>
+&lt;span class="ln">19&lt;/span> &lt;span class="s2">&amp;#34;expressRouteAuthorizationId&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;/subscriptions/********-****-****-****-************/resourceGroups/tntxx-cust-p02-westeurope/providers/Microsoft.Network/expressRouteCircuits/tntxx-cust-p02-westeurope-er/authorizations/avs_resource_expressroute-test&amp;#34;&lt;/span>,
+&lt;span class="ln">20&lt;/span> &lt;span class="s2">&amp;#34;expressRouteAuthorizationKey&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;d502f9cb-91a2-4069-a474-7363e723bccc&amp;#34;&lt;/span>,
+&lt;span class="ln">21&lt;/span> &lt;span class="s2">&amp;#34;expressRouteId&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;/subscriptions/********-****-****-****-************/resourceGroups/tntxx-cust-p02-westeurope/providers/Microsoft.Network/expressRouteCircuits/tntxx-cust-p02-westeurope-er&amp;#34;&lt;/span>,
+&lt;span class="ln">22&lt;/span> &lt;span class="s2">&amp;#34;provisioningState&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;Succeeded&amp;#34;&lt;/span>
+&lt;span class="ln">23&lt;/span> &lt;span class="o">}&lt;/span>,
+&lt;span class="ln">24&lt;/span> &lt;span class="s2">&amp;#34;resourceGroup&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;AVS-CSU-FR-LRI&amp;#34;&lt;/span>,
+&lt;span class="ln">25&lt;/span> &lt;span class="s2">&amp;#34;type&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;Microsoft.AVS/privateClouds/authorizations&amp;#34;&lt;/span>
+&lt;span class="ln">26&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://vuptime.io/images/avs-api/expressroute-authorizations.png" alt="AVS ExpressRoute authorization from the Azure portal">&lt;/p>
+&lt;p>This will provide you with an authorization key: &lt;code>expressRouteAuthorizationKey&lt;/code> to be used to create a new connection from an expressRoute compatible component, like a &lt;em>Virtual network gateway&lt;/em>:&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/avs-api/expressroute-connection.png" alt="Create an ExpressRoute connection to your AVS">&lt;/p>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>As you may understand from the &lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/">AVS API reference&lt;/a> or the &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection">AVS Postman collection&lt;/a>, this post is not a complete coverage of the AVS REST API capabilities but an example of what you can do with it and the &lt;code>az rest&lt;/code> CLI tool.&lt;/p>
+&lt;p>To simplify the above commands, I did not mention any header like &lt;code>Accept&lt;/code> or &lt;code>Content-Type&lt;/code> as we used the default type of data when dealing with requests and answers: &lt;code>application/json&lt;/code>.&lt;/p>
+&lt;p>Using API with &lt;code>az rest&lt;/code> is a very easy way to manage automation of an AVS deployed instance with an &lt;a href="https://en.wikipedia.org/wiki/Imperative_programming">imperative approach&lt;/a>. A &lt;a href="https://en.wikipedia.org/wiki/Declarative_programming">declarative approach&lt;/a> may be preferred to managed large AVS workloads with production and self-remediation requirements and I will try to cover it in a future (not-yet-planned) post.&lt;/p>
+&lt;h3 id="credits">Credits&lt;/h3>
+&lt;p>Title photo by &lt;a href="https://unsplash.com/@joshuaryanphotog">Joshua Reddekopp&lt;/a> on &lt;a href="https://unsplash.com/photos/GkFQEOubrCo">Unsplash&lt;/a>&lt;/p></description></item><item><title>Azure VMware Solutions REST API - part 1: Postman collection</title><link>https://vuptime.io/post/2022-02-06-azure-vmware-solution-rest-api-part1/</link><pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/01/06/azure-vmware-solution-rest-api-part1/</guid><description>
 &lt;p>Working on Azure VMware Solution since a couple of months now, I found very usefull to have a prepared list of API calls on a notebook or quick-reference document.&lt;/p>
 &lt;p>After a period of time, I did collect enought sample to consider doing a full &lt;a href="https://www.postman.com/">Postman&lt;/a> collection and by doing that, I was also considering to cover the complete &lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/">Azure VMware REST API&lt;/a> (and not only the parts that I already used).&lt;/p>
 &lt;h2 id="the-postman-collection">The Postman collection&lt;/h2>
@@ -49,7 +260,7 @@
 &lt;ul>
 &lt;li>subscription ID: &lt;code>subscriptionId&lt;/code>&lt;/li>
 &lt;li>resource-group name: &lt;code>resourceGroupName&lt;/code>&lt;/li>
-&lt;li>authorization token: &lt;code>resourceGroupName&lt;/code>&lt;/li>
+&lt;li>authorization token: &lt;code>accessToken&lt;/code>&lt;/li>
 &lt;/ul>
 &lt;p>The easiest way to get an authentication token is by using &lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure Command-Line Interface&lt;/a>:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>az account get-access-token --subscription 01010101-0101-0101-0101-010101010101
