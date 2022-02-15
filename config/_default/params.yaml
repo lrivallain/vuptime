@@ -16,7 +16,7 @@ logo: logos/nobg_700px.png
 figurePositionShow: false
 figurePositionLabel: Figure
 mobileNavigation: left
-enforceLightMode: false
+enforceLightMode: true
 languageMenuName: "\U0001F310"
 iconsDir: icons/
 author:
