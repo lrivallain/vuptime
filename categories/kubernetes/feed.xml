@@ -68,17 +68,17 @@
 &lt;li>As a pre-requesite to local build, you will need Hugo engine installed: &lt;a href="https://gohugo.io/getting-started/quick-start/">Quick Start&lt;/a>&lt;/li>
 &lt;li>Clone the repository with submodules:&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone --recursive https://github.com/lrivallain/git-book-kubernetes.git
-&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">git clone --recursive https://github.com/lrivallain/git-book-kubernetes.git
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
 &lt;li>Push changes to a new branch:&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="c1"># new branch:&lt;/span>
-&lt;span class="ln">2&lt;/span>git checkout -b &lt;span class="s2">&amp;#34;my-changes&amp;#34;&lt;/span>
-&lt;span class="ln">3&lt;/span>&lt;span class="c1"># &amp;lt;do changes here !&amp;gt;&lt;/span>
-&lt;span class="ln">4&lt;/span>&lt;span class="c1"># test your changes with:&lt;/span>
-&lt;span class="ln">5&lt;/span>hugo server
-&lt;span class="ln">6&lt;/span>&lt;span class="c1"># &amp;lt;git add / git commit / git push&amp;gt;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="c1"># new branch:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">git checkout -b &lt;span class="s2">&amp;#34;my-changes&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="c1"># &amp;lt;do changes here !&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="c1"># test your changes with:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">hugo server
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">&lt;span class="c1"># &amp;lt;git add / git commit / git push&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
 &lt;li>Create a pull request on the project.&lt;/li>
 &lt;li>Once accepted and merged to master, the static will be run through this
 &lt;a href="https://github.com/lrivallain/git-book-kubernetes/actions?query=workflow%3A%22Publish+Site%22">Publish GitHub Action&lt;/a>&lt;/li>

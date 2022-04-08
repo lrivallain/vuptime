@@ -5,72 +5,72 @@
 &lt;blockquote>
 &lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;lri.lcl&amp;#34;&lt;/span>
-&lt;span class="ln"> 2&lt;/span>
-&lt;span class="ln"> 3&lt;/span>&lt;span class="c1"># API and HTTP host info&lt;/span>
-&lt;span class="ln"> 4&lt;/span>&lt;span class="nv">HTTP_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;vuptime-vcd&amp;#39;&lt;/span>
-&lt;span class="ln"> 5&lt;/span>&lt;span class="nv">HTTP_IP&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;10.10.110.3&amp;#39;&lt;/span>
-&lt;span class="ln"> 6&lt;/span>&lt;span class="nv">HTTP_FQDN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">.&lt;/span>&lt;span class="nv">$DOMAIN&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
-&lt;span class="ln"> 7&lt;/span>
-&lt;span class="ln"> 8&lt;/span>&lt;span class="c1"># Console proxy host info&lt;/span>
-&lt;span class="ln"> 9&lt;/span>&lt;span class="nv">CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;vuptime-vcd-vmrc&amp;#39;&lt;/span>
-&lt;span class="ln">10&lt;/span>&lt;span class="nv">CONSOLE_PROXY_IP&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;10.10.110.4&amp;#39;&lt;/span>
-&lt;span class="ln">11&lt;/span>&lt;span class="nv">CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">.&lt;/span>&lt;span class="nv">$DOMAIN&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
-&lt;span class="ln">12&lt;/span>
-&lt;span class="ln">13&lt;/span>&lt;span class="c1"># Others certificates information&lt;/span>
-&lt;span class="ln">14&lt;/span>&lt;span class="nv">VALIDITY&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">365&lt;/span>
-&lt;span class="ln">15&lt;/span>&lt;span class="nv">CERT_DNAME_INFO&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;OU=vUptime-IO, O=Example Corp, L=Rennes, S=Britain, C=FR&amp;#34;&lt;/span>
-&lt;span class="ln">16&lt;/span>&lt;span class="nv">CA_CERT_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/tmp/ca-root.cert&amp;#34;&lt;/span>
-&lt;span class="ln">17&lt;/span>
-&lt;span class="ln">18&lt;/span>&lt;span class="c1"># Keytool informations&lt;/span>
-&lt;span class="ln">19&lt;/span>&lt;span class="nv">KEYTOOL_BIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$VCLOUD_JAVA_HOME&lt;/span>&lt;span class="s2">/bin/keytool&amp;#34;&lt;/span>
-&lt;span class="ln">20&lt;/span>&lt;span class="nv">KS_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>&lt;span class="s2">/data/transfer/certificates.ks&amp;#34;&lt;/span>
-&lt;span class="ln">21&lt;/span>&lt;span class="nv">KS_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;VMware1!&amp;#39;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="create-unsigned-certificates">Create unsigned certificates&lt;/h1>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="se">&lt;/span> -keypass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="se">&lt;/span> -genkeypair &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="se">&lt;/span> -keyalg RSA &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="se">&lt;/span> -keysize &lt;span class="m">2048&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="se">&lt;/span> -validity &lt;span class="nv">$VALIDITY&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="se">&lt;/span> -dname &lt;span class="s2">&amp;#34;CN=&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">, &lt;/span>&lt;span class="nv">$CERT_DNAME_INFO&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$HTTP_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
-&lt;span class="ln">13&lt;/span>
-&lt;span class="ln">14&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
-&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">18&lt;/span>&lt;span class="se">&lt;/span> -keypass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">19&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
-&lt;/span>&lt;span class="ln">20&lt;/span>&lt;span class="se">&lt;/span> -keyalg RSA &lt;span class="se">\
-&lt;/span>&lt;span class="ln">21&lt;/span>&lt;span class="se">&lt;/span> -genkeypair &lt;span class="se">\
-&lt;/span>&lt;span class="ln">22&lt;/span>&lt;span class="se">&lt;/span> -keysize &lt;span class="m">2048&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">23&lt;/span>&lt;span class="se">&lt;/span> -validity &lt;span class="nv">$VALIDITY&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">24&lt;/span>&lt;span class="se">&lt;/span> -dname &lt;span class="s2">&amp;#34;CN=&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">, &lt;/span>&lt;span class="nv">$CERT_DNAME_INFO&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">25&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="create-certificate-requests-for-ca-signing">Create certificate requests for CA-signing&lt;/h1>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="se">&lt;/span> -certreq &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$HTTP_FQDN&lt;/span>.csr &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$HTTP_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
-&lt;span class="ln"> 9&lt;/span>
-&lt;span class="ln">10&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
-&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="se">&lt;/span> -certreq &lt;span class="se">\
-&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
-&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>.csr &lt;span class="se">\
-&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Send CSR files to your (internal/external) CA for signing, and copy them to cell:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nv">DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;lri.lcl&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="c1"># API and HTTP host info&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="nv">HTTP_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;vuptime-vcd&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="nv">HTTP_IP&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;10.10.110.3&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="nv">HTTP_FQDN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">.&lt;/span>&lt;span class="nv">$DOMAIN&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="c1"># Console proxy host info&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="nv">CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;vuptime-vcd-vmrc&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="nv">CONSOLE_PROXY_IP&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;10.10.110.4&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="nv">CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">.&lt;/span>&lt;span class="nv">$DOMAIN&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="c1"># Others certificates information&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="nv">VALIDITY&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">365&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="nv">CERT_DNAME_INFO&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;OU=vUptime-IO, O=Example Corp, L=Rennes, S=Britain, C=FR&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="nv">CA_CERT_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/tmp/ca-root.cert&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="c1"># Keytool informations&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="nv">KEYTOOL_BIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$VCLOUD_JAVA_HOME&lt;/span>&lt;span class="s2">/bin/keytool&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl">&lt;span class="nv">KS_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>&lt;span class="s2">/data/transfer/certificates.ks&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl">&lt;span class="nv">KS_PASSWORD&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;VMware1!&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="create-unsigned-certificates">Create unsigned certificates&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keypass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -genkeypair &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keyalg RSA &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keysize &lt;span class="m">2048&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -validity &lt;span class="nv">$VALIDITY&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -dname &lt;span class="s2">&amp;#34;CN=&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">, &lt;/span>&lt;span class="nv">$CERT_DNAME_INFO&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$HTTP_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keypass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keyalg RSA &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -genkeypair &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keysize &lt;span class="m">2048&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">23&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -validity &lt;span class="nv">$VALIDITY&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -dname &lt;span class="s2">&amp;#34;CN=&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">, &lt;/span>&lt;span class="nv">$CERT_DNAME_INFO&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="create-certificate-requests-for-ca-signing">Create certificate requests for CA-signing&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -certreq &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -file &lt;span class="nv">$HTTP_FQDN&lt;/span>.csr &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$HTTP_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$HTTP_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$HTTP_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -certreq &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>.csr &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -ext &lt;span class="s2">&amp;#34;san=dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>&lt;span class="s2">,dns:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_HOSTNAME&lt;/span>&lt;span class="s2">,ip:&lt;/span>&lt;span class="nv">$CONSOLE_PROXY_IP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Send CSR files to your (internal/external) CA for signing, and copy them to cell:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>ca-root.crt&lt;/code>: the CA certificate&lt;/li>
 &lt;li>&lt;code>vuptime-vcd.lri.lcl.crt&lt;/code>: HTTP certificate&lt;/li>
@@ -78,36 +78,36 @@
 &lt;/ul>
 &lt;h1 id="import-signed-certificates-in-the-keystore">Import signed certificates in the keystore&lt;/h1>
 &lt;p>First, we import the CA certificate:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
-&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -import &lt;span class="se">\
-&lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="se">&lt;/span> -alias root &lt;span class="se">\
-&lt;/span>&lt;span class="ln">7&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CA_CERT_PATH&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then the 2 applications certificates:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="se">&lt;/span> -import &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
-&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$HTTP_FQDN&lt;/span>.crt
-&lt;span class="ln"> 8&lt;/span>
-&lt;span class="ln"> 9&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="se">&lt;/span> -import &lt;span class="se">\
-&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
-&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>.crt
-&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
-&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="se">&lt;/span> -list
-&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="apply-certificates-to-the-services">Apply certificates to the services&lt;/h1>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>chown vcloud: &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="c1"># Set owner of the keystore to vcloud user&lt;/span>
-&lt;span class="ln">2&lt;/span>&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool certificates -j -k &lt;span class="nv">$KS_PATH&lt;/span> -w &lt;span class="nv">$KS_PASSWORD&lt;/span>
-&lt;span class="ln">3&lt;/span>service vmware-vcd restart
-&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -import &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -alias root &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CA_CERT_PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then the 2 applications certificates:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -import &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -alias http &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -file &lt;span class="nv">$HTTP_FQDN&lt;/span>.crt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -import &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -alias consoleproxy &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -file &lt;span class="nv">$CONSOLE_PROXY_FQDN&lt;/span>.crt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$KEYTOOL_BIN&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storetype JCEKS &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -storepass &lt;span class="nv">$KS_PASSWORD&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -keystore &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -list
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="apply-certificates-to-the-services">Apply certificates to the services&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">chown vcloud: &lt;span class="nv">$KS_PATH&lt;/span> &lt;span class="c1"># Set owner of the keystore to vcloud user&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool certificates -j -k &lt;span class="nv">$KS_PATH&lt;/span> -w &lt;span class="nv">$KS_PASSWORD&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">service vmware-vcd restart
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

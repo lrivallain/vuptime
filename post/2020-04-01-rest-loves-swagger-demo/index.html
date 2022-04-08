@@ -1,792 +1,362 @@
-<!doctype html><html lang=en data-figures class=page data-mode=lit>
-<head>
-<title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1 | vUptime.io - Cloud builder(s)</title>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5631150-7"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-5631150-7')</script>
-<meta property="og:locale" content="en">
-<meta property="og:type" content="article">
-<meta name=description content="On March 30th, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without …">
-<meta name=twitter:card content="summary">
-<meta name=twitter:creator content="@vuptimeio">
-<meta name=twitter:title content="REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1">
-<meta property="og:url" content="https://vuptime.io/post/2020-04-01-rest-loves-swagger-demo/">
-<meta property="og:title" content="REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1">
-<meta property="og:description" content="On March 30th, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without …">
-<meta property="og:image" content="https://vuptime.io/images/rest-loves-swagger/APIEverywhereMeme.png">
-<link rel=apple-touch-icon sizes=180x180 href=https://vuptime.io/icons/favicon.png>
-<link rel=icon type=image/png sizes=32x32 href=https://vuptime.io/icons/favicon.png>
-<link rel=manifest href=https://vuptime.io/icons/site.webmanifest>
-<link rel=canonical href=https://vuptime.io/post/2020-04-01-rest-loves-swagger-demo/>
-<link rel=preload href=https://vuptime.io/css/styles.44fa81034ff7ea86cc966ac19f3832410f69e9e3d934b6314f12db45aa441d85959a242feb02ce9c112be4b1d4df423eaccb9633ecba2c6204dda4cb4901fc55.css integrity="sha512-RPqBA0/36obMlmrBnzgyQQ9p6ePZNLYxTxLbRapEHYWVmiQv6wLOnBEr5LHU30I+rMuWM+y6LGIE3aTLSQH8VQ==" as=style crossorigin=anonymous>
-<link rel=preload href=https://vuptime.io/js/bundle.min.d14fbcd65c3ba32e60cab81f8bbe7aa9b7f8b95ff8290e437fb26ff9ab7f7ea0c928db2dca60aac91f192db906f2d90678f83907e4e3994f6ff9fdb5bdea3369.js as=script integrity="sha512-0U+81lw7oy5gyrgfi756qbf4uV/4KQ5Df7Jv+at/fqDJKNstymCqyR8ZLbkG8tkGePg5B+TjmU9v+f21veozaQ==" crossorigin=anonymous>
-<link rel=stylesheet type=text/css href=https://vuptime.io/css/styles.44fa81034ff7ea86cc966ac19f3832410f69e9e3d934b6314f12db45aa441d85959a242feb02ce9c112be4b1d4df423eaccb9633ecba2c6204dda4cb4901fc55.css integrity="sha512-RPqBA0/36obMlmrBnzgyQQ9p6ePZNLYxTxLbRapEHYWVmiQv6wLOnBEr5LHU30I+rMuWM+y6LGIE3aTLSQH8VQ==" crossorigin=anonymous><link rel=stylesheet href=/css/custom.css>
-</head>
-<body data-code=30 data-lines=false id=documentTop>
-<header class=nav_header>
-<nav class=nav><a href=/ class="nav_brand nav_item" title="vUptime.io - Cloud builder(s)">
-<img src=https://vuptime.io/logos/nobg_700px.png class=logo alt="vUptime.io - Cloud builder(s)">
-<div class=nav_close>
-<div><svg class="icon"><use xlink:href="#open-menu"/></svg><svg class="icon"><use xlink:href="#closeme"/></svg></div>
-</div>
-</a>
-<div class="nav_body nav_body_left">
-<div class=nav_parent>
-<a href=https://vuptime.io/ class=nav_item title=Home>Home </a>
-</div>
-<div class=nav_parent>
-<a href=https://vuptime.io/cards/ class=nav_item title="KB cards">KB cards </a>
-</div>
-<div class=nav_parent>
-<a href=https://k8s-book.vupti.me class=nav_item title="My K8S Book">My K8S Book </a>
-</div>
-<div class=nav_parent>
-<a href=https://vuptime.io/about/ class=nav_item title=About>About </a>
-</div>
-<div class=follow>
-<a href=https://github.com/lrivallain/vuptime><svg class="icon"><use xlink:href="#github"/></svg>
-</a>
-<a href=https://www.twitter.com/vuptimeio><svg class="icon"><use xlink:href="#twitter"/></svg>
-</a>
-<a href=https://vuptime.io/feed.xml><svg class="icon"><use xlink:href="#rss"/></svg>
-</a>
-<div class=color_mode>
-<input type=checkbox class=color_choice id=mode>
-</div>
-</div>
-</div>
-</nav>
-</header>
-<main>
-<div class="grid-inverse wrap content">
-<article class=post_content>
-<h1 class=post_title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1</h1>
-<div class=post_meta>
-<span><svg class="icon"><use xlink:href="#calendar"/></svg></span>
-<span class=post_date>
-Apr 1, 2020</span>
-<span class=post_time> · 6 min read</span><span>&nbsp;· <a href=https://vuptime.io/tags/rest title=rest class="post_tag button button_translucent">rest
+<!doctype html><html lang=en data-figures class=page data-mode=lit><head><title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1 | vUptime.io - Cloud builder(s)</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta http-equiv=x-ua-compatible content="IE=edge"><script async src="https://www.googletagmanager.com/gtag/js?id=UA-5631150-7"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-5631150-7")</script><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta name=description content="On March 30th, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without …"><meta name=twitter:card content="summary"><meta name=twitter:creator content="@vuptimeio"><meta name=twitter:title content="REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1"><meta property="og:url" content="https://vuptime.io/post/2020-04-01-rest-loves-swagger-demo/"><meta property="og:title" content="REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1"><meta property="og:description" content="On March 30th, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without …"><meta property="og:image" content="https://vuptime.io/images/rest-loves-swagger/APIEverywhereMeme.png"><link rel=apple-touch-icon sizes=180x180 href=https://vuptime.io/icons/favicon.png><link rel=icon type=image/png sizes=32x32 href=https://vuptime.io/icons/favicon.png><link rel=manifest href=https://vuptime.io/icons/site.webmanifest><link rel=canonical href=https://vuptime.io/post/2020-04-01-rest-loves-swagger-demo/><link rel=preload href=https://vuptime.io/css/styles.44fa81034ff7ea86cc966ac19f3832410f69e9e3d934b6314f12db45aa441d85959a242feb02ce9c112be4b1d4df423eaccb9633ecba2c6204dda4cb4901fc55.css integrity="sha512-RPqBA0/36obMlmrBnzgyQQ9p6ePZNLYxTxLbRapEHYWVmiQv6wLOnBEr5LHU30I+rMuWM+y6LGIE3aTLSQH8VQ==" as=style crossorigin=anonymous><link rel=preload href=https://vuptime.io/js/bundle.min.d0f0362720d4ba914aa22c906d463694ca5445a70923037ec128f108cf4616c6df3dba89902f7d6b8b123a359aaf0485763117871aa780a561c563ed6adfda0e.js as=script integrity="sha512-0PA2JyDUupFKoiyQbUY2lMpURacJIwN+wSjxCM9GFsbfPbqJkC99a4sSOjWarwSFdjEXhxqngKVhxWPtat/aDg==" crossorigin=anonymous><link rel=stylesheet type=text/css href=https://vuptime.io/css/styles.44fa81034ff7ea86cc966ac19f3832410f69e9e3d934b6314f12db45aa441d85959a242feb02ce9c112be4b1d4df423eaccb9633ecba2c6204dda4cb4901fc55.css integrity="sha512-RPqBA0/36obMlmrBnzgyQQ9p6ePZNLYxTxLbRapEHYWVmiQv6wLOnBEr5LHU30I+rMuWM+y6LGIE3aTLSQH8VQ==" crossorigin=anonymous><link rel=stylesheet href=/css/custom.css></head><body data-code=30 data-lines=false id=documentTop><header class=nav_header><nav class=nav><a href=/ class="nav_brand nav_item" title="vUptime.io - Cloud builder(s)"><img src=https://vuptime.io/logos/nobg_700px.png class=logo alt="vUptime.io - Cloud builder(s)"><div class=nav_close><div><svg class="icon"><use xlink:href="#open-menu"/></svg><svg class="icon"><use xlink:href="#closeme"/></svg></div></div></a><div class="nav_body nav_body_left"><div class=nav_parent><a href=https://vuptime.io/ class=nav_item title=Home>Home</a></div><div class=nav_parent><a href=https://vuptime.io/cards/ class=nav_item title="KB cards">KB cards</a></div><div class=nav_parent><a href=https://k8s-book.vupti.me class=nav_item title="My K8S Book">My K8S Book</a></div><div class=nav_parent><a href=https://vuptime.io/about/ class=nav_item title=About>About</a></div><div class=follow><a href=https://github.com/lrivallain/vuptime><svg class="icon"><use xlink:href="#github"/></svg></a><a href=https://www.twitter.com/vuptimeio><svg class="icon"><use xlink:href="#twitter"/></svg></a><a href=https://vuptime.io/feed.xml><svg class="icon"><use xlink:href="#rss"/></svg></a><div class=color_mode><input type=checkbox class=color_choice id=mode></div></div></div></nav></header><main><div class="grid-inverse wrap content"><article class=post_content><h1 class=post_title>REST ❤ Swagger, 2 minutes to create an API SDK ⏱ – Codegen Demo – Part 1</h1><div class=post_meta><span><svg class="icon"><use xlink:href="#calendar"/></svg></span><span class=post_date>Apr 1, 2020</span>
+<span class=post_time>· 5 min read</span><span>&nbsp;· <a href=https://vuptime.io/tags/rest title=rest class="post_tag button button_translucent">rest
 </a><a href=https://vuptime.io/tags/swagger title=swagger class="post_tag button button_translucent">swagger
 </a><a href=https://vuptime.io/tags/devops title=devops class="post_tag button button_translucent">devops
 </a><a href=https://vuptime.io/tags/codegen title=codegen class="post_tag button button_translucent">codegen
 </a><a href=https://vuptime.io/tags/api title=api class="post_tag button button_translucent">api
 </a><a href=https://vuptime.io/tags/vcenter title=vcenter class="post_tag button button_translucent">vcenter
 </a><a href=https://vuptime.io/tags/vcloud title=vcloud class="post_tag button button_translucent">vcloud
-</a><a href=https://vuptime.io/tags/vmware title=vmware class="post_tag button button_translucent">vmware
-</a>
-</span>
-<span class=page_only>&nbsp;·
-<div class=post_share>
-Share on:
-<a href="https://twitter.com/intent/tweet?text=REST%20%e2%9d%a4%20Swagger%2c%202%20minutes%20to%20create%20an%20API%20SDK%20%e2%8f%b1%20%e2%80%93%20Codegen%20Demo%20%e2%80%93%20Part%201&url=https%3a%2f%2fvuptime.io%2fpost%2f2020-04-01-rest-loves-swagger-demo%2f&tw_p=tweetbutton" class=twitter title="Share on Twitter" target=_blank rel=nofollow><svg class="icon"><use xlink:href="#twitter"/></svg>
-</a>
-<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fvuptime.io%2fpost%2f2020-04-01-rest-loves-swagger-demo%2f&t=REST%20%e2%9d%a4%20Swagger%2c%202%20minutes%20to%20create%20an%20API%20SDK%20%e2%8f%b1%20%e2%80%93%20Codegen%20Demo%20%e2%80%93%20Part%201" class=facebook title="Share on Facebook" target=_blank rel=nofollow><svg class="icon"><use xlink:href="#facebook"/></svg>
-</a>
-<a href=#linkedinshare id=linkedinshare class=linkedin title="Share on LinkedIn" rel=nofollow><svg class="icon"><use xlink:href="#linkedin"/></svg>
-</a>
-<a href=https://vuptime.io/post/2020-04-01-rest-loves-swagger-demo/ title="Copy Link" class="link link_yank"><svg class="icon"><use xlink:href="#copy"/></svg>
-</a>
-</div>
-</span>
-</div>
-<h2>Overview</h2>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#target-of-this-post>Target of this post</a>
-<ul>
-<li><a href=#next-post>Next post</a></li>
-</ul>
-</li>
-<li><a href=#prerequisites>Prerequisites</a>
-<ul>
-<li><a href=#docker>Docker</a></li>
-<li><a href=#folders-structure>Folders structure</a></li>
-<li><a href=#python>Python</a></li>
-<li><a href=#go>Go</a></li>
-</ul>
-</li>
-<li><a href=#available-languages>Available languages</a></li>
-<li><a href=#chuck-norris>Chuck Norris</a>
-<ul>
-<li><a href=#package-configuration>Package configuration</a></li>
-<li><a href=#sdk-generation>SDK generation</a></li>
-<li><a href=#use-our-new-module>Use our new module</a></li>
-<li><a href=#same-with-go->Same with Go ?</a></li>
-</ul>
-</li>
-<li><a href=#conclusion>Conclusion</a></li>
-</ul>
-</nav>
-<p>On March 30<sup>th</sup>, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without writing any code.</p>
-<p>Slide deck is published (only in french, sorry) here: <a href=https://vupti.me/rls>vupti.me/rls</a>.</p>
-<p>As said in the slide deck, this presentation was greatly inspired by a VMworld session: <a href="https://videos.vmworld.com/global/2019?q=The%2520Art%2520of%2520Code%2520That%2520Writes%2520Code">{CODE2216E} The art of code that writes code</a> (Kyle Ruddy @ VMware Inc.). I cannot encourage you enough to see the replay if you did not do it yet.</p>
-<p>The only part I did not pulished yet, was the demo part (even if, curious people may have found it <a href=https://github.com/lrivallain/rest-loves-swagger/blob/master/demo/Swagger%20Code%20Gen%20%5BDemo%5D.ipynb>in the repository</a>).</p>
-<p>I was planning to find a way to host the Jupyter Notebook online but as some commands rely on docker commands... I could not fount a hoster that enable it. So, let's re-write it in 2 blog posts.</p>
-<h2 id=target-of-this-post>Target of this post</h2>
-<p>So this post aims to demonstrate how you can create API SDK clients with <a href=https://swagger.io/tools/swagger-codegen/>Swagger Codegen</a>:</p>
-<ul>
-<li>Based on API documentation (both OpenAPI OASv3 and Swagger v2 are supported)</li>
-<li>In the language of your choice (see below for the list)</li>
-<li>Whitout writing any single line of code yourself (except for <strong>usage</strong> of the generated SDK)</li>
-<li>In minutes !</li>
-</ul>
-<p>Impossible? Let's see.</p>
-<h3 id=next-post>Next post</h3>
-<p>In a second post, I will demonstrate how to build/use SDK for VMware products: vCenter and vCloud Director.</p>
-<h2 id=prerequisites>Prerequisites</h2>
-<h3 id=docker>Docker</h3>
-<p>First, we need a docker setup (in order to avoid installing locally, the codegen software). I won't explain how to install and configure a docker host, this is not the point of the post.</p>
-<p>We get the docker image of Swagger Codegen:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>docker pull swaggerapi/swagger-codegen-cli
-</code></pre></div><p>If you prefer a local installation of Codegen, <a href=https://github.com/swagger-api/swagger-codegen#compatibility>it is possible</a> but you will need to modify some of the following commands.</p>
-<h3 id=folders-structure>Folders structure</h3>
-<p>For the tests, we will create 2 folders, for <code>in</code>put files and <code>out</code>put ones within a <code>codegen</code> folder:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>mkdir -p codegen/in/ codegen/out/
-<span class=ln>2</span>ls codegen/ <span class=c1># should output &#34;in out&#34;</span>
-</code></pre></div><h3 id=python>Python</h3>
-<p>We will create some python modules for test. I suggest to use a virtualenv if you want to proceed the same tests and to install some dependencies:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/requirements.txt
-<span class=ln>2</span>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
-<span class=ln>3</span>pip install -r requirements.txt
-</code></pre></div><blockquote>
-<p><strong>Warning:</strong> I strongly suggest that you review the content of all the files you download on your computer before using them!</p>
-</blockquote>
-<h3 id=go>Go</h3>
-<p>A part of this post will provide a Go module. Install Go runtime to be able to test it.</p>
-<h2 id=available-languages>Available languages</h2>
-<p>Codegen supports tons of output languages. To demonstrate it, we can use the following command:</p>
-<p>(The <code>sed</code> part is only to prettify the ouput)</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>docker run --rm swaggerapi/swagger-codegen-cli langs | sed &#39;s/,/\n    /g&#39;
-</code></pre></div><p>The output of the command will be something like:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln> 1</span>Available languages: [ada
-<span class=ln> 2</span>     ada-server
-<span class=ln> 3</span>     akka-scala
-<span class=ln> 4</span>     android
-<span class=ln> 5</span>     apache2
-<span class=ln> 6</span>     apex
-<span class=ln> 7</span>     aspnetcore
-<span class=ln> 8</span>     bash
-<span class=ln> 9</span>     csharp
-<span class=ln>10</span>     clojure
-<span class=ln>11</span>     cwiki
-<span class=ln>12</span>     cpprest
-<span class=ln>13</span>     csharp-dotnet2
-<span class=ln>14</span>     dart
-<span class=ln>15</span>     dart-jaguar
-<span class=ln>16</span>     elixir
-<span class=ln>17</span>     elm
-<span class=ln>18</span>     eiffel
-<span class=ln>19</span>     erlang-client
-<span class=ln>20</span>     erlang-server
-<span class=ln>21</span>     finch
-<span class=ln>22</span>     flash
-<span class=ln>23</span>     python-flask
-<span class=ln>24</span>     go
-<span class=ln>25</span>     go-server
-<span class=ln>26</span>     groovy
-<span class=ln>27</span>     haskell-http-client
-<span class=ln>28</span>     haskell
-<span class=ln>29</span>     jmeter
-<span class=ln>30</span>     jaxrs-cxf-client
-<span class=ln>31</span>     jaxrs-cxf
-<span class=ln>32</span>     java
-<span class=ln>33</span>     inflector
-<span class=ln>34</span>     jaxrs-cxf-cdi
-<span class=ln>35</span>     jaxrs-spec
-<span class=ln>36</span>     jaxrs
-<span class=ln>37</span>     msf4j
-<span class=ln>38</span>     java-pkmst
-<span class=ln>39</span>     java-play-framework
-<span class=ln>40</span>     jaxrs-resteasy-eap
-<span class=ln>41</span>     jaxrs-resteasy
-<span class=ln>42</span>     javascript
-<span class=ln>43</span>     javascript-closure-angular
-<span class=ln>44</span>     java-vertx
-<span class=ln>45</span>     kotlin
-<span class=ln>46</span>     lua
-<span class=ln>47</span>     lumen
-<span class=ln>48</span>     nancyfx
-<span class=ln>49</span>     nodejs-server
-<span class=ln>50</span>     objc
-<span class=ln>51</span>     perl
-<span class=ln>52</span>     php
-<span class=ln>53</span>     powershell
-<span class=ln>54</span>     pistache-server
-<span class=ln>55</span>     python
-<span class=ln>56</span>     qt5cpp
-<span class=ln>57</span>     r
-<span class=ln>58</span>     rails5
-<span class=ln>59</span>     restbed
-<span class=ln>60</span>     ruby
-<span class=ln>61</span>     rust
-<span class=ln>62</span>     rust-server
-<span class=ln>63</span>     scala
-<span class=ln>64</span>     scala-gatling
-<span class=ln>65</span>     scala-lagom-server
-<span class=ln>66</span>     scalatra
-<span class=ln>67</span>     scalaz
-<span class=ln>68</span>     php-silex
-<span class=ln>69</span>     sinatra
-<span class=ln>70</span>     slim
-<span class=ln>71</span>     spring
-<span class=ln>72</span>     dynamic-html
-<span class=ln>73</span>     html2
-<span class=ln>74</span>     html
-<span class=ln>75</span>     swagger
-<span class=ln>76</span>     swagger-yaml
-<span class=ln>77</span>     swift5
-<span class=ln>78</span>     swift4
-<span class=ln>79</span>     swift3
-<span class=ln>80</span>     swift
-<span class=ln>81</span>     php-symfony
-<span class=ln>82</span>     tizen
-<span class=ln>83</span>     typescript-aurelia
-<span class=ln>84</span>     typescript-angular
-<span class=ln>85</span>     typescript-inversify
-<span class=ln>86</span>     typescript-angularjs
-<span class=ln>87</span>     typescript-fetch
-<span class=ln>88</span>     typescript-jquery
-<span class=ln>89</span>     typescript-node
-<span class=ln>90</span>     undertow
-<span class=ln>91</span>     ze-ph
-<span class=ln>92</span>     kotlin-server]
-</code></pre></div><p>Pick the one you need !</p>
-<h2 id=chuck-norris>Chuck Norris</h2>
-<p>We will use a sample API (<a href=https://api.chucknorris.io>api.chucknorris.io</a>) for a first test.</p>
-<p>Here is our plan:</p>
-<ol>
-<li>Get API documentation (from <a href=https://api.chucknorris.io/documentation>api.chucknorris.io/documentation</a>)</li>
-<li>Pretify with <code>| python -m json.tool</code></li>
-<li>Store the result in a file</li>
-<li>Display the first lines</li>
-</ol>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>curl -s https://api.chucknorris.io/documentation <span class=p>|</span> python -m json.tool &gt; codegen/in/chucknorris.json
-<span class=ln>2</span>head -n <span class=m>25</span> codegen/in/chucknorris.json
-</code></pre></div><p>You should see the content of a swagger file, with the API description.</p>
-<h3 id=package-configuration>Package configuration</h3>
-<p>We will create a Codegen configuration file for a python module, with some information about naming and versioning.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span><span class=nb>echo</span> <span class=s1>&#39;{
-</span><span class=ln>2</span><span class=s1>  &#34;packageName&#34;:&#34;chucknorris_client&#34;,
-</span><span class=ln>3</span><span class=s1>  &#34;projectName&#34;:&#34;chucknorris-client&#34;,
-</span><span class=ln>4</span><span class=s1>  &#34;packageVersion&#34;:&#34;1.0.0&#34;
-</span><span class=ln>5</span><span class=s1>}&#39;</span> &gt; codegen/in/config_chucknorris_client.json
-</code></pre></div><h3 id=sdk-generation>SDK generation</h3>
-<p>Now we specify to Codegen, to use both API documentation file and package configuration one to create a new <strong><code>python</code></strong> based client SDK:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>docker run --rm -v <span class=si>${</span><span class=nv>PWD</span><span class=si>}</span>/codegen:/local <span class=se>\
-</span><span class=ln>2</span><span class=se></span>  swaggerapi/swagger-codegen-cli generate <span class=se>\
-</span><span class=ln>3</span><span class=se></span>    -i /local/in/chucknorris.json <span class=se>\
-</span><span class=ln>4</span><span class=se></span>    -o /local/out/python-chucknorris <span class=se>\
-</span><span class=ln>5</span><span class=se></span>    -c /local/in/config_chucknorris_client.json <span class=se>\
-</span><span class=ln>6</span><span class=se></span>    -l python
-</code></pre></div><p>We now have a new python module:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>ls codegen/out/python-chucknorris/
-</code></pre></div><p>Output:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>README.md	    git_push.sh       test
-<span class=ln>2</span>chucknorris_client  requirements.txt  test-requirements.txt
-<span class=ln>3</span>docs		    setup.py	      tox.ini
-</code></pre></div><p>And we can pip install this module:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>pip install codegen/out/python-chucknorris/
-</code></pre></div><h3 id=use-our-new-module>Use our new module</h3>
-<p>We create and run the following python file to use our new module:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=ln> 1</span><span class=kn>import</span> <span class=nn>chucknorris_client</span>
-<span class=ln> 2</span><span class=kn>from</span> <span class=nn>chucknorris_client.rest</span> <span class=kn>import</span> <span class=n>ApiException</span>
-<span class=ln> 3</span>
-<span class=ln> 4</span><span class=kn>from</span> <span class=nn>utils</span> <span class=kn>import</span> <span class=o>*</span>
-<span class=ln> 5</span><span class=n>logger</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;DEMO_CHUCKNORRIS&#34;</span><span class=p>)</span>
-<span class=ln> 6</span>
-<span class=ln> 7</span><span class=c1># Configure API</span>
-<span class=ln> 8</span><span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&#34;Create an API client&#34;</span><span class=p>)</span>
-<span class=ln> 9</span><span class=n>client</span> <span class=o>=</span> <span class=n>chucknorris_client</span><span class=o>.</span><span class=n>ApiClient</span><span class=p>(</span><span class=n>chucknorris_client</span><span class=o>.</span><span class=n>Configuration</span><span class=p>())</span>
-<span class=ln>10</span>
-<span class=ln>11</span><span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&#34;Target the Joke Controller&#34;</span><span class=p>)</span>
-<span class=ln>12</span><span class=n>api_instance</span> <span class=o>=</span> <span class=n>chucknorris_client</span><span class=o>.</span><span class=n>JokeControllerApi</span><span class=p>(</span><span class=n>client</span><span class=p>)</span>
-<span class=ln>13</span>
-<span class=ln>14</span><span class=k>try</span><span class=p>:</span>
-<span class=ln>15</span>    <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&#34;Get a random joke:&#34;</span><span class=p>)</span>
-<span class=ln>16</span>    <span class=n>api_response</span> <span class=o>=</span> <span class=n>api_instance</span><span class=o>.</span><span class=n>get_random_joke_value_using_get</span><span class=p>()</span>
-<span class=ln>17</span>    <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span><span class=n>api_response</span><span class=p>)</span>
-<span class=ln>18</span><span class=k>except</span> <span class=n>ApiException</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
-<span class=ln>19</span>    <span class=n>logger</span><span class=o>.</span><span class=n>error</span><span class=p>(</span>
-<span class=ln>20</span>        <span class=s2>&#34;Exception when calling JokeControllerApi-&gt;get_random_joke_value_using_get: </span><span class=si>%s</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=n>e</span>
-<span class=ln>21</span>    <span class=p>)</span>
-</code></pre></div><p>You can now run it and get the following result:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>DEMO_CHUCKNORRIS 	Create an API client
-<span class=ln>2</span>DEMO_CHUCKNORRIS 	Target the Joke Controller
-<span class=ln>3</span>DEMO_CHUCKNORRIS 	Get a random joke:
-<span class=ln>4</span>DEMO_CHUCKNORRIS 	Chuck Norris was worshipped as a god by the Eskimos. That is why they had igloos modelled after his signature move.
-</code></pre></div><p>Please consider that most of the python code we used is about the logger and not the complexity of getting a random Chuck Norris fact. If you don't, Chuck Norris may come to you for an explaination.</p>
-<h3 id=same-with-go->Same with Go ?</h3>
-<p>Lets do the same, with Go:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>docker run --rm -v <span class=si>${</span><span class=nv>PWD</span><span class=si>}</span>/codegen:/local <span class=se>\
-</span><span class=ln>2</span><span class=se></span>  swaggerapi/swagger-codegen-cli generate <span class=se>\
-</span><span class=ln>3</span><span class=se></span>    -i /local/in/chucknorris.json <span class=se>\
-</span><span class=ln>4</span><span class=se></span>    -o /local/out/gochucknorris <span class=se>\
-</span><span class=ln>5</span><span class=se></span>    -DpackageName<span class=o>=</span>gochucknorris <span class=se>\
-</span><span class=ln>6</span><span class=se></span>    -l go
-</code></pre></div><p>The <code>Go</code> test file (for example: <code>codegen/chuck.go</code>):</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=ln> 1</span><span class=kn>package</span> <span class=nx>main</span>
-<span class=ln> 2</span>
-<span class=ln> 3</span><span class=kn>import</span> <span class=p>(</span>
-<span class=ln> 4</span>    <span class=s>&#34;log&#34;</span>
-<span class=ln> 5</span>    <span class=nx>cn</span> <span class=s>&#34;out/gochucknorris&#34;</span>
-<span class=ln> 6</span>    <span class=s>&#34;golang.org/x/net/context&#34;</span>
-<span class=ln> 7</span><span class=p>)</span>
-<span class=ln> 8</span>
-<span class=ln> 9</span><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-<span class=ln>10</span>    <span class=nx>log</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;New API client with empty configuration&#34;</span><span class=p>)</span>
-<span class=ln>11</span>    <span class=nx>client</span> <span class=o>:=</span> <span class=nx>cn</span><span class=p>.</span><span class=nf>NewAPIClient</span><span class=p>(</span><span class=nx>cn</span><span class=p>.</span><span class=nf>NewConfiguration</span><span class=p>())</span>
-<span class=ln>12</span>    <span class=nx>log</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;Get random joke&#34;</span><span class=p>)</span>
-<span class=ln>13</span>    <span class=nx>joke</span><span class=p>,</span> <span class=nx>r</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>client</span><span class=p>.</span><span class=nx>JokeControllerApi</span><span class=p>.</span><span class=nf>GetRandomJokeValueUsingGET</span><span class=p>(</span><span class=nx>context</span><span class=p>.</span><span class=nf>Background</span><span class=p>(),</span> <span class=kc>nil</span><span class=p>)</span>
-<span class=ln>14</span>    <span class=c1>// Test error
-</span><span class=ln>15</span><span class=c1></span>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
-<span class=ln>16</span>        <span class=nx>log</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;Error:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
-<span class=ln>17</span>    <span class=p>}</span>
-<span class=ln>18</span>    <span class=c1>// Test HTTP Response code
-</span><span class=ln>19</span><span class=c1></span>    <span class=k>if</span> <span class=nx>r</span><span class=p>.</span><span class=nx>StatusCode</span> <span class=o>==</span> <span class=mi>200</span> <span class=p>{</span>
-<span class=ln>20</span>        <span class=nx>log</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=nx>joke</span><span class=p>.</span><span class=nx>Value</span><span class=p>)</span>
-<span class=ln>21</span>    <span class=p>}</span>
-<span class=ln>22</span><span class=p>}</span>
-</code></pre></div><p>And the result of a <code>go run codegen/chuck.go</code>:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>2020/04/01 17:28:11 New API client with empty configuration
-<span class=ln>2</span>2020/04/01 17:28:11 Get random joke
-<span class=ln>3</span>2020/04/01 17:28:12 Chuck Norris can levitate birds.
-</code></pre></div><h2 id=conclusion>Conclusion</h2>
-<p>How long to get this new API SDK client in a new language? Less than a minute !</p>
-<p>In the next post, we will apply this process to two VMware products:</p>
-<ul>
-<li>vCenter (6.7 only sorry!)</li>
-<li>vCloud Director</li>
-</ul>
-<div id=disqus_thread></div>
-<script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//lri-ovh.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</article>
-<aside class=sidebar>
-<section class=sidebar_inner>
-<div class=author_header>
-<img src=https://vuptime.io/icons/favicon_500px.png alt=" photo">
-<h2></h2>
-</div>
-<div class=author_bio>
-A cloud builders blog: Virtualization, Cloud Computing, VMware, Kubernetes, Infra-as-code… <img src=/images/vexpert.png alt=vExpert>
-</div>
-<a href=https://vuptime.io/about/ class="button mt-1" role=button title="Read More">Read More</a>
-<h2 class=mt-4>Recent Posts</h2>
-<ul class=flex-column>
-<li>
-<a href=https://vuptime.io/post/2022-02-15-azure-vmware-solution-rest-api-part2/ class=nav-link title="Azure VMware Solutions REST API - part 2: `az rest`">Azure VMware Solutions REST API - part 2: `az rest`</a>
-</li>
-<li>
-<a href=https://vuptime.io/post/2022-02-06-azure-vmware-solution-rest-api-part1/ class=nav-link title="Azure VMware Solutions REST API - part 1: Postman collection">Azure VMware Solutions REST API - part 1: Postman collection</a>
-</li>
-<li>
-<a href=https://vuptime.io/post/2021-05-06-vmware-event-broker-on-k8s-with-knative-part2/ class=nav-link title="VMware Event Broker on Kubernetes with Knative functions - part 2">VMware Event Broker on Kubernetes with Knative functions - part 2</a>
-</li>
-<li>
-<a href=https://vuptime.io/post/2021-05-05-vmware-event-broker-on-k8s-with-knative-part1/ class=nav-link title="VMware Event Broker on Kubernetes with Knative functions - part 1">VMware Event Broker on Kubernetes with Knative functions - part 1</a>
-</li>
-<li>
-<a href=https://vuptime.io/post/2021-02-02-my-kubernetes-book/ class=nav-link title="My Kubernetes Book">My Kubernetes Book</a>
-</li>
-<li>
-<a href=https://vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/ class=nav-link title="Run Argo workflow from a VEBA event through OpenFaaS">Run Argo workflow from a VEBA event through OpenFaaS</a>
-</li>
-<li>
-<a href=https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/ class=nav-link title="VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps">VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps</a>
-</li>
-<li>
-<a href=https://vuptime.io/post/2020-11-26-vmware-container-service-extension-with-a-proxy/ class=nav-link title="Use VMware Container Service Extension with a corporate proxy">Use VMware Container Service Extension with a corporate proxy</a>
-</li>
-</ul>
-<div>
-<h2 class="mt-4 taxonomy" id=categories-section>Categories</h2>
-<nav class=tags_nav>
-<a href=https://vuptime.io/categories/vmware/ class="post_tag button button_translucent" title=vmware>
-VMWARE
-<span class=button_tally>44</span>
-</a>
-<a href=https://vuptime.io/categories/french/ class="post_tag button button_translucent" title=french>
-FRENCH
-<span class=button_tally>17</span>
-</a>
-<a href=https://vuptime.io/categories/automation/ class="post_tag button button_translucent" title=automation>
-AUTOMATION
-<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/categories/azure/ class="post_tag button button_translucent" title=azure>
-AZURE
-<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/categories/openstack/ class="post_tag button button_translucent" title=openstack>
-OPENSTACK
-<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/categories/ansible/ class="post_tag button button_translucent" title=ansible>
-ANSIBLE
-<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/categories/bash/ class="post_tag button button_translucent" title=bash>
-BASH
-<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/categories/blog/ class="post_tag button button_translucent" title=blog>
-BLOG
-<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/categories/cloud/ class="post_tag button button_translucent" title=cloud>
-CLOUD
-<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/categories/kubernetes/ class="post_tag button button_translucent" title=kubernetes>
-KUBERNETES
-<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/categories/powershell/ class="post_tag button button_translucent" title=powershell>
-POWERSHELL
-<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/categories/vmware-powershell/ class="post_tag button button_translucent" title=vmware-powershell>
-VMWARE-POWERSHELL
-<span class=button_tally>1</span>
-</a>
-</nav>
-</div>
-<div>
-<h2 class="mt-4 taxonomy" id=tags-section>Tags</h2>
-<nav class=tags_nav>
-<a href=https://vuptime.io/tags/vmware/ class="post_tag button button_translucent" title=vmware>
-VMWARE
-<span class=button_tally>60</span>
-</a>
-<a href=https://vuptime.io/tags/vmworld/ class="post_tag button button_translucent" title=vmworld>
-VMWORLD
-<span class=button_tally>13</span>
-</a>
-<a href=https://vuptime.io/tags/vrealize/ class="post_tag button button_translucent" title=vrealize>
-VREALIZE
-<span class=button_tally>13</span>
-</a>
-<a href=https://vuptime.io/tags/vcloud/ class="post_tag button button_translucent" title=vcloud>
-VCLOUD
-<span class=button_tally>11</span>
-</a>
-<a href=https://vuptime.io/tags/bookmark/ class="post_tag button button_translucent" title=bookmark>
-BOOKMARK
-<span class=button_tally>10</span>
-</a>
-<a href=https://vuptime.io/tags/api/ class="post_tag button button_translucent" title=api>
-API
-<span class=button_tally>9</span>
-</a>
-<a href=https://vuptime.io/tags/vra/ class="post_tag button button_translucent" title=vra>
-VRA
-<span class=button_tally>9</span>
-</a>
-<a href=https://vuptime.io/tags/automation/ class="post_tag button button_translucent" title=automation>
-AUTOMATION
-<span class=button_tally>8</span>
-</a>
-<a href=https://vuptime.io/tags/kubernetes/ class="post_tag button button_translucent" title=kubernetes>
-KUBERNETES
-<span class=button_tally>8</span>
-</a>
-<a href=https://vuptime.io/tags/director/ class="post_tag button button_translucent" title=director>
-DIRECTOR
-<span class=button_tally>7</span>
-</a>
-<a href=https://vuptime.io/tags/linux/ class="post_tag button button_translucent" title=linux>
-LINUX
-<span class=button_tally>7</span>
-</a>
-<a href=https://vuptime.io/tags/script/ class="post_tag button button_translucent" title=script>
-SCRIPT
-<span class=button_tally>7</span>
-</a>
-<a href=https://vuptime.io/tags/event-driven/ class="post_tag button button_translucent" title=event-driven>
-EVENT-DRIVEN
-<span class=button_tally>6</span>
-</a>
-<a href=https://vuptime.io/tags/vro/ class="post_tag button button_translucent" title=vro>
-VRO
-<span class=button_tally>6</span>
-</a>
-<a href=https://vuptime.io/tags/rest/ class="post_tag button button_translucent" title=rest>
-REST
-<span class=button_tally>5</span>
-</a>
-<br>
-<div class="post_tags_toggle button">All Tags</div>
-<div class=post_tags>
-<div class=tags_list>
-<a href=https://vuptime.io/tags/amqp/ class="post_tag button button_translucent" data-position=1 title=amqp>AMQP<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/ansible/ class="post_tag button button_translucent" data-position=2 title=ansible>ANSIBLE<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/api/ class="post_tag button button_translucent" data-position=9 title=api>API<span class=button_tally>9</span>
-</a>
-<a href=https://vuptime.io/tags/argo/ class="post_tag button button_translucent" data-position=1 title=argo>ARGO<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/authentication/ class="post_tag button button_translucent" data-position=1 title=authentication>AUTHENTICATION<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/automation/ class="post_tag button button_translucent" data-position=8 title=automation>AUTOMATION<span class=button_tally>8</span>
-</a>
-<a href=https://vuptime.io/tags/avs/ class="post_tag button button_translucent" data-position=2 title=avs>AVS<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/azure/ class="post_tag button button_translucent" data-position=2 title=azure>AZURE<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/azure-vmware-solution/ class="post_tag button button_translucent" data-position=2 title=azure-vmware-solution>AZURE-VMWARE-SOLUTION<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/bash/ class="post_tag button button_translucent" data-position=2 title=bash>BASH<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/book/ class="post_tag button button_translucent" data-position=1 title=book>BOOK<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/bookmark/ class="post_tag button button_translucent" data-position=10 title=bookmark>BOOKMARK<span class=button_tally>10</span>
-</a>
-<a href=https://vuptime.io/tags/boot/ class="post_tag button button_translucent" data-position=2 title=boot>BOOT<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/catalog/ class="post_tag button button_translucent" data-position=1 title=catalog>CATALOG<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/certificate/ class="post_tag button button_translucent" data-position=4 title=certificate>CERTIFICATE<span class=button_tally>4</span>
-</a>
-<a href=https://vuptime.io/tags/cheatsheet/ class="post_tag button button_translucent" data-position=2 title=cheatsheet>CHEATSHEET<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/clarity/ class="post_tag button button_translucent" data-position=1 title=clarity>CLARITY<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/cli/ class="post_tag button button_translucent" data-position=1 title=cli>CLI<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/clone/ class="post_tag button button_translucent" data-position=1 title=clone>CLONE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/cloud/ class="post_tag button button_translucent" data-position=1 title=cloud>CLOUD<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/codegen/ class="post_tag button button_translucent" data-position=2 title=codegen>CODEGEN<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/community/ class="post_tag button button_translucent" data-position=2 title=community>COMMUNITY<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/connector/ class="post_tag button button_translucent" data-position=1 title=connector>CONNECTOR<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/cron/ class="post_tag button button_translucent" data-position=1 title=cron>CRON<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/crontab/ class="post_tag button button_translucent" data-position=1 title=crontab>CRONTAB<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/cse/ class="post_tag button button_translucent" data-position=1 title=cse>CSE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/css/ class="post_tag button button_translucent" data-position=1 title=css>CSS<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/curl/ class="post_tag button button_translucent" data-position=2 title=curl>CURL<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/customization/ class="post_tag button button_translucent" data-position=1 title=customization>CUSTOMIZATION<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/cyberduck/ class="post_tag button button_translucent" data-position=1 title=cyberduck>CYBERDUCK<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/database/ class="post_tag button button_translucent" data-position=1 title=database>DATABASE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/datastore/ class="post_tag button button_translucent" data-position=1 title=datastore>DATASTORE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/dbuser/ class="post_tag button button_translucent" data-position=1 title=dbuser>DBUSER<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/dcscope/ class="post_tag button button_translucent" data-position=1 title=dcscope>DCSCOPE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/design/ class="post_tag button button_translucent" data-position=1 title=design>DESIGN<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/devops/ class="post_tag button button_translucent" data-position=3 title=devops>DEVOPS<span class=button_tally>3</span>
-</a>
-<a href=https://vuptime.io/tags/diff/ class="post_tag button button_translucent" data-position=2 title=diff>DIFF<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/director/ class="post_tag button button_translucent" data-position=7 title=director>DIRECTOR<span class=button_tally>7</span>
-</a>
-<a href=https://vuptime.io/tags/dummy/ class="post_tag button button_translucent" data-position=1 title=dummy>DUMMY<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/easyvirt/ class="post_tag button button_translucent" data-position=1 title=easyvirt>EASYVIRT<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/endpoint/ class="post_tag button button_translucent" data-position=2 title=endpoint>ENDPOINT<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/esx/ class="post_tag button button_translucent" data-position=2 title=esx>ESX<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/esxi/ class="post_tag button button_translucent" data-position=4 title=esxi>ESXI<span class=button_tally>4</span>
-</a>
-<a href=https://vuptime.io/tags/event-driven/ class="post_tag button button_translucent" data-position=6 title=event-driven>EVENT-DRIVEN<span class=button_tally>6</span>
-</a>
-<a href=https://vuptime.io/tags/extension/ class="post_tag button button_translucent" data-position=4 title=extension>EXTENSION<span class=button_tally>4</span>
-</a>
-<a href=https://vuptime.io/tags/firewall/ class="post_tag button button_translucent" data-position=1 title=firewall>FIREWALL<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/fsck/ class="post_tag button button_translucent" data-position=2 title=fsck>FSCK<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/gist/ class="post_tag button button_translucent" data-position=1 title=gist>GIST<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/git/ class="post_tag button button_translucent" data-position=1 title=git>GIT<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/google/ class="post_tag button button_translucent" data-position=1 title=google>GOOGLE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/greenit/ class="post_tag button button_translucent" data-position=1 title=greenit>GREENIT<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/helper/ class="post_tag button button_translucent" data-position=1 title=helper>HELPER<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/httpie/ class="post_tag button button_translucent" data-position=1 title=httpie>HTTPIE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/iaas/ class="post_tag button button_translucent" data-position=3 title=iaas>IAAS<span class=button_tally>3</span>
-</a>
-<a href=https://vuptime.io/tags/java/ class="post_tag button button_translucent" data-position=1 title=java>JAVA<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/javascript/ class="post_tag button button_translucent" data-position=3 title=javascript>JAVASCRIPT<span class=button_tally>3</span>
-</a>
-<a href=https://vuptime.io/tags/jre/ class="post_tag button button_translucent" data-position=1 title=jre>JRE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/keystone/ class="post_tag button button_translucent" data-position=1 title=keystone>KEYSTONE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/keytool/ class="post_tag button button_translucent" data-position=1 title=keytool>KEYTOOL<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/knative/ class="post_tag button button_translucent" data-position=2 title=knative>KNATIVE<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/kubectl/ class="post_tag button button_translucent" data-position=1 title=kubectl>KUBECTL<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/kubernetes/ class="post_tag button button_translucent" data-position=8 title=kubernetes>KUBERNETES<span class=button_tally>8</span>
-</a>
-<a href=https://vuptime.io/tags/linked/ class="post_tag button button_translucent" data-position=1 title=linked>LINKED<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/linux/ class="post_tag button button_translucent" data-position=7 title=linux>LINUX<span class=button_tally>7</span>
-</a>
-<a href=https://vuptime.io/tags/modelmanager/ class="post_tag button button_translucent" data-position=1 title=modelmanager>MODELMANAGER<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/module/ class="post_tag button button_translucent" data-position=1 title=module>MODULE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/nested/ class="post_tag button button_translucent" data-position=2 title=nested>NESTED<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/object/ class="post_tag button button_translucent" data-position=1 title=object>OBJECT<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/openfaas/ class="post_tag button button_translucent" data-position=1 title=openfaas>OPENFAAS<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/opensource/ class="post_tag button button_translucent" data-position=1 title=opensource>OPENSOURCE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/openssl/ class="post_tag button button_translucent" data-position=1 title=openssl>OPENSSL<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/openstack/ class="post_tag button button_translucent" data-position=2 title=openstack>OPENSTACK<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/orchestrator/ class="post_tag button button_translucent" data-position=4 title=orchestrator>ORCHESTRATOR<span class=button_tally>4</span>
-</a>
-<a href=https://vuptime.io/tags/ovf/ class="post_tag button button_translucent" data-position=1 title=ovf>OVF<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/ovftool/ class="post_tag button button_translucent" data-position=1 title=ovftool>OVFTOOL<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/ovh/ class="post_tag button button_translucent" data-position=1 title=ovh>OVH<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/password/ class="post_tag button button_translucent" data-position=1 title=password>PASSWORD<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/plugin/ class="post_tag button button_translucent" data-position=3 title=plugin>PLUGIN<span class=button_tally>3</span>
-</a>
-<a href=https://vuptime.io/tags/postman/ class="post_tag button button_translucent" data-position=1 title=postman>POSTMAN<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/powercli/ class="post_tag button button_translucent" data-position=2 title=powercli>POWERCLI<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/powershell/ class="post_tag button button_translucent" data-position=2 title=powershell>POWERSHELL<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/privileges/ class="post_tag button button_translucent" data-position=1 title=privileges>PRIVILEGES<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/psc/ class="post_tag button button_translucent" data-position=2 title=psc>PSC<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/public/ class="post_tag button button_translucent" data-position=1 title=public>PUBLIC<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/python/ class="post_tag button button_translucent" data-position=4 title=python>PYTHON<span class=button_tally>4</span>
-</a>
-<a href=https://vuptime.io/tags/rabbitmq/ class="post_tag button button_translucent" data-position=1 title=rabbitmq>RABBITMQ<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/rest/ class="post_tag button button_translucent" data-position=5 title=rest>REST<span class=button_tally>5</span>
-</a>
-<a href=https://vuptime.io/tags/script/ class="post_tag button button_translucent" data-position=7 title=script>SCRIPT<span class=button_tally>7</span>
-</a>
-<a href=https://vuptime.io/tags/scsi/ class="post_tag button button_translucent" data-position=1 title=scsi>SCSI<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/security/ class="post_tag button button_translucent" data-position=2 title=security>SECURITY<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/service/ class="post_tag button button_translucent" data-position=1 title=service>SERVICE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/sii/ class="post_tag button button_translucent" data-position=4 title=sii>SII<span class=button_tally>4</span>
-</a>
-<a href=https://vuptime.io/tags/snapshot/ class="post_tag button button_translucent" data-position=1 title=snapshot>SNAPSHOT<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/ssh/ class="post_tag button button_translucent" data-position=2 title=ssh>SSH<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/storage/ class="post_tag button button_translucent" data-position=1 title=storage>STORAGE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/swagger/ class="post_tag button button_translucent" data-position=2 title=swagger>SWAGGER<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/swift/ class="post_tag button button_translucent" data-position=1 title=swift>SWIFT<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/systemd/ class="post_tag button button_translucent" data-position=1 title=systemd>SYSTEMD<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/template/ class="post_tag button button_translucent" data-position=1 title=template>TEMPLATE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/timeout/ class="post_tag button button_translucent" data-position=2 title=timeout>TIMEOUT<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/tips/ class="post_tag button button_translucent" data-position=1 title=tips>TIPS<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/training/ class="post_tag button button_translucent" data-position=1 title=training>TRAINING<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/troubleshoot/ class="post_tag button button_translucent" data-position=1 title=troubleshoot>TROUBLESHOOT<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/tutorial/ class="post_tag button button_translucent" data-position=1 title=tutorial>TUTORIAL<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/vami/ class="post_tag button button_translucent" data-position=1 title=vami>VAMI<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/vcd/ class="post_tag button button_translucent" data-position=5 title=vcd>VCD<span class=button_tally>5</span>
-</a>
-<a href=https://vuptime.io/tags/vcenter/ class="post_tag button button_translucent" data-position=3 title=vcenter>VCENTER<span class=button_tally>3</span>
-</a>
-<a href=https://vuptime.io/tags/vcloud/ class="post_tag button button_translucent" data-position=11 title=vcloud>VCLOUD<span class=button_tally>11</span>
-</a>
-<a href=https://vuptime.io/tags/vcsa/ class="post_tag button button_translucent" data-position=2 title=vcsa>VCSA<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/veba/ class="post_tag button button_translucent" data-position=5 title=veba>VEBA<span class=button_tally>5</span>
-</a>
-<a href=https://vuptime.io/tags/vim/ class="post_tag button button_translucent" data-position=1 title=vim>VIM<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/vim-cmd/ class="post_tag button button_translucent" data-position=2 title=vim-cmd>VIM-CMD<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/virtualbox/ class="post_tag button button_translucent" data-position=2 title=virtualbox>VIRTUALBOX<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/vm/ class="post_tag button button_translucent" data-position=1 title=vm>VM<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/vmug/ class="post_tag button button_translucent" data-position=4 title=vmug>VMUG<span class=button_tally>4</span>
-</a>
-<a href=https://vuptime.io/tags/vmware/ class="post_tag button button_translucent" data-position=60 title=vmware>VMWARE<span class=button_tally>60</span>
-</a>
-<a href=https://vuptime.io/tags/vmworld/ class="post_tag button button_translucent" data-position=13 title=vmworld>VMWORLD<span class=button_tally>13</span>
-</a>
-<a href=https://vuptime.io/tags/vmx/ class="post_tag button button_translucent" data-position=2 title=vmx>VMX<span class=button_tally>2</span>
-</a>
-<a href=https://vuptime.io/tags/vnc/ class="post_tag button button_translucent" data-position=1 title=vnc>VNC<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/vra/ class="post_tag button button_translucent" data-position=9 title=vra>VRA<span class=button_tally>9</span>
-</a>
-<a href=https://vuptime.io/tags/vrealize/ class="post_tag button button_translucent" data-position=13 title=vrealize>VREALIZE<span class=button_tally>13</span>
-</a>
-<a href=https://vuptime.io/tags/vro/ class="post_tag button button_translucent" data-position=6 title=vro>VRO<span class=button_tally>6</span>
-</a>
-<a href=https://vuptime.io/tags/vsphere/ class="post_tag button button_translucent" data-position=1 title=vsphere>VSPHERE<span class=button_tally>1</span>
-</a>
-<a href=https://vuptime.io/tags/windows/ class="post_tag button button_translucent" data-position=1 title=windows>WINDOWS<span class=button_tally>1</span>
-</a>
-<div class=tags_sort><span title="sort alphabetically">[A~Z]</span><span title="sort by count">[0~9]</span>
-</div>
-<span class=tags_hide><svg class="icon"><use xlink:href="#closeme"/></svg></span>
-</div>
-</div>
-</nav>
-</div>
-</section>
-</aside>
-</div>
-</main><svg width="0" height="0" class="hidden"><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="facebook"><path d="M437 0H75C33.648.0.0 33.648.0 75v362c0 41.352 33.648 75 75 75h151V331h-60v-90h60v-61c0-49.629 40.371-90 90-90h91v90h-91v61h91l-15 90h-76v181h121c41.352.0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zm0 0"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.001 18.001" id="twitter"><path d="M15.891 4.013c.808-.496 1.343-1.173 1.605-2.034a8.68 8.68.0 01-2.351.861c-.703-.756-1.593-1.14-2.66-1.14-1.043.0-1.924.366-2.643 1.078A3.56 3.56.0 008.766 5.383c0 .309.039.585.117.819-3.076-.105-5.622-1.381-7.628-3.837-.34.601-.51 1.213-.51 1.846.0 1.301.549 2.332 1.645 3.089-.625-.053-1.176-.211-1.645-.47.0.929.273 1.705.82 2.388a3.623 3.623.0 002.115 1.291c-.312.08-.641.118-.979.118-.312.0-.533-.026-.664-.083.23.757.664 1.371 1.291 1.841a3.652 3.652.0 002.152.743C4.148 14.173 2.625 14.69.902 14.69c-.422.0-.721-.006-.902-.038 1.697 1.102 3.586 1.649 5.676 1.649 2.139.0 4.029-.542 5.674-1.626 1.645-1.078 2.859-2.408 3.639-3.974a10.77 10.77.0 001.172-4.892v-.468a7.788 7.788.0 001.84-1.921 8.142 8.142.0 01-2.11.593z"/></symbol><symbol aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="mail"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V4e2c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5.0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="calendar"><path d="M452 40h-24V0h-40v40H124V0H84v40H60C26.916 40 0 66.916.0 1e2v352c0 33.084 26.916 60 60 60h392c33.084.0 60-26.916 60-60V1e2c0-33.084-26.916-60-60-60zm20 412c0 11.028-8.972 20-20 20H60c-11.028.0-20-8.972-20-20V188h432v264zm0-304H40v-48c0-11.028 8.972-20 20-20h24v40h40V80h264v40h40V80h24c11.028.0 20 8.972 20 20v48z"/><path d="M76 230h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zM76 310h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zM76 390h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zm80-80h40v40h-40z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="github"><path d="M255.968 5.329C114.624 5.329.0 120.401.0 262.353c0 113.536 73.344 209.856 175.104 243.872 12.8 2.368 17.472-5.568 17.472-12.384.0-6.112-.224-22.272-.352-43.712-71.2 15.52-86.24-34.464-86.24-34.464-11.616-29.696-28.416-37.6-28.416-37.6-23.264-15.936 1.728-15.616 1.728-15.616 25.696 1.824 39.2 26.496 39.2 26.496 22.848 39.264 59.936 27.936 74.528 21.344 2.304-16.608 8.928-27.936 16.256-34.368-56.832-6.496-116.608-28.544-116.608-127.008.0-28.064 9.984-51.008 26.368-68.992-2.656-6.496-11.424-32.64 2.496-68 0 0 21.504-6.912 70.4 26.336 20.416-5.696 42.304-8.544 64.096-8.64 21.728.128 43.648 2.944 64.096 8.672 48.864-33.248 70.336-26.336 70.336-26.336 13.952 35.392 5.184 61.504 2.56 68 16.416 17.984 26.304 40.928 26.304 68.992.0 98.72-59.84 120.448-116.864 126.816 9.184 7.936 17.376 23.616 17.376 47.584.0 34.368-.32 62.08-.32 70.496.0 6.88 4.608 14.88 17.6 12.352C438.72 472.145 512 375.857 512 262.353 512 120.401 397.376 5.329 255.968 5.329z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212 212" id="gitlab"><path d="M12.3 74.7h54L43.3 3c-1-3.6-6.4-3.6-7.6.0L12.3 74.8z"/><path d="M12.3 74.7.5 111c-1 3.2.0 6.8 3 8.8l101.6 74-92.5-119z"/><path d="M105 193.7l-38.6-119h-54l92.7 119z"/><path d="M105 193.7l38.7-119H66.4l38.7 119z"/><path d="M105 193.7l38.7-119H198l-93 119z"/><path d="M198 74.7l11.6 36.2c1 3 0 6.6-3 8.6l-101.5 74 93-119z"/><path d="M198 74.7h-54.3L167 3c1.2-3.6 6.4-3.6 7.6.0L198 74.8z"/></symbol><symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="rss"><circle cx="3.429" cy="20.571" r="3.429"/><path d="M11.429 24h4.57C15.999 15.179 8.821 8.001.0 8v4.572c6.302.001 11.429 5.126 11.429 11.428z"/><path d="M24 24C24 10.766 13.234.0.0.0v4.571c10.714.0 19.43 8.714 19.43 19.429z"/></symbol><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="linkedin"><path d="M437 0H75C33.648.0.0 33.648.0 75v362c0 41.352 33.648 75 75 75h362c41.352.0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zM181 406h-60V196h60zm0-240h-60v-60h60zm210 240h-60V286c0-16.54-13.46-30-30-30s-30 13.46-30 30v120h-60V196h60v11.309C286.719 202.422 296.93 196 316 196c40.691.043 75 36.547 75 79.688zm0 0"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 612" id="arrow"><path d="M604.501 440.509 325.398 134.956c-5.331-5.357-12.423-7.627-19.386-7.27-6.989-.357-14.056 1.913-19.387 7.27L7.499 440.509c-9.999 10.024-9.999 26.298.0 36.323s26.223 10.024 36.222.0l262.293-287.164L568.28 476.832c9.999 10.024 26.222 10.024 36.221.0 9.999-10.023 9.999-26.298.0-36.323z"/></symbol><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="carly"><path d="M504.971 239.029 448 182.059V84c0-46.317-37.682-84-84-84h-44c-13.255.0-24 10.745-24 24s10.745 24 24 24h44c19.851.0 36 16.149 36 36v108c0 6.365 2.529 12.47 7.029 16.971L454.059 256l-47.029 47.029A24.002 24.002.0 004e2 320v108c0 19.851-16.149 36-36 36h-44c-13.255.0-24 10.745-24 24s10.745 24 24 24h44c46.318.0 84-37.683 84-84v-98.059l56.971-56.971c9.372-9.372 9.372-24.568.0-33.941zM112 192V84c0-19.851 16.149-36 36-36h44c13.255.0 24-10.745 24-24S205.255.0 192 0h-44c-46.318.0-84 37.683-84 84v98.059l-56.971 56.97c-9.373 9.373-9.373 24.568.0 33.941L64 329.941V428c0 46.317 37.682 84 84 84h44c13.255.0 24-10.745 24-24s-10.745-24-24-24h-44c-19.851.0-36-16.149-36-36V320c0-6.365-2.529-12.47-7.029-16.971L57.941 256l47.029-47.029A24.002 24.002.0 00112 192z"/></symbol><symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="copy"><path d="M23 2.75A2.75 2.75.0 0020.25.0H8.75A2.75 2.75.0 006 2.75v13.5A2.75 2.75.0 008.75 19h11.5A2.75 2.75.0 0023 16.25zM18.25 14.5h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5zm0-3h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5zm0-3h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5z"/><path d="M8.75 20.5A4.255 4.255.0 014.5 16.25V2.75c0-.086.02-.166.025-.25H3.75A2.752 2.752.0 001 5.25v16A2.752 2.752.0 003.75 24h12a2.752 2.752.0 002.75-2.75v-.75z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.001 512.001" id="closeme"><path d="M284.286 256.002 506.143 34.144c7.811-7.811 7.811-20.475.0-28.285-7.811-7.81-20.475-7.811-28.285.0L256 227.717 34.143 5.859c-7.811-7.811-20.475-7.811-28.285.0-7.81 7.811-7.811 20.475.0 28.285l221.857 221.857L5.858 477.859c-7.811 7.811-7.811 20.475.0 28.285a19.938 19.938.0 0014.143 5.857 19.94 19.94.0 0014.143-5.857L256 284.287l221.857 221.857c3.905 3.905 9.024 5.857 14.143 5.857s10.237-1.952 14.143-5.857c7.811-7.811 7.811-20.475.0-28.285L284.286 256.002z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="open-menu"><path d="M492 236H20c-11.046.0-20 8.954-20 20s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20zm0-160H20C8.954 76 0 84.954.0 96s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20zm0 320H20c-11.046.0-20 8.954-20 20s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="instagram"><path d="M12 2.163c3.204.0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849.0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204.0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849.0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741.0 8.333.014 7.053.072c-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.948c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24s3.668-.014 4.948-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403.0-6.162 2.759-6.162 6.162S8.597 18.163 12 18.163s6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zM12 16c-2.209.0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796.0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795.0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="youtube"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23.0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23.0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 3.993L9 16z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="stackoverflow"><path d="M21 27v-8h3v11H0V19h3v8h18z"/><path d="M17.1.2 15 1.8l7.9 10.6 2.1-1.6L17.1.2zm3.7 14.7L10.6 6.4l1.7-2 10.2 8.5-1.7 2zM7.2 12.3l12 5.6 1.1-2.4-12-5.6-1.1 2.4zm-1.8 6.8 13.56 1.96.17-2.38-13.26-2.55-.47 2.97zM19 25H5v-3h14v3z"/></symbol></svg>
-<footer class=footer>
-<div class="footer_inner wrap pale">
-<img src=https://vuptime.io/icons/favicon.png class="icon icon_2 transparent" alt="Ludovic Rivallain and blog co-authors">
-<p>Copyright&nbsp;2014&nbsp;–&nbsp;<span class=year></span>&nbsp;–&nbsp;Ludovic Rivallain and blog co-authors. All Rights Reserved</p><a class=to_top href=#documentTop><svg class="icon"><use xlink:href="#arrow"/></svg>
-</a>
-</div>
-</footer>
-<script type=text/javascript src=https://vuptime.io/js/bundle.min.d14fbcd65c3ba32e60cab81f8bbe7aa9b7f8b95ff8290e437fb26ff9ab7f7ea0c928db2dca60aac91f192db906f2d90678f83907e4e3994f6ff9fdb5bdea3369.js integrity="sha512-0U+81lw7oy5gyrgfi756qbf4uV/4KQ5Df7Jv+at/fqDJKNstymCqyR8ZLbkG8tkGePg5B+TjmU9v+f21veozaQ==" crossorigin=anonymous></script>
-</body>
-</html>
+</a><a href=https://vuptime.io/tags/vmware title=vmware class="post_tag button button_translucent">vmware</a></span>
+<span class=page_only>&nbsp;·<div class=post_share>Share on:
+<a href="https://twitter.com/intent/tweet?text=REST%20%e2%9d%a4%20Swagger%2c%202%20minutes%20to%20create%20an%20API%20SDK%20%e2%8f%b1%20%e2%80%93%20Codegen%20Demo%20%e2%80%93%20Part%201&url=https%3a%2f%2fvuptime.io%2fpost%2f2020-04-01-rest-loves-swagger-demo%2f&tw_p=tweetbutton" class=twitter title="Share on Twitter" target=_blank rel=nofollow><svg class="icon"><use xlink:href="#twitter"/></svg></a><a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fvuptime.io%2fpost%2f2020-04-01-rest-loves-swagger-demo%2f&t=REST%20%e2%9d%a4%20Swagger%2c%202%20minutes%20to%20create%20an%20API%20SDK%20%e2%8f%b1%20%e2%80%93%20Codegen%20Demo%20%e2%80%93%20Part%201" class=facebook title="Share on Facebook" target=_blank rel=nofollow><svg class="icon"><use xlink:href="#facebook"/></svg></a><a href=#linkedinshare id=linkedinshare class=linkedin title="Share on LinkedIn" rel=nofollow><svg class="icon"><use xlink:href="#linkedin"/></svg></a><a href=https://vuptime.io/post/2020-04-01-rest-loves-swagger-demo/ title="Copy Link" class="link link_yank"><svg class="icon"><use xlink:href="#copy"/></svg></a></div></span></div><h2>Overview</h2><nav id=TableOfContents><ul><li><a href=#target-of-this-post>Target of this post</a><ul><li><a href=#next-post>Next post</a></li></ul></li><li><a href=#prerequisites>Prerequisites</a><ul><li><a href=#docker>Docker</a></li><li><a href=#folders-structure>Folders structure</a></li><li><a href=#python>Python</a></li><li><a href=#go>Go</a></li></ul></li><li><a href=#available-languages>Available languages</a></li><li><a href=#chuck-norris>Chuck Norris</a><ul><li><a href=#package-configuration>Package configuration</a></li><li><a href=#sdk-generation>SDK generation</a></li><li><a href=#use-our-new-module>Use our new module</a></li><li><a href=#same-with-go->Same with Go ?</a></li></ul></li><li><a href=#conclusion>Conclusion</a></li></ul></nav><p>On March 30<sup>th</sup>, I presented a webinar to the French VMUG community on the REST API subject and in particular on the way to generate API SDK clients without writing any code.</p><p>Slide deck is published (only in french, sorry) here: <a href=https://vupti.me/rls>vupti.me/rls</a>.</p><p>As said in the slide deck, this presentation was greatly inspired by a VMworld session: <a href="https://videos.vmworld.com/global/2019?q=The%2520Art%2520of%2520Code%2520That%2520Writes%2520Code">{CODE2216E} The art of code that writes code</a> (Kyle Ruddy @ VMware Inc.). I cannot encourage you enough to see the replay if you did not do it yet.</p><p>The only part I did not pulished yet, was the demo part (even if, curious people may have found it <a href=https://github.com/lrivallain/rest-loves-swagger/blob/master/demo/Swagger%20Code%20Gen%20%5BDemo%5D.ipynb>in the repository</a>).</p><p>I was planning to find a way to host the Jupyter Notebook online but as some commands rely on docker commands... I could not fount a hoster that enable it. So, let's re-write it in 2 blog posts.</p><h2 id=target-of-this-post>Target of this post</h2><p>So this post aims to demonstrate how you can create API SDK clients with <a href=https://swagger.io/tools/swagger-codegen/>Swagger Codegen</a>:</p><ul><li>Based on API documentation (both OpenAPI OASv3 and Swagger v2 are supported)</li><li>In the language of your choice (see below for the list)</li><li>Whitout writing any single line of code yourself (except for <strong>usage</strong> of the generated SDK)</li><li>In minutes !</li></ul><p>Impossible? Let's see.</p><h3 id=next-post>Next post</h3><p>In a second post, I will demonstrate how to build/use SDK for VMware products: vCenter and vCloud Director.</p><h2 id=prerequisites>Prerequisites</h2><h3 id=docker>Docker</h3><p>First, we need a docker setup (in order to avoid installing locally, the codegen software). I won't explain how to install and configure a docker host, this is not the point of the post.</p><p>We get the docker image of Swagger Codegen:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl>docker pull swaggerapi/swagger-codegen-cli
+</span></span></code></pre></div><p>If you prefer a local installation of Codegen, <a href=https://github.com/swagger-api/swagger-codegen#compatibility>it is possible</a> but you will need to modify some of the following commands.</p><h3 id=folders-structure>Folders structure</h3><p>For the tests, we will create 2 folders, for <code>in</code>put files and <code>out</code>put ones within a <code>codegen</code> folder:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl>mkdir -p codegen/in/ codegen/out/
+</span></span><span class=line><span class=ln>2</span><span class=cl>ls codegen/ <span class=c1># should output &#34;in out&#34;</span>
+</span></span></code></pre></div><h3 id=python>Python</h3><p>We will create some python modules for test. I suggest to use a virtualenv if you want to proceed the same tests and to install some dependencies:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/requirements.txt
+</span></span><span class=line><span class=ln>2</span><span class=cl>wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
+</span></span><span class=line><span class=ln>3</span><span class=cl>pip install -r requirements.txt
+</span></span></code></pre></div><blockquote><p><strong>Warning:</strong> I strongly suggest that you review the content of all the files you download on your computer before using them!</p></blockquote><h3 id=go>Go</h3><p>A part of this post will provide a Go module. Install Go runtime to be able to test it.</p><h2 id=available-languages>Available languages</h2><p>Codegen supports tons of output languages. To demonstrate it, we can use the following command:</p><p>(The <code>sed</code> part is only to prettify the ouput)</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=ln>1</span><span class=cl>docker run --rm swaggerapi/swagger-codegen-cli langs | sed &#39;s/,/\n    /g&#39;
+</span></span></code></pre></div><p>The output of the command will be something like:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=ln> 1</span><span class=cl>Available languages: [ada
+</span></span><span class=line><span class=ln> 2</span><span class=cl>     ada-server
+</span></span><span class=line><span class=ln> 3</span><span class=cl>     akka-scala
+</span></span><span class=line><span class=ln> 4</span><span class=cl>     android
+</span></span><span class=line><span class=ln> 5</span><span class=cl>     apache2
+</span></span><span class=line><span class=ln> 6</span><span class=cl>     apex
+</span></span><span class=line><span class=ln> 7</span><span class=cl>     aspnetcore
+</span></span><span class=line><span class=ln> 8</span><span class=cl>     bash
+</span></span><span class=line><span class=ln> 9</span><span class=cl>     csharp
+</span></span><span class=line><span class=ln>10</span><span class=cl>     clojure
+</span></span><span class=line><span class=ln>11</span><span class=cl>     cwiki
+</span></span><span class=line><span class=ln>12</span><span class=cl>     cpprest
+</span></span><span class=line><span class=ln>13</span><span class=cl>     csharp-dotnet2
+</span></span><span class=line><span class=ln>14</span><span class=cl>     dart
+</span></span><span class=line><span class=ln>15</span><span class=cl>     dart-jaguar
+</span></span><span class=line><span class=ln>16</span><span class=cl>     elixir
+</span></span><span class=line><span class=ln>17</span><span class=cl>     elm
+</span></span><span class=line><span class=ln>18</span><span class=cl>     eiffel
+</span></span><span class=line><span class=ln>19</span><span class=cl>     erlang-client
+</span></span><span class=line><span class=ln>20</span><span class=cl>     erlang-server
+</span></span><span class=line><span class=ln>21</span><span class=cl>     finch
+</span></span><span class=line><span class=ln>22</span><span class=cl>     flash
+</span></span><span class=line><span class=ln>23</span><span class=cl>     python-flask
+</span></span><span class=line><span class=ln>24</span><span class=cl>     go
+</span></span><span class=line><span class=ln>25</span><span class=cl>     go-server
+</span></span><span class=line><span class=ln>26</span><span class=cl>     groovy
+</span></span><span class=line><span class=ln>27</span><span class=cl>     haskell-http-client
+</span></span><span class=line><span class=ln>28</span><span class=cl>     haskell
+</span></span><span class=line><span class=ln>29</span><span class=cl>     jmeter
+</span></span><span class=line><span class=ln>30</span><span class=cl>     jaxrs-cxf-client
+</span></span><span class=line><span class=ln>31</span><span class=cl>     jaxrs-cxf
+</span></span><span class=line><span class=ln>32</span><span class=cl>     java
+</span></span><span class=line><span class=ln>33</span><span class=cl>     inflector
+</span></span><span class=line><span class=ln>34</span><span class=cl>     jaxrs-cxf-cdi
+</span></span><span class=line><span class=ln>35</span><span class=cl>     jaxrs-spec
+</span></span><span class=line><span class=ln>36</span><span class=cl>     jaxrs
+</span></span><span class=line><span class=ln>37</span><span class=cl>     msf4j
+</span></span><span class=line><span class=ln>38</span><span class=cl>     java-pkmst
+</span></span><span class=line><span class=ln>39</span><span class=cl>     java-play-framework
+</span></span><span class=line><span class=ln>40</span><span class=cl>     jaxrs-resteasy-eap
+</span></span><span class=line><span class=ln>41</span><span class=cl>     jaxrs-resteasy
+</span></span><span class=line><span class=ln>42</span><span class=cl>     javascript
+</span></span><span class=line><span class=ln>43</span><span class=cl>     javascript-closure-angular
+</span></span><span class=line><span class=ln>44</span><span class=cl>     java-vertx
+</span></span><span class=line><span class=ln>45</span><span class=cl>     kotlin
+</span></span><span class=line><span class=ln>46</span><span class=cl>     lua
+</span></span><span class=line><span class=ln>47</span><span class=cl>     lumen
+</span></span><span class=line><span class=ln>48</span><span class=cl>     nancyfx
+</span></span><span class=line><span class=ln>49</span><span class=cl>     nodejs-server
+</span></span><span class=line><span class=ln>50</span><span class=cl>     objc
+</span></span><span class=line><span class=ln>51</span><span class=cl>     perl
+</span></span><span class=line><span class=ln>52</span><span class=cl>     php
+</span></span><span class=line><span class=ln>53</span><span class=cl>     powershell
+</span></span><span class=line><span class=ln>54</span><span class=cl>     pistache-server
+</span></span><span class=line><span class=ln>55</span><span class=cl>     python
+</span></span><span class=line><span class=ln>56</span><span class=cl>     qt5cpp
+</span></span><span class=line><span class=ln>57</span><span class=cl>     r
+</span></span><span class=line><span class=ln>58</span><span class=cl>     rails5
+</span></span><span class=line><span class=ln>59</span><span class=cl>     restbed
+</span></span><span class=line><span class=ln>60</span><span class=cl>     ruby
+</span></span><span class=line><span class=ln>61</span><span class=cl>     rust
+</span></span><span class=line><span class=ln>62</span><span class=cl>     rust-server
+</span></span><span class=line><span class=ln>63</span><span class=cl>     scala
+</span></span><span class=line><span class=ln>64</span><span class=cl>     scala-gatling
+</span></span><span class=line><span class=ln>65</span><span class=cl>     scala-lagom-server
+</span></span><span class=line><span class=ln>66</span><span class=cl>     scalatra
+</span></span><span class=line><span class=ln>67</span><span class=cl>     scalaz
+</span></span><span class=line><span class=ln>68</span><span class=cl>     php-silex
+</span></span><span class=line><span class=ln>69</span><span class=cl>     sinatra
+</span></span><span class=line><span class=ln>70</span><span class=cl>     slim
+</span></span><span class=line><span class=ln>71</span><span class=cl>     spring
+</span></span><span class=line><span class=ln>72</span><span class=cl>     dynamic-html
+</span></span><span class=line><span class=ln>73</span><span class=cl>     html2
+</span></span><span class=line><span class=ln>74</span><span class=cl>     html
+</span></span><span class=line><span class=ln>75</span><span class=cl>     swagger
+</span></span><span class=line><span class=ln>76</span><span class=cl>     swagger-yaml
+</span></span><span class=line><span class=ln>77</span><span class=cl>     swift5
+</span></span><span class=line><span class=ln>78</span><span class=cl>     swift4
+</span></span><span class=line><span class=ln>79</span><span class=cl>     swift3
+</span></span><span class=line><span class=ln>80</span><span class=cl>     swift
+</span></span><span class=line><span class=ln>81</span><span class=cl>     php-symfony
+</span></span><span class=line><span class=ln>82</span><span class=cl>     tizen
+</span></span><span class=line><span class=ln>83</span><span class=cl>     typescript-aurelia
+</span></span><span class=line><span class=ln>84</span><span class=cl>     typescript-angular
+</span></span><span class=line><span class=ln>85</span><span class=cl>     typescript-inversify
+</span></span><span class=line><span class=ln>86</span><span class=cl>     typescript-angularjs
+</span></span><span class=line><span class=ln>87</span><span class=cl>     typescript-fetch
+</span></span><span class=line><span class=ln>88</span><span class=cl>     typescript-jquery
+</span></span><span class=line><span class=ln>89</span><span class=cl>     typescript-node
+</span></span><span class=line><span class=ln>90</span><span class=cl>     undertow
+</span></span><span class=line><span class=ln>91</span><span class=cl>     ze-ph
+</span></span><span class=line><span class=ln>92</span><span class=cl>     kotlin-server]
+</span></span></code></pre></div><p>Pick the one you need !</p><h2 id=chuck-norris>Chuck Norris</h2><p>We will use a sample API (<a href=https://api.chucknorris.io>api.chucknorris.io</a>) for a first test.</p><p>Here is our plan:</p><ol><li>Get API documentation (from <a href=https://api.chucknorris.io/documentation>api.chucknorris.io/documentation</a>)</li><li>Pretify with <code>| python -m json.tool</code></li><li>Store the result in a file</li><li>Display the first lines</li></ol><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl>curl -s https://api.chucknorris.io/documentation <span class=p>|</span> python -m json.tool &gt; codegen/in/chucknorris.json
+</span></span><span class=line><span class=ln>2</span><span class=cl>head -n <span class=m>25</span> codegen/in/chucknorris.json
+</span></span></code></pre></div><p>You should see the content of a swagger file, with the API description.</p><h3 id=package-configuration>Package configuration</h3><p>We will create a Codegen configuration file for a python module, with some information about naming and versioning.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl><span class=nb>echo</span> <span class=s1>&#39;{
+</span></span></span><span class=line><span class=ln>2</span><span class=cl><span class=s1>  &#34;packageName&#34;:&#34;chucknorris_client&#34;,
+</span></span></span><span class=line><span class=ln>3</span><span class=cl><span class=s1>  &#34;projectName&#34;:&#34;chucknorris-client&#34;,
+</span></span></span><span class=line><span class=ln>4</span><span class=cl><span class=s1>  &#34;packageVersion&#34;:&#34;1.0.0&#34;
+</span></span></span><span class=line><span class=ln>5</span><span class=cl><span class=s1>}&#39;</span> &gt; codegen/in/config_chucknorris_client.json
+</span></span></code></pre></div><h3 id=sdk-generation>SDK generation</h3><p>Now we specify to Codegen, to use both API documentation file and package configuration one to create a new <strong><code>python</code></strong> based client SDK:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl>docker run --rm -v <span class=si>${</span><span class=nv>PWD</span><span class=si>}</span>/codegen:/local <span class=se>\
+</span></span></span><span class=line><span class=ln>2</span><span class=cl><span class=se></span>  swaggerapi/swagger-codegen-cli generate <span class=se>\
+</span></span></span><span class=line><span class=ln>3</span><span class=cl><span class=se></span>    -i /local/in/chucknorris.json <span class=se>\
+</span></span></span><span class=line><span class=ln>4</span><span class=cl><span class=se></span>    -o /local/out/python-chucknorris <span class=se>\
+</span></span></span><span class=line><span class=ln>5</span><span class=cl><span class=se></span>    -c /local/in/config_chucknorris_client.json <span class=se>\
+</span></span></span><span class=line><span class=ln>6</span><span class=cl><span class=se></span>    -l python
+</span></span></code></pre></div><p>We now have a new python module:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl>ls codegen/out/python-chucknorris/
+</span></span></code></pre></div><p>Output:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=ln>1</span><span class=cl>README.md	    git_push.sh       test
+</span></span><span class=line><span class=ln>2</span><span class=cl>chucknorris_client  requirements.txt  test-requirements.txt
+</span></span><span class=line><span class=ln>3</span><span class=cl>docs		    setup.py	      tox.ini
+</span></span></code></pre></div><p>And we can pip install this module:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl>pip install codegen/out/python-chucknorris/
+</span></span></code></pre></div><h3 id=use-our-new-module>Use our new module</h3><p>We create and run the following python file to use our new module:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=kn>import</span> <span class=nn>chucknorris_client</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=kn>from</span> <span class=nn>chucknorris_client.rest</span> <span class=kn>import</span> <span class=n>ApiException</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=kn>from</span> <span class=nn>utils</span> <span class=kn>import</span> <span class=o>*</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl><span class=n>logger</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s2>&#34;DEMO_CHUCKNORRIS&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>
+</span></span><span class=line><span class=ln> 7</span><span class=cl><span class=c1># Configure API</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl><span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&#34;Create an API client&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl><span class=n>client</span> <span class=o>=</span> <span class=n>chucknorris_client</span><span class=o>.</span><span class=n>ApiClient</span><span class=p>(</span><span class=n>chucknorris_client</span><span class=o>.</span><span class=n>Configuration</span><span class=p>())</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>
+</span></span><span class=line><span class=ln>11</span><span class=cl><span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&#34;Target the Joke Controller&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl><span class=n>api_instance</span> <span class=o>=</span> <span class=n>chucknorris_client</span><span class=o>.</span><span class=n>JokeControllerApi</span><span class=p>(</span><span class=n>client</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>
+</span></span><span class=line><span class=ln>14</span><span class=cl><span class=k>try</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>    <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&#34;Get a random joke:&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=n>api_response</span> <span class=o>=</span> <span class=n>api_instance</span><span class=o>.</span><span class=n>get_random_joke_value_using_get</span><span class=p>()</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>    <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span><span class=n>api_response</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl><span class=k>except</span> <span class=n>ApiException</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>    <span class=n>logger</span><span class=o>.</span><span class=n>error</span><span class=p>(</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>        <span class=s2>&#34;Exception when calling JokeControllerApi-&gt;get_random_joke_value_using_get: </span><span class=si>%s</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=n>e</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>    <span class=p>)</span>
+</span></span></code></pre></div><p>You can now run it and get the following result:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=ln>1</span><span class=cl>DEMO_CHUCKNORRIS 	Create an API client
+</span></span><span class=line><span class=ln>2</span><span class=cl>DEMO_CHUCKNORRIS 	Target the Joke Controller
+</span></span><span class=line><span class=ln>3</span><span class=cl>DEMO_CHUCKNORRIS 	Get a random joke:
+</span></span><span class=line><span class=ln>4</span><span class=cl>DEMO_CHUCKNORRIS 	Chuck Norris was worshipped as a god by the Eskimos. That is why they had igloos modelled after his signature move.
+</span></span></code></pre></div><p>Please consider that most of the python code we used is about the logger and not the complexity of getting a random Chuck Norris fact. If you don't, Chuck Norris may come to you for an explaination.</p><h3 id=same-with-go->Same with Go ?</h3><p>Lets do the same, with Go:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln>1</span><span class=cl>docker run --rm -v <span class=si>${</span><span class=nv>PWD</span><span class=si>}</span>/codegen:/local <span class=se>\
+</span></span></span><span class=line><span class=ln>2</span><span class=cl><span class=se></span>  swaggerapi/swagger-codegen-cli generate <span class=se>\
+</span></span></span><span class=line><span class=ln>3</span><span class=cl><span class=se></span>    -i /local/in/chucknorris.json <span class=se>\
+</span></span></span><span class=line><span class=ln>4</span><span class=cl><span class=se></span>    -o /local/out/gochucknorris <span class=se>\
+</span></span></span><span class=line><span class=ln>5</span><span class=cl><span class=se></span>    -DpackageName<span class=o>=</span>gochucknorris <span class=se>\
+</span></span></span><span class=line><span class=ln>6</span><span class=cl><span class=se></span>    -l go
+</span></span></code></pre></div><p>The <code>Go</code> test file (for example: <code>codegen/chuck.go</code>):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=ln> 1</span><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>
+</span></span><span class=line><span class=ln> 3</span><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>    <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>    <span class=nx>cn</span> <span class=s>&#34;out/gochucknorris&#34;</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>    <span class=s>&#34;golang.org/x/net/context&#34;</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>
+</span></span><span class=line><span class=ln> 9</span><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>    <span class=nx>log</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;New API client with empty configuration&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>    <span class=nx>client</span> <span class=o>:=</span> <span class=nx>cn</span><span class=p>.</span><span class=nf>NewAPIClient</span><span class=p>(</span><span class=nx>cn</span><span class=p>.</span><span class=nf>NewConfiguration</span><span class=p>())</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>    <span class=nx>log</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;Get random joke&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>    <span class=nx>joke</span><span class=p>,</span> <span class=nx>r</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>client</span><span class=p>.</span><span class=nx>JokeControllerApi</span><span class=p>.</span><span class=nf>GetRandomJokeValueUsingGET</span><span class=p>(</span><span class=nx>context</span><span class=p>.</span><span class=nf>Background</span><span class=p>(),</span> <span class=kc>nil</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>    <span class=c1>// Test error
+</span></span></span><span class=line><span class=ln>15</span><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>        <span class=nx>log</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;Error:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=c1>// Test HTTP Response code
+</span></span></span><span class=line><span class=ln>19</span><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=nx>r</span><span class=p>.</span><span class=nx>StatusCode</span> <span class=o>==</span> <span class=mi>200</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>        <span class=nx>log</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=nx>joke</span><span class=p>.</span><span class=nx>Value</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>And the result of a <code>go run codegen/chuck.go</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=ln>1</span><span class=cl>2020/04/01 17:28:11 New API client with empty configuration
+</span></span><span class=line><span class=ln>2</span><span class=cl>2020/04/01 17:28:11 Get random joke
+</span></span><span class=line><span class=ln>3</span><span class=cl>2020/04/01 17:28:12 Chuck Norris can levitate birds.
+</span></span></code></pre></div><h2 id=conclusion>Conclusion</h2><p>How long to get this new API SDK client in a new language? Less than a minute !</p><p>In the next post, we will apply this process to two VMware products:</p><ul><li>vCenter (6.7 only sorry!)</li><li>vCloud Director</li></ul><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//lri-ovh.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></article><aside class=sidebar><section class=sidebar_inner><div class=author_header><img src=https://vuptime.io/icons/favicon_500px.png alt=" photo"><h2></h2></div><div class=author_bio>A cloud builders blog: Virtualization, Cloud Computing, VMware, Kubernetes, Infra-as-code… <img src=/images/vexpert.png alt=vExpert></div><a href=https://vuptime.io/about/ class="button mt-1" role=button title="Read More">Read More</a><h2 class=mt-4>Recent Posts</h2><ul class=flex-column><li><a href=https://vuptime.io/post/2022-02-15-azure-vmware-solution-rest-api-part2/ class=nav-link title="Azure VMware Solutions REST API - part 2: `az rest`">Azure VMware Solutions REST API - part 2: `az rest`</a></li><li><a href=https://vuptime.io/post/2022-02-06-azure-vmware-solution-rest-api-part1/ class=nav-link title="Azure VMware Solutions REST API - part 1: Postman collection">Azure VMware Solutions REST API - part 1: Postman collection</a></li><li><a href=https://vuptime.io/post/2021-05-06-vmware-event-broker-on-k8s-with-knative-part2/ class=nav-link title="VMware Event Broker on Kubernetes with Knative functions - part 2">VMware Event Broker on Kubernetes with Knative functions - part 2</a></li><li><a href=https://vuptime.io/post/2021-05-05-vmware-event-broker-on-k8s-with-knative-part1/ class=nav-link title="VMware Event Broker on Kubernetes with Knative functions - part 1">VMware Event Broker on Kubernetes with Knative functions - part 1</a></li><li><a href=https://vuptime.io/post/2021-02-02-my-kubernetes-book/ class=nav-link title="My Kubernetes Book">My Kubernetes Book</a></li><li><a href=https://vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/ class=nav-link title="Run Argo workflow from a VEBA event through OpenFaaS">Run Argo workflow from a VEBA event through OpenFaaS</a></li><li><a href=https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/ class=nav-link title="VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps">VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps</a></li><li><a href=https://vuptime.io/post/2020-11-26-vmware-container-service-extension-with-a-proxy/ class=nav-link title="Use VMware Container Service Extension with a corporate proxy">Use VMware Container Service Extension with a corporate proxy</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>Categories</h2><nav class=tags_nav><a href=https://vuptime.io/categories/vmware/ class="post_tag button button_translucent" title=vmware>VMWARE
+<span class=button_tally>44</span></a>
+<a href=https://vuptime.io/categories/french/ class="post_tag button button_translucent" title=french>FRENCH
+<span class=button_tally>17</span></a>
+<a href=https://vuptime.io/categories/automation/ class="post_tag button button_translucent" title=automation>AUTOMATION
+<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/categories/azure/ class="post_tag button button_translucent" title=azure>AZURE
+<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/categories/openstack/ class="post_tag button button_translucent" title=openstack>OPENSTACK
+<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/categories/ansible/ class="post_tag button button_translucent" title=ansible>ANSIBLE
+<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/categories/bash/ class="post_tag button button_translucent" title=bash>BASH
+<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/categories/blog/ class="post_tag button button_translucent" title=blog>BLOG
+<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/categories/cloud/ class="post_tag button button_translucent" title=cloud>CLOUD
+<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/categories/kubernetes/ class="post_tag button button_translucent" title=kubernetes>KUBERNETES
+<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/categories/powershell/ class="post_tag button button_translucent" title=powershell>POWERSHELL
+<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/categories/vmware-powershell/ class="post_tag button button_translucent" title=vmware-powershell>VMWARE-POWERSHELL
+<span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=tags-section>Tags</h2><nav class=tags_nav><a href=https://vuptime.io/tags/vmware/ class="post_tag button button_translucent" title=vmware>VMWARE
+<span class=button_tally>61</span></a>
+<a href=https://vuptime.io/tags/vmworld/ class="post_tag button button_translucent" title=vmworld>VMWORLD
+<span class=button_tally>13</span></a>
+<a href=https://vuptime.io/tags/vrealize/ class="post_tag button button_translucent" title=vrealize>VREALIZE
+<span class=button_tally>13</span></a>
+<a href=https://vuptime.io/tags/vcloud/ class="post_tag button button_translucent" title=vcloud>VCLOUD
+<span class=button_tally>11</span></a>
+<a href=https://vuptime.io/tags/bookmark/ class="post_tag button button_translucent" title=bookmark>BOOKMARK
+<span class=button_tally>10</span></a>
+<a href=https://vuptime.io/tags/api/ class="post_tag button button_translucent" title=api>API
+<span class=button_tally>9</span></a>
+<a href=https://vuptime.io/tags/vra/ class="post_tag button button_translucent" title=vra>VRA
+<span class=button_tally>9</span></a>
+<a href=https://vuptime.io/tags/automation/ class="post_tag button button_translucent" title=automation>AUTOMATION
+<span class=button_tally>8</span></a>
+<a href=https://vuptime.io/tags/kubernetes/ class="post_tag button button_translucent" title=kubernetes>KUBERNETES
+<span class=button_tally>8</span></a>
+<a href=https://vuptime.io/tags/director/ class="post_tag button button_translucent" title=director>DIRECTOR
+<span class=button_tally>7</span></a>
+<a href=https://vuptime.io/tags/linux/ class="post_tag button button_translucent" title=linux>LINUX
+<span class=button_tally>7</span></a>
+<a href=https://vuptime.io/tags/script/ class="post_tag button button_translucent" title=script>SCRIPT
+<span class=button_tally>7</span></a>
+<a href=https://vuptime.io/tags/event-driven/ class="post_tag button button_translucent" title=event-driven>EVENT-DRIVEN
+<span class=button_tally>6</span></a>
+<a href=https://vuptime.io/tags/vro/ class="post_tag button button_translucent" title=vro>VRO
+<span class=button_tally>6</span></a>
+<a href=https://vuptime.io/tags/rest/ class="post_tag button button_translucent" title=rest>REST
+<span class=button_tally>5</span></a><br><div class="post_tags_toggle button">All Tags</div><div class=post_tags><div class=tags_list><a href=https://vuptime.io/tags/amqp/ class="post_tag button button_translucent" data-position=1 title=amqp>AMQP<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/ansible/ class="post_tag button button_translucent" data-position=2 title=ansible>ANSIBLE<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/api/ class="post_tag button button_translucent" data-position=9 title=api>API<span class=button_tally>9</span></a>
+<a href=https://vuptime.io/tags/argo/ class="post_tag button button_translucent" data-position=1 title=argo>ARGO<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/authentication/ class="post_tag button button_translucent" data-position=1 title=authentication>AUTHENTICATION<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/automation/ class="post_tag button button_translucent" data-position=8 title=automation>AUTOMATION<span class=button_tally>8</span></a>
+<a href=https://vuptime.io/tags/avs/ class="post_tag button button_translucent" data-position=3 title=avs>AVS<span class=button_tally>3</span></a>
+<a href=https://vuptime.io/tags/azure/ class="post_tag button button_translucent" data-position=3 title=azure>AZURE<span class=button_tally>3</span></a>
+<a href=https://vuptime.io/tags/azure-vmware-solution/ class="post_tag button button_translucent" data-position=2 title=azure-vmware-solution>AZURE-VMWARE-SOLUTION<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/bash/ class="post_tag button button_translucent" data-position=2 title=bash>BASH<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/book/ class="post_tag button button_translucent" data-position=1 title=book>BOOK<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/bookmark/ class="post_tag button button_translucent" data-position=10 title=bookmark>BOOKMARK<span class=button_tally>10</span></a>
+<a href=https://vuptime.io/tags/boot/ class="post_tag button button_translucent" data-position=2 title=boot>BOOT<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/catalog/ class="post_tag button button_translucent" data-position=1 title=catalog>CATALOG<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/certificate/ class="post_tag button button_translucent" data-position=4 title=certificate>CERTIFICATE<span class=button_tally>4</span></a>
+<a href=https://vuptime.io/tags/cheatsheet/ class="post_tag button button_translucent" data-position=2 title=cheatsheet>CHEATSHEET<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/clarity/ class="post_tag button button_translucent" data-position=1 title=clarity>CLARITY<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/cli/ class="post_tag button button_translucent" data-position=1 title=cli>CLI<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/clone/ class="post_tag button button_translucent" data-position=1 title=clone>CLONE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/cloud/ class="post_tag button button_translucent" data-position=1 title=cloud>CLOUD<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/codegen/ class="post_tag button button_translucent" data-position=2 title=codegen>CODEGEN<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/community/ class="post_tag button button_translucent" data-position=2 title=community>COMMUNITY<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/connector/ class="post_tag button button_translucent" data-position=1 title=connector>CONNECTOR<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/cron/ class="post_tag button button_translucent" data-position=1 title=cron>CRON<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/crontab/ class="post_tag button button_translucent" data-position=1 title=crontab>CRONTAB<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/cse/ class="post_tag button button_translucent" data-position=1 title=cse>CSE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/css/ class="post_tag button button_translucent" data-position=1 title=css>CSS<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/curl/ class="post_tag button button_translucent" data-position=2 title=curl>CURL<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/customization/ class="post_tag button button_translucent" data-position=1 title=customization>CUSTOMIZATION<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/cyberduck/ class="post_tag button button_translucent" data-position=1 title=cyberduck>CYBERDUCK<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/database/ class="post_tag button button_translucent" data-position=1 title=database>DATABASE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/datastore/ class="post_tag button button_translucent" data-position=1 title=datastore>DATASTORE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/dbuser/ class="post_tag button button_translucent" data-position=1 title=dbuser>DBUSER<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/dcscope/ class="post_tag button button_translucent" data-position=1 title=dcscope>DCSCOPE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/design/ class="post_tag button button_translucent" data-position=1 title=design>DESIGN<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/devops/ class="post_tag button button_translucent" data-position=3 title=devops>DEVOPS<span class=button_tally>3</span></a>
+<a href=https://vuptime.io/tags/diff/ class="post_tag button button_translucent" data-position=2 title=diff>DIFF<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/director/ class="post_tag button button_translucent" data-position=7 title=director>DIRECTOR<span class=button_tally>7</span></a>
+<a href=https://vuptime.io/tags/dummy/ class="post_tag button button_translucent" data-position=1 title=dummy>DUMMY<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/easyvirt/ class="post_tag button button_translucent" data-position=1 title=easyvirt>EASYVIRT<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/endpoint/ class="post_tag button button_translucent" data-position=2 title=endpoint>ENDPOINT<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/esx/ class="post_tag button button_translucent" data-position=2 title=esx>ESX<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/esxi/ class="post_tag button button_translucent" data-position=4 title=esxi>ESXI<span class=button_tally>4</span></a>
+<a href=https://vuptime.io/tags/event-driven/ class="post_tag button button_translucent" data-position=6 title=event-driven>EVENT-DRIVEN<span class=button_tally>6</span></a>
+<a href=https://vuptime.io/tags/extension/ class="post_tag button button_translucent" data-position=4 title=extension>EXTENSION<span class=button_tally>4</span></a>
+<a href=https://vuptime.io/tags/firewall/ class="post_tag button button_translucent" data-position=1 title=firewall>FIREWALL<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/fsck/ class="post_tag button button_translucent" data-position=2 title=fsck>FSCK<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/gist/ class="post_tag button button_translucent" data-position=1 title=gist>GIST<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/git/ class="post_tag button button_translucent" data-position=1 title=git>GIT<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/google/ class="post_tag button button_translucent" data-position=1 title=google>GOOGLE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/greenit/ class="post_tag button button_translucent" data-position=1 title=greenit>GREENIT<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/helper/ class="post_tag button button_translucent" data-position=1 title=helper>HELPER<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/httpie/ class="post_tag button button_translucent" data-position=1 title=httpie>HTTPIE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/iaas/ class="post_tag button button_translucent" data-position=3 title=iaas>IAAS<span class=button_tally>3</span></a>
+<a href=https://vuptime.io/tags/java/ class="post_tag button button_translucent" data-position=1 title=java>JAVA<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/javascript/ class="post_tag button button_translucent" data-position=3 title=javascript>JAVASCRIPT<span class=button_tally>3</span></a>
+<a href=https://vuptime.io/tags/jre/ class="post_tag button button_translucent" data-position=1 title=jre>JRE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/keystone/ class="post_tag button button_translucent" data-position=1 title=keystone>KEYSTONE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/keytool/ class="post_tag button button_translucent" data-position=1 title=keytool>KEYTOOL<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/knative/ class="post_tag button button_translucent" data-position=2 title=knative>KNATIVE<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/kubectl/ class="post_tag button button_translucent" data-position=1 title=kubectl>KUBECTL<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/kubernetes/ class="post_tag button button_translucent" data-position=8 title=kubernetes>KUBERNETES<span class=button_tally>8</span></a>
+<a href=https://vuptime.io/tags/linked/ class="post_tag button button_translucent" data-position=1 title=linked>LINKED<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/linux/ class="post_tag button button_translucent" data-position=7 title=linux>LINUX<span class=button_tally>7</span></a>
+<a href=https://vuptime.io/tags/logs/ class="post_tag button button_translucent" data-position=1 title=logs>LOGS<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/modelmanager/ class="post_tag button button_translucent" data-position=1 title=modelmanager>MODELMANAGER<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/module/ class="post_tag button button_translucent" data-position=1 title=module>MODULE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/nested/ class="post_tag button button_translucent" data-position=2 title=nested>NESTED<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/object/ class="post_tag button button_translucent" data-position=1 title=object>OBJECT<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/openfaas/ class="post_tag button button_translucent" data-position=1 title=openfaas>OPENFAAS<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/opensource/ class="post_tag button button_translucent" data-position=1 title=opensource>OPENSOURCE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/openssl/ class="post_tag button button_translucent" data-position=1 title=openssl>OPENSSL<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/openstack/ class="post_tag button button_translucent" data-position=2 title=openstack>OPENSTACK<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/orchestrator/ class="post_tag button button_translucent" data-position=4 title=orchestrator>ORCHESTRATOR<span class=button_tally>4</span></a>
+<a href=https://vuptime.io/tags/ovf/ class="post_tag button button_translucent" data-position=1 title=ovf>OVF<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/ovftool/ class="post_tag button button_translucent" data-position=1 title=ovftool>OVFTOOL<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/ovh/ class="post_tag button button_translucent" data-position=1 title=ovh>OVH<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/password/ class="post_tag button button_translucent" data-position=1 title=password>PASSWORD<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/plugin/ class="post_tag button button_translucent" data-position=3 title=plugin>PLUGIN<span class=button_tally>3</span></a>
+<a href=https://vuptime.io/tags/postman/ class="post_tag button button_translucent" data-position=1 title=postman>POSTMAN<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/powercli/ class="post_tag button button_translucent" data-position=2 title=powercli>POWERCLI<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/powershell/ class="post_tag button button_translucent" data-position=2 title=powershell>POWERSHELL<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/privileges/ class="post_tag button button_translucent" data-position=1 title=privileges>PRIVILEGES<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/psc/ class="post_tag button button_translucent" data-position=2 title=psc>PSC<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/public/ class="post_tag button button_translucent" data-position=1 title=public>PUBLIC<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/python/ class="post_tag button button_translucent" data-position=4 title=python>PYTHON<span class=button_tally>4</span></a>
+<a href=https://vuptime.io/tags/rabbitmq/ class="post_tag button button_translucent" data-position=1 title=rabbitmq>RABBITMQ<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/rest/ class="post_tag button button_translucent" data-position=5 title=rest>REST<span class=button_tally>5</span></a>
+<a href=https://vuptime.io/tags/script/ class="post_tag button button_translucent" data-position=7 title=script>SCRIPT<span class=button_tally>7</span></a>
+<a href=https://vuptime.io/tags/scsi/ class="post_tag button button_translucent" data-position=1 title=scsi>SCSI<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/security/ class="post_tag button button_translucent" data-position=2 title=security>SECURITY<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/service/ class="post_tag button button_translucent" data-position=1 title=service>SERVICE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/sii/ class="post_tag button button_translucent" data-position=4 title=sii>SII<span class=button_tally>4</span></a>
+<a href=https://vuptime.io/tags/snapshot/ class="post_tag button button_translucent" data-position=1 title=snapshot>SNAPSHOT<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/ssh/ class="post_tag button button_translucent" data-position=2 title=ssh>SSH<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/storage/ class="post_tag button button_translucent" data-position=1 title=storage>STORAGE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/swagger/ class="post_tag button button_translucent" data-position=2 title=swagger>SWAGGER<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/swift/ class="post_tag button button_translucent" data-position=1 title=swift>SWIFT<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/systemd/ class="post_tag button button_translucent" data-position=1 title=systemd>SYSTEMD<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/template/ class="post_tag button button_translucent" data-position=1 title=template>TEMPLATE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/timeout/ class="post_tag button button_translucent" data-position=2 title=timeout>TIMEOUT<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/tips/ class="post_tag button button_translucent" data-position=1 title=tips>TIPS<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/training/ class="post_tag button button_translucent" data-position=1 title=training>TRAINING<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/troubleshoot/ class="post_tag button button_translucent" data-position=1 title=troubleshoot>TROUBLESHOOT<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/troubleshooting/ class="post_tag button button_translucent" data-position=1 title=troubleshooting>TROUBLESHOOTING<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/tutorial/ class="post_tag button button_translucent" data-position=1 title=tutorial>TUTORIAL<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/vami/ class="post_tag button button_translucent" data-position=1 title=vami>VAMI<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/vcd/ class="post_tag button button_translucent" data-position=5 title=vcd>VCD<span class=button_tally>5</span></a>
+<a href=https://vuptime.io/tags/vcenter/ class="post_tag button button_translucent" data-position=3 title=vcenter>VCENTER<span class=button_tally>3</span></a>
+<a href=https://vuptime.io/tags/vcloud/ class="post_tag button button_translucent" data-position=11 title=vcloud>VCLOUD<span class=button_tally>11</span></a>
+<a href=https://vuptime.io/tags/vcsa/ class="post_tag button button_translucent" data-position=2 title=vcsa>VCSA<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/veba/ class="post_tag button button_translucent" data-position=5 title=veba>VEBA<span class=button_tally>5</span></a>
+<a href=https://vuptime.io/tags/vim/ class="post_tag button button_translucent" data-position=1 title=vim>VIM<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/vim-cmd/ class="post_tag button button_translucent" data-position=2 title=vim-cmd>VIM-CMD<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/virtualbox/ class="post_tag button button_translucent" data-position=2 title=virtualbox>VIRTUALBOX<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/vm/ class="post_tag button button_translucent" data-position=1 title=vm>VM<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/vmug/ class="post_tag button button_translucent" data-position=4 title=vmug>VMUG<span class=button_tally>4</span></a>
+<a href=https://vuptime.io/tags/vmware/ class="post_tag button button_translucent" data-position=61 title=vmware>VMWARE<span class=button_tally>61</span></a>
+<a href=https://vuptime.io/tags/vmworld/ class="post_tag button button_translucent" data-position=13 title=vmworld>VMWORLD<span class=button_tally>13</span></a>
+<a href=https://vuptime.io/tags/vmx/ class="post_tag button button_translucent" data-position=2 title=vmx>VMX<span class=button_tally>2</span></a>
+<a href=https://vuptime.io/tags/vnc/ class="post_tag button button_translucent" data-position=1 title=vnc>VNC<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/vra/ class="post_tag button button_translucent" data-position=9 title=vra>VRA<span class=button_tally>9</span></a>
+<a href=https://vuptime.io/tags/vrealize/ class="post_tag button button_translucent" data-position=13 title=vrealize>VREALIZE<span class=button_tally>13</span></a>
+<a href=https://vuptime.io/tags/vro/ class="post_tag button button_translucent" data-position=6 title=vro>VRO<span class=button_tally>6</span></a>
+<a href=https://vuptime.io/tags/vsphere/ class="post_tag button button_translucent" data-position=1 title=vsphere>VSPHERE<span class=button_tally>1</span></a>
+<a href=https://vuptime.io/tags/windows/ class="post_tag button button_translucent" data-position=1 title=windows>WINDOWS<span class=button_tally>1</span></a><div class=tags_sort><span title="sort alphabetically">[A~Z]</span><span title="sort by count">[0~9]</span></div><span class=tags_hide><svg class="icon"><use xlink:href="#closeme"/></svg></span></div></div></nav></div></section></aside></div></main><svg width="0" height="0" class="hidden"><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="facebook"><path d="M437 0H75C33.648.0.0 33.648.0 75v362c0 41.352 33.648 75 75 75h151V331h-60v-90h60v-61c0-49.629 40.371-90 90-90h91v90h-91v61h91l-15 90h-76v181h121c41.352.0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zm0 0"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.001 18.001" id="twitter"><path d="M15.891 4.013c.808-.496 1.343-1.173 1.605-2.034a8.68 8.68.0 01-2.351.861c-.703-.756-1.593-1.14-2.66-1.14-1.043.0-1.924.366-2.643 1.078A3.56 3.56.0 008.766 5.383c0 .309.039.585.117.819-3.076-.105-5.622-1.381-7.628-3.837-.34.601-.51 1.213-.51 1.846.0 1.301.549 2.332 1.645 3.089-.625-.053-1.176-.211-1.645-.47.0.929.273 1.705.82 2.388a3.623 3.623.0 002.115 1.291c-.312.08-.641.118-.979.118-.312.0-.533-.026-.664-.083.23.757.664 1.371 1.291 1.841a3.652 3.652.0 002.152.743C4.148 14.173 2.625 14.69.902 14.69c-.422.0-.721-.006-.902-.038 1.697 1.102 3.586 1.649 5.676 1.649 2.139.0 4.029-.542 5.674-1.626 1.645-1.078 2.859-2.408 3.639-3.974a10.77 10.77.0 001.172-4.892v-.468a7.788 7.788.0 001.84-1.921 8.142 8.142.0 01-2.11.593z"/></symbol><symbol aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="mail"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V4e2c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5.0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="calendar"><path d="M452 40h-24V0h-40v40H124V0H84v40H60C26.916 40 0 66.916.0 1e2v352c0 33.084 26.916 60 60 60h392c33.084.0 60-26.916 60-60V1e2c0-33.084-26.916-60-60-60zm20 412c0 11.028-8.972 20-20 20H60c-11.028.0-20-8.972-20-20V188h432v264zm0-304H40v-48c0-11.028 8.972-20 20-20h24v40h40V80h264v40h40V80h24c11.028.0 20 8.972 20 20v48z"/><path d="M76 230h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zM76 310h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zM76 390h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zm80-80h40v40h-40z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="github"><path d="M255.968 5.329C114.624 5.329.0 120.401.0 262.353c0 113.536 73.344 209.856 175.104 243.872 12.8 2.368 17.472-5.568 17.472-12.384.0-6.112-.224-22.272-.352-43.712-71.2 15.52-86.24-34.464-86.24-34.464-11.616-29.696-28.416-37.6-28.416-37.6-23.264-15.936 1.728-15.616 1.728-15.616 25.696 1.824 39.2 26.496 39.2 26.496 22.848 39.264 59.936 27.936 74.528 21.344 2.304-16.608 8.928-27.936 16.256-34.368-56.832-6.496-116.608-28.544-116.608-127.008.0-28.064 9.984-51.008 26.368-68.992-2.656-6.496-11.424-32.64 2.496-68 0 0 21.504-6.912 70.4 26.336 20.416-5.696 42.304-8.544 64.096-8.64 21.728.128 43.648 2.944 64.096 8.672 48.864-33.248 70.336-26.336 70.336-26.336 13.952 35.392 5.184 61.504 2.56 68 16.416 17.984 26.304 40.928 26.304 68.992.0 98.72-59.84 120.448-116.864 126.816 9.184 7.936 17.376 23.616 17.376 47.584.0 34.368-.32 62.08-.32 70.496.0 6.88 4.608 14.88 17.6 12.352C438.72 472.145 512 375.857 512 262.353 512 120.401 397.376 5.329 255.968 5.329z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212 212" id="gitlab"><path d="M12.3 74.7h54L43.3 3c-1-3.6-6.4-3.6-7.6.0L12.3 74.8z"/><path d="M12.3 74.7.5 111c-1 3.2.0 6.8 3 8.8l101.6 74-92.5-119z"/><path d="M105 193.7l-38.6-119h-54l92.7 119z"/><path d="M105 193.7l38.7-119H66.4l38.7 119z"/><path d="M105 193.7l38.7-119H198l-93 119z"/><path d="M198 74.7l11.6 36.2c1 3 0 6.6-3 8.6l-101.5 74 93-119z"/><path d="M198 74.7h-54.3L167 3c1.2-3.6 6.4-3.6 7.6.0L198 74.8z"/></symbol><symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="rss"><circle cx="3.429" cy="20.571" r="3.429"/><path d="M11.429 24h4.57C15.999 15.179 8.821 8.001.0 8v4.572c6.302.001 11.429 5.126 11.429 11.428z"/><path d="M24 24C24 10.766 13.234.0.0.0v4.571c10.714.0 19.43 8.714 19.43 19.429z"/></symbol><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="linkedin"><path d="M437 0H75C33.648.0.0 33.648.0 75v362c0 41.352 33.648 75 75 75h362c41.352.0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zM181 406h-60V196h60zm0-240h-60v-60h60zm210 240h-60V286c0-16.54-13.46-30-30-30s-30 13.46-30 30v120h-60V196h60v11.309C286.719 202.422 296.93 196 316 196c40.691.043 75 36.547 75 79.688zm0 0"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 612" id="arrow"><path d="M604.501 440.509 325.398 134.956c-5.331-5.357-12.423-7.627-19.386-7.27-6.989-.357-14.056 1.913-19.387 7.27L7.499 440.509c-9.999 10.024-9.999 26.298.0 36.323s26.223 10.024 36.222.0l262.293-287.164L568.28 476.832c9.999 10.024 26.222 10.024 36.221.0 9.999-10.023 9.999-26.298.0-36.323z"/></symbol><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="carly"><path d="M504.971 239.029 448 182.059V84c0-46.317-37.682-84-84-84h-44c-13.255.0-24 10.745-24 24s10.745 24 24 24h44c19.851.0 36 16.149 36 36v108c0 6.365 2.529 12.47 7.029 16.971L454.059 256l-47.029 47.029A24.002 24.002.0 004e2 320v108c0 19.851-16.149 36-36 36h-44c-13.255.0-24 10.745-24 24s10.745 24 24 24h44c46.318.0 84-37.683 84-84v-98.059l56.971-56.971c9.372-9.372 9.372-24.568.0-33.941zM112 192V84c0-19.851 16.149-36 36-36h44c13.255.0 24-10.745 24-24S205.255.0 192 0h-44c-46.318.0-84 37.683-84 84v98.059l-56.971 56.97c-9.373 9.373-9.373 24.568.0 33.941L64 329.941V428c0 46.317 37.682 84 84 84h44c13.255.0 24-10.745 24-24s-10.745-24-24-24h-44c-19.851.0-36-16.149-36-36V320c0-6.365-2.529-12.47-7.029-16.971L57.941 256l47.029-47.029A24.002 24.002.0 00112 192z"/></symbol><symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="copy"><path d="M23 2.75A2.75 2.75.0 0020.25.0H8.75A2.75 2.75.0 006 2.75v13.5A2.75 2.75.0 008.75 19h11.5A2.75 2.75.0 0023 16.25zM18.25 14.5h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5zm0-3h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5zm0-3h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5z"/><path d="M8.75 20.5A4.255 4.255.0 014.5 16.25V2.75c0-.086.02-.166.025-.25H3.75A2.752 2.752.0 001 5.25v16A2.752 2.752.0 003.75 24h12a2.752 2.752.0 002.75-2.75v-.75z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.001 512.001" id="closeme"><path d="M284.286 256.002 506.143 34.144c7.811-7.811 7.811-20.475.0-28.285-7.811-7.81-20.475-7.811-28.285.0L256 227.717 34.143 5.859c-7.811-7.811-20.475-7.811-28.285.0-7.81 7.811-7.811 20.475.0 28.285l221.857 221.857L5.858 477.859c-7.811 7.811-7.811 20.475.0 28.285a19.938 19.938.0 0014.143 5.857 19.94 19.94.0 0014.143-5.857L256 284.287l221.857 221.857c3.905 3.905 9.024 5.857 14.143 5.857s10.237-1.952 14.143-5.857c7.811-7.811 7.811-20.475.0-28.285L284.286 256.002z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="open-menu"><path d="M492 236H20c-11.046.0-20 8.954-20 20s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20zm0-160H20C8.954 76 0 84.954.0 96s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20zm0 320H20c-11.046.0-20 8.954-20 20s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="instagram"><path d="M12 2.163c3.204.0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849.0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204.0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849.0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741.0 8.333.014 7.053.072c-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.948c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24s3.668-.014 4.948-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403.0-6.162 2.759-6.162 6.162S8.597 18.163 12 18.163s6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zM12 16c-2.209.0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796.0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795.0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="youtube"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23.0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23.0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 3.993L9 16z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="stackoverflow"><path d="M21 27v-8h3v11H0V19h3v8h18z"/><path d="M17.1.2 15 1.8l7.9 10.6 2.1-1.6L17.1.2zm3.7 14.7L10.6 6.4l1.7-2 10.2 8.5-1.7 2zM7.2 12.3l12 5.6 1.1-2.4-12-5.6-1.1 2.4zm-1.8 6.8 13.56 1.96.17-2.38-13.26-2.55-.47 2.97zM19 25H5v-3h14v3z"/></symbol></svg><footer class=footer><div class="footer_inner wrap pale"><img src=https://vuptime.io/icons/favicon.png class="icon icon_2 transparent" alt="Ludovic Rivallain and blog co-authors"><p>Copyright&nbsp;2014&nbsp;–&nbsp;<span class=year></span>&nbsp;–&nbsp;Ludovic Rivallain and blog co-authors. All Rights Reserved</p><a class=to_top href=#documentTop><svg class="icon"><use xlink:href="#arrow"/></svg></a></div></footer><script type=text/javascript src=https://vuptime.io/js/bundle.min.d0f0362720d4ba914aa22c906d463694ca5445a70923037ec128f108cf4616c6df3dba89902f7d6b8b123a359aaf0485763117871aa780a561c563ed6adfda0e.js integrity="sha512-0PA2JyDUupFKoiyQbUY2lMpURacJIwN+wSjxCM9GFsbfPbqJkC99a4sSOjWarwSFdjEXhxqngKVhxWPtat/aDg==" crossorigin=anonymous></script></body></html>

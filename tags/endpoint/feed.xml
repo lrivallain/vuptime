@@ -4,8 +4,8 @@
 &lt;p>If you have already used the vRealize Automation REST API, you should have noticed that there is around twenty &lt;a href="https://code.vmware.com/apis/39/vrealize-automation">endpoints&lt;/a> !&lt;/p>
 &lt;p>On this article, we'll take the example of listing all the blueprints using vRO.&lt;/p>
 &lt;p>The REST API call to perform this operation is :&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>https://vra-fqdn/composition-service/api/blueprints
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Thereby the endpoint is &lt;code>composition service&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">https://vra-fqdn/composition-service/api/blueprints
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Thereby the endpoint is &lt;code>composition service&lt;/code>.&lt;/p>
 &lt;h1 id="find-the-vcac-endpoint">Find the vCAC endpoint&lt;/h1>
 &lt;p>Once the vRealize Automation REST endpoint defined, you need to find it on the vCAC plugin.&lt;/p>
 &lt;p>With your favorite REST client ( like &lt;code>Postman&lt;/code> ), perform the following REST call on your vRealize Automation server after being authenticated :&lt;/p>
@@ -14,44 +14,44 @@
 &lt;p>It will collect all the vRealize Automation REST endpoints.&lt;/p>
 &lt;p>On the result, locate your endpoint and get the &lt;code>typeId&lt;/code> which is the endpoint name on the vCAC plugin.&lt;br>
 In this case, the vCAC endpoint found is &lt;code>com.vmware.csp.core.cafe.catalog.requested.item.info.provider&lt;/code> for the &lt;code>composition-service&lt;/code>.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="ln"> 1&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;span class="ln"> 2&lt;/span> &lt;span class="nt">&amp;#34;@type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;EndPoint&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;span class="ln"> 3&lt;/span> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ed42c762-1487-458a-bc33-b7efc285b426&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;span class="ln"> 4&lt;/span> &lt;span class="nt">&amp;#34;createdDate&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;span class="ln"> 5&lt;/span> &lt;span class="nt">&amp;#34;lastUpdated&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;span class="ln"> 6&lt;/span> &lt;span class="nt">&amp;#34;url&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;https://my-vra-server/composition-service/api&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;span class="ln"> 7&lt;/span> &lt;span class="nt">&amp;#34;endPointType&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;span class="ln"> 8&lt;/span> &lt;span class="nt">&amp;#34;typeId&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;com.vmware.csp.core.cafe.catalog.requested.item.info.provider&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;span class="ln"> 9&lt;/span> &lt;span class="nt">&amp;#34;protocol&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;REST&amp;#34;&lt;/span>
-&lt;span class="ln">10&lt;/span> &lt;span class="p">},&lt;/span>
-&lt;span class="ln">11&lt;/span> &lt;span class="nt">&amp;#34;serviceInfoId&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;b7d3fdea-4808-45d8-af95-cf3aac0c8259&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;span class="ln">12&lt;/span> &lt;span class="nt">&amp;#34;endPointAttributes&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;span class="ln">13&lt;/span> &lt;span class="nt">&amp;#34;sslTrusts&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>
-&lt;span class="ln">14&lt;/span> &lt;span class="p">}&lt;/span>&lt;span class="err">,&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Great ! The vCAC endpoint now found, you can use it directly on vRO.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;@type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;EndPoint&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ed42c762-1487-458a-bc33-b7efc285b426&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;createdDate&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;lastUpdated&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;url&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;https://my-vra-server/composition-service/api&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;endPointType&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;typeId&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;com.vmware.csp.core.cafe.catalog.requested.item.info.provider&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;protocol&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;REST&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;serviceInfoId&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;b7d3fdea-4808-45d8-af95-cf3aac0c8259&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;endPointAttributes&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;sslTrusts&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> &lt;span class="p">}&lt;/span>&lt;span class="err">,&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Great ! The vCAC endpoint now found, you can use it directly on vRO.&lt;/p>
 &lt;h1 id="using-the-vra-rest-api-on-vro">Using the vRA REST API on vRO&lt;/h1>
 &lt;p>On vRealize Orchestrator, you can create a rest client with the &lt;a href="http://vroapi.com/Class/vCACCAFE/7.3.0/vCACCAFEHost">vCACCAFEHost&lt;/a>
 object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCAFEHost/createRestClient">createRestClient()&lt;/a> with the vCAC endpoint on the parameter.&lt;/p>
 &lt;p>You will be able to do some basic REST operations like &lt;a href="http://vroapi.com/Class/vCACCAFE/7.3.0/vCACCAFERestClient">GET, POST and PUT&lt;/a>.&lt;/p>
 &lt;p>Here is the code to list all the blueprints defined on a vRA tenant :&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="ln"> 1&lt;/span>&lt;span class="cm">/*
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="cm"> * List all the blueprints defined on a tenant
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="cm"> *
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="cm"> * @param {vCACCAFEHost} host Targeted vCACAFE Host Tenant.
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="cm"> *
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="cm">*/&lt;/span>
-&lt;span class="ln"> 7&lt;/span>
-&lt;span class="ln"> 8&lt;/span>&lt;span class="c1">//Create the rest client for the targeted tenant
-&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="nx">restClient&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">host&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">createRestClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;com.vmware.csp.core.cafe.catalog.requested.item.info.provider&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;span class="ln">10&lt;/span>
-&lt;span class="ln">11&lt;/span>&lt;span class="c1">//List all the blueprints defined on the tenant
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="nx">blueprints&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">restClient&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;/blueprints&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">getBodyAsJson&lt;/span>&lt;span class="p">();&lt;/span>
-&lt;span class="ln">13&lt;/span>
-&lt;span class="ln">14&lt;/span>&lt;span class="c1">//Display the name for each blueprint found
-&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="nx">each&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">blueprint&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="nx">blueprints&lt;/span>&lt;span class="p">){&lt;/span>
-&lt;span class="ln">16&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Blueprint found : &amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">blueprint&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;span class="ln">17&lt;/span>&lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Openstack - Migrate keystone endpoint URL</title><link>https://vuptime.io/post/2017-01-10-openstack-migrate-keystone-endpoint-url/</link><pubDate>Tue, 10 Jan 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/01/10/openstack-migrate-keystone-endpoint-url/</guid><description>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="cm">/*
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="cm"> * List all the blueprints defined on a tenant
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="cm"> *
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="cm"> * @param {vCACCAFEHost} host Targeted vCACAFE Host Tenant.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="cm"> *
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="cm">*/&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="c1">//Create the rest client for the targeted tenant
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">restClient&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">host&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">createRestClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;com.vmware.csp.core.cafe.catalog.requested.item.info.provider&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="c1">//List all the blueprints defined on the tenant
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">blueprints&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">restClient&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;/blueprints&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">getBodyAsJson&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="c1">//Display the name for each blueprint found
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="nx">each&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">blueprint&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="nx">blueprints&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Blueprint found : &amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">blueprint&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Openstack - Migrate keystone endpoint URL</title><link>https://vuptime.io/post/2017-01-10-openstack-migrate-keystone-endpoint-url/</link><pubDate>Tue, 10 Jan 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/01/10/openstack-migrate-keystone-endpoint-url/</guid><description>
 &lt;p>After a DNS record change for the controller node of our lab OpenStack infrastructure, Horizon client was still displaying the old endpoint DNS hostname in the &lt;code>API access&lt;/code>.&lt;/p>
 &lt;figure>&lt;img src="https://vuptime.io/images/MigrateOpenstackKeystoneUrl/before.png"/>&lt;figcaption>
 &lt;h4>Old API access settings&lt;/h4>
@@ -59,55 +59,55 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;/figure>
 &lt;p>This information is coming from the keystone database, so we need to proceed a c&lt;/p>
 &lt;p>List endpoints list, filtered on interface &lt;code>public&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>$ openstack endpoint list --interface public&lt;span class="s2">&amp;#34;
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="s2">| ID | Region | Service Name | Service Type | Enabled | Interface | URL |
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="s2">| ********199a432b9da62586f978b2ee | RegionOne | glance | image | True | public | http://controller:9292 |
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="s2">| ********de5b490d8d51b45dc1766999 | RegionOne | cinder | volume | True | public | http://controller:8776/v1/%(tenant_id)s |
-&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="s2">| ********a042463397613d0304812f38 | RegionOne | cinderv2 | volumev2 | True | public | http://controller:8776/v2/%(tenant_id)s |
-&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="s2">| ********a4e446169a4ff9f0e6865f54 | RegionOne | keystone | identity | True | public | http://controller:5000/v3 |
-&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="s2">| ********8ce74fcd860f0f63000cf2f4 | RegionOne | swift | object-store | True | public | http://controller:8080/v1/AUTH_%(tenant_id)s |
-&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="s2">| ********1dcb42ac8f6592ae2c0aacab | RegionOne | neutron | network | True | public | http://controller:9696 |
-&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="s2">| ********b0ba4d6c87e4c20e18230a39 | RegionOne | nova | compute | True | public | http://controller:8774/v2.1/%(tenant_id)s |
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The same information from database side:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>$ mysql keystone
-&lt;span class="ln"> 2&lt;/span>MariaDB [keystone]&amp;gt; select id,url from keystone.endpoint where interface=&amp;#39;public&amp;#39; ;
-&lt;span class="ln"> 3&lt;/span>+----------------------------------+----------------------------------------------+
-&lt;span class="ln"> 4&lt;/span>| id | url |
-&lt;span class="ln"> 5&lt;/span>+----------------------------------+----------------------------------------------+
-&lt;span class="ln"> 6&lt;/span>| ********199a432b9da62586f978b2ee | http://controller:9292 |
-&lt;span class="ln"> 7&lt;/span>| ********de5b490d8d51b45dc1766999 | http://controller:8776/v1/%(tenant_id)s |
-&lt;span class="ln"> 8&lt;/span>| ********a042463397613d0304812f38 | http://controller:8776/v2/%(tenant_id)s |
-&lt;span class="ln"> 9&lt;/span>| ********a4e446169a4ff9f0e6865f54 | http://controller:5000/v3 |
-&lt;span class="ln">10&lt;/span>| ********8ce74fcd860f0f63000cf2f4 | http://controller:8080/v1/AUTH_%(tenant_id)s |
-&lt;span class="ln">11&lt;/span>| ********1dcb42ac8f6592ae2c0aacab | http://controller:9696 |
-&lt;span class="ln">12&lt;/span>| ********b0ba4d6c87e4c20e18230a39 | http://controller:8774/v2.1/%(tenant_id)s |
-&lt;span class="ln">13&lt;/span>+----------------------------------+----------------------------------------------+
-&lt;span class="ln">14&lt;/span>7 rows in set (0.00 sec)
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>The query to change the endpoint url:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>MariaDB [keystone]&amp;gt; update keystone.endpoint SET url = REPLACE(url, &amp;#39;controller&amp;#39;, &amp;#39;newurl.domain.tld&amp;#39;) WHERE interface=&amp;#39;public&amp;#39;;
-&lt;span class="ln">2&lt;/span>Query OK, 7 rows affected (0.00 sec)
-&lt;span class="ln">3&lt;/span>Rows matched: 7 Changed: 7 Warnings: 0
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>And the result:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span>MariaDB [keystone]&amp;gt; select id,url from keystone.endpoint where interface=&amp;#39;public&amp;#39; ;
-&lt;span class="ln"> 2&lt;/span>+----------------------------------+----------------------------------------------------------+
-&lt;span class="ln"> 3&lt;/span>| id | url |
-&lt;span class="ln"> 4&lt;/span>+----------------------------------+----------------------------------------------------------+
-&lt;span class="ln"> 5&lt;/span>| 30da1779199a432b9da62586f978b2ee | http://newurl.domain.tld:9292 |
-&lt;span class="ln"> 6&lt;/span>| 4b14eeb0de5b490d8d51b45dc1766999 | http://newurl.domain.tld:8776/v1/%(tenant_id)s |
-&lt;span class="ln"> 7&lt;/span>| 62fb579da042463397613d0304812f38 | http://newurl.domain.tld:8776/v2/%(tenant_id)s |
-&lt;span class="ln"> 8&lt;/span>| 976bf154a4e446169a4ff9f0e6865f54 | http://newurl.domain.tld:5000/v3 |
-&lt;span class="ln"> 9&lt;/span>| c158b4718ce74fcd860f0f63000cf2f4 | http://newurl.domain.tld:8080/v1/AUTH_%(tenant_id)s |
-&lt;span class="ln">10&lt;/span>| df0b3f6f1dcb42ac8f6592ae2c0aacab | http://newurl.domain.tld:9696 |
-&lt;span class="ln">11&lt;/span>| ee2b5119b0ba4d6c87e4c20e18230a39 | http://newurl.domain.tld:8774/v2.1/%(tenant_id)s |
-&lt;span class="ln">12&lt;/span>+----------------------------------+----------------------------------------------------------+
-&lt;span class="ln">13&lt;/span>7 rows in set (0.00 sec)
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>To apply the change, we restart memcached and keystone service:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>service keystone restart
-&lt;span class="ln">2&lt;/span>service memcached restart
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now the endpoint displayed from the horizon portal is updated with the new URL :&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">$ openstack endpoint list --interface public&lt;span class="s2">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="s2">| ID | Region | Service Name | Service Type | Enabled | Interface | URL |
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="s2">| ********199a432b9da62586f978b2ee | RegionOne | glance | image | True | public | http://controller:9292 |
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="s2">| ********de5b490d8d51b45dc1766999 | RegionOne | cinder | volume | True | public | http://controller:8776/v1/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="s2">| ********a042463397613d0304812f38 | RegionOne | cinderv2 | volumev2 | True | public | http://controller:8776/v2/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="s2">| ********a4e446169a4ff9f0e6865f54 | RegionOne | keystone | identity | True | public | http://controller:5000/v3 |
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="s2">| ********8ce74fcd860f0f63000cf2f4 | RegionOne | swift | object-store | True | public | http://controller:8080/v1/AUTH_%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="s2">| ********1dcb42ac8f6592ae2c0aacab | RegionOne | neutron | network | True | public | http://controller:9696 |
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="s2">| ********b0ba4d6c87e4c20e18230a39 | RegionOne | nova | compute | True | public | http://controller:8774/v2.1/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="s2">+----------------------------------+-----------+--------------+--------------+---------+-----------+----------------------------------------------------------+
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The same information from database side:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">$ mysql keystone
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">MariaDB [keystone]&amp;gt; select id,url from keystone.endpoint where interface=&amp;#39;public&amp;#39; ;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">+----------------------------------+----------------------------------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">| id | url |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">+----------------------------------+----------------------------------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">| ********199a432b9da62586f978b2ee | http://controller:9292 |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">| ********de5b490d8d51b45dc1766999 | http://controller:8776/v1/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">| ********a042463397613d0304812f38 | http://controller:8776/v2/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">| ********a4e446169a4ff9f0e6865f54 | http://controller:5000/v3 |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">| ********8ce74fcd860f0f63000cf2f4 | http://controller:8080/v1/AUTH_%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">| ********1dcb42ac8f6592ae2c0aacab | http://controller:9696 |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">| ********b0ba4d6c87e4c20e18230a39 | http://controller:8774/v2.1/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">+----------------------------------+----------------------------------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">7 rows in set (0.00 sec)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The query to change the endpoint url:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">MariaDB [keystone]&amp;gt; update keystone.endpoint SET url = REPLACE(url, &amp;#39;controller&amp;#39;, &amp;#39;newurl.domain.tld&amp;#39;) WHERE interface=&amp;#39;public&amp;#39;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">Query OK, 7 rows affected (0.00 sec)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">Rows matched: 7 Changed: 7 Warnings: 0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And the result:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">MariaDB [keystone]&amp;gt; select id,url from keystone.endpoint where interface=&amp;#39;public&amp;#39; ;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">+----------------------------------+----------------------------------------------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">| id | url |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">+----------------------------------+----------------------------------------------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">| 30da1779199a432b9da62586f978b2ee | http://newurl.domain.tld:9292 |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">| 4b14eeb0de5b490d8d51b45dc1766999 | http://newurl.domain.tld:8776/v1/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">| 62fb579da042463397613d0304812f38 | http://newurl.domain.tld:8776/v2/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">| 976bf154a4e446169a4ff9f0e6865f54 | http://newurl.domain.tld:5000/v3 |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">| c158b4718ce74fcd860f0f63000cf2f4 | http://newurl.domain.tld:8080/v1/AUTH_%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">| df0b3f6f1dcb42ac8f6592ae2c0aacab | http://newurl.domain.tld:9696 |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">| ee2b5119b0ba4d6c87e4c20e18230a39 | http://newurl.domain.tld:8774/v2.1/%(tenant_id)s |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">+----------------------------------+----------------------------------------------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">7 rows in set (0.00 sec)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>To apply the change, we restart memcached and keystone service:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">service keystone restart
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">service memcached restart
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now the endpoint displayed from the horizon portal is updated with the new URL :&lt;/p>
 &lt;figure>&lt;img src="https://vuptime.io/images/MigrateOpenstackKeystoneUrl/after.png"/>&lt;figcaption>
 &lt;h4>New API access settings&lt;/h4>
 &lt;/figcaption>

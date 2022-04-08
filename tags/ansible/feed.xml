@@ -11,15 +11,15 @@
 &lt;/blockquote>
 &lt;h2 id="server-authentication">Server authentication&lt;/h2>
 &lt;p>When you connect by SSH to a remote server, you need to trust the key provided by the server. You probably already know the below message:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh root@mynewserver
-&lt;span class="ln">2&lt;/span>The authenticity of host &lt;span class="s1">&amp;#39;mynewserver (10.10.100.2)&amp;#39;&lt;/span> can&lt;span class="err">&amp;#39;&lt;/span>t be established.
-&lt;span class="ln">3&lt;/span>ECDSA key fingerprint is SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE.
-&lt;span class="ln">4&lt;/span>Are you sure you want to &lt;span class="k">continue&lt;/span> connecting &lt;span class="o">(&lt;/span>yes/no&lt;span class="o">)&lt;/span>?
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>And as most of users, you probably never check the fingerprint before accepting to store it in a &lt;code>known_hosts&lt;/code> file.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ssh root@mynewserver
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">The authenticity of host &lt;span class="s1">&amp;#39;mynewserver (10.10.100.2)&amp;#39;&lt;/span> can&lt;span class="err">&amp;#39;&lt;/span>t be established.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">ECDSA key fingerprint is SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">Are you sure you want to &lt;span class="k">continue&lt;/span> connecting &lt;span class="o">(&lt;/span>yes/no&lt;span class="o">)&lt;/span>?
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And as most of users, you probably never check the fingerprint before accepting to store it in a &lt;code>known_hosts&lt;/code> file.&lt;/p>
 &lt;p>In a highly secure environment, it is highly recommended to cross-check this fingerprint from the server itself before trusting it. This can be achieved by using the &lt;code>ssh-keygen -l&lt;/code> command:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
-&lt;span class="ln">2&lt;/span>&lt;span class="m">256&lt;/span> SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE root@mynewserver &lt;span class="o">(&lt;/span>ECDSA&lt;span class="o">)&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="m">256&lt;/span> SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE root@mynewserver &lt;span class="o">(&lt;/span>ECDSA&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> the fingerprints of key generated during the instance deployment, is commonly available in the console logs: it could help to retrieve it for comparison.&lt;/p>
 &lt;/blockquote>
 &lt;p>In the above example, the &lt;em>ECDSA&lt;/em> fingerprint match and you can trust it by accepting the confirmation from the SSH client.&lt;/p>
@@ -27,22 +27,22 @@
 &lt;p>For system out of production (testing purpose), I do not make the above check and I make a &lt;em>&amp;quot;blind&amp;quot;&lt;/em> consent on the first seen key.&lt;/p>
 &lt;p>I use the following Ansible tasks to do so:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Remove any existing fingerprints from known_hosts&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">local_action&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">shell&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ inventory_hostname }};&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ inventory_hostname_short }};&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ lookup(&amp;#39;dig&amp;#39;, &amp;#39;{{ inventory_hostname }}&amp;#39;)}}&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">retries&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">delay&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">3&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Add host rsa and ecdsa fingerprints to known_hosts&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">local_action&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">shell&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keyscan {{ inventory_hostname_short }} &amp;gt;&amp;gt; $HOME/.ssh/known_hosts&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keyscan {{ inventory_hostname }} &amp;gt;&amp;gt; $HOME/.ssh/known_hosts&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Remove any existing fingerprints from known_hosts&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">local_action&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">shell&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ inventory_hostname }};&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ inventory_hostname_short }};&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keygen -R {{ lookup(&amp;#39;dig&amp;#39;, &amp;#39;{{ inventory_hostname }}&amp;#39;)}}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">retries&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">delay&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">3&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Add host rsa and ecdsa fingerprints to known_hosts&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">local_action&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">shell&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keyscan {{ inventory_hostname_short }} &amp;gt;&amp;gt; $HOME/.ssh/known_hosts&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">ssh-keyscan {{ inventory_hostname }} &amp;gt;&amp;gt; $HOME/.ssh/known_hosts&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
 &lt;p>Applied to a specific inventory or host group, it will remove existing key from the &lt;code>known_hosts&lt;/code> file and add it again based on the result of a &lt;code>ssh-keyscan&lt;/code>.&lt;/p>
 &lt;h2 id="public-key-user-authentication">Public key user authentication&lt;/h2>
 &lt;p>As we have seen, server can be authenticated using SSH public keys. We can also use this mechanism to authenticate user(s) against a server.&lt;/p>
@@ -59,66 +59,66 @@
 &lt;/blockquote>
 &lt;p>If you don't use a &lt;code>cloud-init&lt;/code> based clone or server creation, you can use an Ansible playbook to push keys to the target server:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln">1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Upload ssh key&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">authorized_key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">user&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">root&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ authorized_keys_path }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">state&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">present&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">7&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">manage_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ lookup(&amp;#39;file&amp;#39;, &amp;#39;~/.ssh/id_rsa.pub&amp;#39;) }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Upload ssh key&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">authorized_key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">user&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ authorized_keys_path }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">state&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">present&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">manage_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ lookup(&amp;#39;file&amp;#39;, &amp;#39;~/.ssh/id_rsa.pub&amp;#39;) }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
 &lt;p>And if there is no already deployed authorized key to enable Ansible user to connect to your instance, you can use a one-shot &lt;code>--ask-pass&lt;/code> option to run your playbook:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml --ask-pass
-&lt;span class="ln">2&lt;/span>SSH password: *********
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will be prompt to provide the account password. Once pushed, you can use the public key as an authentication mechanism for Ansible instead of passwords:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml
-&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml --ask-pass
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">SSH password: *********
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will be prompt to provide the account password. Once pushed, you can use the public key as an authentication mechanism for Ansible instead of passwords:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>Please note that &lt;code>--ask-pass&lt;/code> is no more necessary to run a playbook, based on SSH protocol to your target once the ansible user public key is installed.&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="password-expiration">Password expiration&lt;/h2>
 &lt;p>When using editor's appliance (like VMware's ones), you may need to reconfigure the password expiration for the &lt;code>root&lt;/code> account. For lab and testing purposes, I fully disable the expiration policy with the following tasks:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln">1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">2&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Check expiration for {{ admin_user }} password&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">shell&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;getent shadow {{ admin_user }} | cut -d&amp;#39;:&amp;#39; -f5&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">register&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pw_invalid_expiration&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">changed_when&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">6&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">7&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Unset expiration for {{ admin_user }} password&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">shell&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;chage -M -1 {{ admin_user }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">when&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pw_invalid_expiration.stdout != &amp;#39;&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Check expiration for {{ admin_user }} password&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">shell&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;getent shadow {{ admin_user }} | cut -d&amp;#39;:&amp;#39; -f5&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">register&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pw_invalid_expiration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">changed_when&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Unset expiration for {{ admin_user }} password&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">shell&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;chage -M -1 {{ admin_user }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">when&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pw_invalid_expiration.stdout != &amp;#39;&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>{% endraw %}&lt;/p>
 &lt;h2 id="shell-idle-timeout">Shell idle timeout&lt;/h2>
 &lt;p>As for the above policy, I have a couple of ansible tasks to disable the &lt;a href="https://www.thegeekstuff.com/2010/05/tmout-exit-bash-shell-when-no-activity/">&lt;em>shell idle timeout&lt;/em>&lt;/a> in lab and testing environments:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Changing SSH session TMOUT - part 1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">lineinfile&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/etc/profile.d/tmout.sh&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">regexp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;^TMOUT.*&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">line&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;TMOUT=&amp;#34;&amp;#34;&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Changing SSH session TMOUT - part 2&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">lineinfile&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/etc/profile.d/tmout.sh&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">regexp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;.*readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">line&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;#readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Changing SSH session TMOUT - part 1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">lineinfile&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/etc/profile.d/tmout.sh&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">regexp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;^TMOUT.*&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">line&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;TMOUT=&amp;#34;&amp;#34;&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Changing SSH session TMOUT - part 2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">lineinfile&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/etc/profile.d/tmout.sh&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">regexp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;.*readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">line&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;#readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>&lt;strong>Warning:&lt;/strong> As mentionned above, most of the previous tasks may affect the security of the target environment: use this content with caution.&lt;/p>
 &lt;/blockquote></description></item><item><title>Ansible/VMware modules - first steps</title><link>https://vuptime.io/post/2018-02-07-ansible-vmware_modules_-_first_steps/</link><pubDate>Wed, 07 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/07/ansible-vmware_modules_-_first_steps/</guid><description>
 &lt;p>Ansible is a well known software to automates software provisioning, configuration management, and application deployment. In concrete terms, it's possible to manage infrastructure deployment and configuration during life cycle from sets of configuration files.&lt;/p>
 &lt;p>In the following post, I will try to explain how to use it with some VMware modules from ansible installation to the management of a vCenter based infrastructure.&lt;/p>
 &lt;h1 id="ansible-installation">Ansible installation&lt;/h1>
 &lt;p>I suggest to use Ansible from the &lt;a href="https://github.com/ansible/ansible">github repository&lt;/a> to be able to use the most recent modules from the repository as there is a lot of work in progress on the VMware related modules:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>git clone https://github.com/ansible/ansible.git &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nb">cd&lt;/span> ansible/
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Personally, I prefer to use a python virtual environment to manage a test or stable environment:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln">1&lt;/span>sudo pip install virtualenv
-&lt;span class="ln">2&lt;/span>virtualenv --system-site-packages venv
-&lt;span class="ln">3&lt;/span>. venv/bin/activate
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Install the ansible requirements, and the VMware python sdk:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln">1&lt;/span>pip install -r requirements.txt
-&lt;span class="ln">2&lt;/span>pip install pyvmomi
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>We are now ready to use ansible with VMware modules.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">git clone https://github.com/ansible/ansible.git &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nb">cd&lt;/span> ansible/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Personally, I prefer to use a python virtual environment to manage a test or stable environment:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">sudo pip install virtualenv
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">virtualenv --system-site-packages venv
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">. venv/bin/activate
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Install the ansible requirements, and the VMware python sdk:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">pip install -r requirements.txt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">pip install pyvmomi
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We are now ready to use ansible with VMware modules.&lt;/p>
 &lt;h1 id="ansible-usage-with-vmware-vcenter">Ansible usage with VMware vCenter&lt;/h1>
 &lt;p>The following sample consist of VM deployment in a existing vCenter infrastructure from a linked-clone operation.&lt;/p>
 &lt;blockquote>
@@ -130,70 +130,70 @@
 &lt;li>web frontend&lt;/li>
 &lt;li>backend workers&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="ln"> 1&lt;/span> [10.10.10.107.0/24] External Network
-&lt;span class="ln"> 2&lt;/span> +--------------------+-------------+-------------------+
-&lt;span class="ln"> 3&lt;/span> | |
-&lt;span class="ln"> 4&lt;/span> | |
-&lt;span class="ln"> 5&lt;/span> +-----+----+ +-----+----+
-&lt;span class="ln"> 6&lt;/span> | | | |
-&lt;span class="ln"> 7&lt;/span> | | | |
-&lt;span class="ln"> 8&lt;/span> | Web | | Web |
-&lt;span class="ln"> 9&lt;/span> | Frontend | | Frontend |
-&lt;span class="ln">10&lt;/span> | # 1 | | # 2 |
-&lt;span class="ln">11&lt;/span> | | | |
-&lt;span class="ln">12&lt;/span> | | | |
-&lt;span class="ln">13&lt;/span> +-----+----+ +-----+----+
-&lt;span class="ln">14&lt;/span> | |
-&lt;span class="ln">15&lt;/span> [10.10.10.108.0/24] | | Internal Network
-&lt;span class="ln">16&lt;/span> +----------+---------+----+--------+-----+-------------+
-&lt;span class="ln">17&lt;/span> | | |
-&lt;span class="ln">18&lt;/span> | | |
-&lt;span class="ln">19&lt;/span> +----+----+ +----+----+ +----+----+
-&lt;span class="ln">20&lt;/span> | | | | | |
-&lt;span class="ln">21&lt;/span> | | | | | |
-&lt;span class="ln">22&lt;/span> | Backend | | Backend | | Backend |
-&lt;span class="ln">23&lt;/span> | Worker | | Worker | | Worker |
-&lt;span class="ln">24&lt;/span> | # 1 | | # 2 | | # 3 |
-&lt;span class="ln">25&lt;/span> | | | | | |
-&lt;span class="ln">26&lt;/span> | | | | | |
-&lt;span class="ln">27&lt;/span> +---------+ +---------+ +---------+
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>To simplify the sample, all virtual machines will not be configured at the application level: we will only cover the deployment of new VM with OS ready for usage.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl"> [10.10.10.107.0/24] External Network
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl"> +--------------------+-------------+-------------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> +-----+----+ +-----+----+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> | | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl"> | | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl"> | Web | | Web |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl"> | Frontend | | Frontend |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl"> | # 1 | | # 2 |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> | | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> | | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> +-----+----+ +-----+----+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> [10.10.10.108.0/24] | | Internal Network
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> +----------+---------+----+--------+-----+-------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl"> | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl"> +----+----+ +----+----+ +----+----+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl"> | | | | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl"> | | | | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl"> | Backend | | Backend | | Backend |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">23&lt;/span>&lt;span class="cl"> | Worker | | Worker | | Worker |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl"> | # 1 | | # 2 | | # 3 |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl"> | | | | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl"> | | | | | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl"> +---------+ +---------+ +---------+
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>To simplify the sample, all virtual machines will not be configured at the application level: we will only cover the deployment of new VM with OS ready for usage.&lt;/p>
 &lt;p>We create an &lt;em>INI-like&lt;/em> (one of Ansible's defaults) inventory file named &lt;code>sample-app01.inv&lt;/code> with the following content:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="ln"> 1&lt;/span>&lt;span class="k">[frontweb]&lt;/span>
-&lt;span class="ln"> 2&lt;/span>&lt;span class="na">web01 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.107.1&amp;#34;&lt;/span>
-&lt;span class="ln"> 3&lt;/span>&lt;span class="na">web02 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.107.2&amp;#34;&lt;/span>
-&lt;span class="ln"> 4&lt;/span>
-&lt;span class="ln"> 5&lt;/span>&lt;span class="k">[workers]&lt;/span>
-&lt;span class="ln"> 6&lt;/span>&lt;span class="na">worker01 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.108.1&amp;#34;&lt;/span>
-&lt;span class="ln"> 7&lt;/span>&lt;span class="na">worker02 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.108.2&amp;#34;&lt;/span>
-&lt;span class="ln"> 8&lt;/span>&lt;span class="na">worker03 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.108.3&amp;#34;&lt;/span>
-&lt;span class="ln"> 9&lt;/span>
-&lt;span class="ln">10&lt;/span>&lt;span class="k">[app01:vars]&lt;/span>
-&lt;span class="ln">11&lt;/span>&lt;span class="na">datastore&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;Datastore01&amp;#39;&lt;/span>
-&lt;span class="ln">12&lt;/span>&lt;span class="na">memory&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;256&amp;#39;&lt;/span>
-&lt;span class="ln">13&lt;/span>&lt;span class="na">cpucount&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;1&amp;#39;&lt;/span>
-&lt;span class="ln">14&lt;/span>&lt;span class="na">guest_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;ubuntu64Guest&amp;#39;&lt;/span>
-&lt;span class="ln">15&lt;/span>&lt;span class="na">folder&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;app01&amp;#39;&lt;/span>
-&lt;span class="ln">16&lt;/span>&lt;span class="na">respool&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;prod&amp;#39;&lt;/span>
-&lt;span class="ln">17&lt;/span>&lt;span class="na">snapshot_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;20180129&amp;#39;&lt;/span>
-&lt;span class="ln">18&lt;/span>&lt;span class="na">dns_domain&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;lri.lcl&amp;#39;&lt;/span>
-&lt;span class="ln">19&lt;/span>&lt;span class="na">netmask&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;255.255.255.0&amp;#39;&lt;/span>
-&lt;span class="ln">20&lt;/span>&lt;span class="na">dns_server&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;10.10.10.99&amp;#39;&lt;/span>
-&lt;span class="ln">21&lt;/span>&lt;span class="na">os_password&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;VMware1!&amp;#39;&lt;/span>
-&lt;span class="ln">22&lt;/span>&lt;span class="na">datacenter&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;DC-Rennes&amp;#39;&lt;/span>
-&lt;span class="ln">23&lt;/span>&lt;span class="na">cluster&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;Cust01&amp;#39;&lt;/span>
-&lt;span class="ln">24&lt;/span>
-&lt;span class="ln">25&lt;/span>&lt;span class="k">[frontweb:vars]&lt;/span>
-&lt;span class="ln">26&lt;/span>&lt;span class="na">network1&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;pg_frontweb&amp;#39;&lt;/span>
-&lt;span class="ln">27&lt;/span>&lt;span class="na">network2&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;pg_frontweb&amp;#39;&lt;/span>
-&lt;span class="ln">28&lt;/span>&lt;span class="na">gateway&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;10.10.107.254&amp;#39;&lt;/span>
-&lt;span class="ln">29&lt;/span>&lt;span class="na">template&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;LinkedCloneRef_Ubuntu16.04_frontweb&amp;#39;&lt;/span>
-&lt;span class="ln">30&lt;/span>
-&lt;span class="ln">31&lt;/span>&lt;span class="k">[workers:vars]&lt;/span>
-&lt;span class="ln">32&lt;/span>&lt;span class="na">network1&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;pg_backend&amp;#39;&lt;/span>
-&lt;span class="ln">33&lt;/span>&lt;span class="na">gateway&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;10.10.108.254&amp;#39;&lt;/span>
-&lt;span class="ln">34&lt;/span>&lt;span class="na">template&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;LinkedCloneRef_Ubuntu16.04_worker&amp;#39;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the sample inventory file we have:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="k">[frontweb]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="na">web01 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.107.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="na">web02 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.107.2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="k">[workers]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="na">worker01 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.108.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="na">worker02 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.108.2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="na">worker03 ip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;10.10.108.3&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="k">[app01:vars]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="na">datastore&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;Datastore01&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="na">memory&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;256&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="na">cpucount&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;1&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="na">guest_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;ubuntu64Guest&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="na">folder&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;app01&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="na">respool&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;prod&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="na">snapshot_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;20180129&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="na">dns_domain&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;lri.lcl&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="na">netmask&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;255.255.255.0&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl">&lt;span class="na">dns_server&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;10.10.10.99&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl">&lt;span class="na">os_password&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;VMware1!&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl">&lt;span class="na">datacenter&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;DC-Rennes&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">23&lt;/span>&lt;span class="cl">&lt;span class="na">cluster&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;Cust01&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl">&lt;span class="k">[frontweb:vars]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl">&lt;span class="na">network1&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;pg_frontweb&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl">&lt;span class="na">network2&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;pg_frontweb&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">28&lt;/span>&lt;span class="cl">&lt;span class="na">gateway&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;10.10.107.254&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">29&lt;/span>&lt;span class="cl">&lt;span class="na">template&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;LinkedCloneRef_Ubuntu16.04_frontweb&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">30&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">31&lt;/span>&lt;span class="cl">&lt;span class="k">[workers:vars]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">32&lt;/span>&lt;span class="cl">&lt;span class="na">network1&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;pg_backend&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">33&lt;/span>&lt;span class="cl">&lt;span class="na">gateway&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;10.10.108.254&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">34&lt;/span>&lt;span class="cl">&lt;span class="na">template&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;LinkedCloneRef_Ubuntu16.04_worker&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the sample inventory file we have:&lt;/p>
 &lt;ul>
 &lt;li>A frontend and workers categories with details about hosts members (including a specific parameters for each one: the IP address): &lt;code>[frontweb]&lt;/code> + &lt;code>[workers]&lt;/code>&lt;/li>
 &lt;li>An &lt;em>app01&lt;/em> category including both frontend and workers sub categories: &lt;code>[app01:children]&lt;/code>&lt;/li>
@@ -208,105 +208,105 @@
 &lt;/blockquote>
 &lt;h3 id="dynamic-input-for-some-values">Dynamic input for some values&lt;/h3>
 &lt;p>To manage VM in the vCenter inventory, it's necessary to have credentials for the target. In the following playbook part, we ask user to enter credentials when running the playbook:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Credentials for vCenter API&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="l">workers&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="l">frontweb&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gather_facts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">no&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">vars_prompt&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vcenter_hostname_tmp&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">prompt&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Enter vcenter hostname&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">default&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vcsa01-rennes.lri.lcl&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vcenter_user_tmp&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">prompt&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Enter vcenter username&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">default&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;administrator@vsphere.local&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vcenter_pass_tmp&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">prompt&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Enter vcenter password&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">private&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">18&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">19&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">set_fact&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">20&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">vcenter_hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_hostname_tmp }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">21&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">vcenter_user &lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_user_tmp }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">22&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">vcenter_pass &lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_pass_tmp }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This playbook part will be applied for both &lt;em>workers&lt;/em> and &lt;em>frontweb&lt;/em> servers and we set up global facts to be used in other parts of the playbook.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Credentials for vCenter API&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">workers&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">frontweb&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gather_facts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">no&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">vars_prompt&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vcenter_hostname_tmp&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">prompt&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Enter vcenter hostname&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">default&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vcsa01-rennes.lri.lcl&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vcenter_user_tmp&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">prompt&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Enter vcenter username&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">default&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;administrator@vsphere.local&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vcenter_pass_tmp&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">prompt&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Enter vcenter password&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">private&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">set_fact&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">vcenter_hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_hostname_tmp }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">vcenter_user &lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_user_tmp }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">vcenter_pass &lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_pass_tmp }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This playbook part will be applied for both &lt;em>workers&lt;/em> and &lt;em>frontweb&lt;/em> servers and we set up global facts to be used in other parts of the playbook.&lt;/p>
 &lt;h3 id="clone-specification-with-vmware_guest-module">Clone specification with vmware_guest module&lt;/h3>
 &lt;p>Ansible's &lt;em>vmware_guest&lt;/em> module is used to manages virtual machines in vCenter or standalone ESXi. It allows to check the presence and configuration of VM and to proceed changes according to the result: clone, reconfiguration...&lt;/p>
 &lt;p>Here is a sample task based on the &lt;em>vmware_guest&lt;/em> to deploy a &lt;em>worker&lt;/em>'s VM from a linked-clone operation:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="ln"> 1&lt;/span>- &lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workers&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gather_facts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">no&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">connection&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">local&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 4&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 5&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 6&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Deploy workers nodes&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 7&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">vmware_guest&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 8&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_hostname }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln"> 9&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">username&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_user }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">10&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">password&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_pass }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">11&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ inventory_hostname }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">12&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">datacenter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ datacenter }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">13&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">cluster&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ cluster }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">14&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">state&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">poweredon&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">15&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">template&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;{{ template }}&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">16&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">resource_pool&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;{{ respool }}&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">17&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">validate_certs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">no&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">18&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">folder&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ datacenter }}/vm/{{ folder }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">19&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">guest_id&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ guest_id }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">20&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">networks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">21&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ network1 }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">22&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">ip&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ ip1 }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">23&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">netmask&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ netmask }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">24&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">gateway&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ gateway }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">25&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">device_type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vmxnet3&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">26&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">dns_servers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">27&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;{{ dns_server }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">28&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">snapshot_src&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ snapshot_name }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">29&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">linked_clone&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">30&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">customization&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">31&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">dns_servers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">32&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;{{ dns_server }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">33&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">domain&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ dns_domain }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">34&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">dns_suffix&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ dns_domain }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">35&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">password&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ os_password }}&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;span class="ln">36&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">wait_for_ip_address&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We do the same for the &lt;em>frontweb&lt;/em> servers with 2 network attachement. See this gist for the full playbook content : &lt;a href="https://gist.github.com/lrivallain/a2fc8443ef4433623d0add3601ab7115#file-create_linked_vms_2tiers-yml">file-create_linked_vms_2tiers-yml&lt;/a>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">- &lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workers&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gather_facts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">no&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">connection&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">local&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Deploy workers nodes&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">vmware_guest&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_hostname }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">username&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_user }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">password&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ vcenter_pass }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ inventory_hostname }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">datacenter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ datacenter }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cluster&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ cluster }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">state&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">poweredon&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">template&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;{{ template }}&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resource_pool&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;{{ respool }}&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">validate_certs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">no&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">folder&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ datacenter }}/vm/{{ folder }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">guest_id&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ guest_id }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">networks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ network1 }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ip&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ ip1 }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">23&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">netmask&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ netmask }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gateway&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ gateway }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">device_type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;vmxnet3&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">dns_servers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;{{ dns_server }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">28&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">snapshot_src&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ snapshot_name }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">29&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">linked_clone&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">30&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">customization&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">31&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">dns_servers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">32&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;{{ dns_server }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">33&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">domain&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ dns_domain }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">34&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">dns_suffix&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ dns_domain }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">35&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">password&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;{{ os_password }}&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">36&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">wait_for_ip_address&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">yes&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We do the same for the &lt;em>frontweb&lt;/em> servers with 2 network attachement. See this gist for the full playbook content : &lt;a href="https://gist.github.com/lrivallain/a2fc8443ef4433623d0add3601ab7115#file-create_linked_vms_2tiers-yml">file-create_linked_vms_2tiers-yml&lt;/a>.&lt;/p>
 &lt;h1 id="run-an-ansible-playbook-on-inventory">Run an Ansible playbook on inventory&lt;/h1>
 &lt;p>To run the playbook:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>./bin/ansible-playbook -i sample-app01.inv create_linked_vms_2tiers.yml
-&lt;span class="ln"> 2&lt;/span>Enter vcenter hostname &lt;span class="o">[&lt;/span>vcsa01-rennes.lri.lcl&lt;span class="o">]&lt;/span>:
-&lt;span class="ln"> 3&lt;/span>Enter vcenter username &lt;span class="o">[&lt;/span>administrator@vsphere.local&lt;span class="o">]&lt;/span>:
-&lt;span class="ln"> 4&lt;/span>Enter vcenter password :
-&lt;span class="ln"> 5&lt;/span>
-&lt;span class="ln"> 6&lt;/span>PLAY &lt;span class="o">[&lt;/span>Credentials &lt;span class="k">for&lt;/span> vCenter API&lt;span class="o">]&lt;/span> *****************************************************************
-&lt;span class="ln"> 7&lt;/span>
-&lt;span class="ln"> 8&lt;/span>TASK &lt;span class="o">[&lt;/span>set_fact&lt;span class="o">]&lt;/span> ************************************************************************************
-&lt;span class="ln"> 9&lt;/span>ok: &lt;span class="o">[&lt;/span>worker01&lt;span class="o">]&lt;/span>
-&lt;span class="ln">10&lt;/span>ok: &lt;span class="o">[&lt;/span>worker02&lt;span class="o">]&lt;/span>
-&lt;span class="ln">11&lt;/span>ok: &lt;span class="o">[&lt;/span>worker03&lt;span class="o">]&lt;/span>
-&lt;span class="ln">12&lt;/span>ok: &lt;span class="o">[&lt;/span>web01&lt;span class="o">]&lt;/span>
-&lt;span class="ln">13&lt;/span>ok: &lt;span class="o">[&lt;/span>web02&lt;span class="o">]&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the first part of the execution, credentials are requested to continue. Then Ansible will check if inventory VM's are well &lt;code>poweredon&lt;/code> are requested in the playbook and if not, will start creation task :&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="ln"> 1&lt;/span>PLAY &lt;span class="o">[&lt;/span>workers&lt;span class="o">]&lt;/span> *************************************************************************************
-&lt;span class="ln"> 2&lt;/span>
-&lt;span class="ln"> 3&lt;/span>TASK &lt;span class="o">[&lt;/span>Deploy workers nodes&lt;span class="o">]&lt;/span> ************************************************************************
-&lt;span class="ln"> 4&lt;/span>changed: &lt;span class="o">[&lt;/span>worker03&lt;span class="o">]&lt;/span>
-&lt;span class="ln"> 5&lt;/span>changed: &lt;span class="o">[&lt;/span>worker02&lt;span class="o">]&lt;/span>
-&lt;span class="ln"> 6&lt;/span>changed: &lt;span class="o">[&lt;/span>worker01&lt;span class="o">]&lt;/span>
-&lt;span class="ln"> 7&lt;/span>
-&lt;span class="ln"> 8&lt;/span>PLAY &lt;span class="o">[&lt;/span>frontweb&lt;span class="o">]&lt;/span> ************************************************************************************
-&lt;span class="ln"> 9&lt;/span>
-&lt;span class="ln">10&lt;/span>TASK &lt;span class="o">[&lt;/span>Deploy frontweb nodes&lt;span class="o">]&lt;/span> ***********************************************************************
-&lt;span class="ln">11&lt;/span>changed: &lt;span class="o">[&lt;/span>web01&lt;span class="o">]&lt;/span>
-&lt;span class="ln">12&lt;/span>changed: &lt;span class="o">[&lt;/span>web02&lt;span class="o">]&lt;/span>
-&lt;span class="ln">13&lt;/span>
-&lt;span class="ln">14&lt;/span>PLAY RECAP *****************************************************************************************
-&lt;span class="ln">15&lt;/span>web01 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
-&lt;span class="ln">16&lt;/span>web02 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
-&lt;span class="ln">17&lt;/span>worker01 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
-&lt;span class="ln">18&lt;/span>worker02 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
-&lt;span class="ln">19&lt;/span>worker03 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="idempotency">Idempotency&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">./bin/ansible-playbook -i sample-app01.inv create_linked_vms_2tiers.yml
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">Enter vcenter hostname &lt;span class="o">[&lt;/span>vcsa01-rennes.lri.lcl&lt;span class="o">]&lt;/span>:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">Enter vcenter username &lt;span class="o">[&lt;/span>administrator@vsphere.local&lt;span class="o">]&lt;/span>:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">Enter vcenter password :
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">PLAY &lt;span class="o">[&lt;/span>Credentials &lt;span class="k">for&lt;/span> vCenter API&lt;span class="o">]&lt;/span> *****************************************************************
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">TASK &lt;span class="o">[&lt;/span>set_fact&lt;span class="o">]&lt;/span> ************************************************************************************
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">ok: &lt;span class="o">[&lt;/span>worker01&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">ok: &lt;span class="o">[&lt;/span>worker02&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">ok: &lt;span class="o">[&lt;/span>worker03&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">ok: &lt;span class="o">[&lt;/span>web01&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">ok: &lt;span class="o">[&lt;/span>web02&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the first part of the execution, credentials are requested to continue. Then Ansible will check if inventory VM's are well &lt;code>poweredon&lt;/code> are requested in the playbook and if not, will start creation task :&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">PLAY &lt;span class="o">[&lt;/span>workers&lt;span class="o">]&lt;/span> *************************************************************************************
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">TASK &lt;span class="o">[&lt;/span>Deploy workers nodes&lt;span class="o">]&lt;/span> ************************************************************************
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">changed: &lt;span class="o">[&lt;/span>worker03&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">changed: &lt;span class="o">[&lt;/span>worker02&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">changed: &lt;span class="o">[&lt;/span>worker01&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">PLAY &lt;span class="o">[&lt;/span>frontweb&lt;span class="o">]&lt;/span> ************************************************************************************
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">TASK &lt;span class="o">[&lt;/span>Deploy frontweb nodes&lt;span class="o">]&lt;/span> ***********************************************************************
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">changed: &lt;span class="o">[&lt;/span>web01&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">changed: &lt;span class="o">[&lt;/span>web02&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">PLAY RECAP *****************************************************************************************
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">web01 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">web02 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">worker01 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">worker02 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">worker03 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="idempotency">Idempotency&lt;/h1>
 &lt;blockquote>
 &lt;p>Modules should be idempotent, that is, running a module multiple times in a sequence should have the same effect as running it just once. One way to achieve idempotency is to have a module check whether its desired final state has already been achieved, and if that state has been achieved, to exit without performing any actions. If all the modules a playbook uses are idempotent, then the playbook itself is likely to be idempotent, so re-running the playbook should be safe.&lt;/p>
 &lt;/blockquote>
