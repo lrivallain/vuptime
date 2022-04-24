@@ -17,7 +17,7 @@ toc: true
 thumbnail: /images/avs-api/thumb_endpoint.png
 title: "Azure VMware Solutions REST API - part 2: `az rest`"
 aliases:
-- /2022/01/15/azure-vmware-solution-rest-api-part2/
+- /2022/02/15/azure-vmware-solution-rest-api-part2/
 featureImage: /images/splash/laptop-joshua-reddekopp.jpg
 ---
 
