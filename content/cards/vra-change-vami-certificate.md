@@ -2,6 +2,7 @@
 layout: card
 title: vRealize Automation – Change the VAMI certificate
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - vmware
 - vrealize

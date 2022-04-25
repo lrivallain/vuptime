@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 categories:
 - Bash
 date: "2017-01-03T00:00:00Z"

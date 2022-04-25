@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 date: "2022-04-27"
 thumbnail: /images/arc-vmware/icon-arc-vmw-vm.png
 splash: /images/splash/siarhei-palishchuk.jpg
@@ -19,7 +20,6 @@ toc: true
 title: "Public preview – Azure Arc-enabled VMware vSphere – Part 2"
 aliases:
 - /2022/04/27/arc-enabled-vmware-vsphere-part2
-draft: true
 ---
 
 In the [previous post (part 1)](/2022/04/25/arc-enabled-vmware-vsphere-part1), we covered the capabilities of *Azure Arc-enabled VMware vSphere*: a solution to extend Azure governance and management policies to VMware based workload.

@@ -9,6 +9,7 @@ tags:
 - plugin
 - timeout
 author: lrivallain
+author_name: Ludovic Rivallain
 date: 2020-04-20
 ---
 

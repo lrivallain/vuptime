@@ -55,7 +55,7 @@ figure figcaption h4 {
 }
 
 figure figcaption h4:before {
-   content: "Caption: ";
+    content: "Caption: ";
 }
 
 
@@ -83,4 +83,9 @@ figure figcaption h4:before {
 /* Inline code */
 code.noClass {
     color: var(--inlineCode-color);
+}
+
+/* Used in post_meta.html */
+.post_author {
+    margin: 0 0.5rem;
 }

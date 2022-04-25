@@ -2,6 +2,7 @@
 layout: card
 title: Bookmark – Map vSphere API privileges to vSphere Web Client UI
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - vsphere

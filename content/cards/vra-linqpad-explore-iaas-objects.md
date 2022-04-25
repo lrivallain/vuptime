@@ -2,6 +2,7 @@
 layout: card
 title: vRealize Automation – Explore IaaS objects with Linqpad
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - vmware
 - vrealize

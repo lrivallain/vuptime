@@ -2,6 +2,7 @@
 layout: card
 title: Bookmark – Removing a virtual machine from vRealize Automation 7.x using Cloud Client
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - vrealize

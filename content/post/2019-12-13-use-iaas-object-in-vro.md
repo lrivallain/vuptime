@@ -1,5 +1,6 @@
 ---
 author: aharlaut
+author_name: Antoine Harlaut
 categories:
 - VMWare
 date: "2019-12-13T00:00:00Z"

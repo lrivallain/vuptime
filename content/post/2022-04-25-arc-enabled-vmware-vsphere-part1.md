@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 date: "2022-04-25"
 thumbnail: /images/arc-vmware/icon-arc-resource-bridge.png
 splash: /images/splash/sea-joseph-barrientos.jpg
@@ -19,7 +20,6 @@ toc: true
 title: "Public preview – Azure Arc-enabled VMware vSphere – Part 1"
 aliases:
 - /2022/04/25/arc-enabled-vmware-vsphere-part1
-draft: true
 ---
 
 ## Manage your VMware Datacenter through Azure Cloud tools

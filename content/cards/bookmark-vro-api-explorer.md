@@ -2,6 +2,7 @@
 layout: card
 title: Bookmark – online vRealize Orchestrator API explorer
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - vro

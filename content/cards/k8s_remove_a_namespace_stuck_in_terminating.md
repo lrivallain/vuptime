@@ -5,6 +5,7 @@ tags:
 - kubernetes
 - kubectl
 author: lrivallain
+author_name: Ludovic Rivallain
 date: 2020-11-13
 ---
 

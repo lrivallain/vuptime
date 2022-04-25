@@ -2,6 +2,7 @@
 layout: card
 title: vRealize Automation – Troubleshoot Health broker service
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - vmware
 - vrealize

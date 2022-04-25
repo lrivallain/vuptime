@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 categories:
 - VMWare PowerShell
 date: "2014-05-12T00:00:00Z"

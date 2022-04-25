@@ -6,6 +6,7 @@ tags:
 - vrealize
 - vro
 author: lrivallain
+author_name: Ludovic Rivallain
 date: 2019-02-25
 ---
 

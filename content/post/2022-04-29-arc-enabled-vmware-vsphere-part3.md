@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 date: "2022-04-29"
 thumbnail: /images/arc-vmware/vm-panel.png
 splash: /images/splash/birger-strahl-unsplash.jpg
@@ -19,7 +20,6 @@ toc: true
 title: "Public preview – Azure Arc-enabled VMware vSphere – Part 3"
 aliases:
 - /2022/04/29/arc-enabled-vmware-vsphere-part3
-draft: true
 ---
 
 In the two first posts of this series on *Azure Arc-enabled VMware vSphere*, we managed to extend Azure governance and management capabilities on VMware-based resources and to demonstrate the creation of a VMware virtual machine from the Azure portal.

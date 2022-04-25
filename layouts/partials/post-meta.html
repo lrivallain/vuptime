@@ -1,0 +1,52 @@
+{{- $showAuthor := ne (.Param "showauthor") false }}
+{{- $showShare := ne (.Param "showshare") false }}
+{{- $showDate := ne (.Param "showdate") false }}
+{{- $showReadTime := ne (.Param "showreadtime") false }}
+{{- $showPostMeta := or ($showShare) ($showDate) ($showReadTime) (isset .Params "tags") }}
+{{- $scratch := newScratch }}
+{{- $scratch.Set "writeSeparator" false }}
+{{- if $showPostMeta }}
+  <div class="post_meta">
+{{- end }}
+  {{- if $showAuthor }}
+    {{- if (isset .Params "author") }}
+      <span>
+        <i class="fa-regular fa-user" title="Post author"></i>
+      </span>
+      <span class="post_author">
+        <a href="/about/#{{ .Params.author }}" title="About {{ .Params.author }}">{{- if (isset .Params "author_name") }}{{ .Params.author_name }}{{- else}}{{ .Params.author }}{{ end }}</a>
+      </span>
+      {{- $scratch.Set "writeSeparator" true }}
+    {{- end }}
+  {{- end }}
+  {{- if $showDate }}
+    <span>
+      {{ partial "sprite" (dict "icon" "calendar") }}
+    </span>
+    <span class="post_date">
+      {{ .Date.Format (default "Jan 2, 2006" $.Site.Params.dateFormat) -}}
+    </span>
+    {{- $scratch.Set "writeSeparator" true }}
+  {{- end }}
+  {{- if $showReadTime }}
+    <span class="post_time">{{ if ($scratch.Get "writeSeparator") }}&nbsp;· {{ end }}{{ T "reading_time" . }}</span>
+    {{- $scratch.Set "writeSeparator" true }}
+  {{- end }}
+  {{- if $showShare }}
+    <span class="page_only">{{ if ($scratch.Get "writeSeparator") }}&nbsp;·{{ end }}{{ partial "share" . }}</span>
+    {{- $scratch.Set "writeSeparator" true }}
+  {{- end }}
+  {{- with .Params.tags -}}
+    <div>
+      {{- range . }}
+        {{- $tag := urlize . -}}
+        <a href='{{ absLangURL (printf "tags/%s" $tag) }}' title="{{ . }}" class="post_tag button button_translucent">
+          {{- . }}
+        </a>
+      {{- end }}
+      </div>
+    {{- $scratch.Set "writeSeparator" true }}
+  {{- end }}
+{{- if $showPostMeta }}
+  </div>
+{{- end }}

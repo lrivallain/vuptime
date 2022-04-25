@@ -2,6 +2,7 @@
 layout: card
 title: vRealize Automation 7.x – What can be downloaded from appliance "installers" folder
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - vmware
 - vrealize

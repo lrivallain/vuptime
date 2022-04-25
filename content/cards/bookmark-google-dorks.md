@@ -2,6 +2,7 @@
 layout: card
 title: Bookmark – Advanced google search with dorks
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - google
