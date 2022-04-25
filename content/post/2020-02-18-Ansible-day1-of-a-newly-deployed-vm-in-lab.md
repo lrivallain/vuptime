@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 categories:
 - Ansible
 date: "2020-02-18T00:00:00Z"

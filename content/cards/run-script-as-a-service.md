@@ -2,6 +2,7 @@
 layout: card
 title: Run script as a daemon service
 author: aharlaut
+author_name: Antoine Harlaut
 tags:
 - linux
 - script
@@ -74,4 +75,3 @@ $ service my-custom-service status
 # Documentation
 
 All the options for the unit file are described on this [link](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/sect-Managing_Services_with_systemd-Unit_Files#tabl-Managing_Services_with_systemd-Service_Sec_Options).
-

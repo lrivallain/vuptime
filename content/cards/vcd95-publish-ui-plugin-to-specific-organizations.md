@@ -9,6 +9,7 @@ tags:
 - plugin
 - curl
 author: lrivallain
+author_name: Ludovic Rivallain
 date: 2019-08-05
 ---
 

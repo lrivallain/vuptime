@@ -2,6 +2,7 @@
 layout: card
 title: Bookmark – Rico's cheatsheets
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - cheatsheet

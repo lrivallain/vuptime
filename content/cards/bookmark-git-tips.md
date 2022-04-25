@@ -2,6 +2,7 @@
 layout: card
 title: Bookmark – Git tips
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - git

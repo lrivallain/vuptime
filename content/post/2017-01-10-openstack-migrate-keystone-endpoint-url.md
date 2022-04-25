@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 categories:
 - Openstack
 date: "2017-01-10T00:00:00Z"

@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 categories:
 - Blog
 date: "2018-06-11T00:00:00Z"

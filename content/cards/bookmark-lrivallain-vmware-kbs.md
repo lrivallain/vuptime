@@ -2,6 +2,7 @@
 layout: card
 title: Bookmarks – Usefull(-to me) VMware KBs
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - vmware

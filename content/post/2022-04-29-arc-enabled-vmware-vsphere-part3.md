@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 date: "2022-04-29"
 thumbnail: /images/arc-vmware/vm-panel.png
 splash: /images/splash/birger-strahl-unsplash.jpg

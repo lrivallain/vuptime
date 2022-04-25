@@ -2,6 +2,7 @@
 layout: card
 title: Bookmark – Crontab generator
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - cron

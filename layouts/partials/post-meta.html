@@ -9,11 +9,16 @@
   <div class="post_meta">
 {{- end }}
   {{- if $showAuthor }}
-    <span><i class="fa-solid fa-user" title="Post author"></i></span>
-    <span class="post_author">
-      <a href="/about/#{{ .Params.author }}" title="About {{ .Params.author }}">{{ .Params.author }}</a>
-    </span>
-    {{- $scratch.Set "writeSeparator" true }}
+    {{- if (isset .Params "author") }}
+      <span>
+        <i class="fa-regular fa-user" title="Post author"></i>
+      </span>
+      <span class="post_author">
+        <a href="/about/#{{ .Params.author }}" title="About {{ .Params.author }}">
+          {{- if (isset .Params "author_name") }}{{ .Params.author_name }}{{- else}}{{ .Params.author }}{{ end }}</a>
+      </span>
+      {{- $scratch.Set "writeSeparator" true }}
+    {{- end }}
   {{- end }}
   {{- if $showDate }}
     <span>{{ partial "sprite" (dict "icon" "calendar") }}</span>

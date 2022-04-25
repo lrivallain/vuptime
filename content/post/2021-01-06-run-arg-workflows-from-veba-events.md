@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 categories:
 - VMware
 date: "2021-01-06T00:00:00Z"

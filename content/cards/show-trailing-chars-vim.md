@@ -2,6 +2,7 @@
 layout: card
 title: Highlight unwanted chars in vim editor
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - linux
 - vim
@@ -33,4 +34,3 @@ Show spaces before a tab:
 ```
 / \+\ze\t
 ```
-

@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 categories:
 - PowerShell
 date: "2016-08-01T00:00:00Z"

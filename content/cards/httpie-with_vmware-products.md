@@ -8,6 +8,7 @@ tags:
 - linux
 - vmware
 author: lrivallain
+author_name: Ludovic Rivallain
 date: 2020-12-14
 ---
 

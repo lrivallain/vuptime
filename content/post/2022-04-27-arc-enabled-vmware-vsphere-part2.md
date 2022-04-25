@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 date: "2022-04-27"
 thumbnail: /images/arc-vmware/icon-arc-vmw-vm.png
 splash: /images/splash/siarhei-palishchuk.jpg

@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 categories:
 - Cloud
 date: "2015-06-30T00:00:00Z"

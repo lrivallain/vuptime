@@ -2,6 +2,7 @@
 layout: card
 title: Replace telnet with a python script
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - linux
 - python
@@ -54,4 +55,3 @@ $ python telnet.py 10.10.10.10 10443
 Opening connection on 10.10.10.10 port 10443
 Connection error: unknown
 ```
-

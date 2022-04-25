@@ -1,5 +1,6 @@
 ---
 author: lrivallain
+author_name: Ludovic Rivallain
 date: "2022-04-25"
 thumbnail: /images/arc-vmware/icon-arc-resource-bridge.png
 splash: /images/splash/sea-joseph-barrientos.jpg

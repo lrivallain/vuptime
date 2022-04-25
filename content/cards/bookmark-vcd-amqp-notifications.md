@@ -2,6 +2,7 @@
 layout: card
 title: "Bookmark – VMware Cloud Director: Notification Message Format"
 author: lrivallain
+author_name: Ludovic Rivallain
 tags:
 - bookmark
 - vmware
