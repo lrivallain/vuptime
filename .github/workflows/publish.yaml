@@ -4,6 +4,9 @@ on:
   push:
     branches:
     - master  # Set a branch to deploy
+  schedule:
+    # Every day at 10:00 UTC
+    - cron: '0 10 * * *'
 
 jobs:
   deploy:
