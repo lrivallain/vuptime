@@ -1,4 +1,117 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>arc on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/arc/</link><description>Recent content in arc on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 25 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/arc/feed.xml" rel="self" type="application/rss+xml"/><item><title>Public preview – Azure Arc-enabled VMware vSphere – Part 1</title><link>https://vuptime.io/post/2022-04-25-arc-enabled-vmware-vsphere-part1/</link><pubDate>Mon, 25 Apr 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>arc on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/arc/</link><description>Recent content in arc on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 27 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/arc/feed.xml" rel="self" type="application/rss+xml"/><item><title>Public preview – Azure Arc-enabled VMware vSphere – Part 2</title><link>https://vuptime.io/post/2022-04-27-arc-enabled-vmware-vsphere-part2/</link><pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/04/27/arc-enabled-vmware-vsphere-part2</guid><description>
+&lt;p>In the &lt;a href="https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1">previous post (part 1)&lt;/a>, we covered the capabilities of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>: a solution to extend Azure governance and management policies to VMware based workload.&lt;/p>
+&lt;p>We also deployed a &lt;em>Resource Bridge&lt;/em> to establish the connection between a VMware environment and Azure. We can now explore vCenter inventory through Azure and manage Virtual Machines.&lt;/p>
+&lt;h2 id="explore-vcenter-inventory-from-azure-ui">Explore vCenter inventory from Azure UI&lt;/h2>
+&lt;p>When vCenter and &lt;em>Resource Bridge&lt;/em> are connected to Azure Arc, you can explore its content and connection status:&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vcenter.png" alt="vCenter details in Azure Portal">&lt;/p>
+&lt;p>In order to use a resource in Azure, an activation is required: Use the &lt;strong>Enable in Azure&lt;/strong> to activate an existing VMware resource in Azure. As with any Azure-based resource, RBAC strategies can be applied to provide or restrict access to &lt;em>Azure-enabled&lt;/em> resources.&lt;/p>
+&lt;blockquote>
+&lt;p>ResourcePool, Networks, Templates and Datastores will appear as &lt;em>hidden resources&lt;/em> in Azure &lt;em>ResourceGroup&lt;/em> you will select in the activation process. They will be used for the VM creation process but cannot be edited from Azure.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="resourcepools">ResourcePools&lt;/h3>
+&lt;p>VMware &lt;em>ResourcePools&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all resourcePools will be displayed in the inventory list (including Cluster and Hosts resourcePool representation). You can enable a ResourcePools in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the resourcePool will then be displayed with a link to explore its details.&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-resourcepool.png" alt="ResourcePools resources in Azure Portal">&lt;/p>
+&lt;h3 id="vm-templates">VM Templates&lt;/h3>
+&lt;p>VMware &lt;em>VM Templates&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all VM Templates will be displayed in the inventory list. You can enable a VM Template in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the Template will then be displayed with a link to explore its details.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Currently, the template from the Content Library are not available. Only VM template from vCenter VM-folders inventory are usable in &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-template.png" alt="VM Templates in Azure Portal">&lt;/p>
+&lt;h3 id="networks">Networks&lt;/h3>
+&lt;p>VMware &lt;em>Networks&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all networks (NSX-T segments, PortGroups and DvPortGroups) will be displayed in the inventory list. You can enable a network in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the Template will then be displayed with a link to explore its details.&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-network.png" alt="Networks in Azure Portal">&lt;/p>
+&lt;h3 id="datastores">Datastores&lt;/h3>
+&lt;p>VMware &lt;em>Datastores&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all Datastores will be displayed in the inventory list. You can enable a Datastore in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the Datastore will then be displayed with a link to explore its details.&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-datastore.png" alt="Datastores in Azure Portal">&lt;/p>
+&lt;h2 id="vmware-virtual-machine-management-through-azure">VMware Virtual Machine management through Azure&lt;/h2>
+&lt;p>As mentioned in the previous parts of this post, ResourcePool, Networks, Templates and Datastores cannot be created, edited or deleted through Azure (UI, API, ARM etc.) but can be registered with ReadOnly access to provide Virtual Machines deployment dependencies.&lt;/p>
+&lt;p>The set of actions available for VMware Virtual Machines through Azure is more significant as you can:&lt;/p>
+&lt;ul>
+&lt;li>Run power operations (Start/Stop/Restart)&lt;/li>
+&lt;li>Reconfigure Virtual Machine:
+&lt;ul>
+&lt;li>CPU/Memory (for powered-off VM)&lt;/li>
+&lt;li>Disk(s) - Add/remove/resize&lt;/li>
+&lt;li>Networks - Add/remove/Change network attachment&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Enable Arc-based guest management and install extensions&lt;/li>
+&lt;li>Apply RBAC and tagging policies&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>&lt;em>VMware Arc-based guest extensions&lt;/em> are &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/manage-vmware-vms-in-azure#supported-extensions-and-management-services">currently limited to 2 extensions&lt;/a>: Log Analytics agent and cCustom Script execution.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="azure-arc-enabled-servers">Azure Arc enabled servers&lt;/h3>
+&lt;p>If &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> based guest agent is currently limited to 2 extensions, it is still possible to use the normal Arc process to integrate the guest OS management of deployed servers through Azure and to benefit from all the capabilities of &lt;a href="https://azure.microsoft.com/en-us/services/azure-arc/#product-overview">Azure Arc&lt;/a> like (as mentioned in the &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/overview">Arc documentation&lt;/a>):&lt;/p>
+&lt;ul>
+&lt;li>Manage your entire environment together by projecting your existing non-Azure and/or on-premises resources into Azure Resource Manager.&lt;/li>
+&lt;li>Manage virtual machines, Kubernetes clusters, and databases as if they are running in Azure.&lt;/li>
+&lt;li>Use familiar Azure services and management capabilities, regardless of where they live.&lt;/li>
+&lt;li>Continue using traditional ITOps while introducing DevOps practices to support new cloud native patterns in your environment.&lt;/li>
+&lt;li>Configure custom locations as an abstraction layer on top of Azure Arc-enabled Kubernetes clusters and cluster extensions.&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>&lt;strong>Personal experience&lt;/strong>: I use this combination of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> and &lt;em>Azure Arc-enabled Servers&lt;/em> to fully manage, with Azure, VMware Virtual Machine objects and their Guest OS. This provide me the best of the two solutions.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="register-an-existing-vm">Register an existing VM&lt;/h3>
+&lt;p>You can enable a Virtual Machine in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the VM will then be displayed with a link to explore its details.&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-details.png" alt="Details of an Azure-enabled VMware Virtual Machine">&lt;/p>
+&lt;h3 id="create-a-vm">Create a VM&lt;/h3>
+&lt;p>A VM object can also be fully created from Azure (UI or API).&lt;/p>
+&lt;ol>
+&lt;li>From the Arc Virtual Machines or Arc-registered vCenter list of VMs, click on &lt;strong>Create&lt;/strong> button to start the VM creation wizard.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-creation-1.png" alt="VMware Virtual Machine creation process – Step 1">&lt;/p>
+&lt;ol start="2">
+&lt;li>You can select a ResourceGroup to attach the VM to, then provide some details for the VM deployment:&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>A name&lt;/li>
+&lt;li>The &lt;em>custom-location&lt;/em> and object type (&lt;em>VMware&lt;/em>)&lt;/li>
+&lt;li>The target &lt;em>resourcePool&lt;/em>&lt;/li>
+&lt;li>The &lt;em>VM Template&lt;/em> to use&lt;/li>
+&lt;li>VM CPU and Memory configuration if you choose to override the template settings&lt;/li>
+&lt;li>Administrator login and password if you choose to enable guest management during the creation process&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-creation-2.png" alt="VMware Virtual Machine creation process – Step 2">&lt;/p>
+&lt;ol start="3">
+&lt;li>The second step of the wizard is for virtual disks configuration: name, size, controller and persistence.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-creation-3.png" alt="VMware Virtual Machine creation process – Step 3">&lt;/p>
+&lt;ol start="4">
+&lt;li>The third step of the wizard provide network settings configuration (network attachment, IP settings etc.)&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-creation-4.png" alt="VMware Virtual Machine creation process – Step 4">&lt;/p>
+&lt;ol start="5">
+&lt;li>In the fourth step, you can add tag/value to the VM object (tag will only apply on Azure side: not VMware side.)&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-creation-5.png" alt="VMware Virtual Machine creation process – Step 5">&lt;/p>
+&lt;ol start="6">
+&lt;li>The last step provide a pane to validate the requested changes and to start the deployment.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-creation-6.png" alt="VMware Virtual Machine creation process – Step 6">&lt;/p>
+&lt;ol start="7">
+&lt;li>When the deployment process is completed, you can see its results and display the deployed resources.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-creation-7.png" alt="VMware Virtual Machine creation process – Step 6">&lt;/p>
+&lt;p>You can now compare the view on the same VM object from vCenter and from Azure UI:&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-creation-8.png" alt="VMware Virtual Machine creation process – Step 6">&lt;/p>
+&lt;h2 id="azure-governance-on-vmware-based-resources">Azure governance on VMware based resources&lt;/h2>
+&lt;p>One of the main benefit from managing VMware resources from Azure is the possibility to apply standard Azure governance strategies like:&lt;/p>
+&lt;h3 id="grouping-and-tagging">Grouping and tagging&lt;/h3>
+&lt;p>VMware resources that are enabled in Azure can be attached to Azure &lt;em>ResourceGroups&lt;/em> and benefit from the governance inheritance on resource objects (RBAC, locks etc.)&lt;/p>
+&lt;p>VMware resources can also be tagged in order to filter resources in search operations or to manage resources costing and attributions.&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-rg-tags.png" alt="Azure ResourceGroup and Tags applied to a VMware resource">&lt;/p>
+&lt;h3 id="rbac">RBAC&lt;/h3>
+&lt;p>You can apply Azure RBAC strategies to VMware resources that are enabled in Azure and provide, ReadOnly, Contribution or ownership to the resources.&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-rbac.png" alt="Azure RBAC applied to a VMware resource">&lt;/p>
+&lt;h3 id="lock">Lock&lt;/h3>
+&lt;p>You can also prevent deletion or modification by using Azure Lock and the dependencies from Subscription or ResourceGroup:&lt;/p>
+&lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-lock.png" alt="Delete lock applied to a VMware resource">&lt;/p>
+&lt;h2 id="upcoming">Upcoming&lt;/h2>
+&lt;p>As you may have noticed in the last screens of the deployment, it is possible to get/download the ARM template that represents the ongoing deployment. This will be covered in the upcoming post about automation capabilities provided by &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>
+&lt;h3 id="credits">Credits&lt;/h3>
+&lt;p>Title photo by &lt;a href="https://unsplash.com/@smeshny">Siarhei Palishchuk&lt;/a> on &lt;a href="https://unsplash.com/photos/l5QjpiLwJ_E">Unsplash&lt;/a>&lt;/p></description></item><item><title>Public preview – Azure Arc-enabled VMware vSphere – Part 1</title><link>https://vuptime.io/post/2022-04-25-arc-enabled-vmware-vsphere-part1/</link><pubDate>Mon, 25 Apr 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1</guid><description>
 &lt;h2 id="manage-your-vmware-datacenter-through-azure-cloud-tools">Manage your VMware Datacenter through Azure Cloud tools&lt;/h2>
 &lt;p>Announced in &lt;a href="https://azure.microsoft.com/en-us/updates/private-preview-new-azure-arc-capabilities-in-november-2021/">private preview stage&lt;/a> during the &lt;a href="https://aka.ms/IgniteNov21/InnovateAnywhereBlog">Microsoft Ignite&lt;/a> on November 2021, the &lt;a href="https://azure.microsoft.com/en-us/services/azure-arc/#product-overview">Azure Arc&lt;/a> integration with VMware vSphere is now &lt;a href="https://azure.microsoft.com/en-us/updates/public-preview-azure-arc-integration-with-vmware-vsphere/">available in public preview&lt;/a> since March 31&lt;sup>th&lt;/sup>, 2022.&lt;/p>
 &lt;p>The feature, still in development process, is now labeled &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>, and provides a unified governance and management solution for lifecycle and guest OS operations of VMware VMs through Azure Arc.&lt;/p>
