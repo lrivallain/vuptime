@@ -1,4 +1,65 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vmware on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/vmware/</link><description>Recent content in vmware on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 27 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>Public preview – Azure Arc-enabled VMware vSphere – Part 2</title><link>https://vuptime.io/post/2022-04-27-arc-enabled-vmware-vsphere-part2/</link><pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/04/27/arc-enabled-vmware-vsphere-part2</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vmware on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/vmware/</link><description>Recent content in vmware on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Fri, 29 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>Public preview – Azure Arc-enabled VMware vSphere – Part 3</title><link>https://vuptime.io/post/2022-04-29-arc-enabled-vmware-vsphere-part3/</link><pubDate>Fri, 29 Apr 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/04/29/arc-enabled-vmware-vsphere-part3</guid><description>
+&lt;p>In the two first posts of this series on &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>, we managed to extend Azure governance and management capabilities on VMware-based resources and to demonstrate the creation of a VMware virtual machine from the Azure portal.&lt;/p>
+&lt;p>If you missed on of the 2 firsts posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1">Azure Arc-enabled VMware vSphere – Part 1&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://vuptime.io/2022/04/27/arc-enabled-vmware-vsphere-part2">Azure Arc-enabled VMware vSphere – Part 2&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>In the following sections we will see examples of automation solutions that are available to manage VMware resources through Azure tools.&lt;/p>
+&lt;h2 id="azure-cli">Azure CLI&lt;/h2>
+&lt;p>&lt;em>Azure Arc-enabled VMware vSphere&lt;/em> provides an Azure CLI extension named &lt;code>connectedvmware&lt;/code> to manage VMware resources through Azure CLI. The &lt;a href="https://docs.microsoft.com/en-us/cli/azure/connectedvmware?view=azure-cli-latest">extension documentation&lt;/a> provides a full reference of the available commands and arguments.&lt;/p>
+&lt;p>Here are some examples of what you can achieve with this extension:&lt;/p>
+&lt;p>List vCenter servers registered in Azure Arc:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az connectedvmware vcenter list --output table --query &lt;span class="s2">&amp;#34;[].{resourceGroup:resourceGroup, name:name, location:location, version:version}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">ResourceGroup Name Location Version
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">--------------- ----------------- ---------- ---------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">arc-RG north-eu-avs-vcsa westeurope 6.7.0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>List all inventory items from a vCenter server:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az connectedvmware vcenter inventory-item list --output table --resource-group &lt;span class="s2">&amp;#34;arc-RG&amp;#34;&lt;/span> --vcenter &lt;span class="s2">&amp;#34;north-eu-avs-vcsa&amp;#34;&lt;/span> --query &lt;span class="s2">&amp;#34;[].{kind:kind, name:moName}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">Kind Name
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">---------------------- --------------------------------------------------------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">VirtualNetwork VM-tests-110
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">Host esx19-r18.p01.**********************.northeurope.avs.azure.com
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">VirtualMachineTemplate Arc-Template
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">ResourcePool Resources
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>List Virtual Machines registered in Azure Arc:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az connectedvmware vm list --output table --query &lt;span class="s2">&amp;#34;[].{resourceGroup:resourceGroup, name:name, location:location, instanceUuid:instanceUuid}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">ResourceGroup Name Location InstanceUuid
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">--------------- ---------- ---------- ------------------------------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">arc-RG Ubuntu04 westeurope 67bc57b8-6464-4658-8e04-7cc9d6d5cb04
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">arc-RG Windows01 westeurope caccc302-e28b-4c70-b2c0-24a614d470e6
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">arc-RG Ubuntu03 westeurope 39f8ef01-efd5-4268-88a0-2831bece69e7
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">arc-RG Windows03 westeurope f111aa56-f755-494d-9871-72154779792b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">arc-RG Windows02 westeurope 1fba47c2-dba5-4ee3-b295-3bdbd043fbb8
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Restart a virtual machine&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az connectedvmware vm restart --name Windows02 --resource-group arc-RG
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl"> &lt;span class="se">\ &lt;/span>Running ..
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="arm-deployment">ARM deployment&lt;/h2>
+&lt;p>According to &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview">Microsoft documentation&lt;/a>:&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Azure Resource Manager&lt;/strong> is the deployment and management service for Azure. It provides a management layer that enables you to create, update, and delete resources in your Azure account. You use management features, like access control, locks, and tags, to secure and organize your resources after deployment.&lt;/p>
+&lt;/blockquote>
+&lt;p>ARM is the core engine used by API, UI &amp;amp; Azure tools to manage Azure resources and it provide a declarative Infrastructure-as-code language to deploy and maintain resources: ARM Templates. ARM Templates can use &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/compare-template-syntax">JSON&lt;/a> or &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview">Bicep&lt;/a> syntax.&lt;/p>
+&lt;p>As other resources, Azure-enabled components of a VMware infrastructure can be managed through ARM and ARM Templates.&lt;/p>
+&lt;p>Lets see a minimal ARM Template to deploy a VMware virtual machine: &lt;strong>&lt;a href="https://vuptime.io/images/arc-vmware/vmware-vm-template.bicep">Download the Bicep file&lt;/a>&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">curl https://vuptime.io/images/arc-vmware/vmware-vm-template.bicep &amp;gt; ./vmware-vm-template.bicep
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># edit the file to set proper resources ids and customize your deployment parameters&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="c1"># Start the deployment&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">az deployment group create --name vm-creation --resource-group arc-RG --template-file ./vmware-vm-template.bicep --parameters &lt;span class="nv">VMName&lt;/span>&lt;span class="o">=&lt;/span>Ubuntu08
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="c1"># Display some information about the deployed VM&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">az connectedvmware vm show --output table --resource-group &lt;span class="s2">&amp;#34;arc-RG&amp;#34;&lt;/span> --name &lt;span class="s2">&amp;#34;Ubuntu06&amp;#34;&lt;/span> --query &lt;span class="s2">&amp;#34;{resourceGroup:resourceGroup, name:name, location:location, instanceUuid:instanceUuid}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">ResourceGroup Name Location InstanceUuid
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">--------------- -------- ---------- ------------------------------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">arc-RG Ubuntu08 westeurope 18f07c4f-88f9-4cfd-adc7-0dc13007984c
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>In the last three posts about &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> we have discovered the benefits of managing VMware resources with the help of Azure Resource Manager by using Azure Arc.&lt;/p>
+&lt;p>By extending Azure governance policy to infrastructure components out of the Azure native scope, it is possible to maintain a global security posture, to easily provide self-service VMware resources and to profit of Azure tools to manage a VMware environment.&lt;/p>
+&lt;p>As the &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> feature is &lt;a href="https://azure.microsoft.com/en-us/updates/public-preview-azure-arc-integration-with-vmware-vsphere/">still in a preview stage&lt;/a>, there will be a bunch of changes and enhancements before the Global Availability.&lt;/p>
+&lt;h3 id="credits">Credits&lt;/h3>
+&lt;p>Title photo by &lt;a href="https://unsplash.com/@bist31">Birger Strahl&lt;/a> on &lt;a href="https://unsplash.com/photos/1XhmIcBB-EA">Unsplash&lt;/a>&lt;/p></description></item><item><title>Public preview – Azure Arc-enabled VMware vSphere – Part 2</title><link>https://vuptime.io/post/2022-04-27-arc-enabled-vmware-vsphere-part2/</link><pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/04/27/arc-enabled-vmware-vsphere-part2</guid><description>
 &lt;p>In the &lt;a href="https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1">previous post (part 1)&lt;/a>, we covered the capabilities of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>: a solution to extend Azure governance and management policies to VMware based workload.&lt;/p>
 &lt;p>We also deployed a &lt;em>Resource Bridge&lt;/em> to establish the connection between a VMware environment and Azure. We can now explore vCenter inventory through Azure and manage Virtual Machines.&lt;/p>
 &lt;h2 id="explore-vcenter-inventory-from-azure-ui">Explore vCenter inventory from Azure UI&lt;/h2>
