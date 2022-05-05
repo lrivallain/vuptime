@@ -58,6 +58,11 @@
 &lt;p>In the last three posts about &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> we have discovered the benefits of managing VMware resources with the help of Azure Resource Manager by using Azure Arc.&lt;/p>
 &lt;p>By extending Azure governance policy to infrastructure components out of the Azure native scope, it is possible to maintain a global security posture, to easily provide self-service VMware resources and to profit of Azure tools to manage a VMware environment.&lt;/p>
 &lt;p>As the &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> feature is &lt;a href="https://azure.microsoft.com/en-us/updates/public-preview-azure-arc-integration-with-vmware-vsphere/">still in a preview stage&lt;/a>, there will be a bunch of changes and enhancements before the Global Availability.&lt;/p>
+&lt;p>If you missed the 2 first posts of this series:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1">Azure Arc-enabled VMware vSphere – Part 1&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://vuptime.io/2022/04/27/arc-enabled-vmware-vsphere-part2">Azure Arc-enabled VMware vSphere – Part 2&lt;/a>&lt;/li>
+&lt;/ul>
 &lt;h3 id="credits">Credits&lt;/h3>
 &lt;p>Title photo by &lt;a href="https://unsplash.com/@bist31">Birger Strahl&lt;/a> on &lt;a href="https://unsplash.com/photos/1XhmIcBB-EA">Unsplash&lt;/a>&lt;/p></description></item><item><title>Public preview – Azure Arc-enabled VMware vSphere – Part 2</title><link>https://vuptime.io/post/2022-04-27-arc-enabled-vmware-vsphere-part2/</link><pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/04/27/arc-enabled-vmware-vsphere-part2</guid><description>
 &lt;p>In the &lt;a href="https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1">previous post (part 1)&lt;/a>, we covered the capabilities of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>: a solution to extend Azure governance and management policies to VMware based workload.&lt;/p>
@@ -171,6 +176,13 @@
 &lt;p>&lt;img src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-lock.png" alt="Delete lock applied to a VMware resource">&lt;/p>
 &lt;h2 id="upcoming">Upcoming&lt;/h2>
 &lt;p>As you may have noticed in the last screens of the deployment, it is possible to get/download the ARM template that represents the ongoing deployment. This will be covered in the upcoming post about automation capabilities provided by &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://vuptime.io/2022/04/29/arc-enabled-vmware-vsphere-part3">Azure Arc-enabled VMware vSphere – Part 3&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>And if you missed the first part of this series:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1">Azure Arc-enabled VMware vSphere – Part 2&lt;/a>&lt;/li>
+&lt;/ul>
 &lt;h3 id="credits">Credits&lt;/h3>
 &lt;p>Title photo by &lt;a href="https://unsplash.com/@smeshny">Siarhei Palishchuk&lt;/a> on &lt;a href="https://unsplash.com/photos/l5QjpiLwJ_E">Unsplash&lt;/a>&lt;/p></description></item><item><title>Public preview – Azure Arc-enabled VMware vSphere – Part 1</title><link>https://vuptime.io/post/2022-04-25-arc-enabled-vmware-vsphere-part1/</link><pubDate>Mon, 25 Apr 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/04/25/arc-enabled-vmware-vsphere-part1</guid><description>
 &lt;h2 id="manage-your-vmware-datacenter-through-azure-cloud-tools">Manage your VMware Datacenter through Azure Cloud tools&lt;/h2>
@@ -284,5 +296,9 @@
 &lt;p>The script will run for about 15 minutes to download, deploy and configure the Resource Bridge appliance. When fully deployed, the &lt;em>verification&lt;/em> step of the UI wizard will display a green check to validate that both Azure API and the appliance are communicating together.&lt;/p>
 &lt;h2 id="upcoming">Upcoming&lt;/h2>
 &lt;p>In the upcoming posts, we will cover the functional capabilities of having VMware resources managed through Azure, from UI or with automation tools.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://vuptime.io/2022/04/27/arc-enabled-vmware-vsphere-part2">Azure Arc-enabled VMware vSphere – Part 2&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://vuptime.io/2022/04/29/arc-enabled-vmware-vsphere-part3">Azure Arc-enabled VMware vSphere – Part 3&lt;/a>&lt;/li>
+&lt;/ul>
 &lt;h3 id="credits">Credits&lt;/h3>
 &lt;p>Title photo by &lt;a href="https://unsplash.com/@jbcreate_">Joseph Barrientos&lt;/a> on &lt;a href="https://unsplash.com/photos/oQl0eVYd_n8">Unsplash&lt;/a>&lt;/p></description></item></channel></rss>
