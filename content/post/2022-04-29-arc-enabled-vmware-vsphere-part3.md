@@ -114,6 +114,11 @@ By extending Azure governance policy to infrastructure components out of the Azu
 
 As the *Azure Arc-enabled VMware vSphere* feature is [still in a preview stage](https://azure.microsoft.com/en-us/updates/public-preview-azure-arc-integration-with-vmware-vsphere/), there will be a bunch of changes and enhancements before the Global Availability.
 
+If you missed the 2 first posts of this series:
+
+* [Azure Arc-enabled VMware vSphere – Part 1](/2022/04/25/arc-enabled-vmware-vsphere-part1)
+* [Azure Arc-enabled VMware vSphere – Part 2](/2022/04/27/arc-enabled-vmware-vsphere-part2)
+
 ### Credits
 
 Title photo by [Birger Strahl](https://unsplash.com/@bist31) on [Unsplash](https://unsplash.com/photos/1XhmIcBB-EA)

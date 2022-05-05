@@ -166,6 +166,12 @@ You can also prevent deletion or modification by using Azure Lock and the depend
 
 As you may have noticed in the last screens of the deployment, it is possible to get/download the ARM template that represents the ongoing deployment. This will be covered in the upcoming post about automation capabilities provided by *Azure Arc-enabled VMware vSphere*.
 
+* [Azure Arc-enabled VMware vSphere – Part 3](/2022/04/29/arc-enabled-vmware-vsphere-part3)
+
+And if you missed the first part of this series:
+
+* [Azure Arc-enabled VMware vSphere – Part 2](/2022/04/25/arc-enabled-vmware-vsphere-part1)
+
 ### Credits
 
 Title photo by [Siarhei Palishchuk](https://unsplash.com/@smeshny) on [Unsplash](https://unsplash.com/photos/l5QjpiLwJ_E)

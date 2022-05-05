@@ -163,6 +163,9 @@ The script will run for about 15 minutes to download, deploy and configure the R
 
 In the upcoming posts, we will cover the functional capabilities of having VMware resources managed through Azure, from UI or with automation tools.
 
+* [Azure Arc-enabled VMware vSphere – Part 2](/2022/04/27/arc-enabled-vmware-vsphere-part2)
+* [Azure Arc-enabled VMware vSphere – Part 3](/2022/04/29/arc-enabled-vmware-vsphere-part3)
+
 ### Credits
 
 Title photo by [Joseph Barrientos](https://unsplash.com/@jbcreate_) on [Unsplash](https://unsplash.com/photos/oQl0eVYd_n8)
