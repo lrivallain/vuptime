@@ -10,7 +10,7 @@ codeMaxLines: 30
 codeLineNumbers: false
 enableMathNotation: false
 mainSections:
-  - post
+- post
 centerLogo: false
 logo: logos/nobg_700px.png
 figurePositionShow: false

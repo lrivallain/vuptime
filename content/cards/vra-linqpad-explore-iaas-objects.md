@@ -10,6 +10,7 @@ tags:
 - iaas
 - vra
 date: 2018-06-21
+draft: True
 ---
 
 Get [Linqpad](https://www.linqpad.net/) and run the setup.
@@ -23,7 +24,7 @@ Once installed, you can connect LinqPad with your IaaS server:
 
 After validation, and a couple of minutes to load the database schema, you should see the list of tables:
 
-![]()
+<!-- Missing picture ! -->
 
 And on the right part of screen you can enter *C# Expression* (by default) requests.
 
