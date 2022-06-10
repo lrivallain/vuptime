@@ -61,7 +61,18 @@
 &lt;/blockquote>
 &lt;h4 id="setup-accesstoken-for-all-api-calls">Setup &lt;code>accessToken&lt;/code> for all API calls&lt;/h4>
 &lt;p>Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:&lt;/p>
-&lt;p>&lt;img src="https://vuptime.io/images/avs-api/authentication-configuration.png" alt="Set the token value to a variable reference">&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Set the token value to a variable reference"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-api/authentication-configuration.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
 &lt;p>&lt;strong>Procedure&lt;/strong>:&lt;/p>
 &lt;ol>
 &lt;li>Click on the collection name&lt;/li>
@@ -74,7 +85,18 @@
 &lt;/blockquote>
 &lt;h3 id="testing">Testing&lt;/h3>
 &lt;p>You can now test the collection by listing the AVS deployments in your subscription:&lt;/p>
-&lt;p>&lt;img src="https://vuptime.io/images/avs-api/list-avs-sddc.png" alt="List AVS SDDC">&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="List AVS SDDC"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>Even if this collection covers the 100% of the current AVS REST API (version 2021-12-01), the official reference documentation remains the one from the Azure docs website: &lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/">Azure VMware REST API&lt;/a> which contains &lt;strong>much more documentation&lt;/strong> to explain the content of each request and response. I strongly encourage everyone to have a look to this documentation before using the Postman collection.&lt;/p>
 &lt;p>In the next post, we will review some examples of the AVS REST API by using a very useful tool: &lt;code>az rest&lt;/code>.&lt;/p>

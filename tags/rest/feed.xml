@@ -201,9 +201,31 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl"> &lt;span class="s2">&amp;#34;resourceGroup&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;AVS-CSU-FR-LRI&amp;#34;&lt;/span>,
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl"> &lt;span class="s2">&amp;#34;type&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;Microsoft.AVS/privateClouds/authorizations&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl">&lt;span class="o">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://vuptime.io/images/avs-api/expressroute-authorizations.png" alt="AVS ExpressRoute authorization from the Azure portal">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS ExpressRoute authorization from the Azure portal"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-api/expressroute-authorizations.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
 &lt;p>This will provide you with an authorization key: &lt;code>expressRouteAuthorizationKey&lt;/code> to be used to create a new connection from an expressRoute compatible component, like a &lt;em>Virtual network gateway&lt;/em>:&lt;/p>
-&lt;p>&lt;img src="https://vuptime.io/images/avs-api/expressroute-connection.png" alt="Create an ExpressRoute connection to your AVS">&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Create an ExpressRoute connection to your AVS"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-api/expressroute-connection.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>As you may understand from the &lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/">AVS API reference&lt;/a> or the &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection">AVS Postman collection&lt;/a>, this post is not a complete coverage of the AVS REST API capabilities but an example of what you can do with it and the &lt;code>az rest&lt;/code> CLI tool.&lt;/p>
 &lt;p>To simplify the above commands, I did not mention any header like &lt;code>Accept&lt;/code> or &lt;code>Content-Type&lt;/code> as we used the default type of data when dealing with requests and answers: &lt;code>application/json&lt;/code>.&lt;/p>

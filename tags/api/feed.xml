@@ -201,9 +201,31 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl"> &lt;span class="s2">&amp;#34;resourceGroup&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;AVS-CSU-FR-LRI&amp;#34;&lt;/span>,
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl"> &lt;span class="s2">&amp;#34;type&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;Microsoft.AVS/privateClouds/authorizations&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl">&lt;span class="o">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://vuptime.io/images/avs-api/expressroute-authorizations.png" alt="AVS ExpressRoute authorization from the Azure portal">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS ExpressRoute authorization from the Azure portal"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-api/expressroute-authorizations.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
 &lt;p>This will provide you with an authorization key: &lt;code>expressRouteAuthorizationKey&lt;/code> to be used to create a new connection from an expressRoute compatible component, like a &lt;em>Virtual network gateway&lt;/em>:&lt;/p>
-&lt;p>&lt;img src="https://vuptime.io/images/avs-api/expressroute-connection.png" alt="Create an ExpressRoute connection to your AVS">&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Create an ExpressRoute connection to your AVS"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-api/expressroute-connection.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>As you may understand from the &lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/">AVS API reference&lt;/a> or the &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection">AVS Postman collection&lt;/a>, this post is not a complete coverage of the AVS REST API capabilities but an example of what you can do with it and the &lt;code>az rest&lt;/code> CLI tool.&lt;/p>
 &lt;p>To simplify the above commands, I did not mention any header like &lt;code>Accept&lt;/code> or &lt;code>Content-Type&lt;/code> as we used the default type of data when dealing with requests and answers: &lt;code>application/json&lt;/code>.&lt;/p>
@@ -272,7 +294,18 @@
 &lt;/blockquote>
 &lt;h4 id="setup-accesstoken-for-all-api-calls">Setup &lt;code>accessToken&lt;/code> for all API calls&lt;/h4>
 &lt;p>Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:&lt;/p>
-&lt;p>&lt;img src="https://vuptime.io/images/avs-api/authentication-configuration.png" alt="Set the token value to a variable reference">&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Set the token value to a variable reference"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-api/authentication-configuration.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
 &lt;p>&lt;strong>Procedure&lt;/strong>:&lt;/p>
 &lt;ol>
 &lt;li>Click on the collection name&lt;/li>
@@ -285,7 +318,18 @@
 &lt;/blockquote>
 &lt;h3 id="testing">Testing&lt;/h3>
 &lt;p>You can now test the collection by listing the AVS deployments in your subscription:&lt;/p>
-&lt;p>&lt;img src="https://vuptime.io/images/avs-api/list-avs-sddc.png" alt="List AVS SDDC">&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="List AVS SDDC"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>Even if this collection covers the 100% of the current AVS REST API (version 2021-12-01), the official reference documentation remains the one from the Azure docs website: &lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/">Azure VMware REST API&lt;/a> which contains &lt;strong>much more documentation&lt;/strong> to explain the content of each request and response. I strongly encourage everyone to have a look to this documentation before using the Postman collection.&lt;/p>
 &lt;p>In the next post, we will review some examples of the AVS REST API by using a very useful tool: &lt;code>az rest&lt;/code>.&lt;/p>
