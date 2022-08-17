@@ -3,10 +3,10 @@ name: Publish Site
 on:
   push:
     branches:
-    - master  # Set a branch to deploy
-  schedule:
-    # Every day at 10:00 UTC
-    - cron: '0 10 * * *'
+      - master # Set a branch to deploy
+  # schedule:
+  #   # Every day at 10:00 UTC
+  #   - cron: '0 10 * * *'
 
 jobs:
   deploy:
@@ -14,13 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+          submodules: true # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: 'latest'
+          hugo-version: "latest"
           extended: true
 
       - name: Build
