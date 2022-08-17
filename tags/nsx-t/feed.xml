@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>nsx-t on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/nsx-t/</link><description>Recent content in nsx-t on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 17 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/nsx-t/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure VMware Solution – Use public IP on NSX-T Edge</title><link>https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/</link><pubDate>Wed, 17 Aug 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/</guid><description>
+&lt;p>A few days ago, Microsoft released a new feature for Azure VMware Solution: &lt;em>&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge">Enable Public IP to the NSX Edge&lt;/a>&lt;/em>. I take the opportunity to review this new feature and the other options available to provide Internet connectivity to your Azure VMware Solution (both for In or Out-bound traffic).&lt;/p>
+&lt;h2 id="internet-access-options-for-azure-vmware-solution">Internet access options for Azure VMware solution&lt;/h2>
+&lt;p>To provide internet access (inbound and/outbound) to an Azure VMware Solution deployment, 3 options are available:&lt;/p>
+&lt;ol>
+&lt;li>Use a Microsoft-managed SNAT (outbound connectivity only) (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-managed-snat-for-workloads">doc.&lt;/a>)&lt;/li>
+&lt;li>Advertise a default route using Azure Firewall, Azure vWAN or a third-party Network Virtual Appliance (NVA) (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/disable-internet-access">doc.&lt;/a>)&lt;/li>
+&lt;li>Use Public IP address(es) published down to the NSX-T Edge (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge">doc.&lt;/a>)&lt;/li>
+&lt;/ol>
+&lt;p>Each option has its own &lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/concepts-design-public-internet-access">advantages and disadvantages&lt;/a> and is summarized below.&lt;/p>
+&lt;h3 id="microsoft-managed-snat">Microsoft-managed SNAT&lt;/h3>
+&lt;p>The Microsoft-managed SNAT option (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-managed-snat-for-workloads">doc.&lt;/a>) is the easiest and cost-effective option for &lt;strong>outbound&lt;/strong> (only) &lt;strong>connectivity&lt;/strong> as the public IP addresses are fully managed by Microsoft &lt;strong>free of charge&lt;/strong>.&lt;/p>
+&lt;p>In this scenario, 2 public IPs are used and rotated to provide outbound connectivity to the Azure VMware Solution workloads with up to 128 000 concurrent connections.&lt;/p>
+&lt;p>This comes with the following limitations:&lt;/p>
+&lt;ul>
+&lt;li>No inbound connectivity&lt;/li>
+&lt;li>No control of outbound SNAT rules&lt;/li>
+&lt;li>No connection logs&lt;/li>
+&lt;li>Hard limit of 128 000 concurrent connections&lt;/li>
+&lt;/ul>
+&lt;h3 id="advertise-a-default-route">Advertise a default route&lt;/h3>
+&lt;p>The second option for Internet connectivity in Azure VMware Solution is based on the default route advertisement from another component in the Azure infrastructure (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/disable-internet-access">doc.&lt;/a>).&lt;/p>
+&lt;p>This advertisement can be done using:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/firewall/overview">Azure Firewall&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about">Azure vWAN&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/dmz/nva-ha">Third-party Network Virtual Appliance&lt;/a> (NVA)&lt;/li>
+&lt;li>A routing component deployed on-premises&lt;/li>
+&lt;/ul>
+&lt;p>If no default-route is advertised to AVS, the VMs will not be able to access the internet: this option is also the one used to &lt;strong>disable internet access on AVS deployment&lt;/strong>.&lt;/p>
+&lt;p>This option could provide inbound connectivity, control of SNAT and DNAT rules, connections logs but is more complex to deploy and will involve additional charges (for public IP addresses, Firewall or routing devices etc.)&lt;/p>
+&lt;h3 id="public-ip-address-published-down-to-the-nsx-t-edge">Public IP address published down to the NSX-T Edge&lt;/h3>
+&lt;p>What was recently announced as a new GA feature in Azure VMware Solution is the publication of public IP address(es) down to the NSX-T Edge (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge">doc.&lt;/a>). This is the third option for Internet connectivity in Azure VMware Solution and it provides the best of the 2 previous options.&lt;/p>
+&lt;ul>
+&lt;li>Inbound and outbound connectivity&lt;/li>
+&lt;li>Control of SNAT and DNAT rules&lt;/li>
+&lt;li>Connection logs&lt;/li>
+&lt;li>No additional components to deploy (Azure Firewall, Azure vWAN, third-party NVA)&lt;/li>
+&lt;/ul>
+&lt;p>On top of this, this new feature also enables:&lt;/p>
+&lt;ul>
+&lt;li>A unified experience based on AVS native components only: Azure Resource Manager and NSX-T&lt;/li>
+&lt;li>The ability to receive up to 64 public IPs (soft limit)
+&lt;ul>
+&lt;li>This quota can be increased by request to 1000s of Public IPs allocated if required&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>DDoS Security protection against network traffic in and out of the Internet.&lt;/li>
+&lt;li>HCX Migration support over the Public Internet.&lt;/li>
+&lt;/ul>
+&lt;h4 id="pricing-considerations">Pricing considerations&lt;/h4>
+&lt;p>With this new feature, Public IP addresses published for an AVS instance are billed separately from the AVS instance itself as IP addresses used for other Azure purposes.&lt;/p>
+&lt;p>The pricing details are explained here: &lt;a href="https://azure.microsoft.com/en-us/pricing/details/ip-addresses/">IP Addresses pricing&lt;/a> and to summarize it:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Type&lt;/th>
+&lt;th>Basic (ARM)&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Static IP address&lt;/td>
+&lt;td>$.036 per hour&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Public IP prefix (block of addresses)&lt;/td>
+&lt;td>$.006 per IP per hour&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;div class="notices info">
+&lt;div class="label">Public IP addresses pricing&lt;/div>
+&lt;p>Always check the &lt;a href="https://azure.microsoft.com/en-us/pricing/details/ip-addresses/">pricing details from the official Azure documentation&lt;/a> before you purchase an IP address. The above table is only an extract at the time of this writing.&lt;/p>
+&lt;/div>
+&lt;h2 id="reserve-public-ip-addresses-for-azure-vmware-solution">Reserve public IP addresses for Azure VMware Solution&lt;/h2>
+&lt;p>Since the publication of the new feature providing public IPs on NSX-T Edge, a new section &lt;em>Internet Connectivity&lt;/em> is available in the Azure portal to manage AVS internet access options.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS Internet Connectivity section in Azure portal"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/internet-connectivity-section.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>To enable internet access with public IPs on NSX-T Edge, at least one public IP block is needed. You can create one by providing a name and the number of IPs you want to allocate.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Create Public IPs block"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/create-ip-block.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>When the block request is submitted, you can save the new internet access settings. The block will be created and the IPs will be allocated in the background while the block is advertised to the AVS deployment.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Save the new internet connectivity option"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/set-internet-option.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>It may take around 10 to 15 minutes to complete the new configuration. If internet access was already enable on the AVS deployment, a downtime is expected during the re-configuration and NSX-T configuration will be required.&lt;/p>
+&lt;p>When the configuration is completed, the new block will be available in the list of public IP blocks:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="List of public IP spaces provisioned for the current AVS instance"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/public-ip-spaces.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="enable-outbound-internet-access-using-snat">Enable outbound internet access using SNAT&lt;/h2>
+&lt;p>Enabling outbound internet access requires to configure (at least) a SNAT rule on the NSX-T T1 router.&lt;/p>
+&lt;ol>
+&lt;li>Logging to NSX-T manager&lt;/li>
+&lt;li>In the &lt;em>networking&lt;/em> tab, access to the &lt;em>NAT&lt;/em> section&lt;/li>
+&lt;li>Select the appropriate T1 router to provision the SNAT rule on&lt;/li>
+&lt;li>Create a new SNAT rule with name, and an IP address from the provisioned block to use for outbound connectivity&lt;/li>
+&lt;li>Save&lt;/li>
+&lt;/ol>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Create a NSX-T SNAT rule to enable outbound internet connectivity"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/create-nsx-snat.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Firewall configuration&lt;/div>
+&lt;p>Depending on the firewall configuration on NSX-T, you may have to create firewall rules to allow the traffic to pass through.&lt;/p>
+&lt;/div>
+&lt;h2 id="enable-inbound-internet-access">Enable inbound internet access&lt;/h2>
+&lt;h3 id="inbound-connectivity-with-dnat">Inbound connectivity with DNAT&lt;/h3>
+&lt;p>The inbound internet access could rely on a DNAT rule, forwarding the traffic from the public IP address to the internal IP address of the workload (either a VM or a network service).&lt;/p>
+&lt;ol>
+&lt;li>Logging to NSX-T manager&lt;/li>
+&lt;li>In the &lt;em>networking&lt;/em> tab, access to the &lt;em>NAT&lt;/em> section&lt;/li>
+&lt;li>Select the appropriate T1 router to provision the DNAT rule on&lt;/li>
+&lt;li>Provide a name, a public IP address from the provisioned block and an internal IP address to forward the traffic to&lt;/li>
+&lt;li>Save&lt;/li>
+&lt;/ol>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Create a NSX-T DNAT rule to enable inbound internet connectivity"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/create-nsx-dnat.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Firewall configuration&lt;/div>
+&lt;p>Depending on the firewall configuration on NSX-T, you may have to create firewall rules to allow the traffic to pass through.&lt;/p>
+&lt;/div>
+&lt;h3 id="inbound-connectivity-with-dnat-and-port-redirection">Inbound connectivity with DNAT and port redirection&lt;/h3>
+&lt;p>With the DNAT rule, you can also redirect traffic to a different port. For example, you can redirect traffic from the public IP address on port 80 to a different port on the internal workload, like 8000.&lt;/p>
+&lt;p>For this, you need to specify a &lt;em>service&lt;/em> matching the port of the internal workload during the DNAT rule creation (8000 in our example).&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Creation of a dev-http service matching port 8000"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/dev-http-service.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Then to specified as the Translated Port, the port exposed on the public IP address (80 in our example).&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Create a NSX-T DNAT rule to enable inbound internet connectivity with port redirection"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/create-nsx-dnat-with-port-redirect.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="inbound-connectivity-using-nsx-t-load-balancer">Inbound connectivity using NSX-T Load Balancer&lt;/h3>
+&lt;p>As public IP address can now land directly on the NSX-T edge, it is possible to setup a NSX-T &lt;strong>Load Balancer&lt;/strong> to provide inbound connectivity to the AVS workloads.&lt;/p>
+&lt;p>First step is to create a Load Balancer service, attached to the NSX-T T1 gateway and to specify a sizing.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Load Balancer service creation"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/load-balancer-1.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Second step is to create a &lt;em>Virtual Server&lt;/em>, attached to the Load Balancer service and to specify the port and the IP address of the workload.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Creation of the Virtual Server"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/load-balancer-2.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Then &lt;em>Server Pool&lt;/em> is created and attached to the &lt;em>virtual server&lt;/em>. It contains a list of workers hosting the load-balancer application.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Server Pool creation"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/load-balancer-3.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Last but not least: an &lt;em>Active Monitor&lt;/em> is created to monitor the &lt;em>Server Pool&lt;/em>.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Active monitor creation"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-public-ip/load-balancer-4.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>With the new &lt;em>Public IP address down to the NSX-T edge&lt;/em> feature now available for AVS, new capabilities are available to manage the internet connectivity of the AVS workloads. One of the most important advantages is the ability to rely on NSX-T components to configure and securise both inbound and outbound internet connectivity. It is also possible to directly use public IP addresses with NSX-T services like Load Balancer or VPN.&lt;/p>
+&lt;p>Of course, this setup will not satisfy all the thinkable internet connectivity requirements but it offers a new set of possibilities and is a real asset to consider to host internet-facing applications or to control outgoing internet connections.&lt;/p>
+&lt;h3 id="credits">Credits&lt;/h3>
+&lt;p>Photo by &lt;a href="https://unsplash.com/@clementduguerre?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Clément Duguerre&lt;/a> on &lt;a href="https://unsplash.com/s/photos/pyrenee?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash&lt;/a>&lt;/p></description></item></channel></rss>
