@@ -55,14 +55,10 @@
 &lt;thead>
 &lt;tr>
 &lt;th>Type&lt;/th>
-&lt;th>Basic (ARM)&lt;/th>
+&lt;th>Standard (ARM)&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
-&lt;tr>
-&lt;td>Static IP address&lt;/td>
-&lt;td>$.036 per hour&lt;/td>
-&lt;/tr>
 &lt;tr>
 &lt;td>Public IP prefix (block of addresses)&lt;/td>
 &lt;td>$.006 per IP per hour&lt;/td>
