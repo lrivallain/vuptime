@@ -81,9 +81,8 @@ With this new feature, Public IP addresses published for an AVS instance are bil
 
 The pricing details are explained here: [IP Addresses pricing](https://azure.microsoft.com/en-us/pricing/details/ip-addresses/) and to summarize it:
 
-| Type                                  | Basic (ARM)           |
+| Type                                  | Standard (ARM)        |
 |---------------------------------------|-----------------------|
-| Static IP address                     | $.036 per hour        |
 | Public IP prefix (block of addresses) | $.006 per IP per hour |
 
 {{% notice info "Public IP addresses pricing" %}}
