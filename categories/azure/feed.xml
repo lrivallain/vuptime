@@ -27,7 +27,7 @@ src="https://vuptime.io/images/avs-cds/avs-cds-high-level-design.png"
 &lt;/picture>
 &lt;/figure>
 &lt;/p>
-&lt;p>The Azure documentation provides a &lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure">multi-tenant network design&lt;/a>&lt;/p>
+&lt;p>The Azure documentation provides a &lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure">multi-tenant network design&lt;/a>.&lt;/p>
 &lt;h3 id="prerequisites">Prerequisites&lt;/h3>
 &lt;h4 id="subscriptions">Subscriptions&lt;/h4>
 &lt;p>In the following post, we will assume that you already have subscriptions for the following services:&lt;/p>
@@ -55,7 +55,6 @@ src="https://vuptime.io/images/avs-cds/avs-cds-high-level-design.png"
 &lt;div class="label">Warning&lt;/div>
 &lt;p>In the following post, default AVS-provided credentials will be used for the vCenter and NSX-T. Of course, for a production setup, we highly recommend to use service accounts for this purpose in order to limit the exposure of credentials and privileges.&lt;/p>
 &lt;/div>
-&lt;p>&lt;a href="https://gateway.performance.vcd.cloud.vmware.com/?orgLink=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01&amp;amp;org_link=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01">https://gateway.performance.vcd.cloud.vmware.com/?orgLink=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01&amp;amp;org_link=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01&lt;/a>&lt;/p>
 &lt;h4 id="knowledge">Knowledge&lt;/h4>
 &lt;p>As we will not cover the usage of Cloud Director Service, we will assume that you already have some basic knowledge of this product or its on-premise counterpart: &lt;a href="https://www.vmware.com/fr/products/cloud-director.html">VMware Cloud Director&lt;/a>.&lt;/p>
 &lt;p>We will also assume that you already have some basic knowledge of the vCenter usage (at least to deploy an OVF template), and of the NSX-T usage (at least to create logical segments and to configure DNS and DHCP services).&lt;/p>
