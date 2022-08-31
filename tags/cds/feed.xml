@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cds on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/cds/</link><description>Recent content in cds on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 31 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/cds/feed.xml" rel="self" type="application/rss+xml"/><item><title>Public preview – Azure VMware Solution and VMware Cloud Director Service</title><link>https://vuptime.io/post/2022-08-31-avs-and-cloud-director-service/</link><pubDate>Wed, 31 Aug 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2022-08-31-avs-and-cloud-director-service/</guid><description>
+&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>&lt;a href="https://gateway.performance.vcd.cloud.vmware.com/cloud-director-instances/">VMware Cloud Director Service&lt;/a> (aka &lt;em>CDS&lt;/em>) is a cloud service that provides a unified view of VMware based resources and multi-tenant support, allowing an IT administrator to split resources capacity between tenants. For tenant users, it provides a single pane of glass to manage all VMware-based, cloud resources, including virtual machines, storage, networks, and networks services.&lt;/p>
+&lt;blockquote>
+&lt;p>VMware Cloud Director Service is the SaaS version of the well known &lt;a href="https://www.vmware.com/products/vcloud-director/">VMware (v)Cloud Director&lt;/a>.&lt;/p>
+&lt;/blockquote>
+&lt;p>Associated to &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solution&lt;/a> (aka &lt;em>AVS&lt;/em>), a large part of the multi-tenants and self-service SDDC stack, is managed by the cloud providers:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>VMware&lt;/strong>: manage the CDS instance components (cells and service)&lt;/li>
+&lt;li>&lt;strong>Microsoft&lt;/strong> Azure: manage the AVS instance components (vCenter, vSphere, NSX-T, vSAN etc.)&lt;/li>
+&lt;/ul>
+&lt;div class="notices info">
+&lt;div class="label">Azure Service terms&lt;/div>
+&lt;p>Cloud Director service (CDs) is now available to use with Azure VMware Solution under the Enterprise Agreement (EA) model only. It's not suitable for MSP / Hoster to resell Azure VMware Solution capacity to customers at this point. For more information, see &lt;a href="https://www.microsoft.com/licensing/terms/productoffering/MicrosoftAzure/EAEAS#GeneralServiceTerms">Azure Service terms&lt;/a>.&lt;/p>
+&lt;/div>
+&lt;p>In this post, we will cover how the two solutions can be linked together in order to provide this &lt;em>&amp;quot;fully-managed-vCloud-Director&amp;quot;&lt;/em> experience.&lt;/p>
+&lt;h3 id="high-level-design">High level design&lt;/h3>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Multi-tenancy capabilities of AVS and CDS - High level design"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/avs-cds-high-level-design.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>The Azure documentation provides a &lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure">multi-tenant network design&lt;/a>&lt;/p>
+&lt;h3 id="prerequisites">Prerequisites&lt;/h3>
+&lt;h4 id="subscriptions">Subscriptions&lt;/h4>
+&lt;p>In the following post, we will assume that you already have subscriptions for the following services:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://console.cloud.vmware.com/">VMware Cloud&lt;/a> organization
+&lt;ul>
+&lt;li>&lt;em>Cloud Director Service&lt;/em> must be enabled for your VMware Cloud organization&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://portal.azure.com/">Azure&lt;/a> tenant and subscription(s)
+&lt;ul>
+&lt;li>At least on active &lt;a href="https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.AVS%2FprivateClouds">Azure VMware Solution&lt;/a> deployment&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="technical-requirements">Technical requirements&lt;/h4>
+&lt;p>In Azure VMware Solution:&lt;/p>
+&lt;ul>
+&lt;li>An outbound internet connection is required&lt;/li>
+&lt;li>A private IP address to deploy CDS proxy appliance (either DHCP or static one) with internet connectivity&lt;/li>
+&lt;li>Working DNS resolution&lt;/li>
+&lt;li>vCenter and NSX-T credentials&lt;/li>
+&lt;/ul>
+&lt;div class="notices warning">
+&lt;div class="label">Warning&lt;/div>
+&lt;p>In the following post, default AVS-provided credentials will be used for the vCenter and NSX-T. Of course, for a production setup, we highly recommend to use service accounts for this purpose in order to limit the exposure of credentials and privileges.&lt;/p>
+&lt;/div>
+&lt;p>&lt;a href="https://gateway.performance.vcd.cloud.vmware.com/?orgLink=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01&amp;amp;org_link=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01">https://gateway.performance.vcd.cloud.vmware.com/?orgLink=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01&amp;amp;org_link=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01&lt;/a>&lt;/p>
+&lt;h4 id="knowledge">Knowledge&lt;/h4>
+&lt;p>As we will not cover the usage of Cloud Director Service, we will assume that you already have some basic knowledge of this product or its on-premise counterpart: &lt;a href="https://www.vmware.com/fr/products/cloud-director.html">VMware Cloud Director&lt;/a>.&lt;/p>
+&lt;p>We will also assume that you already have some basic knowledge of the vCenter usage (at least to deploy an OVF template), and of the NSX-T usage (at least to create logical segments and to configure DNS and DHCP services).&lt;/p>
+&lt;h2 id="create-a-cds-instance">Create a CDS instance&lt;/h2>
+&lt;p>For anyone who already deployed an on-premise instance of vCloud Director, the following deployment experience is a drastic change: by providing a name for the instance, a deployment region and a password, you can deploy a fully working Cloud Director instance and avoid the complexity of the on-premise deployment.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Wizard to create a CDS instance"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/create-cds-instance.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>... about 12 minutes later:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="CDS instance was deployed in about 12 minutes"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/cds-instance-fully-created.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="interconnect-your-avs-instance">Interconnect your AVS instance&lt;/h2>
+&lt;h3 id="proxy-appliance">Proxy Appliance&lt;/h3>
+&lt;p>In order to provide connectivity for the CDS instance to the AVS vCenter and NSX-T manager, a reverse-proxy appliance is required.&lt;/p>
+&lt;p>Deployed on the AVS SDDC and using a outbound internet connection, the proxy appliance (aka &lt;em>transporter&lt;/em> appliance) creates a secured tunnel with CDS services to provide connectivity up to the AVS management components.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Proxy appliance connectivity"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/avs-cds-proxy-appliance.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Once deployed, the proxy appliance will be autonomous to create the tunnel with the CDS instance.&lt;/p>
+&lt;h3 id="generate-an-api-token">Generate an API token&lt;/h3>
+&lt;p>In order to register a new reverse proxy, you need to create an API token with &lt;em>&amp;quot;Network Administrator&amp;quot;&lt;/em> role. This token will be used by the reverse proxy to connect back to VMware Cloud deployments and provide connectivity between CDS and the AVS SDDC instances.&lt;/p>
+&lt;ol>
+&lt;li>In &lt;a href="https://console.cloud.vmware.com">VMware Cloud Director service console&lt;/a>, click on your user name and click &lt;em>My Account&lt;/em>.&lt;/li>
+&lt;li>Select the API Tokens tab.&lt;/li>
+&lt;li>Click Generate a new API token.&lt;/li>
+&lt;li>Enter a meaningful name of the token and in Token TTL define for how long the token is valid.&lt;/li>
+&lt;li>Define the scopes for the token: &lt;em>&amp;quot;Network Administrator&amp;quot;&lt;/em> is requested for the reverse proxy.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Generate an API token for reverse proxy"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/generate-new-api-token.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>When created, copy the API token:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Copy the generated API token"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/generate-new-api-token-2.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="generate-and-deploy-the-reverse-proxy-ova">Generate and deploy the Reverse Proxy OVA&lt;/h3>
+&lt;p>Back on the CDS instance, you can generate a reverse proxy OVA by clicking on &lt;code>ACTIONS&lt;/code> menu and then on &lt;code>Generate Reverse Proxy OVA&lt;/code>.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Wizard for reverse-proxy OVA generation"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/generate-vmware-reverse-proxy-ova.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>When submitted, You can monitor the task status from instance's activity logs and when finished, select &lt;em>view files&lt;/em> to download the generated OVA file.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Click on view files to get access to the Reverse PRoxy OVA"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/download-vmware-reverse-proxy-ova.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Download Reverse PRoxy OVA file"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/download-vmware-reverse-proxy-ova-2.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Then you can deploy it on the target vCenter server and provide the requested OVF environment properties, like appliance root password or IP address settings.&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Additional Proxy Targets&lt;/div>
+&lt;p>In order to allow the reverse proxy to connect to each component of the AVS instance (NSX-T manager, vCenter server, ESXi hosts), I suggest to consolidate the value of &lt;em>Additional Proxy Targets&lt;/em> property with the management subnet of the AVS instance or at least, adding the /25 subnet of the hosts management IP addresses.&lt;/p>
+&lt;/div>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Deploy Reverse PRoxy OVA file and provide requested OVF environment properties"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/deploy-vmware-reverse-proxy-ova.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Power-on the VM and wait for the VMware tools to show up with the IP address details.&lt;/p>
+&lt;h3 id="associate-the-avs-datacenter-via-the-reverse-proxy">Associate the AVS datacenter via the Reverse Proxy&lt;/h3>
+&lt;p>From VMware cloud console, select your instance and click on &lt;em>Associate a Datacenter via VMware Proxy&lt;/em> in the &lt;code>ACTIONS&lt;/code> menu.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Click on: Associate a Datacenter via VMware Proxy"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/associate-sddc-0.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Provide the details of your AVS deployment:
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Provide details about AVS components"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/associate-sddc-1.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Submit credentials:
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Provide credentials for AVS components"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/associate-sddc-2.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Acknowledge costs and submit:
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Acknowledge costs"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/associate-sddc-3.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Check the status of the task from &lt;em>Activity Logs&lt;/em>.
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Successful association of a Datacenter via VMware Proxy"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/associate-sddc-succeed.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="deploy-your-workload-on-avs-by-using-cds">Deploy your workload on AVS by using CDS&lt;/h2>
+&lt;p>When you AVS datacenter is properly associated with CDS, you can use CDS provider UI to deploy some workload.&lt;/p>
+&lt;p>Use &lt;code>OPEN INSTANCE&lt;/code> button to access to the CDS provider UI.&lt;/p>
+&lt;h3 id="check-association-avs-components">Check association AVS components&lt;/h3>
+&lt;p>As CDS instance administrator, check the status of the association with AVS components:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Check the status of the association of vCenter server"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/check-association-vcenter.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Check the status of the association of NSX-T Manager"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/check-association-nsx.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Inventory&lt;/div>
+&lt;p>&lt;em>Hosts&lt;/em>, &lt;em>Datastores&lt;/em> (vSAN one at least), &lt;em>ResourcesPools&lt;/em> and &lt;em>Storage Policies&lt;/em> will also be populated with the discovered information from AVS inventory.&lt;/p>
+&lt;/div>
+&lt;h3 id="providers-cloud-resources">Provider's cloud resources&lt;/h3>
+&lt;p>From this point, you can now create provider's cloud resources, like with any other (v)Cloud Director deployment:&lt;/p>
+&lt;ul>
+&lt;li>1 or more, provider VDC&lt;/li>
+&lt;li>1 or more, external networks&lt;/li>
+&lt;li>Pre-provision NSX-T T1 gateways if needed&lt;/li>
+&lt;li>Provider's user accounts&lt;/li>
+&lt;/ul>
+&lt;h3 id="create-organizations-and-associated-resources">Create Organizations and associated resources&lt;/h3>
+&lt;p>Like for provider's cloud resources, you can create organizations and associated resources:&lt;/p>
+&lt;ul>
+&lt;li>Organizations&lt;/li>
+&lt;li>Organization's vDCs&lt;/li>
+&lt;li>Quota definitions and storage policies&lt;/li>
+&lt;li>Organization's networks&lt;/li>
+&lt;li>Users and org settings&lt;/li>
+&lt;/ul>
+&lt;p>I recommend that you test the deployment of a VM (using catalog based clone or vSphere import) to validate the following:&lt;/p>
+&lt;ul>
+&lt;li>Network connectivity&lt;/li>
+&lt;li>Storage policies&lt;/li>
+&lt;li>Access to VM console&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Fully configured AVS Organization&amp;amp;#39;s VDC"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/avs-based-org-vdc.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="overview-of-cds-instance-resources-capacity-and-usage">Overview of CDS instance resources capacity and usage&lt;/h2>
+&lt;p>From VMware cloud portal, you can now see the resources capacity and usage of your CDS instance:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Overview of CDS instance resources and usage"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/cds-instance-capacity-and-usage.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="troubleshoot">Troubleshoot&lt;/h2>
+&lt;h3 id="support-levels">Support levels&lt;/h3>
+&lt;p>VMware provide 4 levels of support for CDS instances:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Level 1&lt;/strong>: As a service provider, only you have access to the VMware Cloud Director software. To receive technical support, collect logs and upload them to VMware Global Support Services for review and analysis. see How Do I Report a Problem.&lt;/li>
+&lt;li>&lt;strong>Level 2&lt;/strong>: VMware uses automated monitoring to review VMware Cloud Director operations for technical support purposes.&lt;/li>
+&lt;li>&lt;strong>Level 3 (Recommended)&lt;/strong>: VMware technical support personnel can access the VMware Cloud Director instance to provide support and maintenance.&lt;/li>
+&lt;li>&lt;strong>Level 3 (Escalated VMware support)&lt;/strong>: A larger number of VMware technical support personnel has access and can interact with the VMware Cloud Director instance to provide active support and maintenance.&lt;/li>
+&lt;/ul>
+&lt;p>You can easily switch between levels of support by clicking on the &lt;strong>Modify Cloud Director Instance support level&lt;/strong> button in the CDS instance's &lt;strong>ACTIONS&lt;/strong> menu.&lt;/p>
+&lt;h3 id="generate-cds-instance-log-bundles">Generate CDS instance log bundles&lt;/h3>
+&lt;p>As CDS instance administrator, you can generate log bundles to troubleshoot your CDS instance, using &lt;em>Create Support Bundle&lt;/em> button in the CDS instance's &lt;strong>ACTIONS&lt;/strong> menu.&lt;/p>
+&lt;p>From instance's details (or &lt;strong>Activity Logs&lt;/strong>), you can download the generated log bundle:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Download CDS instance log bundle"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-cds/download-cds-instance-log-bundle.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="check-the-reverse-proxy-appliance-status">Check the reverse proxy appliance status&lt;/h3>
+&lt;p>To check the reverse proxy appliance status you can:&lt;/p>
+&lt;ol>
+&lt;li>Run the following command by SSH on the appliance:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">transporter-status.sh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>or, remotly get the JSON content from reverse proxy API:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -s http://10.100.110.50:9082/actuator/health &lt;span class="p">|&lt;/span> jq .components.reverseProxyClient
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;UP&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;details&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;server&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;proxy-pre-intrepid.cds.cloud.vmware.com&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;port&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;443&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;optionalIdentifier&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ebe11b93-f7f4-4b84-be4d-efe20f220594&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;clientVersion&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ob-19852460&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;clientId&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;016b9cff-7789-4622-8a0c-b06371270a3c&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;organizationId&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;309d33bd-****-****-****-************&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;networkName&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;AVS-CSU-FR-LRI&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;command_channel_1&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;CONNECTED&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;command_channel_2&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;CONNECTED&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;allowedTargets&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;10.100.100.2&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;REACHABLE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;10.100.100.3&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;REACHABLE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;10.100.101.0/25&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;NOT_CHECKED_CIDR&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;vc.970e82e4d*************.northeurope.avs.azure.com&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;REACHABLE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;nsx.970e82e4d*************.northeurope.avs.azure.com&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;REACHABLE&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="check-the-reverse-proxy-appliance-logs">Check the reverse proxy appliance logs&lt;/h3>
+&lt;p>You can check the reverse proxy appliance logs by SSH on the appliance:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">transporter-logs.sh -f
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You can also filter on error and warning messages with: &lt;code>-e&lt;/code> and &lt;code>-w&lt;/code> flags:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">transporter-logs.sh -e &lt;span class="c1"># Will grep for errors&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">transporter-logs.sh -w &lt;span class="c1"># Will grep for warnings&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="change-a-value-of-ovf-properties">Change a value of OVF properties&lt;/h3>
+&lt;p>If you want to change a value of OVF properties, you can:&lt;/p>
+&lt;ul>
+&lt;li>Shutdown the proxy/transporter appliance VM&lt;/li>
+&lt;li>Go to VM &lt;em>Configure&lt;/em> tab&lt;/li>
+&lt;li>Then &lt;em>vApp Options&lt;/em>&lt;/li>
+&lt;li>Select the property to edit and click on &lt;em>Set Value&lt;/em>&lt;/li>
+&lt;li>Validate change and start the VM&lt;/li>
+&lt;/ul>
+&lt;p>The on-boot script will fetch OVF's new values and update the deployed proxy services accordingly.&lt;/p>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>The combination of Azure VMware Solution with VMware Cloud Service, is a powerful tool to provide a self-service experience for end users to consume VMware based resources.&lt;/p>
+&lt;p>With the &lt;em>reverse proxy&lt;/em> concept, it is possible to link VMware SDDC deployment in a private network with the SaaS version of vCloud Director. This IaaS &amp;amp; SaaS deployment model, delegates management responsibility to both VMware and Microsoft Azure but provides the same UI experience for both vCD administrator and end users.&lt;/p>
+&lt;h3 id="acknowledgment">Acknowledgment&lt;/h3>
+&lt;p>Thanks a lot &lt;a href="https://twitter.com/tsugliani">@Timo&lt;/a> for the great help and support provided when testing this deployment.&lt;/p>
+&lt;h3 id="credits">Credits&lt;/h3>
+&lt;p>Title photo by &lt;a href="https://unsplash.com/@kierinsight?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Kier In Sight&lt;/a> on &lt;a href="https://unsplash.com/t/nature?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash&lt;/a>&lt;/p></description></item></channel></rss>
