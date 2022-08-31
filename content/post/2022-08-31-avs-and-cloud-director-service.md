@@ -17,8 +17,7 @@ tags:
 - vcloud director
 - cds
 toc: true
-title: "Azure VMware Solution and VMware Cloud Director Service"
-draft: true
+title: Public preview – Azure VMware Solution and VMware Cloud Director Service
 ---
 
 ## Introduction
