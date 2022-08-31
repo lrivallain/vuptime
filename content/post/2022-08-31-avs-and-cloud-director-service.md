@@ -41,7 +41,7 @@ In this post, we will cover how the two solutions can be linked together in orde
 
 ![Multi-tenancy capabilities of AVS and CDS - High level design](/images/avs-cds/avs-cds-high-level-design.png)
 
-The Azure documentation provides a [multi-tenant network design](https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure)
+The Azure documentation provides a [multi-tenant network design](https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure).
 
 ### Prerequisites
 
@@ -66,8 +66,6 @@ In Azure VMware Solution:
 {{% notice warning "Warning" %}}
 In the following post, default AVS-provided credentials will be used for the vCenter and NSX-T. Of course, for a production setup, we highly recommend to use service accounts for this purpose in order to limit the exposure of credentials and privileges.
 {{% /notice %}}
-
-<https://gateway.performance.vcd.cloud.vmware.com/?orgLink=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01&org_link=/csp/gateway/am/api/orgs/309d33bd-b674-4827-824d-0b03ccf54f01>
 
 #### Knowledge
 
