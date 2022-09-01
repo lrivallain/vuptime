@@ -37,6 +37,12 @@ Cloud Director service (CDs) is now available to use with Azure VMware Solution 
 
 In this post, we will cover how the two solutions can be linked together in order to provide this *"fully-managed-vCloud-Director"* experience.
 
+You can also refer to the following links to explore more about the AVS and CDS combination:
+
+* [VMware's blog: Cloud Director Service Expanding Multi-Cloud Services on Azure VMware Solution](https://blogs.vmware.com/cloudprovider/2022/08/cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution.html?utm_source=feedly&utm_medium=rss&utm_campaign=cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution)
+* [Azure update announcement](https://azure.microsoft.com/fr-fr/updates/public-preview-enterprise-vmware-cloud-director-service-for-azure-vmware-solution/)
+* [Azure documentation](https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure)
+
 ### High level design
 
 ![Multi-tenancy capabilities of AVS and CDS - High level design](/images/avs-cds/avs-cds-high-level-design.png)
