@@ -14,6 +14,12 @@
 &lt;p>Cloud Director service (CDs) is now available to use with Azure VMware Solution under the Enterprise Agreement (EA) model only. It's not suitable for MSP / Hoster to resell Azure VMware Solution capacity to customers at this point. For more information, see &lt;a href="https://www.microsoft.com/licensing/terms/productoffering/MicrosoftAzure/EAEAS#GeneralServiceTerms">Azure Service terms&lt;/a>.&lt;/p>
 &lt;/div>
 &lt;p>In this post, we will cover how the two solutions can be linked together in order to provide this &lt;em>&amp;quot;fully-managed-vCloud-Director&amp;quot;&lt;/em> experience.&lt;/p>
+&lt;p>You can also refer to the following links to explore more about the AVS and CDS combination:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://blogs.vmware.com/cloudprovider/2022/08/cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution.html?utm_source=feedly&amp;amp;utm_medium=rss&amp;amp;utm_campaign=cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution">VMware's blog: Cloud Director Service Expanding Multi-Cloud Services on Azure VMware Solution&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/fr-fr/updates/public-preview-enterprise-vmware-cloud-director-service-for-azure-vmware-solution/">Azure update announcement&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure">Azure documentation&lt;/a>&lt;/li>
+&lt;/ul>
 &lt;h3 id="high-level-design">High level design&lt;/h3>
 &lt;p>&lt;figure>
 &lt;picture>
