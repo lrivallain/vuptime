@@ -25,6 +25,9 @@
   {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
 {{ end -}}
 
+<!-- Mastodon -->
+<a rel="me" href="https://mastodon.social/@lrivallain">Mastodon</a>
+
 <!-- preload assets declaration -->
 <!-- preload main css file -->
 {{ $styles := partialCached "func/getStylesBundle" . }}
