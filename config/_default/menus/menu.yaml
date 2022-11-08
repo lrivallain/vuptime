@@ -1,24 +1,27 @@
 main:
-- name: Home
-  url: '/'
-  weight: 1
-- name: KB cards
-  url: /cards/
-  weight: 2
-- name: My K8S Book
-  url: https://k8s-book.vupti.me
-  weight: 3
-- name: About
-  url: /about/
-  weight: 4
+  - name: Home
+    url: "/"
+    weight: 1
+  - name: KB cards
+    url: /cards/
+    weight: 2
+  - name: My K8S Book
+    url: https://k8s-book.vupti.me
+    weight: 3
+  - name: About
+    url: /about/
+    weight: 4
 social:
-- name: github
-  type: social
-  weight: 1
-  url: 'https://github.com/lrivallain/vuptime'
-- name: twitter
-  weight: 2
-  url: 'https://www.twitter.com/vuptimeio'
-- name: rss
-  weight: 3
-  url: feed.xml
+  - name: github
+    type: social
+    weight: 1
+    url: "https://github.com/lrivallain/vuptime"
+  - name: mastodon
+    weight: 2
+    url: "https://mastodon.social/@lrivallain"
+  - name: twitter
+    weight: 3
+    url: "https://www.twitter.com/vuptimeio"
+  - name: rss
+    weight: 4
+    url: feed.xml
