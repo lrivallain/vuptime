@@ -1,5 +1,5 @@
 ---
-title: Mockup Azure VMware Solution in Hub-and-Spoke topology – Part 1
+title: Mock-up Azure VMware Solution in Hub-and-Spoke topology – Part 1
 date: "2023-02-22"
 author: lrivallain
 author_name: Ludovic Rivallain
@@ -21,9 +21,9 @@ If you are using [Azure VMware Solution](https://vuptime.io/tags/azure-vmware-so
 
 By using a hub and spoke topology with Azure VMware Solution, you can achieve several benefits such as improved security & isolation of cloud hosted workloads. However, you also need to consider some challenges such as complexity, latency, bandwidth limitations, routing complexity, firewall rules management, etc. Therefore, it is important to plan your network design carefully according to your specific requirements.
 
-The official Azure documentation already provides a set of scenarios related to network connectivity for Azure VMware Solution. You can find them [here](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures). In this blog post series, we will reproduce, step-by-step, a mockup scenario very close from the [*Network virtual appliance in Azure Virtual Network to inspect all network traffic*](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures#network-virtual-appliance-in-azure-virtual-network-to-inspect-all-network-traffic) one.
+The official Azure documentation already provides a set of scenarios related to network connectivity for Azure VMware Solution. You can find them [here](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures). In this blog post series, we will reproduce, step-by-step, a mock-up scenario very close from the [*Network virtual appliance in Azure Virtual Network to inspect all network traffic*](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures#network-virtual-appliance-in-azure-virtual-network-to-inspect-all-network-traffic) one.
 
-> The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mockup and learning purposes only.
+> The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.
 
 ## Materials
 
