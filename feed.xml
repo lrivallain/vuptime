@@ -1,4 +1,415 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/</link><description>Recent content on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 31 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Public preview – Azure VMware Solution and VMware Cloud Director Service</title><link>https://vuptime.io/post/2022-08-31-avs-and-cloud-director-service/</link><pubDate>Wed, 31 Aug 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2022-08-31-avs-and-cloud-director-service/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/</link><description>Recent content on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 22 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Mockup Azure VMware Solution in Hub-and-Spoke topology – Part 1</title><link>https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/</link><pubDate>Wed, 22 Feb 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/</guid><description>
+&lt;p>If you are using &lt;a href="https://vuptime.io/tags/azure-vmware-solution/">Azure VMware Solution&lt;/a> to run your VMware workloads on Azure, you might wonder how to connect it with other Azure resources in a secure and efficient way. One option is to use a &lt;a href="https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/hub-spoke">hub-and-spoke network topology&lt;/a>, which is a design pattern that consists of a central virtual network (the &lt;strong>hub&lt;/strong>) that acts as a gateway for multiple &lt;strong>spoke&lt;/strong> virtual networks. In this blog post, we will investigate how to make Azure VMware Solution work with hub and spoke topology and what are the challenges of this approach.&lt;/p>
+&lt;p>By using a hub and spoke topology with Azure VMware Solution, you can achieve several benefits such as improved security &amp;amp; isolation of cloud hosted workloads. However, you also need to consider some challenges such as complexity, latency, bandwidth limitations, routing complexity, firewall rules management, etc. Therefore, it is important to plan your network design carefully according to your specific requirements.&lt;/p>
+&lt;p>The official Azure documentation already provides a set of scenarios related to network connectivity for Azure VMware Solution. You can find them &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures">here&lt;/a>. In this blog post series, we will reproduce, step-by-step, a mockup scenario very close from the &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures#network-virtual-appliance-in-azure-virtual-network-to-inspect-all-network-traffic">&lt;em>Network virtual appliance in Azure Virtual Network to inspect all network traffic&lt;/em>&lt;/a> one.&lt;/p>
+&lt;blockquote>
+&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mockup and learning purposes only.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="materials">Materials&lt;/h2>
+&lt;p>To illustrate this blog post series, I created a &lt;a href="https://github.com/lrivallain/azure-labs-and-scripts/tree/master/hub-and-spoke-avs-transit-step-by-step">GitHub repository&lt;/a> to host Terraform code to reproduce each step of the process documented here.&lt;/p>
+&lt;p>Using this Terraform content provides a repeatable way to deploy the same environment on Azure but all the steps described in this blog post can also be reproduced using the Azure Portal or Azure CLI.&lt;/p>
+&lt;h3 id="azure-vmware-solution-deployment">Azure VMware Solution deployment&lt;/h3>
+&lt;p>The deployment and configuration of Azure VMware Solution is out of the scope of this blog post. We consider that the AVS environment is already deployed and configured. We will cover the mandatory settings for Hub and Spoke topology in a section of this series.&lt;/p>
+&lt;h2 id="stage-0--basic-setup">Stage 0 – Basic setup&lt;/h2>
+&lt;p>As a first step, we will start our lab setup with some very basic components like:&lt;/p>
+&lt;ul>
+&lt;li>A hub vNET: &lt;code>hub-vnet&lt;/code>
+&lt;ul>
+&lt;li>A VM (to be NVA)&lt;/li>
+&lt;li>A Virtual Network Gateway
+&lt;ul>
+&lt;li>I choose a VPN one to simulate an On Premises behavior without having a costing Express Route circuit at my disposal&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>2 spokes vNET: &lt;code>spoke1-vnet&lt;/code> and &lt;code>spoke2-vnet&lt;/code>
+&lt;ul>
+&lt;li>With a spoke VM in each one&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>A P2S VPN Subnet will act as an On-Premises based workload&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Hub and Spoke components of Stage 0"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage0/hub_and_spoke_avs-Step0.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="routes-analysis">Routes analysis&lt;/h3>
+&lt;p>Once this setup is built, we can have a look at routing configuration between components:&lt;/p>
+&lt;p>Effective routes on &lt;code>hub-nva.nic[0]&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az network nic show-effective-route-table &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> --ids /subscriptions/&amp;lt;sub-id&amp;gt;/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/hub-nva-nic &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">Source State Address Prefix Next Hop Type Next Hop IP
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">-------------------- - ------ - ---------------- -------------------- - ------------ -
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">Default Active 10.100.200.0/24 VnetLocal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">VirtualNetworkGateway Active 10.100.204.0/24 VirtualNetworkGateway 20.16.121.157
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">Default Active 0.0.0.0/0 Internet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>From UI:
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Effective routes on hub-nva.nic[0]"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage0/effectives-routes-hub-nva.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Effective routes on &lt;code>spoke-1-vm.nic[0]&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az network nic show-effective-route-table &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> --ids /subscriptions/&amp;lt;sub-id&amp;gt;/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/spoke-1-vnet-vm-nic &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">Source State Address Prefix Next Hop Type Next Hop IP
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">-------- ------ - ---------------- -------------- - ------------ -
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">Default Active 10.100.201.0/24 VnetLocal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">Default Active 0.0.0.0/0 Internet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>From UI:
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Effective routes on spoke-1-vm.nic[0]"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage0/effectives-routes-spoke-1-vm.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>As you can already guess from both diagram and routes listing, the communication between distinct vNets is not possible:
+Example, from &lt;code>hub-nva&lt;/code> to &lt;code>spoke-1-vm&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ubuntu@hub-nva:~$ ping 10.100.201.4 -c3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">PING 10.100.201.4 &lt;span class="o">(&lt;/span>10.100.201.4&lt;span class="o">)&lt;/span> 56&lt;span class="o">(&lt;/span>84&lt;span class="o">)&lt;/span> bytes of data.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">-- - 10.100.201.4 ping statistics ---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="m">3&lt;/span> packets transmitted, &lt;span class="m">0&lt;/span> received, 100% packet loss, &lt;span class="nb">time&lt;/span> 2036ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we try to communicate between spokes, the result will be the same: their is no connectivity between vNets.&lt;/p>
+&lt;h3 id="additional-information-about-azure-routing">Additional information about Azure Routing&lt;/h3>
+&lt;p>If you need to learn more about network &amp;amp; routing in Azure, I strongly recommend you to read the following amazing blog posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://blog.cloudtrooper.net/2023/01/21/azure-networking-is-not-like-your-on-onprem-network/">Azure Networking is not like your on-onprem network&lt;/a> by Jose Moreno&lt;/li>
+&lt;li>&lt;a href="https://github.com/cynthiatreger/az-routing-guide-ep2-nic-routing">NIC Routing &amp;amp; Azure routes&lt;/a> by Cynthia Treger&lt;/li>
+&lt;/ul>
+&lt;h2 id="stage-1--peering-spokes">Stage 1 – Peering spokes&lt;/h2>
+&lt;p>In this stage, we will add a peering between &lt;code>spoke1-vnet&lt;/code>, &lt;code>spoke2-vnet&lt;/code> and &lt;code>hub-vnet&lt;/code> to enable communication.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Hub and Spoke components of Stage 1"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage1/hub_and_spoke_avs-Step1.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="routes-analysis-s1">Routes analysis (s1)&lt;/h3>
+&lt;p>Once this setup is built, we can have a look at routing configuration between components:&lt;/p>
+&lt;p>Effective routes on &lt;code>hub-nva.nic[0]&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">az network nic show-effective-route-table &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> --ids /subscriptions/&amp;lt;sub-id&amp;gt;/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/hub-nva-nic &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">Source State Address Prefix Next Hop Type Next Hop IP
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">--------------------- ------- ---------------- --------------------- -------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">Default Active 10.100.200.0/24 VnetLocal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">Default Active 10.100.201.0/24 VNetPeering
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">Default Active 10.100.202.0/24 VNetPeering
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">VirtualNetworkGateway Active 10.100.204.0/24 VirtualNetworkGateway 20.16.121.157
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">Default Active 0.0.0.0/0 Internet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Effective routes on hub-nva.nic[0]"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage1/effectives-routes-hub-nva.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Effective routes on &lt;code>spoke-1-vm.nic[0]&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">az network nic show-effective-route-table &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> --ids /subscriptions/&amp;lt;sub-id&amp;gt;/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/spoke-1-vnet-vm-nic &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">Source State Address Prefix Next Hop Type Next Hop IP
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">-------------------- - ------ - ---------------- -------------------- - ------------ -
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">Default Active 10.100.201.0/24 VnetLocal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">Default Active 10.100.200.0/24 VNetPeering
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">VirtualNetworkGateway Active 10.100.204.0/24 VirtualNetworkGateway 20.16.121.157
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">Default Active 0.0.0.0/0 Internet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Effective routes on spoke-1-vm.nic[0]"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage1/effectives-routes-spoke-1-vm.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>The VM in hub-vnet can now ping VMs on peered networks: Example, from &lt;code>hub-nva&lt;/code> to &lt;code>spoke-1-vm&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">ubuntu@hub-nva:~$ ping 10.100.201.4 -c3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">PING 10.100.201.4 &lt;span class="o">(&lt;/span>10.100.201.4&lt;span class="o">)&lt;/span> 56&lt;span class="o">(&lt;/span>84&lt;span class="o">)&lt;/span> bytes of data.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">64&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>1.74 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">64&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>1.14 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">3&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">64&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>0.975 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">-- - 10.100.201.4 ping statistics ---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="m">3&lt;/span> packets transmitted, &lt;span class="m">3&lt;/span> received, 0% packet loss, &lt;span class="nb">time&lt;/span> 2003ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">rtt min/avg/max/mdev &lt;span class="o">=&lt;/span> 0.975/1.284/1.744/0.331 ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>But VM on different spokes cannot communicate together: Example, from &lt;code>spoke-1-vm&lt;/code> to &lt;code>spoke-2-vm&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ubuntu@spoke-1-vm:~$ ping 10.100.202.4 -c3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">PING 10.100.202.4 &lt;span class="o">(&lt;/span>10.100.202.4&lt;span class="o">)&lt;/span> 56&lt;span class="o">(&lt;/span>84&lt;span class="o">)&lt;/span> bytes of data.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">-- - 10.100.202.4 ping statistics ---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">&lt;span class="m">3&lt;/span> packets transmitted, &lt;span class="m">0&lt;/span> received, 100% packet loss, &lt;span class="nb">time&lt;/span> 2029ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>From a VPN client, we can now see the routes to all networks:&lt;/p>
+&lt;ul>
+&lt;li>10.100.202.0/24: &lt;code>spoke2-vnet&lt;/code>&lt;/li>
+&lt;li>10.100.201.0/24: &lt;code>spoke1-vnet&lt;/code>&lt;/li>
+&lt;li>10.100.200.0/24: &lt;code>hub-vnet&lt;/code>&lt;/li>
+&lt;li>10.100.204.0/24: &lt;code>VPN client range&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="additional-information-about-azure-peering">Additional information about Azure Peering&lt;/h3>
+&lt;p>If you need to learn more about network peering in Azure, I strongly recommend you to read the following posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://blog.cloudtrooper.net/2021/06/18/vnet-peering-settings-those-familiar-strangers/">VNet peering settings, those familiar strangers&lt;/a> by Jose Moreno&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview">Virtual network peering&lt;/a> in Azure documentation&lt;/li>
+&lt;/ul>
+&lt;h2 id="stage-2--user-defined-route-on-spokes--gw-propagation-true">Stage 2 – User Defined Route on spokes / GW propagation true&lt;/h2>
+&lt;p>In this stage, we will add a UDR on &lt;code>spoke1-vnet&lt;/code> and &lt;code>spoke2-vnet&lt;/code> to enable communication between spokes.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Hub and Spoke components of Stage 2"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage2/hub_and_spoke_avs-Step2.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>For each spoke subnet, we will add a UDR with the following configuration:&lt;/p>
+&lt;ul>
+&lt;li>0.0.0.0/0 via &lt;code>nva-vm.nic[0].ipaddress&lt;/code>&lt;/li>
+&lt;li>&lt;code>disable_bgp_route_propagation = false&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>From UI, it looks like this:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="UDR on spoke vNets"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage2/UserDefinedRoute-spoke.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>The next hop address is the IP address of the &lt;code>hub-nva&lt;/code> VM NIC in the hub-vnet.&lt;/p>
+&lt;p>We also setup the following &lt;em>Gateway route propagation&lt;/em> configuration:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="UDR route propagation configuration on spoke vNets"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage2/UserDefinedRouteConfiguration-spoke.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;div class="notices warning">
+&lt;div class="label">disable&amp;#43;false&lt;/div>
+&lt;p>You may notice a difference in wording between Azure UI and Terraform regarding &lt;em>Gateway route propagation&lt;/em> setting. In Azure UI, the option is called &lt;code>Propagate gateway route&lt;/code>. In API based tools like Terraform, Bicep and ARM, the option is called &lt;code>disableBgpRoutePropagation&lt;/code> (ARM/Bicep) or &lt;code>disable_bgp_route_propagation&lt;/code> (Terraform).&lt;/p>
+&lt;p>This can be confusing when related to boolean values. In this case, &lt;code>false&lt;/code> means that the routes from &lt;em>Gateway&lt;/em> components will be propagated to the subnets associated with the UDR.&lt;/p>
+&lt;/div>
+&lt;h3 id="routes-analysis-s2">Routes analysis (s2)&lt;/h3>
+&lt;p>Effective routes on &lt;code>spoke-1-vm.nic[0]&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az network nic show-effective-route-table --ids /subscriptions/b58ee7d0-4b78-47f8-8777-3a833e5d0818/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/spoke-1-vnet-vm-nic -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">Source State Address Prefix Next Hop Type Next Hop IP
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">--------------------- ------- ---------------- --------------------- -------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">Default Active 10.100.201.0/24 VnetLocal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">Default Active 10.100.200.0/24 VNetPeering
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">VirtualNetworkGateway Active 10.100.204.0/24 VirtualNetworkGateway 20.16.121.157
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">Default Invalid 0.0.0.0/0 Internet
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">User Active 0.0.0.0/0 VirtualAppliance 10.100.200.68
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Effective routes on spoke-1-vm.nic[0]"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage2/effectives-routes-spoke-1-vm.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>VM on different spokes can communicate together: Example, from &lt;code>spoke-1-vm&lt;/code> to &lt;code>spoke-2-vm&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">ubuntu@spoke-1-vnet-vm:~$ ping 10.100.202.4 -c3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">PING 10.100.202.4 &lt;span class="o">(&lt;/span>10.100.202.4&lt;span class="o">)&lt;/span> 56&lt;span class="o">(&lt;/span>84&lt;span class="o">)&lt;/span> bytes of data.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.202.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">63&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>4.05 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.202.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">63&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>1.59 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.202.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">3&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">63&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>2.18 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">-- - 10.100.202.4 ping statistics ---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="m">3&lt;/span> packets transmitted, &lt;span class="m">3&lt;/span> received, 0% packet loss, &lt;span class="nb">time&lt;/span> 2001ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">rtt min/avg/max/mdev &lt;span class="o">=&lt;/span> 1.587/2.604/4.049/1.049 ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>From the &lt;code>hub-nva&lt;/code> VM, we can see the traffic going through:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">IP 10.100.201.4 &amp;gt; 10.100.202.4: ICMP echo request, id 8, seq 1, length 64
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">IP 10.100.200.68 &amp;gt; 10.100.202.4: ICMP echo request, id 8, seq 1, length 64
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">IP 10.100.202.4 &amp;gt; 10.100.200.68: ICMP echo reply, id 8, seq 1, length 64
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">IP 10.100.202.4 &amp;gt; 10.100.201.4: ICMP echo reply, id 8, seq 1, length 6
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>From a VPN connection we can reach spoke resources:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ubuntu@vpn-client:~$ ping 10.100.201.4 -c3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">PING 10.100.201.4 &lt;span class="o">(&lt;/span>10.100.201.4&lt;span class="o">)&lt;/span> 56&lt;span class="o">(&lt;/span>84&lt;span class="o">)&lt;/span> bytes of data.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">63&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>24.1 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">63&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>22.7 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">3&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">63&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>24.9 ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>But… if we look from the &lt;code>hub-nva&lt;/code> VM, there is no match for this network traffic. Meaning that the traffic is, as we can guess from the effective routes tables on spokes VMs, going directly from spokes VMs to the VPN Gateway and vice&amp;amp;versa.&lt;/p>
+&lt;p>We will try to mitigate this in the next steps by forcing the traffic to go through the &lt;code>hub-nva&lt;/code> VM.&lt;/p>
+&lt;h3 id="additional-information-about-azure-udr">Additional information about Azure UDR&lt;/h3>
+&lt;p>If you need to learn more about UDR in Azure, I strongly recommend you to read the following posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview#user-defined">User Defined Routes&lt;/a> in Azure documentation&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview#how-azure-selects-a-route">How Azure selects a route&lt;/a> in Azure documentation&lt;/li>
+&lt;li>&lt;a href="https://blog.cloudtrooper.net/2020/11/28/dont-let-your-azure-routes-bite-you/">Don’t let your Azure Routes bite you&lt;/a> by Jose Moreno&lt;/li>
+&lt;/ul>
+&lt;h2 id="stage-3--user-defined-route-on-spokes--gw-propagation-false">Stage 3 – User Defined Route on spokes / GW propagation false&lt;/h2>
+&lt;p>In this stage, we will start mitigating the issue we have in the previous stage about the network traffic, related to VPN, bypassing our NVA device.&lt;/p>
+&lt;p>The first thing we can try is to disable &lt;em>Gateway route propagation&lt;/em> on the UDRs we have created in the previous stage.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Hub and Spoke components of Stage 3"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage3/hub_and_spoke_avs-Step3.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>For each spoke subnet, we will add a UDR with the following configuration:&lt;/p>
+&lt;ul>
+&lt;li>0.0.0.0/0 via &lt;code>nva-vm.nic[0].ipaddress&lt;/code>&lt;/li>
+&lt;li>&lt;code>disable_bgp_route_propagation = true&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>From UI, it looks like this:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="UDR route propagation configuration on spoke vNets"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage2/UserDefinedRouteConfiguration-spoke.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;div class="notices warning">
+&lt;div class="label">disable&amp;#43;false&lt;/div>
+&lt;p>As mentioned earlier, if you use an automation tool to setup this configuration value, you will notice a confusing wording. In Azure UI, the option is called &lt;code>Propagate gateway route&lt;/code>. In API based tools like Terraform, Bicep and ARM, the option is called &lt;code>disableBgpRoutePropagation&lt;/code> (ARM/Bicep) or &lt;code>disable_bgp_route_propagation&lt;/code> (Terraform).&lt;/p>
+&lt;p>In this case, &lt;code>true&lt;/code> means that the routes from &lt;em>Gateway&lt;/em> components will not be propagated to the subnets associated with the UDR.&lt;/p>
+&lt;/div>
+&lt;h3 id="routes-analysis-s3">Routes analysis (s3)&lt;/h3>
+&lt;p>Effective routes on &lt;code>spoke-1-vm.nic[0]&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">az network nic show-effective-route-table &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> --ids /subscriptions/b58ee7d0-4b78-47f8-8777-3a833e5d0818/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/spoke-1-vnet-vm-nic &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">Source State Address Prefix Next Hop Type Next Hop IP
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">-------- ------ - ---------------- ---------------- ------------ -
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">Default Active 10.100.201.0/24 VnetLocal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">Default Active 10.100.200.0/24 VNetPeering
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">Default Invalid 0.0.0.0/0 Internet
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">User Active 0.0.0.0/0 VirtualAppliance 10.100.200.68
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Effective routes on spoke-1-vm.nic[0]"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage3/effectives-routes-spoke-1-vm.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>According to the new UDR setting: The route to the VPN subnet is no more directly published in the effective routes for &lt;code>spoke-1-vm&lt;/code> NIC.
+If &lt;code>spoke-1-vm&lt;/code> need to communicate with a VPN based resource, the default &lt;code>0/0&lt;/code> path will be used, going through the &lt;code>hub-nva&lt;/code> VM.&lt;/p>
+&lt;p>If we try a ping from VPN client to &lt;code>spoke-1-vm&lt;/code>, it works…&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">ubuntu@vpn-client:~$ ping 10.100.201.4 -c3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">PING 10.100.201.4 &lt;span class="o">(&lt;/span>10.100.201.4&lt;span class="o">)&lt;/span> 56&lt;span class="o">(&lt;/span>84&lt;span class="o">)&lt;/span> bytes of data.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">62&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>23.6 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">62&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>48.0 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="m">64&lt;/span> bytes from 10.100.201.4: &lt;span class="nv">icmp_seq&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">3&lt;/span> &lt;span class="nv">ttl&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">62&lt;/span> &lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>64.1 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">-- - 10.100.201.4 ping statistics ---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="m">3&lt;/span> packets transmitted, &lt;span class="m">3&lt;/span> received, 0% packet loss, &lt;span class="nb">time&lt;/span> 2001ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">rtt min/avg/max/mdev &lt;span class="o">=&lt;/span> 23.609/45.235/64.094/16.643 ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>… but, there is a glitch in the Matrix:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Glitch in the Matrix: Asymmetric routing"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage3/hub_and_spoke_avs-Step3-AsymmetricTraffic.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>As you can see, only the traffic from &lt;code>spoke-1-vm&lt;/code> to VPN is going through the &lt;code>hub-nva&lt;/code>. On the contrary, traffic from VPN clients is going directly to spoke VMs resulting in an asymmetric network pattern.&lt;/p>
+&lt;p>For example, when doing a ping from VPN client to &lt;code>spoke-1-vm&lt;/code>, we can only see echo &lt;em>reply&lt;/em> going through the &lt;code>hub-nva&lt;/code> when doing a tcpdump:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ubuntu@hub-nva:~$ sudo tcpdump -nni eth0 icmp
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">IP 10.100.201.4 &amp;gt; 10.100.200.68: ICMP &lt;span class="nb">echo&lt;/span> reply, id 1002, seq 1, length &lt;span class="m">64&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">IP 10.100.201.4 &amp;gt; 10.100.204.2: ICMP &lt;span class="nb">echo&lt;/span> reply, id 1002, seq 1, length &lt;span class="m">64&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The echo &lt;em>request&lt;/em> is missing: the flow from VPN client is not passing through the hub-nva.&lt;/p>
+&lt;h3 id="additional-information-about-gateway-route-propagation">Additional information about Gateway route propagation&lt;/h3>
+&lt;p>If you are interested in more details about the &lt;em>Gateway route propagation&lt;/em> feature, you can refer to the following posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview#border-gateway-protocol">Border gateway protocol&lt;/a> in the Azure documentation&lt;/li>
+&lt;li>&lt;a href="https://blog.cloudtrooper.net/2023/02/06/virtual-network-gateways-routing-in-azure/">Virtual Network Gateways routing in Azure&lt;/a> by Jose Moreno&lt;/li>
+&lt;li>&lt;a href="https://github.com/cynthiatreger/az-routing-guide-ep1-vnet-peering-and-virtual-network-gateways#12-connectivity-impact-of-adding-a-virtual-network-gateway-er-or-vpn">Connectivity impact of adding a Virtual Network Gateway (ER or VPN)&lt;/a> by Cynthia Treger&lt;/li>
+&lt;/ul>
+&lt;h2 id="part-1--conclusion">Part 1 – Conclusion&lt;/h2>
+&lt;p>In the previous stages, we have seen how to initialize a hub and spoke topology within Azure. At the current stage, our Azure hosted spokes vNet are using the hub vNet as a transit network, leveraging on the default route configured on User Defined Routes (UDR).&lt;/p>
+&lt;p>Regarding the VPN connectivity (acting as On Premises workloads), we have discovered that we are facing an asymmetric routing issue. Traffic from VPN clients to Azure hosted VMs is not going through the NVA VM deployed in the hub vNet.&lt;/p>
+&lt;p>As a reminder, you can leverage on the content of the following GitHub repository to reproduce the steps described in this post: &lt;a href="https://github.com/lrivallain/azure-labs-and-scripts/tree/master/hub-and-spoke-avs-transit-step-by-step">hub-and-spoke-avs-transit-step-by-step&lt;/a>.&lt;/p>
+&lt;p>&lt;strong>In the next post&lt;/strong>, we will see how to mitigate this issue by leveraging on a new User Defined Route configuration. We will also introduce the connectivity of Azure VMware Solution (AVS) to this hub and spoke topology.&lt;/p></description></item><item><title>Public preview – Azure VMware Solution and VMware Cloud Director Service</title><link>https://vuptime.io/post/2022-08-31-avs-and-cloud-director-service/</link><pubDate>Wed, 31 Aug 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2022-08-31-avs-and-cloud-director-service/</guid><description>
 &lt;h2 id="introduction">Introduction&lt;/h2>
 &lt;p>&lt;a href="https://gateway.performance.vcd.cloud.vmware.com/cloud-director-instances/">VMware Cloud Director Service&lt;/a> (aka &lt;em>CDS&lt;/em>) is a cloud service that provides a unified view of VMware based resources and multi-tenant support, allowing an IT administrator to split resources capacity between tenants. For tenant users, it provides a single pane of glass to manage all VMware-based, cloud resources, including virtual machines, storage, networks, and networks services.&lt;/p>
 &lt;blockquote>
@@ -1198,7 +1609,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-04.png"
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ps1" data-lang="ps1">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">-ExecutionPolicy&lt;/span> &lt;span class="n">RemoteSigned&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">Az&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span> &lt;span class="n">-Repository&lt;/span> &lt;span class="n">PSGallery&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="nb">Connect-AzAccount&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="p">./&lt;/span>&lt;span class="nb">resource-bridge&lt;/span>&lt;span class="n">-onboarding-script&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ps1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="p">./&lt;/span>&lt;span class="nb">resource-bridge&lt;/span>&lt;span class="n">-onboarding-script&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ps1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="linux-azure-cli-script">(Linux) Azure CLI script&lt;/h4>
 &lt;blockquote>
 &lt;p>&lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure CLI&lt;/a> is required.&lt;/p>
