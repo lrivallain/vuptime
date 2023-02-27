@@ -223,7 +223,7 @@ This can be confusing when related to boolean values. In this case, `false` mean
 Effective routes on `spoke-1-vm.nic[0]`:
 
 ```bash
-az network nic show-effective-route-table --ids /subscriptions/b58ee7d0-4b78-47f8-8777-3a833e5d0818/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/spoke-1-vnet-vm-nic -o table
+az network nic show-effective-route-table --ids /subscriptions/<sub-id>/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/spoke-1-vnet-vm-nic -o table
 # output
 Source                 State    Address Prefix    Next Hop Type          Next Hop IP
 ---------------------  -------  ----------------  ---------------------  -------------
@@ -312,7 +312,7 @@ Effective routes on `spoke-1-vm.nic[0]`:
 
 ```bash
 az network nic show-effective-route-table \
-    --ids /subscriptions/b58ee7d0-4b78-47f8-8777-3a833e5d0818/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/spoke-1-vnet-vm-nic \
+    --ids /subscriptions/<sub-id>/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/spoke-1-vnet-vm-nic \
     -o table
 # output
 Source    State    Address Prefix    Next Hop Type     Next Hop IP
