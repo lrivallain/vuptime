@@ -1,4 +1,236 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hub and spoke on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/hub-and-spoke/</link><description>Recent content in hub and spoke on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 22 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/hub-and-spoke/feed.xml" rel="self" type="application/rss+xml"/><item><title>Mock-up Azure VMware Solution in Hub-and-Spoke topology – Part 1</title><link>https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/</link><pubDate>Wed, 22 Feb 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hub and spoke on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/hub-and-spoke/</link><description>Recent content in hub and spoke on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 28 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/hub-and-spoke/feed.xml" rel="self" type="application/rss+xml"/><item><title>Mock-up Azure VMware Solution in Hub-and-Spoke topology – Part 2</title><link>https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/</link><pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/</guid><description>
+&lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
+&lt;p>We will also &lt;a href="#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
+&lt;blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
+&lt;/blockquote>
+&lt;p>Please refer to &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">part 1&lt;/a> to get details about the lab environment and the 3 first steps we already covered.&lt;/p>
+&lt;h2 id="stage-4--user-defined-routes-on-gatewaysubnet">Stage 4 – User Defined Routes on GatewaySubnet&lt;/h2>
+&lt;p>In order to &lt;strong>mitigate the asymmetric routing issue&lt;/strong>, we will add a User Defined Routes to the &lt;code>GatewaySubnet&lt;/code> to ensure that the traffic incoming from the VPN client will be routed to the NVA appliance.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="User Defined Routes on GatewaySubnet"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage4/hub_and_spoke_avs-Step4.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>The User Defined Route (UDR) on &lt;code>GatewaySubnet&lt;/code> will configured as below:&lt;/p>
+&lt;ul>
+&lt;li>10.100.201.0/24 (aka &lt;code>spoke1-vnet&lt;/code>) via &lt;code>nva-vm.nic[0].ipaddress&lt;/code>&lt;/li>
+&lt;li>10.100.202.0/24 (aka &lt;code>spoke2-vnet&lt;/code>) via &lt;code>nva-vm.nic[0].ipaddress&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>In Azure Portal, it looks like this:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="User Defined Routes on GatewaySubnet"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage4/UserDefinedRoute_GatewaySubnet.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;blockquote>
+&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="routes-analysis-s4">Routes analysis (s4)&lt;/h3>
+&lt;p>From this point we can see that both VPN-client-to-spokes and spokes-to-VPN-destinations, passing through the &lt;code>hub-nva&lt;/code> appliance:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Routes analysis with symmetric traffic"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage4/hub_and_spoke_avs-Step4-SymmetricTraffic.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Example: During a ping session from a VPN client to &lt;code>spoke-1-vm&lt;/code>, we can only see both echo &lt;em>request&lt;/em> and echo &lt;em>reply&lt;/em> going through the &lt;code>hub-nva&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ubuntu@hub-nva:~$ sudo tcpdump -nni eth0 icmp
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">IP 10.100.204.2 &amp;gt; 10.100.201.4: ICMP &lt;span class="nb">echo&lt;/span> request, id 1002, seq 1, length &lt;span class="m">64&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">IP 10.100.200.68 &amp;gt; 10.100.201.4: ICMP &lt;span class="nb">echo&lt;/span> request, id 1002, seq 1, length &lt;span class="m">64&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">IP 10.100.201.4 &amp;gt; 10.100.200.68: ICMP &lt;span class="nb">echo&lt;/span> reply, id 1002, seq 1, length &lt;span class="m">64&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">IP 10.100.201.4 &amp;gt; 10.100.204.2: ICMP &lt;span class="nb">echo&lt;/span> reply, id 1002, seq 1, length &lt;span class="m">64&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>All the network traffic is now passing through the &lt;code>hub-nva&lt;/code>. Meaning that we fixed the asymmetric routing issue.&lt;/p>
+&lt;h3 id="additional-information-about-azure-udr">Additional information about Azure UDR&lt;/h3>
+&lt;p>If you need to learn more about UDR in Azure, I strongly recommend you to read the following posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview#user-defined">User Defined Routes&lt;/a> in Azure documentation&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview#how-azure-selects-a-route">How Azure selects a route&lt;/a> in Azure documentation&lt;/li>
+&lt;li>&lt;a href="https://blog.cloudtrooper.net/2020/11/28/dont-let-your-azure-routes-bite-you/">Don’t let your Azure Routes bite you&lt;/a> by Jose Moreno&lt;/li>
+&lt;/ul>
+&lt;h2 id="stage-5--introduction-of-an-avs-transit-vnet">Stage 5 – Introduction of an AVS transit vNet&lt;/h2>
+&lt;p>Azure VMware Solution (AVS) is provided with an external connectivity based on Express Route Circuit. This requires to 'land' the Express Route circuit out of the AVS environment. The most common way to do this is to map the AVS Express Route circuit to an existing On Premises Express Route circuit and to rely on &lt;a href="https://learn.microsoft.com/en-us/azure/expressroute/expressroute-global-reach">Express Route Global Reach for providing the connectivity between the two circuits&lt;/a>: transitive connectivity.&lt;/p>
+&lt;p>But this setup will not provide a way to consider the AVS deployment as a spoke in a hub-and-spoke topology, as the network traffic between AVS and On Premises, will bypass the &lt;code>hub-nva&lt;/code>. In order to fix this situation, we will introduce a &lt;em>transit vNet&lt;/em> to land the Express Route circuit from the AVS deployment and to ensure that the traffic between AVS and On Premises will be routed through the &lt;code>hub-nva&lt;/code>.&lt;/p>
+&lt;p>In this &lt;code>avs-transit-vnet&lt;/code>, we will need an Express Route Gateway to land the Express Route circuit from the AVS deployment.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Introduction of an AVS transit vNet"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage5/hub_and_spoke_avs-Step5.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="routes-analysis-s5">Routes analysis (s5)&lt;/h3>
+&lt;p>When the creation of the vNet is completed and the connection of AVS ER circuit setup, we could look at effective routes to see if there is any chance to communicate with AVS based VMs at this stage:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">az network nic show-effective-route-table &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> --ids /subscriptions/&amp;lt;sub-id&amp;gt;/resourceGroups/nva-testing-RG/providers/Microsoft.Network/networkInterfaces/hub-nva-nic &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">Source State Address Prefix Next Hop Type Next Hop IP
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">--------------------- ------- ---------------- --------------------- -------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">Default Active 10.100.200.0/24 VnetLocal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">Default Active 10.100.202.0/24 VNetPeering
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">Default Active 10.100.201.0/24 VNetPeering
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">Default Active 10.100.203.0/24 VNetPeering
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">VirtualNetworkGateway Active 10.100.204.0/24 VirtualNetworkGateway 20.160.147.74
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And, of course, if there is no route, there is no connectivity:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ubuntu@hub-nva:~$ ping 10.100.100.2 -c3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">PING 10.100.100.2 &lt;span class="o">(&lt;/span>10.100.100.2&lt;span class="o">)&lt;/span> 56&lt;span class="o">(&lt;/span>84&lt;span class="o">)&lt;/span> bytes of data.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">--- 10.100.100.2 ping statistics ---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="m">3&lt;/span> packets transmitted, &lt;span class="m">0&lt;/span> received, 100% packet loss, &lt;span class="nb">time&lt;/span> 2029ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Depending on &lt;strong>AVS connectivity settings&lt;/strong>, if we rely on routes announced from the Express Route connection to reach Internet or other Azure resources: we cannot communicate with resources out of AVS due to the lack of announced routes.&lt;/p>
+&lt;h3 id="additional-information-about-avs-connectivity">Additional information about AVS connectivity&lt;/h3>
+&lt;p>If you need to learn more about AVS connectivity, I strongly recommend you to read the following posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/concepts-networking">Azure VMware Solution networking and interconnectivity concepts&lt;/a> in Azure documentation&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/concepts-network-design-considerations">Azure VMware Solution network design considerations&lt;/a> in Azure documentation&lt;/li>
+&lt;li>&lt;a href="https://blog.cloudtrooper.net/2022/05/16/azure-vmware-solution-networking-voodoo/">Azure VMware Solution networking voodoo&lt;/a> by Jose Moreno&lt;/li>
+&lt;/ul>
+&lt;h2 id="stage-6--advertise-a-default-routes-to-avs">Stage 6 – Advertise a default routes to AVS&lt;/h2>
+&lt;p>In the current stage, we will introduce a default route (0.0.0.0/0) announcement to AVS. According to the leitmotif of this blog post series, we will go step by step and we will start with the simplest solution: a default route announced from the &lt;code>avs-transit-vnet&lt;/code> to AVS. And we will temporarily ignore the previous components of our hub-and-spoke topology.&lt;/p>
+&lt;p>Firstly, we will need some extra components added to our &lt;em>AVS transit&lt;/em> topology:&lt;/p>
+&lt;ul>
+&lt;li>VM, &lt;code>avs-bgp-vm&lt;/code> to:
+&lt;ul>
+&lt;li>Initiate the BGP route announcement&lt;/li>
+&lt;li>Route the traffic incoming from AVS&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>An &lt;em>Azure Route Server&lt;/em> (ARS) to propagate the route announcements in the Azure SDN
+&lt;ul>
+&lt;li>This ARS component will be peered with the &lt;code>avs-bgp-vm&lt;/code> and will provide routes incoming from this BGP peer, to AVS, through the &lt;em>Virtual Network Gateway&lt;/em>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>A &lt;em>Route Table&lt;/em> (UDR) to override the default route advertised by the &lt;code>avs-bgp-vm&lt;/code>. Otherwise, the VM advertises itself as the default route for the whole vNET and will keep sending the Internet-bound traffic, &lt;a href="https://learn.microsoft.com/en-us/azure/route-server/troubleshoot-route-server#why-does-my-nva-lose-internet-connectivity-after-it-advertises-the-default-route-00000-to-azure-route-server">including the one sent by the VM back to the VM itself&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Advertise a default routes to AVS"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage6/hub_and_spoke_avs-Step6.drawio.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;blockquote>
+&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="avs-internet-connectivity-settings">AVS Internet connectivity settings&lt;/h3>
+&lt;p>Azure VMware Solution provides three options for Internet connectivity:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/concepts-design-public-internet-access#azure-vmware-solution-managed-snat">Microsoft-managed SNAT&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/concepts-design-public-internet-access#azure-public-ipv4-address-to-nsx-t-data-center-edge">Public IP addresses down to the NSX-T edges&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/concepts-design-public-internet-access#internet-service-hosted-in-azure">Customized Internet connectivity through the Express Route circuit routes announcements&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>In this blog post series, we will consider that AVS is configured to get its &lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/concepts-design-public-internet-access#internet-service-hosted-in-azure">Internet connectivity from a default route announced through the Express Route circuit&lt;/a>.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS Internet connectivity settings"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-nva/stage6/avs-internet-connectivity-settings.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="routes-analysis-s6">Routes analysis (s6)&lt;/h3>
+&lt;p>When the creation of the new components and connections is completed, we could look at effective routes to see the result:&lt;/p>
+&lt;p>From the deployed &lt;em>Azure Route Server&lt;/em>, we can see the BGP peer:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az network routeserver peering show -g nva-testing-RG &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -n avs-rs-bgp-connection --routeserver AVSTransitRouterServer &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">Name PeerAsn PeerIp ProvisioningState ResourceGroup
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">--------------------- --------- ------------- ------------------- ---------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">avs-rs-bgp-connection &lt;span class="m">65002&lt;/span> 10.100.203.68 Succeeded nva-testing-RG
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And we &lt;strong>should&lt;/strong> see the learned route, advertised by the BGP peer:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az network routeserver peering list-learned-routes &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> -g nva-testing-RG -n avs-rs-bgp-connection &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> --routeserver AVSTransitRouterServer -o table
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="c1"># output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">Issue: no route displayed there!
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;div class="notices warning">
+&lt;div class="label">Issue: no route displayed there&lt;/div>
+&lt;p>The &lt;code>list-learned-routes&lt;/code> command does not work as expected. The issue is currently under investigation.
+In the meantime, we will use the PowerShell command &lt;code>Get-AzRouteServerPeerLearnedRoute&lt;/code> to display the routes.&lt;/p>
+&lt;/div>
+&lt;p>Using PowerShell, the advertised routes are displayed:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nv">$routes&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="vm">@&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl"> &lt;span class="n">RouteServerName&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;AVSTransitRouterServer&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> &lt;span class="n">ResourceGroupName&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;nva-testing-RG&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="n">PeerName&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s1">&amp;#39;avs-rs-bgp-connection&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="nb">Get-AzRouteServerPeerLearnedRoute&lt;/span> &lt;span class="nv">@routes&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nb">ft
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="nb">&lt;/span>&lt;span class="n">LocalAddress&lt;/span> &lt;span class="n">Network&lt;/span> &lt;span class="n">NextHop&lt;/span> &lt;span class="n">SourcePeer&lt;/span> &lt;span class="n">Origin&lt;/span> &lt;span class="n">AsPath&lt;/span> &lt;span class="n">Weight&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="p">------------&lt;/span> &lt;span class="p">-------&lt;/span> &lt;span class="p">-------&lt;/span> &lt;span class="p">----------&lt;/span> &lt;span class="p">------&lt;/span> &lt;span class="p">------&lt;/span> &lt;span class="p">------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="mf">10.100&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">203&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">36&lt;/span> &lt;span class="mf">0.0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="mf">0&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="mf">0&lt;/span> &lt;span class="mf">10.100&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">203&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">68&lt;/span> &lt;span class="mf">10.100&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">203&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">68&lt;/span> &lt;span class="n">EBgp&lt;/span> &lt;span class="mf">65002&lt;/span> &lt;span class="mf">32768&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="mf">10.100&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">203&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">37&lt;/span> &lt;span class="mf">0.0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">0&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="mf">0&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="mf">0&lt;/span> &lt;span class="mf">10.100&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">203&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">68&lt;/span> &lt;span class="mf">10.100&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">203&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">68&lt;/span> &lt;span class="n">EBgp&lt;/span> &lt;span class="mf">65002&lt;/span> &lt;span class="mf">32768&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can see that the &lt;code>avs-bgp-vm&lt;/code> is advertising itself as the next hop for the default route. This is the expected behavior.&lt;/p>
+&lt;h3 id="tests-s6">Tests (s6)&lt;/h3>
+&lt;p>From a VM hosted in AVS, we can now reach Internet, by going through the &lt;code>avs-bgp-vm&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">ubuntu@avs-vm-100-10:~$ mtr 1.1.1.1 --report
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">HOST: avs-vm-100-10 Loss% Snt Last Avg Best Wrst StDev
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> 1.&lt;span class="p">|&lt;/span>-- _gateway 0.0% &lt;span class="m">10&lt;/span> 0.1 0.2 0.1 0.2 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> 2.&lt;span class="p">|&lt;/span>-- 100.64.176.0 0.0% &lt;span class="m">10&lt;/span> 0.2 0.3 0.2 0.3 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> 3.&lt;span class="p">|&lt;/span>-- 100.72.18.17 0.0% &lt;span class="m">10&lt;/span> 0.9 0.8 0.7 0.9 0.1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> 4.&lt;span class="p">|&lt;/span>-- 10.100.100.233 0.0% &lt;span class="m">10&lt;/span> 1.0 1.0 0.9 1.1 0.1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl"> 5.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl"> 6.&lt;span class="p">|&lt;/span>-- 10.100.203.68 0.0% &lt;span class="m">10&lt;/span> 3.2 4.0 2.6 7.3 2.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl"> 7.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl"> 8.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> 9.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> 10.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> 11.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> 12.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> 13.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> 14.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl"> 15.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> 16.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl"> 17.&lt;span class="p">|&lt;/span>-- ??? 100.0 &lt;span class="m">10&lt;/span> 0.0 0.0 0.0 0.0 0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl"> 18.&lt;span class="p">|&lt;/span>-- one.one.one.one 0.0% &lt;span class="m">10&lt;/span> 5.7 4.9 3.9 9.6 1.7
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In previous route-tracing report, &lt;code>10.100.203.68&lt;/code> is the IP of &lt;code>avs-bgp-vm&lt;/code>, acting like a router or NVA, as expected for this scenario.&lt;/p>
+&lt;p>But obviously, this is not the behavior of a standard spoke for the rest of the h&amp;amp;s topology. This step was only there to prepare some of the components we will need further.&lt;/p>
+&lt;h3 id="additional-information-about-avs-connectivity-with-azure-route-server">Additional information about AVS connectivity with Azure Route Server&lt;/h3>
+&lt;p>If you need to learn more about AVS connectivity with Azure Route Server in Azure, I strongly recommend you to read the following posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/route-server/vmware-solution-default-route">Injecting routes to Azure VMware Solution with Azure Route Server&lt;/a> in Azure documentation&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/eslz-network-topology-connectivity">Network Virtual Appliance in Azure Virtual Network to inspect all network traffic&lt;/a> in Azure documentation&lt;/li>
+&lt;/ul>
+&lt;h2 id="part-2--conclusion">Part 2 – Conclusion&lt;/h2>
+&lt;p>In this second part, we have seen how to mitigate the asymmetric routing issue by configuring a new &lt;em>Route Table&lt;/em> applicable to VPN Gateway and we created the network components to advertise BGP routes to the &lt;em>Azure VMware Solution&lt;/em> deployment with the help of &lt;em>Azure Route Server&lt;/em>.&lt;/p>
+&lt;p>In the next (and probably last) part, we will see how to configure this AVS transit topology as a normal spoke in the hub and spoke topology. We will also cover a simplification of the On-Premises connectivity configuration, relying on &lt;em>Azure Route Server&lt;/em>.&lt;/p></description></item><item><title>Mock-up Azure VMware Solution in Hub-and-Spoke topology – Part 1</title><link>https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/</link><pubDate>Wed, 22 Feb 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/</guid><description>
 &lt;p>If you are using &lt;a href="https://vuptime.io/tags/azure-vmware-solution/">Azure VMware Solution&lt;/a> to run your VMware workloads on Azure, you might wonder how to connect it with other Azure resources in a secure and efficient way. One option is to use a &lt;a href="https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/hub-spoke">hub-and-spoke network topology&lt;/a>, which is a design pattern that consists of a central virtual network (the &lt;strong>hub&lt;/strong>) that acts as a gateway for multiple &lt;strong>spoke&lt;/strong> virtual networks. In this blog post, we will investigate how to make Azure VMware Solution work with hub and spoke topology and what are the challenges of this approach.&lt;/p>
 &lt;p>By using a hub and spoke topology with Azure VMware Solution, you can achieve several benefits such as improved security &amp;amp; isolation of cloud hosted workloads. However, you also need to consider some challenges such as complexity, latency, bandwidth limitations, routing complexity, firewall rules management, etc. Therefore, it is important to plan your network design carefully according to your specific requirements.&lt;/p>
 &lt;p>The official Azure documentation already provides a set of scenarios related to network connectivity for Azure VMware Solution. You can find them &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures">here&lt;/a>. In this blog post series, we will reproduce, step-by-step, a mock-up scenario very close from the &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures#network-virtual-appliance-in-azure-virtual-network-to-inspect-all-network-traffic">&lt;em>Network virtual appliance in Azure Virtual Network to inspect all network traffic&lt;/em>&lt;/a> one.&lt;/p>
