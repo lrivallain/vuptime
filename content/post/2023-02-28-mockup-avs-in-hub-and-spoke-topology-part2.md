@@ -173,7 +173,8 @@ Issue: no route displayed there!
 ```
 
 {{% notice warning "Issue: no route displayed there" %}}
-The `list-learned-routes` command does not work as expected. The issue is currently under investigation. In the meantime, we will use the PowerShell command `Get-AzRouteServerPeerLearnedRoute` to display the routes.
+The `list-learned-routes` command does not work as expected. The issue is currently under investigation.
+In the meantime, we will use the PowerShell command `Get-AzRouteServerPeerLearnedRoute` to display the routes.
 {{% /notice %}}
 
 Using PowerShell, the advertised routes are displayed:
