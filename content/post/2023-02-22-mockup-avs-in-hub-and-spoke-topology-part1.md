@@ -231,7 +231,7 @@ Default                Active   10.100.201.0/24   VnetLocal
 Default                Active   10.100.200.0/24   VNetPeering
 VirtualNetworkGateway  Active   10.100.204.0/24   VirtualNetworkGateway  20.16.121.157
 Default                Invalid  0.0.0.0/0         Internet
-User                   Active   0.0.0.0/0         VirtualAppliance       10.100.200.68
+User                   Active   0.0.0.0/0         VirtualAppliance       10.100.200.68 # <--- via hub-nva
 ```
 
 ![Effective routes on spoke-1-vm.nic[0]](/images/avs-nva/stage2/effectives-routes-spoke-1-vm.png)
@@ -320,7 +320,7 @@ Source    State    Address Prefix    Next Hop Type     Next Hop IP
 Default   Active   10.100.201.0/24   VnetLocal
 Default   Active   10.100.200.0/24   VNetPeering
 Default   Invalid  0.0.0.0/0         Internet
-User      Active   0.0.0.0/0         VirtualAppliance  10.100.200.68
+User      Active   0.0.0.0/0         VirtualAppliance  10.100.200.68 # <--- via hub-nva
 ```
 
 ![Effective routes on spoke-1-vm.nic[0]](/images/avs-nva/stage3/effectives-routes-spoke-1-vm.png)
