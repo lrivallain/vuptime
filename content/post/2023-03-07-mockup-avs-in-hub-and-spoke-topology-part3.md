@@ -14,7 +14,7 @@ tags:
 - network
 - hub and spoke
 toc: true
-thumbnail: /images/avs-nva/icon2.png
+thumbnail: /images/avs-nva/icon3.png
 ---
 
 In the previous blog posts ([part 1](/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/) and [part 2](/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/)), we covered the deployment of the basic components of an Hub and Spoke topology including an Azure VMware Solution (AVS) deployment.
