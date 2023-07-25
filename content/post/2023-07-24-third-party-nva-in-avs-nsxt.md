@@ -1,6 +1,6 @@
 ---
 title: Third-party firewall NVA in Azure VMware Solution NSX-T deployment
-date: "2023-07-27"
+date: "2023-07-24"
 author: lrivallain
 author_name: Ludovic Rivallain
 categories:
