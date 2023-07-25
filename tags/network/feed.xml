@@ -1,4 +1,196 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>network on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/network/</link><description>Recent content in network on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 07 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/network/feed.xml" rel="self" type="application/rss+xml"/><item><title>Mock-up Azure VMware Solution in Hub-and-Spoke topology – Part 3</title><link>https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/</link><pubDate>Tue, 07 Mar 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>network on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/network/</link><description>Recent content in network on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/network/feed.xml" rel="self" type="application/rss+xml"/><item><title>Third-party firewall NVA in Azure VMware Solution NSX-T deployment</title><link>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</link><pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</guid><description>
+&lt;p>In a previous series of blog posts (posts: &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">1&lt;/a>, &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/">2&lt;/a> &amp;amp; &lt;a href="https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/">3&lt;/a>), we covered the deployment of a third-party firewall Network Virtual Appliance (NVA) in Azure to integrate an Azure VMware Solution (AVS) deployment in a Hub&amp;amp;Spoke network topology. This setup enable traffic filtering for &lt;em>ingress&lt;/em> and &lt;em>egress&lt;/em> traffic &lt;em>to&lt;/em> and &lt;em>from&lt;/em> the AVS environment (N/S) but do not provide any filtering between AVS workloads (E/W). The recommended way to achieve this is to rely on the NSX-T distributed firewall capabilities.&lt;/p>
+&lt;p>In this blog post, we will cover the deployment of a third-party firewall NVA in an AVS SDDC itself to provide traffic filtering between AVS workloads without relying on the NSX-T distributed firewall capabilities.&lt;/p>
+&lt;p>I will not discuss here the reasons to deploy a 3&lt;sup>rd&lt;/sup> firewall NVA in AVS SDDC. I will just mention that this is a common request from customers that want to continue using the same firewall technology in AVS that they have been using for an on-premises datacenter.&lt;/p>
+&lt;p>This topic was also covered by several colleagues of mine in previous blog posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://techcommunity.microsoft.com/t5/azure-migration-and/firewall-integration-in-azure-vmware-solution/ba-p/2254961">Third-party firewall NVA in Azure VMware Solution&lt;/a> by &lt;a href="https://techcommunity.microsoft.com/t5/user/viewprofilepage/user-id/704914">Amit Aneja&lt;/a> (Microsoft).&lt;/li>
+&lt;li>&lt;a href="https://vskeeball.com/2022/03/28/third-party-firewalls-in-avs/">Third Party Firewalls in AVS&lt;/a> by &lt;a href="https://www.linkedin.com/in/kenyonhensler/">Kenyon Hensler&lt;/a> (Microsoft).&lt;/li>
+&lt;li>&lt;a href="https://www.virtualworkloads.com/2020/07/azure-vmware-solution-connecting-3rd-party-networking-and-security-platforms/">Azure VMware Solution: Connecting 3rd Party Networking and Security Platforms&lt;/a> By: &lt;a href="https://www.linkedin.com/in/vcdx076/">Gourav Bhardwaj&lt;/a> (VMware), &lt;a href="https://www.virtualworkloads.com/author/trevordavis/">Trevor Davis&lt;/a> (Microsoft) and &lt;a href="https://www.linkedin.com/in/jjtm/">Jeffrey Moore&lt;/a> (VMware).&lt;/li>
+&lt;/ul>
+&lt;p>I will try to provide some details to help in the deployment of a such solution.&lt;/p>
+&lt;h2 id="default-avs-topology">Default AVS topology&lt;/h2>
+&lt;p>By default, an AVS SDDC is deployed with preprovisioned NSX-T Tier-0 and Tier-1 Gateways. The Tier-0 Gateway is used to connect the AVS SDDC to &lt;em>Top-of-rack&lt;/em> and Azure SDN, and is fully Microsoft-managed. The default Tier-1 Gateway can be used to deploy network segments and is customer-managed. Customers can also create more Tier-1 Gateways if needed.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS default topology"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-default-topology.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="challenges-of-inserting-a-third-party-firewall-nva-in-avs-sddc">Challenges of inserting a third-party firewall NVA in AVS SDDC&lt;/h2>
+&lt;p>The first limit to understand with 3&lt;sup>rd&lt;/sup> party NVA insertion in AVS SDDC is that it is not possible to rely on &lt;a href="https://docs.vmware.com/en/VMware-NSX/4.1/administration/GUID-891363D9-D7D6-418B-9C81-33F2A42EA665.html">NSX-T &lt;em>Service Insertion&lt;/em>&lt;/a> capabilities. This limit is mostly driven by the &amp;quot;&lt;em>managed&lt;/em>&amp;quot; nature of Azure VMware Solution.&lt;/p>
+&lt;p>A second limit to consider it that 3&lt;sup>rd&lt;/sup> party NVA deployed in the AVS SDDC are limited by the number of virtual network interfaces that can be attached to a single VM. With only 10 NICs available per Virtual Machine, it is not possible to directly connect an NVA to a deployment with more than 9 workload segments.&lt;/p>
+&lt;p>A possible mitigation is to use a &lt;em>Transit Segment&lt;/em>. This &lt;em>Transit Segment&lt;/em> will be connected to additional Tier-1 Gateway and will be used to route traffic between the NVA and the workload segments via additional Tier-1 Gateways. In this topology, the new limit will be based on the maximum number of Tier-1 Gateways that can be deployed in an AVS SDDC and/or the size of the transit subnet address plan. This enables provisioning 100s of workload segments if needed.&lt;/p>
+&lt;h2 id="layered-network-topology">Layered network topology&lt;/h2>
+&lt;p>In order to deploy a third-party firewall NVA in an AVS SDDC, we will need to deploy a layered network topology. This topology will be composed of 3 layers:&lt;/p>
+&lt;ul>
+&lt;li>A &lt;strong>Root-segment&lt;/strong>, connected to the first layer of Tier-1 gateway (like the one deployed by default) and to the NVA uplink.&lt;/li>
+&lt;li>One or more &lt;strong>Transit-segment&lt;/strong>, connected to the NVA downlink(s) and a second layer of Tier-1 gateways&lt;/li>
+&lt;li>Workload-segments where the Virtual Machines will be deployed.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS layered topology"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-topology.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="transit-segment-or-transit-segmentusu">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
+&lt;p>There are two possible strategies regarding the number of &lt;em>Transit-segment&lt;/em> to deploy:&lt;/p>
+&lt;ol>
+&lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>This setup will provide scalability &lt;a href="#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
+&lt;li>This setup can be more complex to maintain and will have scalability limit if E/W traffic filtering at NVA level, is required.&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>This &amp;quot;1 Tier-1 gateway per workload segment&amp;quot; setup will mitigate the issue mentioned above regarding the filtering of E/W traffic.&lt;/li>
+&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
+&lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="static-routes">Static routes&lt;/h3>
+&lt;p>In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Gateway/Device&lt;/th>
+&lt;th>Route&lt;/th>
+&lt;th>Next Hop&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Root Tier-1&lt;/td>
+&lt;td>workload segments&lt;/td>
+&lt;td>NVA&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Workload Tier-1s&lt;/td>
+&lt;td>default route (0/0)&lt;/td>
+&lt;td>NVA&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>NVA&lt;/td>
+&lt;td>workload segments&lt;/td>
+&lt;td>Workload Tier-1&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Here is an example, applied to my lab environment:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Static routes to configure"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-static-routes.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="traffic-flow-analysis">Traffic flow analysis&lt;/h3>
+&lt;h4 id="intra-segment-traffic">Intra-segment traffic&lt;/h4>
+&lt;p>As you may already imagine, the traffic flow for Virtual Machines deployed in the same workload segment will not be impacted by the NVA insertion. The traffic will be routed directly between the Virtual Machines at the L2 level.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Traffic flow between VMs in the same segment"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-intra-segment.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="east-west-inter-segment-traffic-same-tier-1">East-West, Inter-segment traffic, same Tier-1&lt;/h4>
+&lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Traffic flow between VMs in different segments, same T1"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-side-to-side-segments.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;blockquote>
+&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="east-west-inter-segment-traffic-different-tier-1">East-West, Inter-segment traffic, different Tier-1&lt;/h4>
+&lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Traffic flow between VMs in different segments, different T1"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-segment-to-segment-through-fw.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p>
+&lt;blockquote>
+&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="north-south-traffic">North-South traffic&lt;/h4>
+&lt;p>North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p>
+&lt;ul>
+&lt;li>Azure based resources&lt;/li>
+&lt;li>On-premises resources via ExpressRoute or VPN&lt;/li>
+&lt;li>Internet&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Traffic flow between VMs in different segments, different T1"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-north-south-connectivity.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="other-considerations">Other considerations&lt;/h2>
+&lt;h3 id="security-recommendations">Security recommendations&lt;/h3>
+&lt;p>With multiple routing devices (Tier-1 gateways) deployed behind the NVA, it is important to ensure that the NVA is not bypassed by the traffic. It is recommended to consider blocking &lt;a href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Redirect">ICMP redirects&lt;/a> at the distributed firewall level and to configure the NVA to:&lt;/p>
+&lt;ul>
+&lt;li>Ignore ICMP redirects&lt;/li>
+&lt;li>Not send ICMP redirects&lt;/li>
+&lt;/ul>
+&lt;p>Introducing new static routes may also lead to traffic routing bypassing the NVA. It is important to ensure a proper configuration of the static routes in the Tier-1 Gateways.&lt;/p>
+&lt;h3 id="nva-high-availability">NVA high availability&lt;/h3>
+&lt;p>Here I only demonstrated the capacity to architect and organize traffic flow, to be filtered by a single NVA instance. In a production environment, it is important to consider the high availability of the NVA. This can be achieved by deploying multiple NVA instances and consider VRRP (Virtual Router Redundancy Protocol) grouping and load-balancing to ensure the high availability of the NVA.&lt;/p>
+&lt;h3 id="known-limitations">Known limitations&lt;/h3>
+&lt;p>A well-known limitation of this design topology is about HCX and the &lt;a href="https://docs.vmware.com/en/VMware-HCX/4.6/hcx-user-guide/GUID-0E254D74-60A9-479C-825D-F373C41F40BC.html">Mobility Optimized Network&lt;/a> (MON) were the behavior can be hard to predict. This is a reason &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/network-hub-spoke#third-party-nva-integration-in-avs">Mobility Optimized Network is not supported by Microsoft in AVS with a third party NVA setup&lt;/a>.&lt;/p></description></item><item><title>Mock-up Azure VMware Solution in Hub-and-Spoke topology – Part 3</title><link>https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/</link><pubDate>Tue, 07 Mar 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/</guid><description>
 &lt;p>In the previous blog posts (&lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">part 1&lt;/a> and &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/">part 2&lt;/a>), we covered the deployment of the basic components of an Hub and Spoke topology including an Azure VMware Solution (AVS) deployment.&lt;/p>
 &lt;p>In the first post we deployed and configured a mockup of Hub and Spoke environment. In the second post we connected the AVS environment to an &lt;em>AVS transit vNet&lt;/em> and advertised a default route to the AVS workload. This default route was not yet using our &lt;code>hub-vna&lt;/code> appliance but an appliance deployed in the &lt;code>avs-transit-vnet&lt;/code> to reach out Internet.&lt;/p>
 &lt;p>In this step, we will integrate our &lt;code>avs-transit-vnet&lt;/code> within the overall h&amp;amp;s topology and rely on the &lt;code>hub-nva&lt;/code> VM to manage all the required filtering either for:&lt;/p>
