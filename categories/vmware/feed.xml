@@ -1,4 +1,309 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VMWare on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/vmware/</link><description>Recent content in VMWare on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>Third-party firewall NVA in Azure VMware Solution NSX-T deployment</title><link>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</link><pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VMWare on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/vmware/</link><description>Recent content in VMWare on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure VMware Solution integration with VMware Aria Operations for Logs Cloud service</title><link>https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/</link><pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/</guid><description>
+&lt;p>VMware Aria Operations for Logs (formerly vRealize Log Insight and vRealize Log Insight Cloud) is a log management solution that provides visibility across physical, virtual, and cloud environments. It enables you to search and analyze logs in real time, and it provides a scalable platform for managing log data. VMware Aria Operations for Logs can be deployed on-premises or in the cloud. The cloud version is a SaaS offering that is hosted and managed by VMware.&lt;/p>
+&lt;p>In the following post we will see how to collect logs from Azure VMware Solution (AVS), leverage on Azure Event Hub to forward the logs to the VMware Aria Operations for Logs Cloud Service.&lt;/p>
+&lt;h2 id="prerequisites">Prerequisites&lt;/h2>
+&lt;p>In order to proceed with the following steps, you will need the following:&lt;/p>
+&lt;ul>
+&lt;li>An Azure VMware Solution SDDC deployed in your Azure Subscription&lt;/li>
+&lt;li>A VMware Cloud Services account with the VMware Aria Operations for Logs service enabled&lt;/li>
+&lt;/ul>
+&lt;p>We will also need to create a few resources in Azure:&lt;/p>
+&lt;ul>
+&lt;li>An &lt;em>Event Hub Namespace&lt;/em>&lt;/li>
+&lt;li>An &lt;em>Event Hub&lt;/em> to receive and forward the logs&lt;/li>
+&lt;li>Two &lt;em>Event Hub Authorization Rules&lt;/em>
+&lt;ul>
+&lt;li>1 to allow AVS SDDC diagnostic log forwarded to sent logs to the Event Hub&lt;/li>
+&lt;li>1 to allow an Azure Function to listen to event hub messages and to send logs to the VMware Aria Operations for Logs Cloud Service&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="example-of-terraform-code-to-create-the-event-hub-namespace-event-hub">Example of Terraform code to create the Event Hub Namespace, Event Hub&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub_namespace&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhubnamespace&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-eventhubnamespace&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_location&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="na">sku&lt;/span> = &lt;span class="s2">&amp;#34;Standard&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="na">capacity&lt;/span> = &lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="c1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="c1"># Authorization Rule to allow AVS SDDC diagnostic log forwarded to sent logs to the Event Hub
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub_namespace_authorization_rule&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhubnamespace-authorization-rule&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-authorization-rule&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> &lt;span class="na">namespace_name&lt;/span> = &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="na">listen&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="na">send&lt;/span> = &lt;span class="kc">true&lt;/span>&lt;span class="c1"> # AVS SDDC diagnostic log forwarded to sent logs to the Event Hub
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">manage&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="example-of-terraform-code-to-create-authorization-rules">Example of Terraform code to create Authorization Rules&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="c1"># Authorization Rule to allow an Azure Function to listen to event hub messages and
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># to send logs to the VMware Aria Operations for Logs Cloud Service
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub_namespace_authorization_rule&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhubnamespace-af-authorization-rule&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;af-authorization-rule&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="na">namespace_name&lt;/span> = &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl"> &lt;span class="na">listen&lt;/span> = &lt;span class="kc">true&lt;/span>&lt;span class="c1"> # Azure Function will listen to event hub messages
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">send&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl"> &lt;span class="na">manage&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="kr">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhub&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-eventhub&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="na">namespace_name&lt;/span> = &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl"> &lt;span class="na">partition_count&lt;/span> = &lt;span class="m">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> &lt;span class="na">message_retention&lt;/span> = &lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="azure-vmware-solution-sddc-diagnostic-logs">Azure VMware Solution SDDC Diagnostic Logs&lt;/h2>
+&lt;p>In order to forward the logs from the Azure VMware Solution SDDC to the Event Hub, we will leverage on the Azure Diagnostic Settings.&lt;/p>
+&lt;p>From Azure Portal: &lt;em>Azure VMware Solution &amp;gt; SDDCs &amp;gt; Select your SDDC &amp;gt; Diagnostic Settings&lt;/em>&lt;/p>
+&lt;p>Then we select the logs we want to forward, the event hub namespace, the event hub and the &lt;em>send&lt;/em> authorization rule we created earlier.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Azure VMware Solution SDDC Diagnostic Settings"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/avs-diagnostic-settings.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>When saved, we can go to the next step: preparing VMware Aria Operations for Logs Cloud Service.&lt;/p>
+&lt;h2 id="configuration-of-vmware-aria-operations-for-logs-cloud-service">Configuration of VMware Aria Operations for Logs Cloud Service&lt;/h2>
+&lt;p>In VMware Aria Operations for Logs Cloud Service, generate API Key from here &lt;a href="https://www.mgmt.cloud.vmware.com/li/api-keys/keys">mgmt.cloud.vmware.com/li/api-keys/keys&lt;/a>.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="VMware Aria Operations for Logs Cloud Service API Keys"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/aria-create-api-key.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Once created, copy the &lt;code>API URL&lt;/code> and &lt;code>API Token&lt;/code> to a temporary location, we will need them later.&lt;/p>
+&lt;h2 id="deploy-azure-function">Deploy Azure Function&lt;/h2>
+&lt;p>In order to forward the logs from the Event Hub to the VMware Aria Operations for Logs Cloud Service, we will leverage on an Azure Function to listen incoming messages in the hub and forwarding to the Aria service.&lt;/p>
+&lt;p>A sample Azure Function is provided by VMware here: &lt;a href="https://github.com/vmware/vmware-log-collectors-for-public-cloud/blob/master/azure/">github.com/vmware/vmware-log-collectors-for-public-cloud/blob/master/azure/&lt;/a> and can be easily deployed by using this template:&lt;/p>
+&lt;p>&lt;a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fvmware%2Fvmware-log-collectors-for-public-cloud%2Fmaster%2Fazure%2Fdeployments%2FeventHub%2Fazure-template-existing-eventhub.json">&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt=""
+class="image_figure image_external image_svg image_unprocessed"
+src="https://aka.ms/deploytoazurebutton"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/a>&lt;/p>
+&lt;p>In the configuration process, provide the &lt;code>API URL&lt;/code> and &lt;code>API Token&lt;/code> generated earlier:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Azure Function Configuration::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/azure-functions-configure-deployment.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="post-deployment-configuration-of-azure-function">Post Deployment configuration of Azure Function&lt;/h3>
+&lt;p>When the function has been created, you need to setup the Event Hub connection string as a configuration of the Azure Function.&lt;/p>
+&lt;ol>
+&lt;li>To get Event Hub connection string (&lt;a href="#example-of-terraform-code-to-create-authorization-rules">created earlier&lt;/a>) from Azure Portal: &lt;code>*Event Hub Namespace &amp;gt; Shared access policies &amp;gt; your-eventhubnamespace-af-authorization-rule &amp;gt; Connection string-primary key*&lt;/code>&lt;/li>
+&lt;li>Then go to the deployed function App to set new environment variable : &lt;code>*Function App &amp;gt; Configuration &amp;gt; New application setting*&lt;/code> and add the connection string as a new application setting:
+&lt;ul>
+&lt;li>Name: &lt;code>AzureEventHubLogsConnectionString&lt;/code>&lt;/li>
+&lt;li>Value: &lt;code>&amp;lt;Event Hub connection string&amp;gt;&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Save the configuration&lt;/li>
+&lt;/ol>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Add new application setting with event hub connection string::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/azure-function-app-settings.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;ol start="4">
+&lt;li>When saved, open the function and go to the &lt;em>Integrations&lt;/em> tab&lt;/li>
+&lt;/ol>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Azure Function Integration tab::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/azure-function-integrations.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;ol start="5">
+&lt;li>Select the Event Hub Trigger and select the &lt;code>Azure Event Hubs&lt;/code> trigger to edit it.&lt;/li>
+&lt;li>Select the &lt;code>AzureEventHubLogsConnectionString&lt;/code> connection string from the &lt;code>Event Hub Connection&lt;/code> drop-down menu and update the &lt;code>Event Hub name&lt;/code> in the appropriate field.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Azure Function Event Hub Trigger parameters::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/af-trigger-event-hub-name.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;ol start="7">
+&lt;li>Save the configuration&lt;/li>
+&lt;/ol>
+&lt;h2 id="log-analysis-in-vmware-aria-operations-for-logs-cloud-service">Log analysis in VMware Aria Operations for Logs Cloud Service&lt;/h2>
+&lt;p>At this point, the logs from the Azure VMware Solution SDDC should be forwarded to the VMware Aria Operations for Logs Cloud Service.&lt;/p>
+&lt;p>I will not cover the features of the VMware Aria Operations for Logs Cloud Service in this post, but you can find more information here: &lt;a href="https://www.vmware.com/products/aria-operations-for-logs.html">vmware.com/products/aria-operations-for-logs.html&lt;/a>. Instead, I will just highlight some filtering capabilities to help you to find the logs from the Azure VMware Solution SDDC.&lt;/p>
+&lt;h3 id="azure-vmware-solution-content-pack">Azure VMware Solution content pack&lt;/h3>
+&lt;p>The Azure VMware Solution content pack is a pre-built VMware Aria Operations for Logs content pack that provides a set of dashboards and queries to help you to analyze the logs from the Azure VMware Solution SDDC. It also provides a big set of new &lt;em>extracted fields&lt;/em> to help you to filter the logs.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="List of dashboard in the Azure VMware Solution content pack"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/ContentPack_AVS.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="filtering-logs-from-a-specific-azure-vmware-solution-sddc">Filtering logs from a specific Azure VMware Solution SDDC&lt;/h3>
+&lt;p>If you are running multiple Azure VMware Solution SDDCs, you can filter the logs from a specific SDDC by using the &lt;code>resourceId&lt;/code> field.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Filter logs on resourceId"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/filter-logs-on-resourceId.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="filtering-fields">Filtering fields&lt;/h3>
+&lt;p>The following fields can also be very effective to optimize a log search:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Field name&lt;/th>
+&lt;th>Example&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>appname&lt;/td>
+&lt;td>&lt;em>vpxd&lt;/em>&lt;/td>
+&lt;td>The name of the application that generated the log message.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>category&lt;/td>
+&lt;td>&lt;em>vmwaresyslog&lt;/em>&lt;/td>
+&lt;td>The category of the log message selected in AVS troubleshooting pane.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>event_provider&lt;/td>
+&lt;td>&lt;em>AZURE_AVS&lt;/em>&lt;/td>
+&lt;td>The provider of the log message.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>eventsource&lt;/td>
+&lt;td>&lt;em>PRIVATECLOUDS&lt;/em>&lt;/td>
+&lt;td>The source of the log message.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>hostname&lt;/td>
+&lt;td>&lt;em>vc&lt;/em>&lt;/td>
+&lt;td>The name of the host that generated the log message. Could be ESXi, vCSA, NSX-T hostnames.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>location&lt;/td>
+&lt;td>&lt;em>southafricanorth&lt;/em>&lt;/td>
+&lt;td>The Azure region where the SDDC is deployed.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>severity&lt;/td>
+&lt;td>&lt;em>info&lt;/em>&lt;/td>
+&lt;td>The severity of the log message.&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="dashboards">Dashboards&lt;/h3>
+&lt;p>Dashboards can also be very useful to visualize the logs from Azure VMware Solution SDDCs.&lt;/p>
+&lt;p>You can use pre-built dashboards from the &lt;em>Azure VMware Solution&lt;/em> content packs to monitor:&lt;/p>
+&lt;ul>
+&lt;li>NSX-T Application events&lt;/li>
+&lt;li>Firewall events&lt;/li>
+&lt;li>General AVS events&lt;/li>
+&lt;li>Events by severity&lt;/li>
+&lt;/ul>
+&lt;p>Or you can create custom dashboard to visualize logs for specific needs:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Example of Azure VMware Solution SDDC Dashboard in VMware Aria Operations for Logs"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/CustomDashboards.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="explore-logs">Explore logs&lt;/h3>
+&lt;p>With the log exploration feature of VMware Aria Operations for Logs, you can easily search for specific logs and visualize them in a table or in a chart.&lt;/p>
+&lt;p>In this example, we are looking for the last logs for snapshots creation tasks.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Explore logs in VMware Aria Operations for Logs"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/lookup-for-snapshot-logs.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>You can also use the &lt;em>Live tail&lt;/em> feature to monitor the logs in real time.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Live tail in VMware Aria Operations for Logs"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-aria-logs/LiveLogsTail.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p></description></item><item><title>Third-party firewall NVA in Azure VMware Solution NSX-T deployment</title><link>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</link><pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</guid><description>
 &lt;p>In a previous series of blog posts (posts: &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">1&lt;/a>, &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/">2&lt;/a> &amp;amp; &lt;a href="https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/">3&lt;/a>), we covered the deployment of a third-party firewall Network Virtual Appliance (NVA) in Azure to integrate an Azure VMware Solution (AVS) deployment in a Hub&amp;amp;Spoke network topology. This setup enable traffic filtering for &lt;em>ingress&lt;/em> and &lt;em>egress&lt;/em> traffic &lt;em>to&lt;/em> and &lt;em>from&lt;/em> the AVS environment (N/S) but do not provide any filtering between AVS workloads (E/W). The recommended way to achieve this is to rely on the NSX-T distributed firewall capabilities.&lt;/p>
 &lt;p>In this blog post, we will cover the deployment of a third-party firewall NVA in an AVS SDDC itself to provide traffic filtering between AVS workloads without relying on the NSX-T distributed firewall capabilities.&lt;/p>
 &lt;p>I will not discuss here the reasons to deploy a 3&lt;sup>rd&lt;/sup> firewall NVA in AVS SDDC. I will just mention that this is a common request from customers that want to continue using the same firewall technology in AVS that they have been using for an on-premises datacenter.&lt;/p>
