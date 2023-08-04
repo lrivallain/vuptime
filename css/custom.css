@@ -58,6 +58,12 @@ figure figcaption h4:before {
     content: "Caption: ";
 }
 
+/* Border around some pictures for better visibility */
+html[data-mode="lit"] .picture-border {
+    border: 1px solid #575757;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
 
 /* KB cards */
 .content .cards .post_item {

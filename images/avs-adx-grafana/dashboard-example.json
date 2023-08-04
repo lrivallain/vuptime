@@ -1,0 +1,443 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": {
+                    "type": "grafana",
+                    "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "target": {
+                    "limit": 100,
+                    "matchAny": false,
+                    "tags": [],
+                    "type": "dashboard"
+                },
+                "type": "dashboard"
+            }
+        ]
+    },
+    "description": "",
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 16,
+    "links": [
+        {
+            "asDropdown": false,
+            "icon": "external link",
+            "includeVars": false,
+            "keepTime": false,
+            "tags": [],
+            "targetBlank": true,
+            "title": "vCenter",
+            "tooltip": "Open vCenter",
+            "type": "link",
+            "url": "https://10.100.100.2/ui"
+        },
+        {
+            "asDropdown": false,
+            "icon": "external link",
+            "includeVars": false,
+            "keepTime": false,
+            "tags": [],
+            "targetBlank": true,
+            "title": "NSX-T",
+            "tooltip": "Open NSX-T Manager",
+            "type": "link",
+            "url": "https://10.100.100.3"
+        }
+    ],
+    "liveNow": true,
+    "panels": [
+        {
+            "datasource": {
+                "type": "grafana-azure-data-explorer-datasource",
+                "uid": "a1S6N094z"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "max": 100,
+                    "thresholds": {
+                        "mode": "percentage",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "#EAB839",
+                                "value": 65
+                            },
+                            {
+                                "color": "red",
+                                "value": 75
+                            }
+                        ]
+                    },
+                    "unit": "%"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 3,
+                "w": 15,
+                "x": 0,
+                "y": 0
+            },
+            "id": 9,
+            "options": {
+                "colorMode": "background",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "9.5.6",
+            "targets": [
+                {
+                    "OpenAI": false,
+                    "database": "avs-monitoring",
+                    "datasource": {
+                        "type": "grafana-azure-data-explorer-datasource",
+                        "uid": "a1S6N094z"
+                    },
+                    "expression": {
+                        "from": {
+                            "property": {
+                                "name": "avs-logs",
+                                "type": "string"
+                            },
+                            "type": "property"
+                        },
+                        "groupBy": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "reduce": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "where": {
+                            "expressions": [],
+                            "type": "and"
+                        }
+                    },
+                    "pluginVersion": "4.5.0",
+                    "query": "['avs-metrics']\n| where $__timeFilter(['time']) and metricName == \"DiskUsedPercentage\"\n| project ['time'], Disk=average\n| order by ['time'] asc",
+                    "querySource": "raw",
+                    "queryType": "KQL",
+                    "rawMode": true,
+                    "refId": "Disk",
+                    "resultFormat": "table"
+                },
+                {
+                    "OpenAI": false,
+                    "database": "avs-monitoring",
+                    "datasource": {
+                        "type": "grafana-azure-data-explorer-datasource",
+                        "uid": "a1S6N094z"
+                    },
+                    "expression": {
+                        "from": {
+                            "property": {
+                                "name": "avs-logs",
+                                "type": "string"
+                            },
+                            "type": "property"
+                        },
+                        "groupBy": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "reduce": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "where": {
+                            "expressions": [],
+                            "type": "and"
+                        }
+                    },
+                    "hide": false,
+                    "pluginVersion": "4.5.0",
+                    "query": "['avs-metrics']\n| where $__timeFilter(['time']) and metricName == \"EffectiveCpuAverage\"\n| project ['time'], CPU=average\n| order by ['time'] asc",
+                    "querySource": "raw",
+                    "queryType": "KQL",
+                    "rawMode": true,
+                    "refId": "CPU",
+                    "resultFormat": "table"
+                },
+                {
+                    "OpenAI": false,
+                    "database": "avs-monitoring",
+                    "datasource": {
+                        "type": "grafana-azure-data-explorer-datasource",
+                        "uid": "a1S6N094z"
+                    },
+                    "expression": {
+                        "from": {
+                            "property": {
+                                "name": "avs-logs",
+                                "type": "string"
+                            },
+                            "type": "property"
+                        },
+                        "groupBy": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "reduce": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "where": {
+                            "expressions": [],
+                            "type": "and"
+                        }
+                    },
+                    "hide": false,
+                    "pluginVersion": "4.5.0",
+                    "query": "['avs-metrics']\n| where $__timeFilter(['time']) and metricName == \"UsageAverage\"\n| project ['time'], Memory=average\n| order by ['time'] asc",
+                    "querySource": "raw",
+                    "queryType": "KQL",
+                    "rawMode": true,
+                    "refId": "Memory",
+                    "resultFormat": "table"
+                }
+            ],
+            "title": "Current resources usage",
+            "transparent": true,
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "grafana-azure-data-explorer-datasource",
+                "uid": "a1S6N094z"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "lineInterpolation": "linear",
+                        "lineStyle": {
+                            "fill": "solid"
+                        },
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "dashed"
+                        }
+                    },
+                    "mappings": [],
+                    "max": 100,
+                    "min": 0,
+                    "thresholds": {
+                        "mode": "percentage",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "#EAB839",
+                                "value": 65
+                            },
+                            {
+                                "color": "red",
+                                "value": 75
+                            }
+                        ]
+                    },
+                    "unit": "%"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 19,
+                "w": 15,
+                "x": 0,
+                "y": 3
+            },
+            "id": 8,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "OpenAI": false,
+                    "database": "avs-monitoring",
+                    "datasource": {
+                        "type": "grafana-azure-data-explorer-datasource",
+                        "uid": "a1S6N094z"
+                    },
+                    "expression": {
+                        "from": {
+                            "property": {
+                                "name": "avs-metrics",
+                                "type": "string"
+                            },
+                            "type": "property"
+                        },
+                        "groupBy": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "reduce": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "where": {
+                            "expressions": [],
+                            "type": "and"
+                        }
+                    },
+                    "pluginVersion": "4.5.0",
+                    "query": "['avs-metrics']\n| where $__timeFilter(['time']) and metricName == \"DiskUsedPercentage\"\n| project ['time'], Disk=average\n| order by ['time'] asc",
+                    "querySource": "raw",
+                    "queryType": "KQL",
+                    "rawMode": true,
+                    "refId": "Disk",
+                    "resultFormat": "table"
+                },
+                {
+                    "OpenAI": false,
+                    "database": "avs-monitoring",
+                    "datasource": {
+                        "type": "grafana-azure-data-explorer-datasource",
+                        "uid": "a1S6N094z"
+                    },
+                    "expression": {
+                        "groupBy": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "reduce": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "where": {
+                            "expressions": [],
+                            "type": "and"
+                        }
+                    },
+                    "hide": false,
+                    "pluginVersion": "4.5.0",
+                    "query": "['avs-metrics']\n| where $__timeFilter(['time']) and metricName == \"UsageAverage\"\n| project ['time'], Memory=average\n| order by ['time'] asc",
+                    "querySource": "raw",
+                    "queryType": "KQL",
+                    "rawMode": true,
+                    "refId": "Memory",
+                    "resultFormat": "table"
+                },
+                {
+                    "OpenAI": false,
+                    "database": "avs-monitoring",
+                    "datasource": {
+                        "type": "grafana-azure-data-explorer-datasource",
+                        "uid": "a1S6N094z"
+                    },
+                    "expression": {
+                        "from": {
+                            "property": {
+                                "name": "avs-metrics",
+                                "type": "string"
+                            },
+                            "type": "property"
+                        },
+                        "groupBy": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "reduce": {
+                            "expressions": [],
+                            "type": "and"
+                        },
+                        "where": {
+                            "expressions": [],
+                            "type": "and"
+                        }
+                    },
+                    "hide": false,
+                    "pluginVersion": "4.5.0",
+                    "query": "['avs-metrics']\n| where $__timeFilter(['time']) and metricName == \"EffectiveCpuAverage\"\n| project ['time'], CPU=average\n| order by ['time'] asc",
+                    "querySource": "raw",
+                    "queryType": "KQL",
+                    "rawMode": true,
+                    "refId": "CPU",
+                    "resultFormat": "table"
+                }
+            ],
+            "title": "Resources usage over time",
+            "transparent": true,
+            "type": "timeseries"
+        }
+    ],
+    "refresh": "5s",
+    "revision": 1,
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": []
+    },
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "AVS Monitoring",
+    "uid": "2JYIvuqVz",
+    "version": 10,
+    "weekStart": ""
+}

@@ -1,4 +1,227 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vmware on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/vmware/</link><description>Recent content in vmware on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure VMware Solution integration with VMware Aria Operations for Logs Cloud service</title><link>https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/</link><pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vmware on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/vmware/</link><description>Recent content in vmware on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Fri, 04 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>Monitor Azure VMware Solution with Azure Data Explorer and Grafana</title><link>https://vuptime.io/post/2023-08-04-avs-monitoring-with-adx-and-grafana/</link><pubDate>Fri, 04 Aug 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-08-04-avs-monitoring-with-adx-and-grafana/</guid><description>
+&lt;p>As you deploy Azure VMware Subscription for your production workload, you will need to monitor the health of your environment. In &lt;a href="https://learn.microsoft.com/en-us/azure/well-architected">Azure Well-Architected Framework&lt;/a>, this activity is an important part of the &lt;a href="https://learn.microsoft.com/en-us/azure/well-architected/devops/">&lt;em>Operational excellence&lt;/em> pillar&lt;/a>.&lt;/p>
+&lt;p>Azure VMware Solution provides a set of metrics and logs that you can use to monitor your environment. In this article, we will see how to collect and visualize these metrics and logs using Azure Data Explorer and Grafana.&lt;/p>
+&lt;h2 id="other-resources-about-azure-vmware-solution-monitoring">Other resources about Azure VMware Solution monitoring&lt;/h2>
+&lt;p>Monitoring Azure VMware Solution is a vast topic. This article will focus on forwarding to Azure Data Explorer and visualize through Grafana, metrics that are available out of the box.&lt;/p>
+&lt;p>If you want to go further, I recommend you to read the following articles:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="hhttps://learn.microsoft.com/en-us/azure/azure-vmware/introduction#monitoring-your-private-cloud">Monitoring your private cloud&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/configure-alerts-for-azure-vmware-solution#supported-metrics-and-activities">Azure VMware Solution metrics&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/manage#azure-vmware-solution-operations-baseline">Cloud Adoption Framework for Azure: Manage Azure VMware Solution&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/eslz-management-and-monitoring">Cloud Adoption Framework for Azure: Management and monitoring for Azure VMware Solution enterprise-scale scenario&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/configure-vmware-syslogs">Configure VMware syslogs for Azure VMware Solution&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://techcommunity.microsoft.com/t5/azure-migration-and/azure-vmware-solution-advanced-monitoring/ba-p/3686560">Azure VMware Solution Advanced Monitoring (with Telegraf)&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="from-avs-to-grafana-with-azure-data-explorer">From AVS to Grafana with Azure Data Explorer&lt;/h2>
+&lt;p>Azure VMware Solution provides a set of metrics and logs that you can use to monitor your environment. These metrics and logs are available in the Azure portal, through Azure Monitor and are available for forwarding to multiple solutions like:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-workspace-overview">Azure Log Analytics&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/en-us/products/event-hubs/">Azure Event Hub&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/en-us/products/storage/blobs">Blob Storage&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Using Azure Event Hub enables more solutions to subscribe to Azure VMware Solution metrics (and logs), like mentioned in the latest post: &lt;a href="https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/">Azure VMware Solution integration with VMware Aria Operations for Logs Cloud service&lt;/a>.&lt;/p>
+&lt;p>In this article, we will see how to consume metrics with &lt;a href="https://azure.microsoft.com/en-us/products/data-explorer">Azure Data Explorer&lt;/a>, then to plug a Grafana dashboard on top of it for the visualization.&lt;/p>
+&lt;p>To host the visualization dashboard, I have chosen the &lt;a href="https://azure.microsoft.com/en-us/products/managed-grafana/">Azure Managed Grafana&lt;/a> solution to minimize the infrastructure management. But you can also deploy Grafana on your own infrastructure or reuse an existing instance.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Data workflow from AVS to Grafana"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-adx-grafana/avs-adx-grafana.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>&lt;strong>Prerequisites&lt;/strong> : I will not cover the deployment of &lt;em>Azure Event Hub&lt;/em>, &lt;em>Azure Data Explorer&lt;/em> and &lt;em>Grafana&lt;/em> in this article. You can find more information about these services in the following links:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/event-hubs/">Azure Event Hub&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/data-explorer/">Azure Data Explorer&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/managed-grafana/">Azure Managed Grafana&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 id="configure-azure-vmware-solution-metrics-to-azure-event-hub">Configure Azure VMware Solution metrics to Azure Event Hub&lt;/h3>
+&lt;p>The first step is to configure Azure VMware Solution to forward metrics to Azure Event Hub. This is done through the Azure portal, in the Azure VMware Solution resource's &lt;em>Diagnostic settings&lt;/em> pane.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Azure VMware Solution: Configure diagnostic settings to send metrics to an Event Hub instance::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-adx-grafana/avs-diagnostic-settings.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> By selecting only the &lt;em>Metrics&lt;/em> category, you can choose to limit the number of event to send to Azure Event Hub. This is useful if you want to limit the cost of the solution. You can create multiple diagnostic settings to send different diagnostic data (logs and/or metrics) to different destinations.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="prepare-azure-data-explorer-database-and-table">Prepare Azure Data Explorer database and table&lt;/h3>
+&lt;p>The second step is to prepare Azure Data Explorer to receive the metrics sent to Azure Event Hub by creating a database and a table to store the metrics. This is done through the Azure portal, in the Azure Data Explorer resource's &lt;em>Data Explorer&lt;/em> pane or by using a kusto query (database creation can only be done through the Azure portal).&lt;/p>
+&lt;p>The following Kusto commands will create the table and the mapping to store the metrics sent by Azure VMware Solution to Azure Event Hub.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">// Create table command
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">.create table [&amp;#39;avs-metrics&amp;#39;] ([&amp;#39;count&amp;#39;]:int, [&amp;#39;total&amp;#39;]:long, [&amp;#39;minimum&amp;#39;]:long, [&amp;#39;maximum&amp;#39;]:long, [&amp;#39;average&amp;#39;]:long, [&amp;#39;resourceId&amp;#39;]:string, [&amp;#39;time&amp;#39;]:datetime, [&amp;#39;metricName&amp;#39;]:string, [&amp;#39;timeGrain&amp;#39;]:string)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">// Ingestion Batching Policy Alter Command
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">.alter table [&amp;#39;avs-metrics&amp;#39;] policy ingestionbatching @&amp;#39;{&amp;#34;MaximumBatchingTimeSpan&amp;#34;:&amp;#34;00:00:30&amp;#34;}&amp;#39;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">// Create mapping command
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">.create table [&amp;#39;avs-metrics&amp;#39;] ingestion json mapping &amp;#39;avs-metrics_mapping&amp;#39; &amp;#39;[{&amp;#34;column&amp;#34;:&amp;#34;count&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;count\&amp;#39;]&amp;#34;}},{&amp;#34;column&amp;#34;:&amp;#34;total&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;total\&amp;#39;]&amp;#34;}},{&amp;#34;column&amp;#34;:&amp;#34;minimum&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;minimum\&amp;#39;]&amp;#34;}},{&amp;#34;column&amp;#34;:&amp;#34;maximum&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;maximum\&amp;#39;]&amp;#34;}},{&amp;#34;column&amp;#34;:&amp;#34;average&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;average\&amp;#39;]&amp;#34;}},{&amp;#34;column&amp;#34;:&amp;#34;resourceId&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;resourceId\&amp;#39;]&amp;#34;}},{&amp;#34;column&amp;#34;:&amp;#34;time&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;time\&amp;#39;]&amp;#34;}},{&amp;#34;column&amp;#34;:&amp;#34;metricName&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;metricName\&amp;#39;]&amp;#34;}},{&amp;#34;column&amp;#34;:&amp;#34;timeGrain&amp;#34;, &amp;#34;Properties&amp;#34;:{&amp;#34;Path&amp;#34;:&amp;#34;$[\&amp;#39;timeGrain\&amp;#39;]&amp;#34;}}]&amp;#39;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="configure-azure-data-explorer-to-consume-azure-event-hub">Configure Azure Data Explorer to consume Azure Event Hub&lt;/h3>
+&lt;p>Next step is to configure Azure Data Explorer to consume the metrics sent to Azure Event Hub. This is done through the Azure portal, in the Azure Data Explorer resource's &lt;em>Data connections&lt;/em> pane.&lt;/p>
+&lt;p>You will need to have an existing Database and a destination table.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Create an Azure Data Explorer data connection with Event Hub::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-adx-grafana/adx-data-connection-event-hub.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;ol>
+&lt;li>Create a new data connection&lt;/li>
+&lt;li>Select &lt;em>Event Hub&lt;/em> as the data source&lt;/li>
+&lt;li>Provide a name for the data connection&lt;/li>
+&lt;li>Select the Azure Event Hub instance (subscription, namespace and event hub)&lt;/li>
+&lt;li>Select the consumer group to use&lt;/li>
+&lt;li>Select the destination table in Azure Data Explorer&lt;/li>
+&lt;li>Select the format of the data: &lt;em>JSON&lt;/em>&lt;/li>
+&lt;li>Enter the name of the mapping to use (created in the previous step): &lt;code>avs-metrics_mapping&lt;/code>&lt;/li>
+&lt;li>Click on &lt;em>Create&lt;/em>&lt;/li>
+&lt;/ol>
+&lt;p>After at least 5 minutes, you should see data in the destination table. You can query the data using the following Kusto query to see last items&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">[&amp;#34;avs-metrics&amp;#34;]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">| order by [&amp;#39;time&amp;#39;] desc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">| limit 10
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You should get last values for the metrics sent by Azure VMware Solution to Azure Event Hub.&lt;/p>
+&lt;h3 id="configure-grafana-to-visualize-azure-data-explorer-metrics">Configure Grafana to visualize Azure Data Explorer metrics&lt;/h3>
+&lt;p>The last step is to configure Grafana to visualize the metrics stored in Azure Data Explorer.&lt;/p>
+&lt;h4 id="azure-data-explorer-plugin">Azure Data Explorer plugin&lt;/h4>
+&lt;p>To consume data from Azure Data Explorer, Grafana uses the &lt;a href="https://grafana.com/grafana/plugins/grafana-azure-data-explorer-datasource">Azure Data Explorer plugin&lt;/a>. This plugin installed by default in Azure Managed Grafana, if you are using an other kind of grafana instance you will need to install it manually.&lt;/p>
+&lt;h4 id="create-an-app-registration-for-grafana">Create an App registration for Grafana&lt;/h4>
+&lt;p>When installed, you need to create a new &lt;em>data source&lt;/em> in Grafana to connect to the Azure Data Explorer database.&lt;/p>
+&lt;p>First, create a new AAD application like:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az ad sp create-for-rbac -n &lt;span class="s2">&amp;#34;Grafana2ADX&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># Keep the appId, password and tenantId for later&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Add the AAD application viewer access to your Azure Data Explorer database with the following Kusto command:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">.add database your_db_name viewers (&amp;#39;aadapp=your_app_client_id;your_app_tenant_id&amp;#39;)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="create-a-new-data-source-in-grafana">Create a new data source in Grafana&lt;/h4>
+&lt;p>Configure the connection in Grafana by providing the following information:&lt;/p>
+&lt;ul>
+&lt;li>ADX cluster URL&lt;/li>
+&lt;li>Authentication: App registration&lt;/li>
+&lt;li>The AAD application ID&lt;/li>
+&lt;li>The AAD tenant ID&lt;/li>
+&lt;li>The AAD application secret&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Configure a new data source in Grafana"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-adx-grafana/grafana-adx-datasource.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>You can also select a default database if you want.&lt;/p>
+&lt;p>After saving the data source, you can create a new dashboard and add a new panel to visualize the metrics.&lt;/p>
+&lt;h4 id="dashboards">Dashboards&lt;/h4>
+&lt;p>You are now able to explore and create visualizations for your Azure VMware Solution metrics.&lt;/p>
+&lt;p>For example to get the usage percentage of your vSAN datastore, you can use the following query:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl"># Get disk usage percentage and rename series to &amp;#34;disk&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">[&amp;#39;avs-metrics&amp;#39;]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">| where $__timeFilter([&amp;#39;time&amp;#39;]) and metricName == &amp;#34;DiskUsedPercentage&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">| project [&amp;#39;time&amp;#39;], Disk=average
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">| order by [&amp;#39;time&amp;#39;] asc
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The following metrics are available through this solution:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Metric name&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;code>TotalMbAverage&lt;/code>&lt;/td>
+&lt;td>Total memory in SDDC&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>DiskUsedPercentage&lt;/code>&lt;/td>
+&lt;td>Percent of disk usage in vSAN datastore&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>UsedLatest&lt;/code>&lt;/td>
+&lt;td>The total amount of disk used in the vSAN datastores&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>UsageAverage&lt;/code>&lt;/td>
+&lt;td>Percent of memory usage in SDDC&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>EffectiveMemAverage&lt;/code>&lt;/td>
+&lt;td>Total available amount of machine memory in cluster&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>CapacityLatest&lt;/code>&lt;/td>
+&lt;td>vSAN Datastores Total Capacity&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>OverheadAverage&lt;/code>&lt;/td>
+&lt;td>Host physical memory consumed by the virtualization infrastructure&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>EffectiveCpuAverage&lt;/code>&lt;/td>
+&lt;td>Percent of CPU usage in SDDC&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>You can also use the &lt;strong>Alerting&lt;/strong> capacity of grafana to create alerts based on these metrics and notify administrators you when specific threshold is reached (as you could also do with Azure Monitor btw).&lt;/p>
+&lt;h4 id="dashboard-examples">Dashboard examples&lt;/h4>
+&lt;p>Here are some examples of dashboards you can create with these metrics.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS Grafana dashboard example n°1: colored statistic based on each resource last value"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-adx-grafana/dashboard-example-1.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS Grafana dashboard example n°2: gauge visualization for each resource"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-adx-grafana/dashboard-example-2.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS Grafana dashboard example n°3: time series visualization"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-adx-grafana/dashboard-example-3.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>You can combine, filter and aggregate metrics to create your own dashboards and provide a global view of your Azure VMware Solution environment.&lt;/p></description></item><item><title>Azure VMware Solution integration with VMware Aria Operations for Logs Cloud service</title><link>https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/</link><pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/</guid><description>
 &lt;p>VMware Aria Operations for Logs (formerly vRealize Log Insight and vRealize Log Insight Cloud) is a log management solution that provides visibility across physical, virtual, and cloud environments. It enables you to search and analyze logs in real time, and it provides a scalable platform for managing log data. VMware Aria Operations for Logs can be deployed on-premises or in the cloud. The cloud version is a SaaS offering that is hosted and managed by VMware.&lt;/p>
 &lt;p>In the following post we will see how to collect logs from Azure VMware Solution (AVS), leverage on Azure Event Hub to forward the logs to the VMware Aria Operations for Logs Cloud Service.&lt;/p>
 &lt;h2 id="prerequisites">Prerequisites&lt;/h2>
