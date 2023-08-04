@@ -61,6 +61,4 @@ Passionate by scripting, I'm using **Python** and **Powershell** daily to automa
 
 Here is my [linkedin profile](https://www.linkedin.com/in/antoine-harlaut-a1b6baa5) to contact me.
 
-![::about-vexpert](/images/vexpert.png)
-
 <hr>
