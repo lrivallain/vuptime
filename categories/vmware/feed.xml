@@ -1,4 +1,333 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VMWare on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/vmware/</link><description>Recent content in VMWare on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Fri, 04 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>Monitor Azure VMware Solution with Azure Data Explorer and Grafana</title><link>https://vuptime.io/post/2023-08-04-avs-monitoring-with-adx-and-grafana/</link><pubDate>Fri, 04 Aug 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-08-04-avs-monitoring-with-adx-and-grafana/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VMWare on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/vmware/</link><description>Recent content in VMWare on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 17 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware HCX: To the MON &amp; Back</title><link>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</guid><description>
+&lt;p>No, we are not switching to a music blog genre to discuss the &lt;em>&amp;quot;To the Moon &amp;amp; Back&amp;quot;&lt;/em> song from &lt;strong>Savage Garden&lt;/strong> (I am sorry if you were expecting that) There is no typo in the title: we are going to explore VMware HCX network extensions and the MON feature, aka &lt;em>Mobility Optimized Network&lt;/em>.&lt;/p>
+&lt;p>If you are not familiar with HCX, it is a VMware solution that allows you to migrate workloads from on-premises to the cloud, or from cloud to cloud. It also allows you to stretch your networks from migration source to the destination. It is a very powerful solution that can be used in many different scenarios to accelerate a migration project.&lt;/p>
+&lt;p>In this article, we are going to focus on the network extension part of HCX, and more specifically on a poorly understood feature: &lt;em>Mobility Optimized Network&lt;/em>.&lt;/p>
+&lt;h2 id="what-are-we-not-going-to-talk-about">What are we not going to talk about&lt;/h2>
+&lt;p>In this post, I will no cover the creation of HCX network extensions in details. I assume that this subject is already well documented on Internet, including the official documentation and does not require a lot of explanations if you are already familiar with HCX.&lt;/p>
+&lt;h2 id="lab-setup">Lab setup&lt;/h2>
+&lt;p>In order to document this post, I created a lab based on the following topology:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Lab topology"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/lab-topology.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>In this lab we have:&lt;/p>
+&lt;ul>
+&lt;li>An on-premises-like environment with a vCenter and hypervisors, hosting:
+&lt;ul>
+&lt;li>A network (&lt;code>10.100.115.0/24&lt;/code>)&lt;/li>
+&lt;li>A routing device (&lt;code>gw&lt;/code> @ &lt;code>10.100.115.1&lt;/code>) and its northbound connectivity (Internet + Cloud connectivity)&lt;/li>
+&lt;li>A set of virtual machines to be migrated to the cloud: &lt;code>migration-vm-X&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>a cloud environment (Azure based) with:
+&lt;ul>
+&lt;li>Landing of the ExpressRoute circuit&lt;/li>
+&lt;li>A point-to-site VPN gateway for my workstation&lt;/li>
+&lt;li>A vNET: &lt;code>10.100.2.0/24&lt;/code>&lt;/li>
+&lt;li>An Azure native VM on this vNET: &lt;code>azure-vm&lt;/code> @ &lt;code>10.100.2.36&lt;/code>&lt;/li>
+&lt;li>An Azure VMware Solution SDDC with:
+&lt;ul>
+&lt;li>Express Route (ER) + Global Reach connectivity&lt;/li>
+&lt;li>HCX Enterprise deployed and configured&lt;/li>
+&lt;li>A native NSX-T segment with direct AVS connectivity with a test VM: &lt;code>10.100.110.0/24&lt;/code> and &lt;code>Ubuntu01&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>I extended the on-premises network to the cloud using HCX network extension in order to prepare the migration of the VMs. The extended network (&lt;code>10.100.115.0/24&lt;/code>) is now available in the cloud-side.&lt;/p>
+&lt;h2 id="default-network-connectivity">Default network connectivity&lt;/h2>
+&lt;p>Before we start migrating VMs, let's have a look at the default network connectivity on premises:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Default network connectivity on-premises"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario1-onpremises.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>&lt;code>migration-vm-X&lt;/code> is using the on-premises &lt;code>gw&lt;/code> device and its default route to reach the Internet &lt;span style="color:#FF0080;font-weight:bold;">(↔ pink)&lt;/span>. The &lt;code>gw&lt;/code> device is also used to reach the cloud environment, through the ExpressRoute circuit &lt;span style="color:#FF9933;font-weight:bold;">(↔ orange)&lt;/span>. To reach an Azure VMware Solution based VM, the ER circuit is used in addition with Global Reach and the AVS ER circuit &lt;span style="color:#FF2626;font-weight:bold;">(↔ red)&lt;/span>.&lt;/p>
+&lt;h2 id="migrate-a-vm-to-the-cloud-environment">Migrate a VM to the cloud environment&lt;/h2>
+&lt;p>Let's migrate &lt;code>migration-vm-2&lt;/code> to the cloud environment using HCX. The migration is successful and the VM is now running in the cloud environment. The VM is still using the on-premises &lt;code>gw&lt;/code> device to reach both the Internet and the cloud environment as its default gateway is still configured to &lt;code>10.100.115.1&lt;/code>.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="migration-vm-2 still relies on its on-premises based gateway to reach resources out-of-its L2 broadcast domain"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario2-migrated-vm.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>To reach Internet &lt;span style="color:#FF0080;font-weight:bold;">(↔ pink)&lt;/span> or cloud based resources &lt;span style="color:#FF9933;font-weight:bold;">(↔ orange)&lt;/span>, the network path is not optimal and this is even more obvious when we look at path to reach VM in another NSX-T segment of AVS &lt;span style="color:#FF2626;font-weight:bold;">(↔ red)&lt;/span>. We call this situation: &lt;a href="https://en.wikipedia.org/wiki/Anti-tromboning">&lt;em>(w)&lt;/em> network tromboning&lt;/a>.&lt;/p>
+&lt;h3 id="segment-connectivity">Segment connectivity&lt;/h3>
+&lt;p>On NSX-T, when the network extension was created, a segment with the same subnet settings was created and named with &lt;code>L2E_&lt;/code> prefix.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Segment connectivity of L2E network"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario2-nsx-t-connectivity.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>As you can see in the screenshot, this segment is configured with a &lt;strong>disabled&lt;/strong> &lt;code>gateway connectivity&lt;/code>. This means that the segment is not advertised to the other components of the NSX-T fabric cannot use the T1 gateway for L3 connectivity.&lt;/p>
+&lt;h2 id="mobility-optimized-network-enablement">Mobility Optimized Network enablement&lt;/h2>
+&lt;p>In order to improve the network path, we are going to enable the Mobility Optimized Network feature of HCX. This feature is available in the HCX UI, in the &lt;strong>Network Extension&lt;/strong> section, and can be enabled on a per-network basis.&lt;/p>
+&lt;p>If we enable this feature, and not change the default settings, the connectivity of the segment is switched to &lt;strong>enabled&lt;/strong> and the T1 gateway &lt;strong>may&lt;/strong> now be used for L3 connectivity.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Mobility Optimized Network enablement"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario3-default-mon.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>As you probably noticed, network paths are not changed for the migrated VM. This is due to the default setting for &lt;em>router-location&lt;/em>: &lt;code>hcx-enterprise&lt;/code>.&lt;/p>
+&lt;blockquote>
+&lt;p>The &lt;em>router-location&lt;/em> &lt;code>hcx-enterprise&lt;/code> setting value means that on-premises &lt;code>gw&lt;/code> device is still used as the default gateway for the migrated VM.&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Router location for the migrated VM with default settings::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario3-router-location.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="segment-connectivity-1">Segment connectivity&lt;/h3>
+&lt;p>Let's have a look at the segment connectivity after enabling the Mobility Optimized Network feature:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Segment connectivity of L2E network with MON enabled"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario3-nsx-t-connectivity.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>The &lt;code>gateway connectivity&lt;/code> is now &lt;strong>enabled&lt;/strong> on the L2E segment, and the T1 gateway could now used for L3 connectivity (depending on the &lt;em>router-location&lt;/em> setting).&lt;/p>
+&lt;p>In BGP advertisement in the Express Route circuits, we can also see a new &lt;code>/32&lt;/code> route advertised from NSX-T:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>10.100.115.1/32&lt;/code>: the gateway of the extended network.&lt;/li>
+&lt;/ul>
+&lt;h2 id="changing-the-router-location">Changing the &lt;em>router-location&lt;/em>&lt;/h2>
+&lt;p>To improve the network path for the migrated VM, we may be tempted to change the &lt;em>router-location&lt;/em> setting to use the cloud side gateway for our migrated VM:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Router location for the migrated VM with cloud side gateway::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario4-cloud-router-location.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>The following changes will be applied to network path:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Network path when the router location is changed to cloud side gateway"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario4-cloud-router-location-network-flows.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;ul>
+&lt;li>The default gateway configured at the the VM/OS is not changed: &lt;code>10.100.115.1&lt;/code> but...&lt;/li>
+&lt;li>To reach a VM in a distinct NSX-T segment, the traffic will be routed through the T1 gateway of the segment, and not through the on-premises &lt;code>gw&lt;/code> device &lt;span style="color:#FF2626;font-weight:bold;">(↔ red)&lt;/span>.&lt;/li>
+&lt;li>To reach the Internet, the traffic will be routed through the T1 gateway of the segment, and not through the on-premises &lt;code>gw&lt;/code> device &lt;span style="color:#FF0080;font-weight:bold;">(↔ pink)&lt;/span>.&lt;/li>
+&lt;li>To reach a VM in the native cloud environment, the traffic will be routed through the on-premises &lt;code>gw&lt;/code> device &lt;span style="color:#FF9933;font-weight:bold;">(⇠ orange)&lt;/span>.
+&lt;ul>
+&lt;li>But the return path will be through the T1 gateway of the segment &lt;span style="color:#FF9933;font-weight:bold;">(⇠ orange)&lt;/span>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>As you can see there, if the network path to AVS hosted or Internet resources seems optimized, the path to native cloud resources is not and is asymmetric. This is because of a setting category in Mobility Optimized Network feature: &lt;strong>policy routes&lt;/strong>. We will explore this setting in the next sections.&lt;/p>
+&lt;h3 id="what-happened-in-the-backstages">What happened in the backstages&lt;/h3>
+&lt;p>When we changed the &lt;em>router-location&lt;/em> setting, the following change was applied:&lt;/p>
+&lt;p>If we have a look at the routing table of the T1 gateway, a new entry was added for the migrated VM:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Routing table of the T1 gateway"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario3-static-routes.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Next hop of the static route for the migrated VM"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario3-static-route-next-hop.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>On the Express Route circuit, 2 new routes are also visible, advertised over BGP from NSX-T:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>10.100.115.1/32&lt;/code>: the gateway of the network is now advertised from AVS (&lt;em>this route was already advertised since the MON enablement&lt;/em>)&lt;/li>
+&lt;li>&lt;code>10.100.115.12/32&lt;/code>: the migrated VM with MON enabled and &lt;em>router-location&lt;/em> set to HCX cloud instance.&lt;/li>
+&lt;/ul>
+&lt;h3 id="asymmetric-routing">Asymmetric routing&lt;/h3>
+&lt;p>As you see on the &lt;a href="#changing-the-router-location">network flow to a cloud based resource&lt;/a> (in a private network), there is an asymmetric routing. The traffic is routed through the on-premises &lt;code>gw&lt;/code> device to reach the cloud based resource, but the reverse path is going through the T1 gateway of the segment &lt;span style="color:#FF9933;font-weight:bold;">(⇠ orange)&lt;/span>, on cloud side.&lt;/p>
+&lt;p>As NSX-T is now publishing the &lt;code>/32&lt;/code> route of the migrated VM, cloud resources can now reach the migrated VM directly through the T1 gateway of the segment. This is the reason why this, cloud resource to AVS one, path is through the T1 gateway.&lt;/p>
+&lt;p>The reason of the &lt;code>migration-vm-X&lt;/code> to use the on-premises &lt;code>gw&lt;/code> device to reach the cloud based resource is because of the default &lt;strong>policy routes&lt;/strong> setup when MON is enabled:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Default policy routes when MON is enabled::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario3-default-policy-routes.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>By default, the &lt;strong>policy routes&lt;/strong> are configured to be &lt;em>allowed&lt;/em> to use the on-premises &lt;code>gw&lt;/code> device as the default gateway for the traffic matching the RFC1918 address spaces:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>10.0.0.0/8&lt;/code>&lt;/li>
+&lt;li>&lt;code>172.16.0.0/12&lt;/code>&lt;/li>
+&lt;li>&lt;code>192.168.0.0/16&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>This enable the migrated VM to reach other resources of the on-premises network, via on-premises &lt;code>gw&lt;/code> device as the default gateway, but if not customized, it also introduces an asymmetric routing for the traffic to cloud based resources.&lt;/p>
+&lt;h2 id="lets-customize-the-policy-routes">Let's customize the policy routes&lt;/h2>
+&lt;h3 id="remove-all-policy-routes">Remove all policy routes&lt;/h3>
+&lt;p>A good illustration to understand the impact of the policy routes is to do a test by removing all the pre-configured policy routes.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Network path when there is no policy routes"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario5-no-policy-routes.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>For Internet &lt;span style="color:#FF0080;font-weight:bold;">(↔ pink)&lt;/span> or AVS based resources &lt;span style="color:#FF2626;font-weight:bold;">(↔ red)&lt;/span>, the network path is still the one from the previous section.&lt;/p>
+&lt;p>For native cloud resources &lt;span style="color:#FF9933;font-weight:bold;">(↔ orange)&lt;/span>, the network path is now symmetric as the migrated VM is using the T1 gateway of the segment to reach all the resources out-of its L2 broadcast domain.&lt;/p>
+&lt;p>&lt;strong>This setup could be sub-optimal&lt;/strong> for the migrated VM to reach on-premises resources, but this is something that can be customized by adding a new policy route with more specific matching criteria for the on-premises resources.&lt;/p>
+&lt;h3 id="add-a-very-specific-policy-route">Add a very specific policy route&lt;/h3>
+&lt;p>Another good illustration of how policy routes work in a MON enabled network extension is to add a very specific policy route to reach a specific resource with an optimal path.&lt;/p>
+&lt;p>In our example, we will recreate the default policy routes and add a &lt;code>/32&lt;/code> one with a &lt;code>deny&lt;/code> rule, matching the Azure hosted resource &lt;code>azure-vm&lt;/code>:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>10.0.0.0/8&lt;/code>: Send to source with HCX: &lt;span style="color:#00CC00;">allow&lt;span>&lt;/li>
+&lt;li>&lt;code>172.16.0.0/12&lt;/code>: Send to source with HCX: &lt;span style="color:#00CC00;">allow&lt;span>&lt;/li>
+&lt;li>&lt;code>192.168.0.0/16&lt;/code>: Send to source with HCX: &lt;span style="color:#00CC00;">allow&lt;span>&lt;/li>
+&lt;li>&lt;code>10.100.2.36/32&lt;/code>: Send to source with HCX: &lt;span style="color:#FF2626;">deny&lt;span>&lt;/li>
+&lt;/ul>
+&lt;p>In this new setup, network path to the Azure hosted resource &lt;code>azure-vm&lt;/code> is now optimized in both directions:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Network path when there is a very specific policy routes"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario6-specific-policy-route.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;ul>
+&lt;li>To reach on premises resources in a private RFC1918 ranges (like in &lt;code>10.0.0.0/8&lt;/code>), the on-prem &lt;code>gw&lt;/code> device is used &lt;span style="color:#4D27AA;font-weight:bold;">(↔ purple)&lt;/span>.&lt;/li>
+&lt;li>To reach a cloud based specific resource (&lt;code>10.100.2.36/32&lt;/code>), the cloud side gateway is used &lt;span style="color:#FF9933;font-weight:bold;">(↔ orange)&lt;/span>.&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>Note: I removed the internet connectivity to simplify the diagram but there is no change in the network path to reach Internet.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="use-policy-routes-for-internet-connectivity">Use policy routes for internet connectivity&lt;/h2>
+&lt;p>In the previous section, we saw that we can use policy routes to optimize the network path to reach a specific resource. We can also use policy routes to optimize or guide the network path to reach Internet (or &lt;code>0.0.0.0/0&lt;/code>).&lt;/p>
+&lt;h3 id="internet-egress-with-default-policy-routes">Internet egress with default policy routes&lt;/h3>
+&lt;p>Let's have a look at the network path to reach Internet with the default policy routes (&lt;em>router-location&lt;/em> is set to cloud side gateway):&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Network path to reach Internet with default policy routes and router-location set to cloud side gateway"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario7-internet-with-default-policy-routes.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>As Internet (&lt;code>0.0.0.0/0&lt;/code>) is not part of the RFC1918 address spaces configured to use the On-Prem gateway (with the default policy routes), the migrated VM is using the T1 gateway and the Azure egress connectivity of the segment to reach Internet &lt;span style="color:#FF0080;font-weight:bold;">(↔ pink)&lt;/span>.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: The azure egress path to reach Internet may vary depending on the configuration of the Azure VMware Solution SDDC. In this example, the Azure egress is configured to the default &lt;a href="https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/#enable-outbound-internet-access-using-snat">&lt;em>Microsoft Managed SNAT&lt;/em>&lt;/a>.
+You can find some details about the Internet connectivity for AVS, in the following post: &lt;a href="https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/">Azure VMware Solution – Use public IP on NSX-T Edge&lt;/a>.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="internet-egress-with-a-specific-policy-route">Internet egress with a specific policy route&lt;/h3>
+&lt;p>Let's add a specific policy route to reach Internet through the on-premises &lt;code>gw&lt;/code> device (&lt;em>router-location&lt;/em> is still set to cloud side gateway):&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>0.0.0.0/0&lt;/code>: Send to source with HCX: &lt;span style="color:#00CC00;">allow&lt;span>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Network path to reach Internet with a specific policy route and router-location set to cloud side gateway"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario8-internet-with-specific-policy-route.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>With this new policy route, the migrated VM is now using the on-premises &lt;code>gw&lt;/code> device to reach Internet &lt;span style="color:#FF0080;font-weight:bold;">(↔ pink)&lt;/span>. You can then apply some firewall rules on the on-premises &lt;code>gw&lt;/code> device to control the Internet access of the migrated VM.&lt;/p>
+&lt;p>Without additional policy routes, all the network flows will also use this on-premises &lt;code>gw&lt;/code> device: it could be counter-productive to enable MON in this case without adding additional policy routes to optimize the network path to reach other resources.&lt;/p>
+&lt;h2 id="an-art-of-balance">An art-of-balance&lt;/h2>
+&lt;div class="notices info">
+&lt;div class="label">Disclaimer&lt;/div>
+&lt;p>Do not reproduce the previous examples on a production environment.&lt;/p>
+&lt;/div>
+&lt;p>Previous examples are provided to illustrate the behavior of MON enabled resources and network flows based on settings changes. You will probably need to consider carefully how-to apply global and/or specific flows policies based on your deployment to avoid any issue and to maintain the expected level of security on the network flow path.&lt;/p>
+&lt;p>For example, once a flow is using the NSX-T Tier1, it is not secured anymore by the on-premises firewall and may require to have some firewall rules setup on NSX-T level.&lt;/p>
+&lt;p>Also, MON is coming with &lt;a href="https://docs.vmware.com/en/VMware-HCX/4.7/hcx-user-guide/GUID-BEC26054-D560-46D0-98B4-7FF09501F801.html">some limitations to consider&lt;/a> and may not be suitable for all the use cases. A good review of existing documentation is mandatory before proceeding in MON enablement. A good starting-point for AVS resources is the following documentation page: &lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/vmware-hcx-mon-guidance">VMware HCX Mobility Optimized Networking (MON) guidance&lt;/a>.&lt;/p>
+&lt;p>Finally, I will strongly suggest to consider network-extension &lt;em>cutover&lt;/em> operation as a critical step of your migration project and to plan it carefully. Mobility Optimized Networking feature is a great helper to optimize the network flow path, avoid or limit network tromboning scenario but should be considered as a tool to help you to achieve your migration goal and not as a magic feature that will solve all your network issues or provide a way to skip network extension cutovers operations. For long term network extensions, changing the default gateway of the migrated VM to the cloud side gateway may be a good option to optimize network flows.&lt;/p></description></item><item><title>Monitor Azure VMware Solution with Azure Data Explorer and Grafana</title><link>https://vuptime.io/post/2023-08-04-avs-monitoring-with-adx-and-grafana/</link><pubDate>Fri, 04 Aug 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-08-04-avs-monitoring-with-adx-and-grafana/</guid><description>
 &lt;p>As you deploy Azure VMware Subscription for your production workload, you will need to monitor the health of your environment. In &lt;a href="https://learn.microsoft.com/en-us/azure/well-architected">Azure Well-Architected Framework&lt;/a>, this activity is an important part of the &lt;a href="https://learn.microsoft.com/en-us/azure/well-architected/devops/">&lt;em>Operational excellence&lt;/em> pillar&lt;/a>.&lt;/p>
 &lt;p>Azure VMware Solution provides a set of metrics and logs that you can use to monitor your environment. In this article, we will see how to collect and visualize these metrics and logs using Azure Data Explorer and Grafana.&lt;/p>
 &lt;h2 id="other-resources-about-azure-vmware-solution-monitoring">Other resources about Azure VMware Solution monitoring&lt;/h2>
