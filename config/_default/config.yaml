@@ -2,7 +2,9 @@ baseurl: https://vuptime.io
 copyright: Ludovic Rivallain and blog co-authors
 paginate: 10
 theme: hugo-clarity
-disqusShortname: 'lri-ovh'
+service:
+  disqus:
+    shortname: lri-ovh
 taxonomies:
   category: categories
   tag: tags
