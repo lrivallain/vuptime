@@ -210,7 +210,7 @@ src="https://vuptime.io/images/hcx-mon/scenario3-static-route-next-hop.png"
 &lt;li>&lt;code>10.100.115.12/32&lt;/code>: the migrated VM with MON enabled and &lt;em>router-location&lt;/em> set to HCX cloud instance.&lt;/li>
 &lt;/ul>
 &lt;h3 id="asymmetric-routing">Asymmetric routing&lt;/h3>
-&lt;p>As you see on the &lt;a href="#changing-the-router-location">network flow to a cloud based resource&lt;/a> (in a private network), there is an asymmetric routing. The traffic is routed through the on-premises &lt;code>gw&lt;/code> device to reach the cloud based resource, but the reverse path is going through the T1 gateway of the segment &lt;span style="color:#FF9933;font-weight:bold;">(⇠ orange)&lt;/span>, on cloud side.&lt;/p>
+&lt;p>As you see on the &lt;a href="https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/#changing-the-router-location">network flow to a cloud based resource&lt;/a> (in a private network), there is an asymmetric routing. The traffic is routed through the on-premises &lt;code>gw&lt;/code> device to reach the cloud based resource, but the reverse path is going through the T1 gateway of the segment &lt;span style="color:#FF9933;font-weight:bold;">(⇠ orange)&lt;/span>, on cloud side.&lt;/p>
 &lt;p>As NSX-T is now publishing the &lt;code>/32&lt;/code> route of the migrated VM, cloud resources can now reach the migrated VM directly through the T1 gateway of the segment. This is the reason why this, cloud resource to AVS one, path is through the T1 gateway.&lt;/p>
 &lt;p>The reason of the &lt;code>migration-vm-X&lt;/code> to use the on-premises &lt;code>gw&lt;/code> device to reach the cloud based resource is because of the default &lt;strong>policy routes&lt;/strong> setup when MON is enabled:&lt;/p>
 &lt;p>&lt;figure>

@@ -343,7 +343,7 @@ src="https://vuptime.io/images/avs-aria-logs/azure-functions-configure-deploymen
 &lt;h3 id="post-deployment-configuration-of-azure-function">Post Deployment configuration of Azure Function&lt;/h3>
 &lt;p>When the function has been created, you need to setup the Event Hub connection string as a configuration of the Azure Function.&lt;/p>
 &lt;ol>
-&lt;li>To get Event Hub connection string (&lt;a href="#example-of-terraform-code-to-create-authorization-rules">created earlier&lt;/a>) from Azure Portal: &lt;code>*Event Hub Namespace &amp;gt; Shared access policies &amp;gt; your-eventhubnamespace-af-authorization-rule &amp;gt; Connection string-primary key*&lt;/code>&lt;/li>
+&lt;li>To get Event Hub connection string (&lt;a href="https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/#example-of-terraform-code-to-create-authorization-rules">created earlier&lt;/a>) from Azure Portal: &lt;code>*Event Hub Namespace &amp;gt; Shared access policies &amp;gt; your-eventhubnamespace-af-authorization-rule &amp;gt; Connection string-primary key*&lt;/code>&lt;/li>
 &lt;li>Then go to the deployed function App to set new environment variable : &lt;code>*Function App &amp;gt; Configuration &amp;gt; New application setting*&lt;/code> and add the connection string as a new application setting:
 &lt;ul>
 &lt;li>Name: &lt;code>AzureEventHubLogsConnectionString&lt;/code>&lt;/li>
@@ -580,15 +580,15 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
 &lt;/ol>
 &lt;ul>
-&lt;li>This setup will provide scalability &lt;a href="#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
+&lt;li>This setup will provide scalability &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
 &lt;li>This setup can be more complex to maintain and will have scalability limit if E/W traffic filtering at NVA level, is required.&lt;/li>
 &lt;/ul>
 &lt;ol start="2">
-&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
+&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
 &lt;/ol>
 &lt;ul>
 &lt;li>This &amp;quot;1 Tier-1 gateway per workload segment&amp;quot; setup will mitigate the issue mentioned above regarding the filtering of E/W traffic.&lt;/li>
-&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
+&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
 &lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
@@ -1022,8 +1022,8 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;li>Dynamic routing with BGP between the &lt;code>hub-nva&lt;/code> and the &lt;code>avs-spoke-nva&lt;/code>&lt;/li>
 &lt;/ul>
 &lt;p>See you in the next posts!&lt;/p></description></item><item><title>Mock-up Azure VMware Solution in Hub-and-Spoke topology – Part 2</title><link>https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/</link><pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/</guid><description>
-&lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
-&lt;p>We will also &lt;a href="#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
+&lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
+&lt;p>We will also &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
 &lt;blockquote>
 &lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
 &lt;/blockquote>
@@ -1682,7 +1682,7 @@ src="https://vuptime.io/images/avs-nva/stage3/hub_and_spoke_avs-Step3-Asymmetric
 &lt;p>In this post, we will cover how the two solutions can be linked together in order to provide this &lt;em>&amp;quot;fully-managed-vCloud-Director&amp;quot;&lt;/em> experience.&lt;/p>
 &lt;p>You can also refer to the following links to explore more about the AVS and CDS combination:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://blogs.vmware.com/cloudprovider/2022/08/cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution.html?utm_source=feedly&amp;amp;utm_medium=rss&amp;amp;utm_campaign=cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution">VMware's blog: Cloud Director Service Expanding Multi-Cloud Services on Azure VMware Solution&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://blogs.vmware.com/cloudprovider/2022/08/cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution.html?utm_source=feedly&amp;utm_medium=rss&amp;utm_campaign=cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution">VMware's blog: Cloud Director Service Expanding Multi-Cloud Services on Azure VMware Solution&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://azure.microsoft.com/fr-fr/updates/public-preview-enterprise-vmware-cloud-director-service-for-azure-vmware-solution/">Azure update announcement&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure">Azure documentation&lt;/a>&lt;/li>
 &lt;/ul>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>firewall on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/firewall/</link><description>Recent content in firewall on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/firewall/feed.xml" rel="self" type="application/rss+xml"/><item><title>Third-party firewall NVA in Azure VMware Solution NSX-T deployment</title><link>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</link><pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Firewall on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/firewall/</link><description>Recent content in Firewall on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/firewall/feed.xml" rel="self" type="application/rss+xml"/><item><title>Third-party firewall NVA in Azure VMware Solution NSX-T deployment</title><link>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</link><pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</guid><description>
 &lt;p>In a previous series of blog posts (posts: &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">1&lt;/a>, &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/">2&lt;/a> &amp;amp; &lt;a href="https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/">3&lt;/a>), we covered the deployment of a third-party firewall Network Virtual Appliance (NVA) in Azure to integrate an Azure VMware Solution (AVS) deployment in a Hub&amp;amp;Spoke network topology. This setup enable traffic filtering for &lt;em>ingress&lt;/em> and &lt;em>egress&lt;/em> traffic &lt;em>to&lt;/em> and &lt;em>from&lt;/em> the AVS environment (N/S) but do not provide any filtering between AVS workloads (E/W). The recommended way to achieve this is to rely on the NSX-T distributed firewall capabilities.&lt;/p>
 &lt;p>In this blog post, we will cover the deployment of a third-party firewall NVA in an AVS SDDC itself to provide traffic filtering between AVS workloads without relying on the NSX-T distributed firewall capabilities.&lt;/p>
 &lt;p>I will not discuss here the reasons to deploy a 3&lt;sup>rd&lt;/sup> firewall NVA in AVS SDDC. I will just mention that this is a common request from customers that want to continue using the same firewall technology in AVS that they have been using for an on-premises datacenter.&lt;/p>
@@ -52,15 +52,15 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
 &lt;/ol>
 &lt;ul>
-&lt;li>This setup will provide scalability &lt;a href="#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
+&lt;li>This setup will provide scalability &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
 &lt;li>This setup can be more complex to maintain and will have scalability limit if E/W traffic filtering at NVA level, is required.&lt;/li>
 &lt;/ul>
 &lt;ol start="2">
-&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
+&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
 &lt;/ol>
 &lt;ul>
 &lt;li>This &amp;quot;1 Tier-1 gateway per workload segment&amp;quot; setup will mitigate the issue mentioned above regarding the filtering of E/W traffic.&lt;/li>
-&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
+&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
 &lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
@@ -196,12 +196,12 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;h3 id="disk-creation">Disk creation&lt;/h3>
 &lt;p>To create a local datastore, you'll have to add a new virtual disk to your nested ESXi:&lt;/p>
 &lt;p>First step is to create a SATA disk controller:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png">&lt;figcaption>
 &lt;h4>Add a SATA controller&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Next, create a new disk on the SATA controller:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png">&lt;figcaption>
 &lt;h4>Add a new disk&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -211,7 +211,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;li>10GB&lt;/li>
 &lt;li>Dynamic allocation&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png">&lt;figcaption>
 &lt;h4>My additional disk settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -482,7 +482,7 @@ $ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ru
 &lt;li>server port : port you choose for VNC settings on the VM&lt;/li>
 &lt;li>password : VNC password on VM settings&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png">&lt;figcaption>
 &lt;h4>VNC access to a virtual machine&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item></channel></rss>

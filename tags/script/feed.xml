@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>script on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/script/</link><description>Recent content in script on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 05 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/script/feed.xml" rel="self" type="application/rss+xml"/><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>https://vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/08/05/released-vro-package-diff_v2/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Script on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/script/</link><description>Recent content in Script on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 05 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/script/feed.xml" rel="self" type="application/rss+xml"/><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>https://vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/08/05/released-vro-package-diff_v2/</guid><description>
 &lt;p>About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: &lt;a href="https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/">vRO Package Diff&lt;/a>. Initial version was a simple python script accepting 2 files as arguments and without any input controls.&lt;/p>
 &lt;p>Today, I publish a v2 of the tool with the following changes:&lt;/p>
 &lt;ul>
@@ -16,7 +16,7 @@
 &lt;li>Documentation is hosted on &lt;a href="https://vro-package-diff.readthedocs.io">vro-package-diff.readthedocs.io&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://travis-ci.org/lrivallain/vro-package-diff/">Travis pipeline&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png">&lt;figcaption>
 &lt;h4>Sample output of vro-diff-package&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -52,7 +52,7 @@
 &lt;p>This tool needs vRO users to be tested and improved based on feedback and &lt;a href="https://github.com/lrivallain/vro-package-diff/graphs/contributors">contributions&lt;/a>: Feel free to &lt;a href="https://github.com/lrivallain/vro-package-diff/issues/new">open issue&lt;/a> or &lt;a href="https://github.com/lrivallain/vro-package-diff/compare">create pull request&lt;/a>.&lt;/p></description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>https://vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/</guid><description>
 &lt;p>I have recently published a draft tool to provide a table-formated diff of two vRealize Orchestrator packages.&lt;/p>
 &lt;p>Project is available on &lt;a href="https://github.com/lrivallain/vro-package-diff/">GitHub project&lt;/a> and will evolve in futur to support more package item's types and to provide better information about differences.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png">&lt;figcaption>
 &lt;h4>Sample of output&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -108,7 +108,7 @@
 &lt;p>Today, we will focus on OVF properties.&lt;/p>
 &lt;h1 id="presentation-of-ovf-properties">Presentation of OVF properties&lt;/h1>
 &lt;p>If you deploy some VM through OVF/OVA files, you are probably already familiar with OVF settings. They appear as the possibility to customize VM settings during the deployment process:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_deploy.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_deploy.png">&lt;figcaption>
 &lt;h4>OVF properties deploy&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -152,7 +152,7 @@
 &lt;h1 id="create-new-properties">Create new properties&lt;/h1>
 &lt;p>When you create a new template for OVF export, it is possible to create/edit/delete custom OVF properties.&lt;/p>
 &lt;p>From vSphere Web client -&amp;gt; Edit Settings of a VM -&amp;gt; vApp Options: In Authoring section, it is possible to give a name/version/url to describe your future OVF and to manage properties:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_edition.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_edition.png">&lt;figcaption>
 &lt;h4>OVF properties edition&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -163,7 +163,7 @@
 &lt;li>&lt;strong>Category&lt;/strong>: a way to order parts of the customization form fields by grouping properties together&lt;/li>
 &lt;li>&lt;strong>Description&lt;/strong>: to give more information about the purpose of the field to end users&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_fields.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_fields.png">&lt;figcaption>
 &lt;h4>OVF properties fields&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -182,26 +182,26 @@
 &lt;li>(external) IP address&lt;/li>
 &lt;li>...&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_subtypes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_subtypes.png">&lt;figcaption>
 &lt;h4>OVF properties sub-types&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>You can also set default value, or some requirements (like the minimal/maximal length of a string):&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_options.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_options.png">&lt;figcaption>
 &lt;h4>OVF properties options&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h1 id="edit-vm-properties-values">Edit VM properties values&lt;/h1>
 &lt;p>As we saw previously, a user deploying an OVF coming from export of VM where properties are set, will be prompted to fill the values of the properties.&lt;/p>
 &lt;p>it is also possible to edit properties values of an already deployed VM: From vSphere Web client -&amp;gt; Edit Settings of a VM -&amp;gt; vApp Options.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_values_edition.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_values_edition.png">&lt;figcaption>
 &lt;h4>OVF properties values edition on VM&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>In this case, you may have to run 'again' some GuestOS glue code to take the change into account.&lt;/p>
 &lt;h1 id="get-ovf-properties-from-the-guestos">Get OVF properties from the guestOS&lt;/h1>
 &lt;p>When you configure an OVF environment, you can choose between CD-ROM and VMware-tools methods to transport information into the virtual machine:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_transport_method.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_transport_method.png">&lt;figcaption>
 &lt;h4>OVF transport method&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -295,7 +295,7 @@
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/powershelllessugly.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/powershelllessugly.png">&lt;figcaption>
 &lt;h4>PowerShell&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item></channel></rss>

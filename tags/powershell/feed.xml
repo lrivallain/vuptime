@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>powershell on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/powershell/</link><description>Recent content in powershell on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 01 Aug 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/powershell/feed.xml" rel="self" type="application/rss+xml"/><item><title>Make powershell a bit less ugly</title><link>https://vuptime.io/post/2016-08-01-make-powershell-bit-less-ugly/</link><pubDate>Mon, 01 Aug 2016 00:00:00 +0000</pubDate><guid>https://vuptime.io/2016/08/01/make-powershell-bit-less-ugly/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Powershell on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/powershell/</link><description>Recent content in Powershell on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 01 Aug 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/powershell/feed.xml" rel="self" type="application/rss+xml"/><item><title>Make powershell a bit less ugly</title><link>https://vuptime.io/post/2016-08-01-make-powershell-bit-less-ugly/</link><pubDate>Mon, 01 Aug 2016 00:00:00 +0000</pubDate><guid>https://vuptime.io/2016/08/01/make-powershell-bit-less-ugly/</guid><description>
 &lt;p>Powershell is a very usefull tool when you have to work on a Windows operating system. It help's a lot in automation of recurring tasks and provide an easy way to extract informations in custom format. But the default powershell command window is very very... ugly...&lt;/p>
 &lt;p>Here are some customizations I do when I need to use Powershell from a Windows OS:&lt;/p>
 &lt;ul>
@@ -14,7 +14,7 @@
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/powershelllessugly.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/powershelllessugly.png">&lt;figcaption>
 &lt;h4>PowerShell&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>PowerCli - Mise à jour du VMX de templates de machines virtuelles</title><link>https://vuptime.io/post/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2/</link><pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate><guid>https://vuptime.io/2014/05/12/powercli-mise-jour-du-vmx-de-templates-de-machines-virtuelles/</guid><description>

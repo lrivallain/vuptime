@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>api on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/api/</link><description>Recent content in api on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 15 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/api/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure VMware Solutions REST API - part 2: `az rest`</title><link>https://vuptime.io/post/2022-02-15-azure-vmware-solution-rest-api-part2/</link><pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/02/15/azure-vmware-solution-rest-api-part2/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Api on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/api/</link><description>Recent content in Api on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 15 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/api/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure VMware Solutions REST API - part 2: `az rest`</title><link>https://vuptime.io/post/2022-02-15-azure-vmware-solution-rest-api-part2/</link><pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/2022/02/15/azure-vmware-solution-rest-api-part2/</guid><description>
 &lt;p>After a discovery of Azure VMware Solution REST API through the &lt;a href="https://vuptime.io/2022/01/06/azure-vmware-solution-rest-api-part1/">Postman collection&lt;/a> in &lt;em>part 1&lt;/em>, we will use some of the fundamentals API calls through &lt;code>az rest&lt;/code>, a useful subset of the &lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure Command-Line Interface&lt;/a>.&lt;/p>
 &lt;p>Compared to Postman, I consider &lt;code>az rest&lt;/code> an easier way to discover Azure REST API in a blog post as it doesn't require to post screenshots or long code samples to narrate the exploration. But of course, you could use the &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection">AVS Postman collection&lt;/a> to achieve the same purpose or any other REST client tool (httpie, curl etc.): this is the great power of REST APIs.&lt;/p>
 &lt;h2 id="preparation">Preparation&lt;/h2>
@@ -338,52 +338,52 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;p>A strange behavior has happened just after vRO installation and vCloud director plugin configuration, I wasn't able to interact with any objects managed by the vcloud director plugin.&lt;/p>
 &lt;p>I created a simple workflow on my lab to illustrate the issue.&lt;/p>
 &lt;p>The workflow cannot be more basic as it has only a single line of code to display the name of the &lt;em>vcloud:organization&lt;/em> object provided on the input.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/start_workflow_to_get_org_name.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/start_workflow_to_get_org_name.png">&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name.png">&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>This simple workflow cannot display the organization name even if I respected the documentation. The attribut &lt;em>name&lt;/em> should be present on a object of type : &lt;em>vcloud:organization&lt;/em>&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/api_doc_vcloud_organization.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/api_doc_vcloud_organization.png">&lt;figcaption>
 &lt;h4>vcloud:organization-doc&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>So I tryied to display the object &lt;em>vcloud:organization&lt;/em> to be sure that the object is correctly fetched.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org.png">&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>vRO was not even able to display the &lt;em>vcloud:organization&lt;/em> object itself and I was facing the same kind of issue for the organization-vdcs and the virtual machines objects. That's weird. Espacially when the vcloud inventory seems to work.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd.png">&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>I struggled to fix to issue, I registered the vcloud director connector, change the API versions, reinstall the vcloud director plugin, change to version of the plugin, nothing works.&lt;/p>
 &lt;p>I checked the vcloud director configuration and I found on the &lt;em>public addresses&lt;/em> tab that the &lt;em>HTTP base URL&lt;/em> attribut was different than the &lt;em>HTTP Rest API base URL&lt;/em>. It was prefixed by &lt;em>api-&lt;/em>.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcloud_director_public_addresses.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcloud_director_public_addresses.png">&lt;figcaption>
 &lt;h4>public_addresses&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Remember that the &lt;em>HTTP Rest API base URL&lt;/em> are used to change the base URL on the REST API (obvious) and can be different that the &lt;em>HTTP base UR&lt;/em>L:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcd_api_results.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcd_api_results.png">&lt;figcaption>
 &lt;h4>public_addresses&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>I registered the vcloud director on vRO using the &lt;em>HTTP base URL&lt;/em> but not with the API one.&lt;/p>
 &lt;p>So I reconfigured the connector, try again the workflow and magic happens. I'm now able to fetch the organization and display it's name :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_successful.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_successful.png">&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name_successful.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name_successful.png">&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>vRO was probably trying to get the organization by building it's href (&lt;em>&lt;a href="https://vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567">https://vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567&lt;/a>&lt;/em>) using the connector URL but was not able to get it as it was registered on the inventory with the API base URL (&lt;em>&lt;a href="https://api-vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567">https://api-vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567&lt;/a>&lt;/em>) as displayed on the vcd plugin inventory.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd_api_2.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd_api_2.png">&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

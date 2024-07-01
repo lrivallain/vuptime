@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>storage on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/storage/</link><description>Recent content in storage on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 30 Jun 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/storage/feed.xml" rel="self" type="application/rss+xml"/><item><title>OVH Cloud - Object Storage with cyberduck</title><link>https://vuptime.io/post/2015-06-30-ovh-cloud-object-storage-cyberduck/</link><pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/06/30/ovh-cloud-object-storage-cyberduck/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Storage on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/storage/</link><description>Recent content in Storage on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 30 Jun 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/storage/feed.xml" rel="self" type="application/rss+xml"/><item><title>OVH Cloud - Object Storage with cyberduck</title><link>https://vuptime.io/post/2015-06-30-ovh-cloud-object-storage-cyberduck/</link><pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/06/30/ovh-cloud-object-storage-cyberduck/</guid><description>
 &lt;blockquote>
 &lt;p>&amp;quot;&lt;em>&lt;strong>Object Storage&lt;/strong> (also known as object-based storage&lt;sup id="cite_ref-1" class="reference">&lt;a href="https://en.wikipedia.org/wiki/Object_storage#cite_note-1">&lt;/a>&lt;/sup>) is a storage architecture that manages data as objects, as opposed to other storage architectures like &lt;a href="https://en.wikipedia.org/wiki/File_systems" title="File systems">file systems&lt;/a> which manage data as a file hierarchy and &lt;a href="https://en.wikipedia.org/wiki/Block_storage" title="Block storage">block storage&lt;/a> which manages data as blocks within sectors and tracks.&lt;/em>&amp;quot; &lt;sub>&lt;em>Source: &lt;a href="https://en.wikipedia.org/wiki/Object_storage">&lt;strong>Wikipedia-en&lt;/strong>&lt;/a>&lt;/em>&lt;/sub>&lt;/p>
 &lt;/blockquote>
@@ -10,7 +10,7 @@
 &lt;li>...&lt;/li>
 &lt;/ul>
 &lt;p>You can use many ways to push/get file on the object-storage as the OVH manager, the Openstack's Horizon Manager or a swift compatible client:&lt;/p>
-&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_00.png"/>&lt;figcaption>
+&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_00.png">&lt;figcaption>
 &lt;h4>OVH.com Cloud Object Storage Schema&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -19,11 +19,11 @@
 &lt;h1 id="create-your-container">Create your container&lt;/h1>
 &lt;p>First thing to do, is to create an OVH account, then, go to the manager: &lt;a href="https://www.ovh.com/manager/cloud/" title="Manager - cloud">https://www.ovh.com/manager/cloud/&lt;/a>. Now you can create your first storage container. A container is an entity where a &amp;quot;public/static/private&amp;quot; policy can be applied.&lt;/p>
 &lt;p>Example, for a backup container, we chose a private type policy.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_01.png">&lt;figcaption>
 &lt;h4>Create a container&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_02.png">&lt;figcaption>
 &lt;h4>Create a container&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -31,33 +31,33 @@
 &lt;h1 id="create-your-credentials">Create your credentials&lt;/h1>
 &lt;p>Now you need to create credentials in order to connect through a swift client. It'll also provide access to Horizon, an Openstack manager.&lt;/p>
 &lt;p>Click on &amp;quot;&lt;em>Openstack&lt;/em>&amp;quot; tab on Manager and create a new user:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_03.png">&lt;figcaption>
 &lt;h4>Create an user&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>You only need to provide a description as username and password are randomly generated:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_04.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_04.png">&lt;figcaption>
 &lt;h4>Enter a description&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then you have to remember credentials as it the only time you'll be able to see it:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_05.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_05.png">&lt;figcaption>
 &lt;h4>Note credentials&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h2 id="get-other-informations">Get other informations&lt;/h2>
 &lt;p>From that point, you should be able to join the Horizon manager for next step:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_06.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_06.png">&lt;figcaption>
 &lt;h4>Click on link to join horizon manager&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And log-in with credentials created previously:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_11.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_11.png">&lt;figcaption>
 &lt;h4>Log-in&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>In &amp;quot;&lt;em>Access&amp;amp;Security&lt;/em>&amp;quot; tab, select the &amp;quot;&lt;em>API Access&lt;/em>&amp;quot; and download the OpenStack RC file:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_08.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_08.png">&lt;figcaption>
 &lt;h4>Openstack RC file download&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -75,13 +75,13 @@
 &lt;li>Username =&amp;gt; OS_TENANT_ID : OS_USERNAME &lt;em>(do not forget the &amp;quot;:&amp;quot; sign between both informations)&lt;/em>&lt;/li>
 &lt;li>Prompted password =&amp;gt; the password of the OS_USERNAME&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_09.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_09.png">&lt;figcaption>
 &lt;h4>Cyberduck settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h2 id="push-a-file">Push a file&lt;/h2>
 &lt;p>Once you are connected you can download and push file easily :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_10.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/swift_ovhcloud/swift_ovhcloud_10.png">&lt;figcaption>
 &lt;h4>Push a file&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

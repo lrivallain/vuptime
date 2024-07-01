@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VMWare on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/vmware/</link><description>Recent content in VMWare on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 17 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware HCX: To the MON &amp; Back</title><link>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VMware on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/categories/vmware/</link><description>Recent content in VMware on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 17 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/categories/vmware/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware HCX: To the MON &amp; Back</title><link>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</guid><description>
 &lt;p>No, we are not switching to a music blog genre to discuss the &lt;em>&amp;quot;To the Moon &amp;amp; Back&amp;quot;&lt;/em> song from &lt;strong>Savage Garden&lt;/strong> (I am sorry if you were expecting that) There is no typo in the title: we are going to explore VMware HCX network extensions and the MON feature, aka &lt;em>Mobility Optimized Network&lt;/em>.&lt;/p>
 &lt;p>If you are not familiar with HCX, it is a VMware solution that allows you to migrate workloads from on-premises to the cloud, or from cloud to cloud. It also allows you to stretch your networks from migration source to the destination. It is a very powerful solution that can be used in many different scenarios to accelerate a migration project.&lt;/p>
 &lt;p>In this article, we are going to focus on the network extension part of HCX, and more specifically on a poorly understood feature: &lt;em>Mobility Optimized Network&lt;/em>.&lt;/p>
@@ -210,7 +210,7 @@ src="https://vuptime.io/images/hcx-mon/scenario3-static-route-next-hop.png"
 &lt;li>&lt;code>10.100.115.12/32&lt;/code>: the migrated VM with MON enabled and &lt;em>router-location&lt;/em> set to HCX cloud instance.&lt;/li>
 &lt;/ul>
 &lt;h3 id="asymmetric-routing">Asymmetric routing&lt;/h3>
-&lt;p>As you see on the &lt;a href="#changing-the-router-location">network flow to a cloud based resource&lt;/a> (in a private network), there is an asymmetric routing. The traffic is routed through the on-premises &lt;code>gw&lt;/code> device to reach the cloud based resource, but the reverse path is going through the T1 gateway of the segment &lt;span style="color:#FF9933;font-weight:bold;">(⇠ orange)&lt;/span>, on cloud side.&lt;/p>
+&lt;p>As you see on the &lt;a href="https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/#changing-the-router-location">network flow to a cloud based resource&lt;/a> (in a private network), there is an asymmetric routing. The traffic is routed through the on-premises &lt;code>gw&lt;/code> device to reach the cloud based resource, but the reverse path is going through the T1 gateway of the segment &lt;span style="color:#FF9933;font-weight:bold;">(⇠ orange)&lt;/span>, on cloud side.&lt;/p>
 &lt;p>As NSX-T is now publishing the &lt;code>/32&lt;/code> route of the migrated VM, cloud resources can now reach the migrated VM directly through the T1 gateway of the segment. This is the reason why this, cloud resource to AVS one, path is through the T1 gateway.&lt;/p>
 &lt;p>The reason of the &lt;code>migration-vm-X&lt;/code> to use the on-premises &lt;code>gw&lt;/code> device to reach the cloud based resource is because of the default &lt;strong>policy routes&lt;/strong> setup when MON is enabled:&lt;/p>
 &lt;p>&lt;figure>
@@ -672,7 +672,7 @@ src="https://vuptime.io/images/avs-aria-logs/azure-functions-configure-deploymen
 &lt;h3 id="post-deployment-configuration-of-azure-function">Post Deployment configuration of Azure Function&lt;/h3>
 &lt;p>When the function has been created, you need to setup the Event Hub connection string as a configuration of the Azure Function.&lt;/p>
 &lt;ol>
-&lt;li>To get Event Hub connection string (&lt;a href="#example-of-terraform-code-to-create-authorization-rules">created earlier&lt;/a>) from Azure Portal: &lt;code>*Event Hub Namespace &amp;gt; Shared access policies &amp;gt; your-eventhubnamespace-af-authorization-rule &amp;gt; Connection string-primary key*&lt;/code>&lt;/li>
+&lt;li>To get Event Hub connection string (&lt;a href="https://vuptime.io/post/2023-07-27-avs-with-vmware-aria-operations-for-logs/#example-of-terraform-code-to-create-authorization-rules">created earlier&lt;/a>) from Azure Portal: &lt;code>*Event Hub Namespace &amp;gt; Shared access policies &amp;gt; your-eventhubnamespace-af-authorization-rule &amp;gt; Connection string-primary key*&lt;/code>&lt;/li>
 &lt;li>Then go to the deployed function App to set new environment variable : &lt;code>*Function App &amp;gt; Configuration &amp;gt; New application setting*&lt;/code> and add the connection string as a new application setting:
 &lt;ul>
 &lt;li>Name: &lt;code>AzureEventHubLogsConnectionString&lt;/code>&lt;/li>
@@ -909,15 +909,15 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
 &lt;/ol>
 &lt;ul>
-&lt;li>This setup will provide scalability &lt;a href="#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
+&lt;li>This setup will provide scalability &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
 &lt;li>This setup can be more complex to maintain and will have scalability limit if E/W traffic filtering at NVA level, is required.&lt;/li>
 &lt;/ul>
 &lt;ol start="2">
-&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
+&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
 &lt;/ol>
 &lt;ul>
 &lt;li>This &amp;quot;1 Tier-1 gateway per workload segment&amp;quot; setup will mitigate the issue mentioned above regarding the filtering of E/W traffic.&lt;/li>
-&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
+&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
 &lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
@@ -1351,8 +1351,8 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;li>Dynamic routing with BGP between the &lt;code>hub-nva&lt;/code> and the &lt;code>avs-spoke-nva&lt;/code>&lt;/li>
 &lt;/ul>
 &lt;p>See you in the next posts!&lt;/p></description></item><item><title>Mock-up Azure VMware Solution in Hub-and-Spoke topology – Part 2</title><link>https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/</link><pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/</guid><description>
-&lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
-&lt;p>We will also &lt;a href="#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
+&lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
+&lt;p>We will also &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
 &lt;blockquote>
 &lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
 &lt;/blockquote>
@@ -2011,7 +2011,7 @@ src="https://vuptime.io/images/avs-nva/stage3/hub_and_spoke_avs-Step3-Asymmetric
 &lt;p>In this post, we will cover how the two solutions can be linked together in order to provide this &lt;em>&amp;quot;fully-managed-vCloud-Director&amp;quot;&lt;/em> experience.&lt;/p>
 &lt;p>You can also refer to the following links to explore more about the AVS and CDS combination:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://blogs.vmware.com/cloudprovider/2022/08/cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution.html?utm_source=feedly&amp;amp;utm_medium=rss&amp;amp;utm_campaign=cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution">VMware's blog: Cloud Director Service Expanding Multi-Cloud Services on Azure VMware Solution&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://blogs.vmware.com/cloudprovider/2022/08/cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution.html?utm_source=feedly&amp;utm_medium=rss&amp;utm_campaign=cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution">VMware's blog: Cloud Director Service Expanding Multi-Cloud Services on Azure VMware Solution&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://azure.microsoft.com/fr-fr/updates/public-preview-enterprise-vmware-cloud-director-service-for-azure-vmware-solution/">Azure update announcement&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure">Azure documentation&lt;/a>&lt;/li>
 &lt;/ul>
@@ -3819,12 +3819,12 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/ul>
 &lt;p>Some major &lt;em>serverless&lt;/em>* cloud services are now based or compatible with knative API like &lt;a href="https://www.openshift.com/learn/topics/serverless">Red Hat OpenShift Serverless&lt;/a> or &lt;a href="https://cloud.google.com/run">Google Cloud Run&lt;/a>.&lt;/p>
 &lt;p>The &lt;strong>Knative Eventing&lt;/strong> provide an abstraction of the messaging layer supporting multiple and pluggable event sources. Multiple delivery modes are also supported (fanout, direct) and enable a variety of usages. Here is an overview of events way within the Eventing component:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/kn-broker-trigger-overview.svg"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/kn-broker-trigger-overview.svg">&lt;figcaption>
 &lt;h4>Broker Trigger Diagram (src: https://knative.dev/docs/eventing/)&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>The &lt;strong>Knative Serving&lt;/strong> project provides middleware primitives that enable the deployment of serverless containers with automatic scaling (up and down to zero). The component is in charge of traffic routing to deployed application and to manage versioning, rollbacks, load-testing etc.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/kn-object_model.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/kn-object_model.png">&lt;figcaption>
 &lt;h4>Knative service overview (src: https://knative.dev/docs/serving/)&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -3932,7 +3932,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;p>This work relies on an OpenFaaS function: &lt;a href="https://github.com/lrivallain/openfaas-fn/tree/master/veba-to-argo-fn">veba-to-argo-fn&lt;/a>.&lt;/p>
 &lt;h2 id="how-does-it-works">How does it works&lt;/h2>
 &lt;p>This OpenFaaS function is a simple &lt;em>forwarder&lt;/em> (or &lt;em>proxy&lt;/em>) to execute a pre-definied &lt;a href="https://argoproj.github.io/argo/workflow-templates/">Worklow Template&lt;/a> by providing the incoming cloud-event as an input parameter of the Workflow excecution.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/argo/veba-to-argo-fn.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/veba-to-argo-fn.png">&lt;figcaption>
 &lt;h4>VEBA to Argo&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4039,12 +4039,12 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="ui">UI&lt;/h3>
 &lt;p>Argo provide an UI to have a quick-view on the content status.&lt;/p>
 &lt;p>Here is the view of an echoer instance:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui.png">&lt;figcaption>
 &lt;h4>echoer instance in the UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>and a view of the &lt;em>printed&lt;/em> logs:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui-logs.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui-logs.png">&lt;figcaption>
 &lt;h4>echoer instance in the UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4071,7 +4071,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 In the following post, I re-use an existing K8S cluster to support the &amp;quot;VMware Event Broker&amp;quot; services but I will use the VEBA acronym to simplify the redaction: even if I do not use the appliance deployment method.&lt;/p>
 &lt;p>If you need more details about VEB(A), the official website if well documented: &lt;a href="https://vmweventbroker.io/">vmweventbroker.io&lt;/a> and lot of other use-cases are listed: notification, automation, integration, remediation, audit, analytics…&lt;/p>
 &lt;h2 id="vmware-event-broker-components">VMware Event Broker components&lt;/h2>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/veba-architecture-v0.5.0.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/veba-architecture-v0.5.0.png">&lt;figcaption>
 &lt;h4>VEBA Architecture&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4183,7 +4183,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>At least, you should get a message like: &amp;quot;credentials saved for admin &lt;code>http://openfaas.vlab.lcl&amp;quot;&lt;/code> meaning that you successfully configured your &lt;code>faas-cli&lt;/code> client.&lt;/p>
 &lt;h4 id="login-to-the-ui">Login to the UI&lt;/h4>
 &lt;p>Use the same URL to login with the &lt;code>admin&lt;/code> account to the web UI and you should get something like that:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/empty_OpenFaaS_UI.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/empty_OpenFaaS_UI.png">&lt;figcaption>
 &lt;h4>Empty OpenFaaS UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4224,7 +4224,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a running pod&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">NAME READY STATUS RESTARTS AGE
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">vmware-event-router-859b97c894-bxx94 1/1 Running &lt;span class="m">0&lt;/span> 25m
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="#VMware%20Event%20Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/#VMware Event Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
 &lt;h2 id="first-function">First function&lt;/h2>
 &lt;p>Time to describe our first function use case:&lt;/p>
 &lt;p>We have a lab vCenter with multiple users, multiple projects, PoC etc. And it's a bit hard to know which VM belongs to which user, and if the project is still active.&lt;/p>
@@ -4234,7 +4234,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>&lt;code>event-last_poweredon&lt;/code>: To store the last powered on date&lt;/li>
 &lt;li>&lt;code>event-owner&lt;/code>: To store the user that created the VM&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png">&lt;figcaption>
 &lt;h4>Custom attributes created for this function&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4295,7 +4295,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>The &lt;code>requirements.txt&lt;/code> file contains some function specific dependencies.&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>The &lt;code>Dockerfile&lt;/code> used to build the base image: &lt;code>lrivallain/veba-vc-vm-creation-attr&lt;/code>: &lt;figure>&lt;img src="https://img.shields.io/docker/cloud/build/lrivallain/veba-vc-vm-creation-attr"/>&lt;figcaption>
+&lt;li>The &lt;code>Dockerfile&lt;/code> used to build the base image: &lt;code>lrivallain/veba-vc-vm-creation-attr&lt;/code>: &lt;figure>&lt;img src="https://img.shields.io/docker/cloud/build/lrivallain/veba-vc-vm-creation-attr">&lt;figcaption>
 &lt;h4>Docker Cloud Build Status&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4317,7 +4317,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You need to setup your VCSA instance, credentials and the name of custom attributes to use for each need.&lt;/p>
 &lt;h4 id="custom-attributes-creation">Custom attributes creation&lt;/h4>
 &lt;p>The script currently does not handle the custom attribute creation so you need to create them before using the function:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png">&lt;figcaption>
 &lt;h4>Custom attributes&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4352,7 +4352,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">Function Invocations Replicas
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">vm-creation-attr &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The same in UI (need a refresh):&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/first-function-ready-UI.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/first-function-ready-UI.png">&lt;figcaption>
 &lt;h4>First Function deployed in the OpenFaaS UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4379,23 +4379,23 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Both outputs are very similar, so you can use the one that is the more convenient to you.&lt;/p>
 &lt;h4 id="vm-creation">VM creation&lt;/h4>
 &lt;p>In the case of a VM creation, we have the following output:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-creation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-creation.png">&lt;figcaption>
 &lt;h4>Logs for the VM creation event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And the attributes are populated according to the expected behavior:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-creation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-creation.png">&lt;figcaption>
 &lt;h4>Attributes for the VM creation event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h4 id="vm-powered-on">VM powered-On&lt;/h4>
 &lt;p>If we power On a VM:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-poweredon.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-poweredon.png">&lt;figcaption>
 &lt;h4>Logs for the VM poweredOn event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And the attributes are populated according to the expected behavior:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-poweredon.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-poweredon.png">&lt;figcaption>
 &lt;h4>Attributes for the VM poweredOn event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4598,7 +4598,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 In the following post, I re-use an existing K8S cluster to support the &amp;quot;VMware Event Broker&amp;quot; services but I will use the VEBA acronym to simplify the redaction: even if I do not use the appliance deployment method.&lt;/p>
 &lt;p>If you need more details about VEB(A), the official website if well documented: &lt;a href="https://vmweventbroker.io/">vmweventbroker.io&lt;/a> and lot of other use-cases are listed: notification, automation, integration, remediation, audit, analytics…&lt;/p>
 &lt;h2 id="vmware-event-broker-components">VMware Event Broker components&lt;/h2>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/veba-architecture.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/veba-architecture.png">&lt;figcaption>
 &lt;h4>VEBA Architecture&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4662,7 +4662,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a running pod&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">NAME READY STATUS RESTARTS AGE
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">vmware-event-router-859b97c894-bxx94 1/1 Running &lt;span class="m">0&lt;/span> 25m
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="#VMware%20Event%20Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-11-02-vmware-event-broker-on-k8s-first-steps/#VMware Event Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
 &lt;p>If you requested the OpenFaaS deployment, you now have a set of pods in the &lt;code>openfaas&lt;/code> namespace:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">kubectl get pods -n openfaas
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a new set of running pods&lt;/span>
@@ -4691,7 +4691,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>At least, you should get a message like: &amp;quot;credentials saved for admin &lt;code>http://&amp;lt;node ip&amp;gt;:31112&amp;quot;&lt;/code> meaning that you successfully configured your &lt;code>faas-cli&lt;/code> client.&lt;/p>
 &lt;h4 id="login-to-the-ui">Login to the UI&lt;/h4>
 &lt;p>Use the same URL to login with the &lt;code>admin&lt;/code> account to the web UI and you should get something like that:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/empty_OpenFaaS_UI.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/empty_OpenFaaS_UI.png">&lt;figcaption>
 &lt;h4>Empty OpenFaaS UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4704,7 +4704,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>&lt;code>event-last_poweredon&lt;/code>: To store the last powered on date&lt;/li>
 &lt;li>&lt;code>event-owner&lt;/code>: To store the user that created the VM&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png">&lt;figcaption>
 &lt;h4>Custom attributes created for this function&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4762,7 +4762,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>The &lt;code>requirements.txt&lt;/code> file contains some function specific dependencies.&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>The &lt;code>Dockerfile&lt;/code> used to build the base image: &lt;code>lrivallain/veba-vc-vm-creation-attr&lt;/code>: &lt;figure>&lt;img src="https://img.shields.io/docker/cloud/build/lrivallain/veba-vc-vm-creation-attr"/>&lt;figcaption>
+&lt;li>The &lt;code>Dockerfile&lt;/code> used to build the base image: &lt;code>lrivallain/veba-vc-vm-creation-attr&lt;/code>: &lt;figure>&lt;img src="https://img.shields.io/docker/cloud/build/lrivallain/veba-vc-vm-creation-attr">&lt;figcaption>
 &lt;h4>Docker Cloud Build Status&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4784,7 +4784,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You need to setup your VCSA instance, credentials and the name of custom attributes to use for each need.&lt;/p>
 &lt;h4 id="custom-attributes-creation">Custom attributes creation&lt;/h4>
 &lt;p>The script currently does not handle the custom attribute creation so you need to create them before using the function:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/custom_attributes.png">&lt;figcaption>
 &lt;h4>Custom attributes&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4819,7 +4819,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">Function Invocations Replicas
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">vm-creation-attr &lt;span class="m">0&lt;/span> &lt;span class="m">1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The same in UI (need a refresh):&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/first-function-ready-UI.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/first-function-ready-UI.png">&lt;figcaption>
 &lt;h4>First Function deployed in the OpenFaaS UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4846,23 +4846,23 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Both outputs are very similar, so you can use the one that is the more convenient to you.&lt;/p>
 &lt;h4 id="vm-creation">VM creation&lt;/h4>
 &lt;p>In the case of a VM creation, we have the following output:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-creation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-creation.png">&lt;figcaption>
 &lt;h4>Logs for the VM creation event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And the attributes are populated according to the expected behavior:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-creation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-creation.png">&lt;figcaption>
 &lt;h4>Attributes for the VM creation event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h4 id="vm-powered-on">VM powered-On&lt;/h4>
 &lt;p>If we power On a VM:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-poweredon.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/logs-vm-poweredon.png">&lt;figcaption>
 &lt;h4>Logs for the VM poweredOn event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>And the attributes are populated according to the expected behavior:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-poweredon.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/veba-first-steps/attributes-vm-poweredon.png">&lt;figcaption>
 &lt;h4>Attributes for the VM poweredOn event&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4878,7 +4878,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>&lt;a href="https://en.wikipedia.org/wiki/Embodied_energy">Embodied energy&lt;/a>: raw-material production, manufacture, transport, distribution, use and disposal.&lt;/li>
 &lt;li>Energy consumption over time (that was already collected for both servers and per-VM)&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope01.png">&lt;figcaption>
 &lt;h4>Green IT Dashboard&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4890,12 +4890,12 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>&lt;strong>kWh evolution&lt;/strong>: Electrical consumption over time.&lt;/li>
 &lt;/ul>
 &lt;p>This tab also provides an &lt;strong>energy-efficiency&lt;/strong> score per server with both theoretical (&lt;em>TEE&lt;/em>) and measured (&lt;em>CEE&lt;/em>) one.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope02.png">&lt;figcaption>
 &lt;h4>energy-efficiency score&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>&lt;strong>Energy optimization&lt;/strong> suggestions are also available to estimate the electric consumption impact if you remove some servers from the current infrastructure.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope03.png">&lt;figcaption>
 &lt;h4>Energy optimization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4907,7 +4907,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;li>TEE (Theoretical Energy Efficiency)&lt;/li>
 &lt;li>The cost per VM of the replacement&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope04.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dcscope74/dcscope04.png">&lt;figcaption>
 &lt;h4>Replacement simulator&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4943,7 +4943,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>C'est d'ailleurs un critère de choix évoqué lorsqu'on a la possibilité d'automatiser une tâche à l'aide de vRO ou d'ABX. vRO s'en sort forcément mieux pour des tâches complexes ou fortement liées à des composants variés via sa notion de plugins, de workflows enchaînant des actions pouvant êtres très variées. ABX s'adapte toutefois mieux à des tâches rapides, légères et simples et ses actions peuvent aussi être chaînées (presqu'à la manière d'un framework vRO) et c'est un produit plus orienté cloud que on-premise.&lt;/p>
 &lt;p>La seconde partie de la présentation concerne &lt;code>Code Stream&lt;/code>, le produit de &lt;em>pipelines DevOps&lt;/em> de VMware. Bon nombre de &lt;em>endpoints&lt;/em> sont disponibles mais finalement la présentation s'attarde sur l'intégration de vRO et Docker dans &lt;code>Code Stream&lt;/code> pour les tâches de CI.&lt;/p>
 &lt;p>Enfin, Francisco propose une démonstration: à partir d'une recommandation de &lt;em>Skyline Advisor&lt;/em> à propros d'une menace potentielle liée aux failles &lt;em>Spectre/Meltdown&lt;/em> présente sur l'infrastructure, déclencher une interaction avec vRO: déclencher un workflow qui permettra de résoudre la situation (ici il s'agit de mettre à jour le virtual-hardware de la machine). Puis la démonstration utilise &lt;code>Code Stream&lt;/code> et un pipeline complexe afin de valider tous les impacts potentiels de cette action de remédiation.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/HCMB2254_codestream_demo.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/HCMB2254_codestream_demo.png">&lt;figcaption>
 &lt;h4>Demo CodeStream&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4972,7 +4972,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>Ces contraintes semblent importantes mais en réalité, ce vieil outil est tout de même très pratique pour diagnostiquer des problèmes réseau et est presque, incontournable. Forcément, un outil de 35 ans va être limité à appréhender les évolutions récentes du contenu qui passe sur les réseaux: HTTP/2, SSL presque partout, volumes démultipliés... c'est possible, mais ça devient complexe.&lt;/p>
 &lt;p>De nouveau outils lui font à présent concurrence pour mieux appréhender ses limites et contraintes: vRealize Network Insight par exemple permet de faire bien plus de chose, via des échantillonnage, de l'apprentissage, des sondes positionnées sur des segments multiples, de la conservation de métriques...&lt;/p>
 &lt;p>Avec les logs de VMware NSX-T &lt;em>Advanced Load Balancer&lt;/em> (ex AVI) il est aussi possible de collecter des informations très intéressantes au moment de diagnostique un souci qui pourrait être lié au réseau, sur une application. C'est l'objet de la démonstration qui suit et qui vise à montrer la manière de détecter, au sein d'un pool applicatif, de potentiels erreurs ou problèmes de performances. Frocément, ce produit permet de faire énormément plus de chose que &lt;code>tcpdump&lt;/code>, notamment si on veut mesurer l'état d'une application distribuée, au delà de l'état d'une simple connection réseau.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/VCNC1920_avi_demo.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/VCNC1920_avi_demo.png">&lt;figcaption>
 &lt;h4>Demo AVI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -4995,7 +4995,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/ul>
 &lt;p>Ensuite la présentation aborde &lt;em>Tanzu Application Service&lt;/em> et notamment la partie réseau et sécurité: comment sont provisionnés les segments réseau, les routeurs T1, l’interconnexion via le T0, la création de nouveaux segments réseaux par tenant (Org).&lt;/p>
 &lt;p>Avec &lt;em>vSphere with Tanzu&lt;/em> (vSphere 7) il devient possible de mixer &lt;code>pods&lt;/code> et machine virtuelles au sein d'un &lt;code>namespace&lt;/code> ce qui rend plus cohérent l'administration générale, tout en rendant un peu complexe, la liste de couches d'infrastructures impliquées:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/VCNC1163_vsphere_with_tanzu.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/VCNC1163_vsphere_with_tanzu.png">&lt;figcaption>
 &lt;h4>VCNC1163 vSphere with Tanzu&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5011,7 +5011,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/ul>
 &lt;p>La solution de base pour une architecture standardisée de SDDC chez VMware s'appelle &lt;em>&amp;quot;Cloud Foundation&amp;quot;&lt;/em>. Basée sur la recommandation d'utiliser des nœuds matériels &lt;em>'vSAN ready'&lt;/em>, cette manière de concevoir et déployer un socle standard d'architecture permet de s'affranchir des &lt;em>silos de complexité&lt;/em> généré par des choix opérés au fil de l'eau, des besoin, des projets, des changements d'avis.&lt;/p>
 &lt;p>Grace à des tests poussés coté VMware, vous avez une sorte de garantie vis à vis d'une association de produits et de versions:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/HCI2519_VCF_products.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/HCI2519_VCF_products.png">&lt;figcaption>
 &lt;h4>HCI2519 VCF products&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5026,7 +5026,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>Bien sûr, Cloud Foundation propose aussi d'aider pour gérer le cycle de vie des composants déployés: notamment pour mettre à jour les composants, les certificats SSL.&lt;/p>
 &lt;p>Les API (et le &lt;em>Developer Center&lt;/em>) disponibles sur vCF permettent d'automatiser certaines opérations sans même passer par l'interface graphique.&lt;/p>
 &lt;p>Enfin, on nous présente la notion de &lt;em>True Hybrid Cloud&lt;/em>, une promesse de VCF pour que vous puissiez envisager de migrer toute ou partie de votre SDDC vers des providers compatibles (on pense forcément à VMware on AWS!) à l'aide de HCX.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/vmworld2020.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/vmworld2020.png">&lt;figcaption>
 &lt;h4>VMworld 2020&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>VMworld 2020 – Récapitulatif jour 1</title><link>https://vuptime.io/post/2020-09-30-vmworld-2020-eu-day1/</link><pubDate>Wed, 30 Sep 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/09/30/VMworld-2020-EU-Day1/</guid><description>
@@ -5143,59 +5143,59 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/ul>
 &lt;p>Concernant Cloud Director, j'apprends que finalement ce composant, même dans sa nouvelle forme d'appliance est finalement limité en nombre d'instance: 3 max dans le cluster de BDD et ensuite chaque nouvelle appliance en plus génère beaucoup d'accès à la base qui peuvent impacter les performances globales ressenties.&lt;/p>
 &lt;p>Pour ma part je suis malgré tout un peu déçu que cette présentation ne soit pas descendu plus en détails dans les entrailles d'une vraie mise en situation avec des retours d'expérience. Probablement que la valeur du niveau de technicité de cette présentation (300) a été placé un peu haut au regard du contenu.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/vmworld2020.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2020/vmworld2020.png">&lt;figcaption>
 &lt;h4>VMworld 2020&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>Object notfound in vRO using the vCloud Director plugin</title><link>https://vuptime.io/post/2020-04-25-vro-vcd-plugin-object-not-found/</link><pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/04/25/vro-vcd-plugin-object-not-found/</guid><description>
 &lt;p>A strange behavior has happened just after vRO installation and vCloud director plugin configuration, I wasn't able to interact with any objects managed by the vcloud director plugin.&lt;/p>
 &lt;p>I created a simple workflow on my lab to illustrate the issue.&lt;/p>
 &lt;p>The workflow cannot be more basic as it has only a single line of code to display the name of the &lt;em>vcloud:organization&lt;/em> object provided on the input.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/start_workflow_to_get_org_name.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/start_workflow_to_get_org_name.png">&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name.png">&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>This simple workflow cannot display the organization name even if I respected the documentation. The attribut &lt;em>name&lt;/em> should be present on a object of type : &lt;em>vcloud:organization&lt;/em>&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/api_doc_vcloud_organization.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/api_doc_vcloud_organization.png">&lt;figcaption>
 &lt;h4>vcloud:organization-doc&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>So I tryied to display the object &lt;em>vcloud:organization&lt;/em> to be sure that the object is correctly fetched.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org.png">&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>vRO was not even able to display the &lt;em>vcloud:organization&lt;/em> object itself and I was facing the same kind of issue for the organization-vdcs and the virtual machines objects. That's weird. Espacially when the vcloud inventory seems to work.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd.png">&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>I struggled to fix to issue, I registered the vcloud director connector, change the API versions, reinstall the vcloud director plugin, change to version of the plugin, nothing works.&lt;/p>
 &lt;p>I checked the vcloud director configuration and I found on the &lt;em>public addresses&lt;/em> tab that the &lt;em>HTTP base URL&lt;/em> attribut was different than the &lt;em>HTTP Rest API base URL&lt;/em>. It was prefixed by &lt;em>api-&lt;/em>.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcloud_director_public_addresses.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcloud_director_public_addresses.png">&lt;figcaption>
 &lt;h4>public_addresses&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Remember that the &lt;em>HTTP Rest API base URL&lt;/em> are used to change the base URL on the REST API (obvious) and can be different that the &lt;em>HTTP base UR&lt;/em>L:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcd_api_results.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vcd_api_results.png">&lt;figcaption>
 &lt;h4>public_addresses&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>I registered the vcloud director on vRO using the &lt;em>HTTP base URL&lt;/em> but not with the API one.&lt;/p>
 &lt;p>So I reconfigured the connector, try again the workflow and magic happens. I'm now able to fetch the organization and display it's name :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_successful.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_successful.png">&lt;figcaption>
 &lt;h4>Display organization&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name_successful.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/result_workflow_to_get_org_name_successful.png">&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>vRO was probably trying to get the organization by building it's href (&lt;em>&lt;a href="https://vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567">https://vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567&lt;/a>&lt;/em>) using the connector URL but was not able to get it as it was registered on the inventory with the API base URL (&lt;em>&lt;a href="https://api-vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567">https://api-vcd.lab65.local/org.ea1bc7eb-d39c-48b5-acd2-2c3a78990567&lt;/a>&lt;/em>) as displayed on the vcd plugin inventory.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd_api_2.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-vcd-object-notfound/vro_inventory_vcd_api_2.png">&lt;figcaption>
 &lt;h4>Display organization name&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5205,7 +5205,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 This article will show you how to interact with this kind of object using &lt;code>vRealize Orchestrator&lt;/code>.&lt;/p>
 &lt;p>On this first sample, we are trying to get a virtual machine named &lt;code>TESTVM02&lt;/code> on the model manager.
 The VirtualMachine object has a property called &lt;code>VirtualMachineName&lt;/code> that we can used to filter the virtual machine by its name.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm.png">&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5240,7 +5240,7 @@ It will return a object of type &lt;a href="http://www.vroapi.com/Class/vCAC/7.2
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">28&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Workflow in action :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm.png">&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5248,7 +5248,7 @@ It will return a object of type &lt;a href="http://www.vroapi.com/Class/vCAC/7.2
 For instance, we need to know the vCPU and RAM configured on the virtual machine.
 The request is simple, we'll use the method &lt;code>get_property&lt;/code> on the object &lt;code>VCAC:Entity&lt;/code>&lt;/p>
 &lt;p>You just need to get the corresponding properties names:
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_request.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_request.png">&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5258,7 +5258,7 @@ The request is simple, we'll use the method &lt;code>get_property&lt;/code> on t
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmVcpu&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMCPUs&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmRam&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMTotalMemoryMB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;The virtual machine &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; is configured &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmVcpu&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; vCPU and &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmRam&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; RAM&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png"/>&lt;figcaption>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png">&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5266,7 +5266,7 @@ The request is simple, we'll use the method &lt;code>get_property&lt;/code> on t
 There is a property name called &lt;code>VMDiskHardware&lt;/code> but not directly accessible because this is a child object of &lt;code>VirtualMachine&lt;/code>.&lt;/p>
 &lt;p>Using LINQPAD, we can access to this property by using the method &lt;code>expand&lt;/code>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c#" data-lang="c#">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="n">VirtualMachines&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Expand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;VMDiskHardware&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Where&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">v&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">VirtualMachineName&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="s">&amp;#34;TESTVM02&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_disks.png"/>&lt;figcaption>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_disks.png">&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5283,13 +5283,13 @@ This method has 2 parameters :&lt;/p>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">diskName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; is configured with &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">diskSize&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; GB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_disks.png"/>&lt;figcaption>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_disks.png">&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Perfect ! We can now request the IaaS database in order to get a lot of usefull information to extend the use on vRealize Automation.&lt;/p>
 &lt;p>To end this blog post, here is another sample to get the VirtualMachine created after a defined date :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_date.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_date.png">&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5320,12 +5320,12 @@ This method has 2 parameters :&lt;/p>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;There is &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; created virtual machine after &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_by_date.png"/>&lt;figcaption>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_by_date.png">&lt;figcaption>
 &lt;h4>Image&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>You are now ready the use the IaaS object directly in vRO ;)&lt;/p></description></item><item><title>VMworld 2019 – Récapitulatif jour 4</title><link>https://vuptime.io/post/2019-11-07-vmworld-2019-eu-day4/</link><pubDate>Thu, 07 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/07/VMworld-2019-EU-Day4/</guid><description>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day4_VMwareFrance.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day4_VMwareFrance.png">&lt;figcaption>
 &lt;h4>Photo Booth SII Île de France&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5439,7 +5439,7 @@ This method has 2 parameters :&lt;/p>
 &lt;li>Kubernetes managé sur &lt;em>AWS, GCP, Azure, AlibabaCloud&lt;/em> mais aussi &lt;em>on premise&lt;/em> sur une &lt;a href="https://cloud.netapp.com/kubernetes-service">appliance hardware dédiée&lt;/a>.&lt;/li>
 &lt;li>Du stockage pour Kubernetes (&lt;em>persistent volumes&lt;/em>)&lt;/li>
 &lt;/ul></description></item><item><title>VMworld 2019 – Récapitulatif jour 3</title><link>https://vuptime.io/post/2019-11-06-vmworld-2019-eu-day3/</link><pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/06/VMworld-2019-EU-Day3/</guid><description>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day3_VMWorldFest_2.gif"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day3_VMWorldFest_2.gif">&lt;figcaption>
 &lt;h4>Photo Booth avec des Toulousains&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5634,7 +5634,7 @@ Je parle ici seulement de &lt;em>T0&lt;/em> car il n'ya que les &lt;em>T0&lt;/em
 &lt;li>&lt;strong>Datacore&lt;/strong> : vous souhaitez faire du stockage hyperconvergé, franchement j'y allais un peu à reculons mais finalement ce produit a l'air d'être une alternative à VSAN très intéressante, en plus elle vous permettrait de réutiliser vos anciennes baies de stockage.&lt;/li>
 &lt;li>&lt;strong>Cohesity&lt;/strong> : de la même manière que Rubriq, pour moi ces 2 éditeurs sont en train de faire bouger le monde de la sauvegarde, ce sont vraiment des solutions à prendre en compte lors du choix de votre future solution de sauvegarde.&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day3_VMWorldFest_1.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day3_VMWorldFest_1.png">&lt;figcaption>
 &lt;h4>Stereophonics au VMworld Fest&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>VMworld 2019 – Récapitulatif jour 2</title><link>https://vuptime.io/post/2019-11-05-vmworld-2019-eu-day2/</link><pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/05/VMworld-2019-EU-Day2/</guid><description>
@@ -5886,7 +5886,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>&lt;a href="https://github.com/vmware/ansible-for-nsxt">NSX-T et Ansible&lt;/a>&lt;/li>
 &lt;li>Pour les &lt;a href="https://nsx.techzone.vmware.com">débutants en automatisation&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day1_VMWorld_Logo.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019/day1_VMWorld_Logo.png">&lt;figcaption>
 &lt;h4>Logo VMworld&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>VMworld 2019 – C'est parti !</title><link>https://vuptime.io/post/2019-11-03-vmworld-2019-cestparti/</link><pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/11/03/VMworld-2019-cestparti/</guid><description>
@@ -5900,7 +5900,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Enfin, vous pouvez aussi trouver le temps de partager de bons moments conviviaux à l'extérieur lors des fameuses &amp;quot;party&amp;quot; organisées par différent·e·s fournisseurs ou communautés.&lt;/p>
 &lt;h1 id="à-demain-">À demain !&lt;/h1>
 &lt;p>Arrivée prévue ce soir aux alentours de minuit sur Barcelone, puis une petite nuit avant d'attaquer la première journée, celle des partenaires. Rdv demain donc.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2019.png">&lt;figcaption>
 &lt;h4>Logo VMworld 2019&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>VMUG Paris, Septembre 2019, Slides de notre présentation vRO</title><link>https://vuptime.io/post/2019-09-28-vmug-paris-presentation-vro/</link><pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/09/28/vmug-paris-presentation-vro/</guid><description>
@@ -5915,7 +5915,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;blockquote>
 &lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>
 &lt;/blockquote>
-&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png"/>&lt;figcaption>
+&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png">&lt;figcaption>
 &lt;h4>Logo vMUG France&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -5937,7 +5937,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">[SUPER TALK] Special guest for our &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 2019, &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> talk us about “vSphere ESXi past, present and future” Are you ready ? &lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/MyVMUG?ref_src=twsrc%5Etfw">@MyVMUG&lt;/a> &lt;a href="https://twitter.com/VMware?ref_src=twsrc%5Etfw">@VMware&lt;/a> &lt;a href="https://twitter.com/DuncanYB?ref_src=twsrc%5Etfw">@DuncanYB&lt;/a> &lt;a href="https://twitter.com/FrankDenneman?ref_src=twsrc%5Etfw">@FrankDenneman&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/hashtag/vExpert?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vExpert&lt;/a> &lt;a href="https://t.co/8fPwW4iuUS">pic.twitter.com/8fPwW4iuUS&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177148685031002112?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">&lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 😎🤟😜Thank you to sponsors, speakers and vmuggers for making our event possible ! Amazing day with amazing people 😘&lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/ovh_fr?ref_src=twsrc%5Etfw">@ovh_fr&lt;/a> &lt;a href="https://twitter.com/woueb?ref_src=twsrc%5Etfw">@woueb&lt;/a> &lt;a href="https://twitter.com/cqchu?ref_src=twsrc%5Etfw">@cqchu&lt;/a> &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw">@antoine_hlt&lt;/a> &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://twitter.com/erwanquelin?ref_src=twsrc%5Etfw">@erwanquelin&lt;/a> &lt;a href="https://twitter.com/Kevin_Pcc_ovh?ref_src=twsrc%5Etfw">@Kevin_Pcc_ovh&lt;/a> &lt;a href="https://twitter.com/Ash2501?ref_src=twsrc%5Etfw">@Ash2501&lt;/a> &lt;a href="https://twitter.com/tonton_hub?ref_src=twsrc%5Etfw">@tonton_hub&lt;/a> &lt;a href="https://twitter.com/Gso_ski?ref_src=twsrc%5Etfw">@Gso_ski&lt;/a> &lt;a href="https://t.co/a6dV59yUcR">pic.twitter.com/a6dV59yUcR&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177250467535040512?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;p>Et parce que je le trouve vraiment très beau, le logo de cette année:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/fr-mug-09-2019-paris_logo.jpg"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/fr-mug-09-2019-paris_logo.jpg">&lt;figcaption>
 &lt;h4>fr-mug-09-2019-paris_logo&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>https://vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/08/05/released-vro-package-diff_v2/</guid><description>
@@ -5958,7 +5958,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>Documentation is hosted on &lt;a href="https://vro-package-diff.readthedocs.io">vro-package-diff.readthedocs.io&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://travis-ci.org/lrivallain/vro-package-diff/">Travis pipeline&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png">&lt;figcaption>
 &lt;h4>Sample output of vro-diff-package&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -6014,14 +6014,14 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/vcd_extensionpublish.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/vcd_extensionpublish.png">&lt;figcaption>
 &lt;h4>Example of the choice for extension&amp;#39;s publication&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h3 id="extend-vcds-ui">Extend vCD's UI&lt;/h3>
 &lt;p>Probably the most obvious benefit of the extensibility feature of vCloud Director is the capacity to integrate in a single user interface (&lt;em>UI&lt;/em>), new sections to give access to added features.&lt;/p>
 &lt;p>This includes the addition of a customized item in the main navigation menu:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/vcd_extensionmenu.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/vcd_extensionmenu.png">&lt;figcaption>
 &lt;h4>Example of navigation menu extension&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -6036,7 +6036,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;/blockquote>
 &lt;p>To handle the extension related customized requests, a backend server is necessary. This server can be hosted on a dedicated host (or the vCD server (&lt;em>cell&lt;/em>) but not recommended) and can be written in any language of your choice (Python, Java, Node etc.). Messages received by vCD on the extension path (&lt;code>coffee&lt;/code>) will be forwarded to an intermediate RabbitMQ server to be consumed by the extension backend. Once the request content is processed, response content is sent to the AMQP server and consumed by vCD to provide an answer.&lt;/p>
 &lt;p>For our example:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/architecture_overview.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/architecture_overview.png">&lt;figcaption>
 &lt;h4>Used paths for requests on Coffee extension&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -6112,17 +6112,17 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;h3 id="ui">UI&lt;/h3>
 &lt;p>The &lt;strong>LUMExt&lt;/strong> user interface is fully integrated to the vCD portal and is based on the same UI components (&lt;em>Angular&lt;/em>) and the same graphic charter (based on open-source &lt;a href="https://clarity.design/">Clarity&lt;/a> framework from VMware).&lt;/p>
 &lt;p>The main navigation menu is supplemented with a new link to access to the &lt;strong>LUMExt&lt;/strong> pages.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_menu.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_menu.png">&lt;figcaption>
 &lt;h4>Main navigation menu&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>By default, LDAP based users list is displayed:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_userlisting.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_userlisting.png">&lt;figcaption>
 &lt;h4>LUMExt, users list&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>In the following screenshot, it is interesting to notice that only the middle part is developed for the extension. Navigation menu on top and tasks list on the bottom are vCD natives (and cannot be modified).&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_userlisting_zoning_en.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_userlisting_zoning_en.png">&lt;figcaption>
 &lt;h4>LUMExt, users list - Zoning&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -6135,7 +6135,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>Description (optional)&lt;/li>
 &lt;/ul>
 &lt;p>The data are sent to the backend and store in the LDAP server in appropriate directory fields.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_usercreation.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/preview_usercreation.png">&lt;figcaption>
 &lt;h4>LUMExt, user creation&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -6165,7 +6165,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;blockquote class="twitter-tweet" data-lang="fr">&lt;p lang="fr" dir="ltr">&lt;a href="https://twitter.com/hashtag/BZH?src=hash&amp;amp;ref_src=twsrc%5Etfw">#BZH&lt;/a> c’est notre 1er Meet&amp;amp;Geek Breton - Merci pour votre accueil &lt;a href="https://twitter.com/sii_ouest?ref_src=twsrc%5Etfw">@sii_ouest&lt;/a> super 👍 REX autour de &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> automatisation - Thx to &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://t.co/nPuPoo9lt5">pic.twitter.com/nPuPoo9lt5&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1103730799415910401?ref_src=twsrc%5Etfw">7 mars 2019&lt;/a>&lt;/blockquote>
 &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;p>La soirée a aussi été &lt;em>marquée&lt;/em> par l'effervescence de la &lt;em>vCommunauté&lt;/em> mondiale autour de l'annonce des &lt;strong>vExperts&lt;/strong> 2019. L'occasion pour moi de trinquer à ma seconde ★★ en bonne compagnie!&lt;/p>
-&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/vexpert-2.png"/>&lt;figcaption>
+&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/vexpert-2.png">&lt;figcaption>
 &lt;h4>vExpert 2019&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -6176,7 +6176,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Rdv dans les locaux de &lt;strong>SII Ouest&lt;/strong>: 5e étage, Hall B, Le Newton, 3 bis Avenue de Belle Fontaine à Cesson Sévigné.&lt;/p>
 &lt;p>Rejoignez nous sur le &lt;strong>&lt;a href="https://vmugfrance.slack.com/">Slack VMUG&lt;/a>&lt;/strong>, Channel &lt;code>#vmug-rennes&lt;/code> pour discuter avant ou après cette rencontre.&lt;/p>
 &lt;p>A cette occasion nous vous proposons un petit retour d'expérience sur l'usage de &lt;em>vRealize Orchestrator&lt;/em>.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/meetandgeek-mars2019.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/meetandgeek-mars2019.png">&lt;figcaption>
 &lt;h4>Meet&amp;amp;Geek Rennais&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>VMworld 2018 – Recapitulatif jour 4</title><link>https://vuptime.io/post/2018-11-08-vmworld-2018-eu-day4/</link><pubDate>Thu, 08 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/08/VMworld-2018-EU-Day4/</guid><description>
@@ -6511,7 +6511,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Suit une présentation de Workspace One Intelligence mais je suis moins convaincu/intéressé par cet outil de gestion de parcs de terminaux. La même chose pour &lt;strong>Concord&lt;/strong>, le blockchain by VMware, que j'ai du mal à appréhender.&lt;/p>
 &lt;p>Ray pour sa dernière intervention, arrive sur scène avec un Raspberry-Pi en main pour annoncer qu'ESXi, peut (en interne uniquement pour le moment) tourner sur ce petit appareil à 30 $/€ !!! &lt;strong>ESXi sur ARM&lt;/strong> arrive et cela sera certainement une prochaine révolution pour le monde des datacenters.&lt;/p></description></item><item><title>VMworld 2018 – Recapitulatif jour 1</title><link>https://vuptime.io/post/2018-11-05-vmworld-2018-eu-day1/</link><pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/11/05/VMworld-2018-EU-Day1/</guid><description>
 &lt;p>Nous y voilà. Le premier jour au VMworld à Barcelone commence par une visite... et après une rapide estimations, la conclusion que nous avons est que c'est grand, très grand! Comme le Lundi est orienté &amp;quot;Partners&amp;quot;, il y a encore peu de monde et peu de conférences. Petit retour sur les premières confs auquelles nous avons assisté:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2018/3AtLogo.jpg"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vmworld2018/3AtLogo.jpg">&lt;figcaption>
 &lt;h4>Logo VMworld&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -6585,7 +6585,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>D'après les rumeurs, le VMworld ne s'arrête aux portes du &lt;em>Fira Barcelona Gran Via&lt;/em> (Centre des congrès de Barcelone) et de nombreuses soirées et rencontres en &lt;em>'off'&lt;/em> font aussi partie du voyage. Nous participons d'ailleurs (entre autres soirées) tous les 3 au &lt;a href="https://vmworldeuhackathon.hackerearth.com/fr/">{code} Hackathon&lt;/a> avec &lt;a href="https://vmworldeuhackathon.hackerearth.com/fr/sprints/vmworld-eu-code-hackathon/dashboard/3c86b57/team/">un projet&lt;/a> autour de Python et vRealize Orchestrator.&lt;/p>
 &lt;p>Nous ferons partager cet évènement au travers de nos comptes Twitter (&lt;a href="https://www.twitter.com/lrivallain">@lrivallain&lt;/a> et &lt;a href="https://www.twitter.com/antoine_hlt">@antoine_hlt&lt;/a>) ainsi que de quelques posts sur le blog.&lt;/p>
 &lt;p>Et pour tout ceux qui seront sur place, nous ne refusons jamais de prendre une vBeer!&lt;/p>
-&lt;p>&lt;em>PS:&lt;/em> nous aurons aussi des stickers du site, n'hésitez pas: &lt;figure>&lt;img src="https://vuptime.io/images/vuptime-stickers.jpg"/>&lt;figcaption>
+&lt;p>&lt;em>PS:&lt;/em> nous aurons aussi des stickers du site, n'hésitez pas: &lt;figure>&lt;img src="https://vuptime.io/images/vuptime-stickers.jpg">&lt;figcaption>
 &lt;h4>vuptime-stickers&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -6646,7 +6646,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;blockquote>
 &lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>
 &lt;/blockquote>
-&lt;p>Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;amp;Home=%2fcommunities%2flocalcommunityhome">VMUG France&lt;/a> dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p>
+&lt;p>Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;Home=%2fcommunities%2flocalcommunityhome">VMUG France&lt;/a> dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p>
 &lt;p>L'événènement est à présent orchestré (et bien orchestré!) par &lt;a href="https://twitter.com/Noham_m">Noham Medyouni&lt;/a> (Dell-EMC), &lt;a href="https://twitter.com/fredg_work">Fréderic Giovannacci&lt;/a> (SIB) et &lt;a href="https://twitter.com/notmg">Matthieu Gioia&lt;/a> (consultant indep.) et pour ce RDV parisien de rentrée, 2 invités de marque étaient présents:&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://twitter.com/DuncanYB">Duncan Epping&lt;/a>: Chief Technologist HCI @VMware, Auteur du blog &lt;a href="http://yellow-bricks.com">Yellow Briks&lt;/a>, Coauteur de la &lt;em>bible&lt;/em> &lt;code>Clustering Deepdive&lt;/code>.&lt;/li>
@@ -6688,7 +6688,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;p>Je crois que l'enthousiasme autour de cet évent se lit dans le billet ci-dessus mais au cas où, je le dis explicitement: &lt;em>à refaire&lt;/em>. Un grand merci aux organisateurs pour cette très belle journée (et ce sublime T-shirt).&lt;/p>
 &lt;p>Merci aussi à SII, mon employeur, qui m'a permi d'assister à cet event!&lt;/p>
 &lt;p>Et la photo de famille:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2018-paris.jpg"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2018-paris.jpg">&lt;figcaption>
 &lt;h4>Photo de famille&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>VMware vCloud Director – Change SSL certificates</title><link>https://vuptime.io/post/2018-07-24-vmware-vcloud-director-change-ssl-certificates/</link><pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/07/24/vmware-vcloud-director-change-ssl-certificates/</guid><description>
@@ -6806,7 +6806,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>https://vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/</guid><description>
 &lt;p>I have recently published a draft tool to provide a table-formated diff of two vRealize Orchestrator packages.&lt;/p>
 &lt;p>Project is available on &lt;a href="https://github.com/lrivallain/vro-package-diff/">GitHub project&lt;/a> and will evolve in futur to support more package item's types and to provide better information about differences.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png">&lt;figcaption>
 &lt;h4>Sample of output&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -7466,14 +7466,14 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;p>I started using the VMware &lt;em>Photon&lt;/em> based appliances to deploy vCenter services (VCSA) and PSC with the 6.5 version several months ago.&lt;/p>
 &lt;p>It's really stable and I appreciate to use it daily and to replace the windows based services with the appliance ones. But a couple of days ago, I had a bad suprise in a lab environment where 2 PSC instances were unable to boot after a hard power-off.&lt;/p>
 &lt;p>Here is a screenshot of the PSC console during the boot sequence:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/psc-wont-boot-1.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/psc-wont-boot-1.png">&lt;figcaption>
 &lt;h4>PSC console during the boot sequence&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>When logging with root credentials, I wasn't able to start services (as network) but I was able to manually set an IP address to the ethernet interface.&lt;/p>
 &lt;p>It tooks me quite a lot of time, searching in logs, to find out the root cause:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">journalctl -xb
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/psc-wont-boot-2.png"/>&lt;figcaption>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/psc-wont-boot-2.png">&lt;figcaption>
 &lt;h4>The root cause&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -7492,7 +7492,7 @@ of the VMware PowerShell SDK to manage vSphere environments.&lt;/p>
 &lt;p>Today, we will focus on OVF properties.&lt;/p>
 &lt;h1 id="presentation-of-ovf-properties">Presentation of OVF properties&lt;/h1>
 &lt;p>If you deploy some VM through OVF/OVA files, you are probably already familiar with OVF settings. They appear as the possibility to customize VM settings during the deployment process:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_deploy.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_deploy.png">&lt;figcaption>
 &lt;h4>OVF properties deploy&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -7536,7 +7536,7 @@ of the VMware PowerShell SDK to manage vSphere environments.&lt;/p>
 &lt;h1 id="create-new-properties">Create new properties&lt;/h1>
 &lt;p>When you create a new template for OVF export, it is possible to create/edit/delete custom OVF properties.&lt;/p>
 &lt;p>From vSphere Web client -&amp;gt; Edit Settings of a VM -&amp;gt; vApp Options: In Authoring section, it is possible to give a name/version/url to describe your future OVF and to manage properties:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_edition.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_edition.png">&lt;figcaption>
 &lt;h4>OVF properties edition&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -7547,7 +7547,7 @@ of the VMware PowerShell SDK to manage vSphere environments.&lt;/p>
 &lt;li>&lt;strong>Category&lt;/strong>: a way to order parts of the customization form fields by grouping properties together&lt;/li>
 &lt;li>&lt;strong>Description&lt;/strong>: to give more information about the purpose of the field to end users&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_fields.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_fields.png">&lt;figcaption>
 &lt;h4>OVF properties fields&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -7566,26 +7566,26 @@ of the VMware PowerShell SDK to manage vSphere environments.&lt;/p>
 &lt;li>(external) IP address&lt;/li>
 &lt;li>...&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_subtypes.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_subtypes.png">&lt;figcaption>
 &lt;h4>OVF properties sub-types&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>You can also set default value, or some requirements (like the minimal/maximal length of a string):&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_options.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_properties_options.png">&lt;figcaption>
 &lt;h4>OVF properties options&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h1 id="edit-vm-properties-values">Edit VM properties values&lt;/h1>
 &lt;p>As we saw previously, a user deploying an OVF coming from export of VM where properties are set, will be prompted to fill the values of the properties.&lt;/p>
 &lt;p>it is also possible to edit properties values of an already deployed VM: From vSphere Web client -&amp;gt; Edit Settings of a VM -&amp;gt; vApp Options.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_values_edition.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_values_edition.png">&lt;figcaption>
 &lt;h4>OVF properties values edition on VM&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>In this case, you may have to run 'again' some GuestOS glue code to take the change into account.&lt;/p>
 &lt;h1 id="get-ovf-properties-from-the-guestos">Get OVF properties from the guestOS&lt;/h1>
 &lt;p>When you configure an OVF environment, you can choose between CD-ROM and VMware-tools methods to transport information into the virtual machine:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_transport_method.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/dive_into_ovf/ovf_transport_method.png">&lt;figcaption>
 &lt;h4>OVF transport method&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -7868,12 +7868,12 @@ Clone: 100% done.
 &lt;h3 id="disk-creation">Disk creation&lt;/h3>
 &lt;p>To create a local datastore, you'll have to add a new virtual disk to your nested ESXi:&lt;/p>
 &lt;p>First step is to create a SATA disk controller:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png">&lt;figcaption>
 &lt;h4>Add a SATA controller&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Next, create a new disk on the SATA controller:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png">&lt;figcaption>
 &lt;h4>Add a new disk&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -7883,7 +7883,7 @@ Clone: 100% done.
 &lt;li>10GB&lt;/li>
 &lt;li>Dynamic allocation&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png">&lt;figcaption>
 &lt;h4>My additional disk settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -8154,7 +8154,7 @@ $ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ru
 &lt;li>server port : port you choose for VNC settings on the VM&lt;/li>
 &lt;li>password : VNC password on VM settings&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png">&lt;figcaption>
 &lt;h4>VNC access to a virtual machine&lt;/h4>
 &lt;/figcaption>
 &lt;/figure></description></item><item><title>Nested VMware ESXi with virtualbox</title><link>https://vuptime.io/post/2015-01-25-nested-esxi-virtualbox/</link><pubDate>Sun, 25 Jan 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/01/25/nested-esxi-virtualbox/</guid><description>
@@ -8183,31 +8183,31 @@ $ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ru
 &lt;li>Size: 1GB&lt;/li>
 &lt;/ul>
 &lt;p>When virtual machine is created, edit settings to set 2 vCPU cores:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox01.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox01.png">&lt;figcaption>
 &lt;h4>Edit VM CPU settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then mount the iso file to the DVD device:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox02.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox02.png">&lt;figcaption>
 &lt;h4>Add ISO file to the virtual machine&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then you can edit the network settings (I need to use the existing local network so I used &amp;quot;bridged adapter&amp;quot; setting:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox03.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox03.png">&lt;figcaption>
 &lt;h4>Change network adapter settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then save changes in configuration and start virtual machine.&lt;/p>
 &lt;h2 id="esxi-installation-and-setup">ESXi installation and setup&lt;/h2>
 &lt;p>ESXi installer will be automatically started on the virtual machine. During the process, installer will load some libraries and modules and check the available &amp;quot;hardware&amp;quot; on the virtual machine. According to the hardware settings, it could take some time before the first human action:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox04.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox04.png">&lt;figcaption>
 &lt;h4>First human action in ESXi installation process&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h3 id="optional-bypassing-the-minimal-requirements-check">(optional) Bypassing the minimal requirements check&lt;/h3>
 &lt;p>If you give less than minimal requirements to your nested ESXi virtual machine. You'll we need to bypass the requirements checks to be able to install ESXi. To do so, open ESXi console by pressing [ALT]+[F1].&lt;/p>
 &lt;p>Then login with &amp;quot;root&amp;quot; and no password:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox05.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox05.png">&lt;figcaption>
 &lt;h4>Login to the ESXi console&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -8222,7 +8222,7 @@ $ vi upgrade_precheck.py
 &lt;pre>&lt;code>MEM_MIN_SIZE = (4*1024) * SIZE_MiB
 &lt;/code>&lt;/pre>
 &lt;p>Change the &amp;quot;4&amp;quot; according to the number of GB you can give to your machine:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox06.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox06.png">&lt;figcaption>
 &lt;h4>Bypassing min-memory check&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -8238,7 +8238,7 @@ $ kill –9 &amp;lt;PYTHON PROCESS ID&amp;gt;
 &lt;li>[F11] to accept EULA&lt;/li>
 &lt;li>Select the vbox disk for system installation and press [Enter]:&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox07.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox07.png">&lt;figcaption>
 &lt;h4>Select boot device&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -8248,14 +8248,14 @@ $ kill –9 &amp;lt;PYTHON PROCESS ID&amp;gt;
 &lt;li>Then wait for hardware checking process&lt;/li>
 &lt;li>Installer will warn you about one or more hardware settings but should let you finish the installation process by pressing [Enter]:&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox08.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox08.png">&lt;figcaption>
 &lt;h4>Last step of installation process&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;ul>
 &lt;li>Press [F11] to start installation on disk.&lt;/li>
 &lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox09.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox09.png">&lt;figcaption>
 &lt;h4>Installation in progress&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -8265,29 +8265,29 @@ $ kill –9 &amp;lt;PYTHON PROCESS ID&amp;gt;
 &lt;h2 id="ip-settings">IP settings&lt;/h2>
 &lt;p>If you use the bridge network adapter and don't have a DHCP server, you may have to set the IP settings to the ESXi:&lt;/p>
 &lt;p>When ESXi is started, press [ALT]+[F2] to open &amp;quot;edit settings&amp;quot; panel and login:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox10.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox10.png">&lt;figcaption>
 &lt;h4>Login to the ESXi console&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Select &lt;code>Configure Management network&lt;/code>:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox12.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox12.png">&lt;figcaption>
 &lt;h4>Configure management network&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Edit IP settings according to your LAN or your needs:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox11.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox11.png">&lt;figcaption>
 &lt;h4>Change IP settings&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Once it's done, press [ESC] then [Y] to validate and apply changes.&lt;/p>
 &lt;h2 id="ssh-server">SSH Server&lt;/h2>
 &lt;p>To simplify the access to the ESXi command line tools, I use the embedded SSH server. To enable it:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox13.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox13.png">&lt;figcaption>
 &lt;h4>Enable SSH server in troubleshooting options&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Then enable SSH server by selecting &lt;code>Enable SSH&lt;/code> and pressing [Enter]:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox14.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/ESXiVirtualBox/ESXiVirtualBox14.png">&lt;figcaption>
 &lt;h4>Enable SSH server&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -8324,7 +8324,7 @@ NestedESXi55.lan
 &lt;p>Pour celà, il faut ouvrir l'éditeur de registre Windows: &lt;code>regedit.exe&lt;/code>&lt;/p>
 &lt;p>Puis chercher le chemin: &lt;code>HKEY_LOCAL_MACHINE\SOFTWARE\VMware, Inc.\VMware VirtualCenter\DB&lt;/code>&lt;/p>
 &lt;p>Dans ce dossier du registre, sont stockées les informations relatives à la connexion à la base de données du service vCenter.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vCenter_changeDBsettings_user.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/vCenter_changeDBsettings_user.png">&lt;figcaption>
 &lt;h4>Changement de l&amp;#39;utilisateur de bdd pour le service vCenter&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>

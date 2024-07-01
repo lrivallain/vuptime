@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>openfaas on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/openfaas/</link><description>Recent content in openfaas on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 06 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/openfaas/feed.xml" rel="self" type="application/rss+xml"/><item><title>Run Argo workflow from a VEBA event through OpenFaaS</title><link>https://vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/</link><pubDate>Wed, 06 Jan 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/01/06/run-arg-workflows-from-veba-events/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Openfaas on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/openfaas/</link><description>Recent content in Openfaas on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 06 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/openfaas/feed.xml" rel="self" type="application/rss+xml"/><item><title>Run Argo workflow from a VEBA event through OpenFaaS</title><link>https://vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/</link><pubDate>Wed, 06 Jan 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/01/06/run-arg-workflows-from-veba-events/</guid><description>
 &lt;p>I recently made posts about the &lt;a href="https://vmweventbroker.io/">VMware Event Broker&lt;/a> (aka VEBA) to explain basic on-boarding in the &lt;em>FaaS&lt;/em> and &lt;em>Event-Driven&lt;/em> worlds.&lt;/p>
 &lt;p>As you may have noticed, the FaaS concept is perfect for use-case where the automation will be:&lt;/p>
 &lt;ul>
@@ -22,7 +22,7 @@
 &lt;p>This work relies on an OpenFaaS function: &lt;a href="https://github.com/lrivallain/openfaas-fn/tree/master/veba-to-argo-fn">veba-to-argo-fn&lt;/a>.&lt;/p>
 &lt;h2 id="how-does-it-works">How does it works&lt;/h2>
 &lt;p>This OpenFaaS function is a simple &lt;em>forwarder&lt;/em> (or &lt;em>proxy&lt;/em>) to execute a pre-definied &lt;a href="https://argoproj.github.io/argo/workflow-templates/">Worklow Template&lt;/a> by providing the incoming cloud-event as an input parameter of the Workflow excecution.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/argo/veba-to-argo-fn.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/veba-to-argo-fn.png">&lt;figcaption>
 &lt;h4>VEBA to Argo&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
@@ -129,12 +129,12 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="ui">UI&lt;/h3>
 &lt;p>Argo provide an UI to have a quick-view on the content status.&lt;/p>
 &lt;p>Here is the view of an echoer instance:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui.png">&lt;figcaption>
 &lt;h4>echoer instance in the UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>and a view of the &lt;em>printed&lt;/em> logs:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui-logs.png"/>&lt;figcaption>
+&lt;figure>&lt;img src="https://vuptime.io/images/argo/echoer-ui-logs.png">&lt;figcaption>
 &lt;h4>echoer instance in the UI&lt;/h4>
 &lt;/figcaption>
 &lt;/figure>
