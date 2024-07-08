@@ -40,7 +40,7 @@
     <div>
       {{- range . }}
         {{- $tag := urlize . -}}
-        <a href='{{ absLangURL (printf "tags/%s" $tag) }}' title="{{ . }}" class="post_tag button button_translucent">
+        <a href='{{ absLangURL (printf "tags/%s" $tag) }}' title="{{ . }}" class="post_tag_{{ . | urlize  }} post_tag button button_translucent">
           {{- . }}
         </a>
       {{- end }}
