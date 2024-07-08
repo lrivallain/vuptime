@@ -11,15 +11,15 @@
 <a href="https://twitter.com/intent/tweet?text=Interact%20with%20the%20vRealize%20Automation%20IaaS%20objects%20on%20vRealize%20Orchestrator&url=https%3a%2f%2fvuptime.io%2fpost%2f2019-12-13-use-iaas-object-in-vro%2f&tw_p=tweetbutton" class=twitter title="Share on Twitter" target=_blank rel=nofollow><svg class="icon"><title>twitter</title><use xlink:href="#twitter"/></svg>
 </a><a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fvuptime.io%2fpost%2f2019-12-13-use-iaas-object-in-vro%2f&t=Interact%20with%20the%20vRealize%20Automation%20IaaS%20objects%20on%20vRealize%20Orchestrator" class=facebook title="Share on Facebook" target=_blank rel=nofollow><svg class="icon"><title>facebook</title><use xlink:href="#facebook"/></svg>
 </a><a href=#linkedinshare id=linkedinshare class=linkedin title="Share on LinkedIn" rel=nofollow><svg class="icon"><title>linkedin</title><use xlink:href="#linkedin"/></svg>
-</a><a href=https://vuptime.io/post/2019-12-13-use-iaas-object-in-vro/ title="Copy Link" class="link link_yank"><svg class="icon"><title>copy</title><use xlink:href="#copy"/></svg></a></div></span><div><a href=https://vuptime.io/tags/vmware title=vmware class="post_tag button button_translucent">vmware
-</a><a href=https://vuptime.io/tags/vra title=vra class="post_tag button button_translucent">vra
-</a><a href=https://vuptime.io/tags/vro title=vro class="post_tag button button_translucent">vro
-</a><a href=https://vuptime.io/tags/iaas title=iaas class="post_tag button button_translucent">iaas
-</a><a href=https://vuptime.io/tags/vrealize title=vrealize class="post_tag button button_translucent">vrealize
-</a><a href=https://vuptime.io/tags/orchestrator title=orchestrator class="post_tag button button_translucent">orchestrator
-</a><a href=https://vuptime.io/tags/automation title=automation class="post_tag button button_translucent">automation
-</a><a href=https://vuptime.io/tags/modelmanager title=modelmanager class="post_tag button button_translucent">modelmanager
-</a><a href=https://vuptime.io/tags/javascript title=javascript class="post_tag button button_translucent">javascript</a></div></div><div class=post_body><p>As described on another <a href=/cards/vra-linqpad-explore-iaas-objects/>blog post</a>, vRA IaaS objects can be gathered using the model manager.
+</a><a href=https://vuptime.io/post/2019-12-13-use-iaas-object-in-vro/ title="Copy Link" class="link link_yank"><svg class="icon"><title>copy</title><use xlink:href="#copy"/></svg></a></div></span><div><a href=https://vuptime.io/tags/vmware title=vmware class="post_tag_vmware post_tag button button_translucent">vmware
+</a><a href=https://vuptime.io/tags/vra title=vra class="post_tag_vra post_tag button button_translucent">vra
+</a><a href=https://vuptime.io/tags/vro title=vro class="post_tag_vro post_tag button button_translucent">vro
+</a><a href=https://vuptime.io/tags/iaas title=iaas class="post_tag_iaas post_tag button button_translucent">iaas
+</a><a href=https://vuptime.io/tags/vrealize title=vrealize class="post_tag_vrealize post_tag button button_translucent">vrealize
+</a><a href=https://vuptime.io/tags/orchestrator title=orchestrator class="post_tag_orchestrator post_tag button button_translucent">orchestrator
+</a><a href=https://vuptime.io/tags/automation title=automation class="post_tag_automation post_tag button button_translucent">automation
+</a><a href=https://vuptime.io/tags/modelmanager title=modelmanager class="post_tag_modelmanager post_tag button button_translucent">modelmanager
+</a><a href=https://vuptime.io/tags/javascript title=javascript class="post_tag_javascript post_tag button button_translucent">javascript</a></div></div><div class=post_body><p>As described on another <a href=/cards/vra-linqpad-explore-iaas-objects/>blog post</a>, vRA IaaS objects can be gathered using the model manager.
 This article will show you how to interact with this kind of object using <code>vRealize Orchestrator</code>.</p><p>On this first sample, we are trying to get a virtual machine named <code>TESTVM02</code> on the model manager.
 The VirtualMachine object has a property called <code>VirtualMachineName</code> that we can used to filter the virtual machine by its name.</p><figure><img src=/images/iaas_vro/model_manager_vm.png><figcaption><h4>Image</h4></figcaption></figure><p>Here is the javascript code in order to get this virtual machine machine.
 It will return a object of type <a href=http://www.vroapi.com/Class/vCAC/7.2.0/VCACEntity>VCAC:Entity</a>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// Inputs : vcacHost : vCAC:vCACHOST
