@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Certification on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/certification/</link><description>Recent content in Certification on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 08 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/certification/feed.xml" rel="self" type="application/rss+xml"/><item><title>AI-900: Microsoft Azure AI Fundamentals – Mindmap</title><link>https://vuptime.io/post/2024-07-08-ai900-mindmap/</link><pubDate>Mon, 08 Jul 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-07-08-ai900-mindmap/</guid><description>
+&lt;p>As &lt;a href="https://learn.microsoft.com/api/credentials/share/en-us/lrivallain/523BBA671361423C?sharingId=35D5A001D221F55E">I prepared for&lt;/a>
+the &lt;a href="https://learn.microsoft.com/en-us/training/courses/ai-900t00">AI-900 exam&lt;/a> exam,
+I developed a mindmap to solidify my grasp of the essential concepts. I believe it could be beneficial
+to others, so I've decided to share it.&lt;/p>
+&lt;p>The mindmap, crafted using &lt;a href="https://markmap.js.org/">Markmap&lt;/a>, is Markdown-based, offering a dynamic
+and customizable way to visualize information. The simplicity of its syntax allows for a range of
+personalization options to suit any preference.&lt;/p>
+&lt;p>You can access the source code on &lt;a href="https://github.com/lrivallain/ai-900-mindmap">GitHub&lt;/a> and view the
+mindmap in full screen at &lt;a href="https://vupti.me/ai900-mm">vupti.me/ai900-mm&lt;/a> for an interactive experience.&lt;/p>
+&lt;iframe width="100%" height="2400" src="https://ludovic.rivallain.fr/ai-900-mindmap/"
+style="background: linear-gradient(white, white) padding-box,
+linear-gradient(105deg, rgb(255 46 144) 0%, rgb(61 35 185) 100%) border-box;
+border: 4px solid transparent;
+border-radius: 10px;"
+allowfullscreen >
+&lt;/iframe></description></item></channel></rss>
