@@ -1,4 +1,153 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/</link><description>Recent content on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 08 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>AI-900: Microsoft Azure AI Fundamentals – Mindmap</title><link>https://vuptime.io/post/2024-07-08-ai900-mindmap/</link><pubDate>Mon, 08 Jul 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-07-08-ai900-mindmap/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/</link><description>Recent content on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Tue, 05 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Azure Elastic SAN to extend Azure VMware Solution storage</title><link>https://vuptime.io/post/2024-11-05-azure-elasticsan-and-avs/</link><pubDate>Tue, 05 Nov 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-11-05-azure-elasticsan-and-avs/</guid><description>
+&lt;p>Azure VMware Solution (AVS) is a managed service that relies mostly on Hyper-converged infrastructure (HCI) and VMware vSAN to provide storage capacity to host Virtual Machines (VMs) workloads. Each host deployed in the solution is providing its local storage devices and capabilities to the distributed storage capacity.&lt;/p>
+&lt;p>By default, the scalability of such HCI solutions is based on the addition of new hosts to the cluster, increasing the storage capacity and compute resources available to the VMs.&lt;/p>
+&lt;p>However, there are some scenarios where you might need to extend the storage capacity of your AVS cluster without requiring additional compute resources.&lt;/p>
+&lt;h1 id="extend-avs-storage-capacity">Extend AVS storage capacity&lt;/h1>
+&lt;p>Let's do a quick overview of the different options available to extend the storage capacity of your AVS cluster without expanding the compute resources.&lt;/p>
+&lt;h2 id="azure-netapp-files">Azure NetApp Files&lt;/h2>
+&lt;p>The initial solution to expand storage capacity was to utilize Azure NetApp Files (ANF) as the storage backend for Azure VMware Solution (AVS). ANF volumes are mounted as NFS datastores on the ESXi hosts within the AVS cluster. Network connectivity is managed through a dedicated Azure Virtual Network (vNet) and subnet, along with an ExpressRoute gateway.&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Note&lt;/div>
+&lt;p>ANF is a first party service in Azure.&lt;/p>
+&lt;/div>
+&lt;p>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal">AVS+Azure NetApp Files documentation&lt;/a>&lt;/p>
+&lt;h2 id="pure-cloud-block-store">Pure Cloud Block Store&lt;/h2>
+&lt;p>A second approach is to rely on Pure Cloud Block Store (CBS) to extend the storage capacity of your AVS cluster. Pure Cloud Block Store is a fully managed service that provides block storage to your AVS cluster.&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Note&lt;/div>
+&lt;p>Pure Storage is a third party service in Azure.&lt;/p>
+&lt;/div>
+&lt;p>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/configure-pure-cloud-block-store">AVS+Pure Cloud Block Store documentation&lt;/a>&lt;/p>
+&lt;h2 id="azure-elastic-san">Azure Elastic SAN&lt;/h2>
+&lt;p>GA since October 2024, Azure Elastic SAN integration with AVS provides a new way to extend the storage capacity of your AVS cluster. Azure Elastic SAN is a fully managed service that provides block storage to your AVS cluster.&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Note&lt;/div>
+&lt;p>Azure Elastic SAN is a first party service in Azure.&lt;/p>
+&lt;/div>
+&lt;p>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/configure-azure-elastic-san">AVS+Azure Elastic SAN documentation&lt;/a>&lt;/p>
+&lt;h1 id="azure-elastic-san-and-avs">Azure Elastic SAN and AVS&lt;/h1>
+&lt;p>I will not cover all the differences with other available services in this post, but I encourage you to get a look at the &lt;a href="https://learn.microsoft.com/en-us/azure/storage/elastic-san/elastic-san-introduction">Azure Elastic SAN documentation&lt;/a> to get more details.&lt;/p>
+&lt;p>From my point of view, the two main benefits of Azure Elastic SAN in AVS storage extension are:&lt;/p>
+&lt;ul>
+&lt;li>The &lt;strong>performances&lt;/strong>: each provisioned TB of &lt;em>Base&lt;/em> Azure Elastic SAN provides 200MB/s throughput and 5000 IOPS.&lt;/li>
+&lt;li>The &lt;strong>cost&lt;/strong> optimization.&lt;/li>
+&lt;/ul>
+&lt;p>In this post we will see how to integrate Azure Elastic SAN with AVS and benefit from external storage capacity by this way.&lt;/p>
+&lt;h2 id="localization">Localization&lt;/h2>
+&lt;p>Azure Elastic SAN is &lt;a href="https://learn.microsoft.com/en-us/azure/storage/elastic-san/elastic-san-create">available in multiple Azure regions&lt;/a>. When integrating Azure Elastic SAN with AVS, it is recommended to deploy the storage service in the same Azure region and Availability Zone (AZ) as the AVS cluster to minimize latency and optimize performances.&lt;/p>
+&lt;h2 id="network-topology">Network topology&lt;/h2>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Azure Elastic SAN and AVS: Network topology"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-esan/eSAN-and-AVS-network-topology.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>The previous illustration shows the network topology when integrating Azure Elastic SAN with AVS.&lt;/p>
+&lt;p>ESXi hosts in the AVS cluster are connected to the Azure Elastic SAN service through the following components&lt;/p>
+&lt;h3 id="new-vmkernel-interfaces-per-esxi-host-external-storage-block">New VMKernel interfaces per ESXi host: &lt;em>External Storage Block&lt;/em>&lt;/h3>
+&lt;p>To use Elastic SAN with AVS, you need to provision a new IP address block/range to configure the SDDC's &lt;em>External Storage Block&lt;/em>. The address block should be a /24 network (&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/configure-azure-elastic-san#configure-external-storage-address-block">Documentation&lt;/a>).&lt;/p>
+&lt;p>When configuring the new &lt;em>External Storage Block&lt;/em>, each ESXi host in the AVS cluster will have two VMKernel interfaces configured within the new IP address block:
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="New VMKernel interfaces::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-esan/esxi-new-vmkernels.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>The two new network interfaces will be used to initiate the iSCSI connections to the Azure Elastic SAN service by using a newly created iSCSI Software adapter:
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="New iSCSI Software adapter::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-esan/esxi-new-storage-adapter.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="avs-express-route-circuit">AVS Express Route circuit&lt;/h3>
+&lt;p>Azure VMware Solution uses the concept of Express Route circuit (ER) to provide connectivity out of the boundaries of the NSX-T and management networks. It enables the connection to Azure services like Azure Elastic SAN, and also the connectivity with the on-premises environments if needed.&lt;/p>
+&lt;p>In the case of external storage resources, a dedicated Express Route Gateway is recommended to maximize the performances and limit the noisy neighbor effect of other services.&lt;/p>
+&lt;p>The Express Route gateway will &amp;quot;land&amp;quot; the AVS ER to an Azure vNet were the connectivity with Elastic SAN can be established. Sizing this component according to the expected throughput and latency requirements is crucial to ensure the performances of the storage service:&lt;/p>
+&lt;ul>
+&lt;li>AVS Express Route circuit is a 10GBps link&lt;/li>
+&lt;li>It is recommended to provision a gateway with the same bandwidth capacity like &lt;code>ErGw3AZ&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;div class="notices info">
+&lt;div class="label">Note&lt;/div>
+&lt;p>As &lt;strong>FastPath&lt;/strong> is &lt;a href="https://learn.microsoft.com/en-us/azure/expressroute/about-fastpath">currently not supported with Private Endpoints&lt;/a>, there is no need to enable it.&lt;/p>
+&lt;/div>
+&lt;h3 id="azure-vnet-and-private-endpoints">Azure vNet and Private Endpoints&lt;/h3>
+&lt;p>In order to connect to the Azure Elastic SAN service, you need to create a Private Endpoint in an Azure vNet.&lt;/p>
+&lt;p>To increase performance and reliability, multiple Private Endpoints should be created to establish multiple sessions between hosts and the storage service. The Azure documentation provide a set of recommendations to optimize the performances of the storage service: &lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/configure-azure-elastic-san#configuration-recommendations">configuration recommendations&lt;/a>.
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Set of Private Endpoints to access Elastic SAN::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-esan/azure-private-endpoints.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>In the Azure vNet diagram, we can see the Private Endpoints, their Network Interface Cards (NICs), and the connection to the Azure Elastic SAN service.
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Azure vNet and Private Endpoints components in the Azure UI diagram::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-esan/azure-private-endpoints-ui-diagram.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="storage-configuration">Storage configuration&lt;/h2>
+&lt;p>Mounting the Elastic SAN on Azure VMware Solution is managed through the Azure Portal or API and the process is quite straightforward: you select the Elastic SAN service, the volume group, then the volume to mount and the target cluster.&lt;/p>
+&lt;p>When mounted on nodes, the storage is visible as datastore in both vCenter and Azure Portal.
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Mounted Elastic SAN volume on AVS: from Azure Portal::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-esan/avs-mount-esan-ui.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Mounted Elastic SAN volume on AVS: from vCenter UI::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-esan/avs-mount-esan-vcenter.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h1 id="conclusion">Conclusion&lt;/h1>
+&lt;p>It is now time to migrate workloads to this new storage capacity and benefit from the performances and cost optimization of Azure Elastic SAN. To preserver workload runtime, &lt;strong>Storage vMotion&lt;/strong> is the recommended method to move VMs from one datastore to another.&lt;/p>
+&lt;p>Keep in mind that the vSAN cluster will probably provide the best performances for the VMs that require the lowest latency and the highest throughput. Azure Elastic SAN is a good candidate for VMs that require a good balance between performances, capacity and cost optimization.&lt;/p></description></item><item><title>AI-900: Microsoft Azure AI Fundamentals – Mindmap</title><link>https://vuptime.io/post/2024-07-08-ai900-mindmap/</link><pubDate>Mon, 08 Jul 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-07-08-ai900-mindmap/</guid><description>
 &lt;p>As &lt;a href="https://learn.microsoft.com/api/credentials/share/en-us/lrivallain/523BBA671361423C?sharingId=35D5A001D221F55E">I prepared for&lt;/a>
 the &lt;a href="https://learn.microsoft.com/en-us/training/courses/ai-900t00">AI-900 exam&lt;/a>,
 I developed a mindmap to solidify my grasp of the essential concepts. I believe it could be beneficial
