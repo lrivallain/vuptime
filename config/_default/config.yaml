@@ -1,6 +1,7 @@
 baseurl: https://vuptime.io
 copyright: Ludovic Rivallain and blog co-authors
-paginate: 10
+pagination:
+  pagerSize: 10
 theme: hugo-clarity
 service:
   disqus:
