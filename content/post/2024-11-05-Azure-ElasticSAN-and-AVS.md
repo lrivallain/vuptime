@@ -11,8 +11,8 @@ tags:
 - azure vmware solution
 - storage
 toc: true
-thumbnail: /images/hcx-mon/thumbnail.png
-splash: /images/hcx-mon/thumbnail.png
+thumbnail: /images/avs-esan/thumbnail.png
+splash: /images/avs-esan/thumbnail.png
 ---
 
 Azure VMware Solution (AVS) is a managed service that relies mostly on Hyper-converged infrastructure (HCI) and VMware vSAN to provide storage capacity to host Virtual Machines (VMs) workloads. Each host deployed in the solution is providing its local storage devices and capabilities to the distributed storage capacity.

@@ -5,5 +5,5 @@ echo "Starting Hugo dev server on $HUGO_BASE_URL"
 hugo server \
     --bind="${HUGO_IP_ADDRESS}" \
     --baseURL="${HUGO_BASE_URL}" \
-    --buildFuture --buildDrafts #\
-    #--poll 1s \ # Use pooling to force file change detection in a WSL environment
+    --buildFuture --buildDrafts \
+    --poll 1s \ # Use pooling to force file change detection in a WSL environment
