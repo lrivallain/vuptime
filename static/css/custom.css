@@ -114,3 +114,11 @@ code.noClass {
     border: 4px solid transparent;
     border-radius: 10px;
 }
+
+/* Terraform tag */
+.excerpt:has(> div.excerpt_header div.post_meta div a.post_tag_terraform) {
+    background: linear-gradient(var(--choice-bg), var(--choice-bg)) padding-box,
+                linear-gradient(105deg, #5c4ee5 0%, #00c1d5 100%) border-box;
+    border: 4px solid transparent;
+    border-radius: 10px;
+}
