@@ -12,7 +12,7 @@ tags:
 - terraform
 toc: true
 thumbnail: /images/terraform-icon.svg
-splash: /images/terraform-icon.svg
+splash: /images/terraform-icon.png
 ---
 
 If you work with VMware vCloud Director (vCD) and Terraform regularly, you're likely familiar with the [vcd provider](https://registry.terraform.io/providers/vmware/vcd/latest) for interacting with the vCD API. This provider is an excellent tool for automating the deployment of vCD resources and managing the lifecycle of your virtual datacenters.
