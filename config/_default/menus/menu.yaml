@@ -16,12 +16,9 @@ social:
     type: social
     weight: 1
     url: "https://github.com/lrivallain/vuptime"
-  - name: mastodon
-    weight: 2
-    url: "https://mastodon.social/@lrivallain"
-  - name: twitter
+  - name: bluesky
     weight: 3
-    url: "https://www.twitter.com/vuptimeio"
+    url: "https://bsky.app/profile/lrivallain.vupti.me"
   - name: rss
     weight: 4
     url: feed.xml

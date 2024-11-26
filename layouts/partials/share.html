@@ -1,0 +1,14 @@
+  {{- $s := T "share_on" }}
+  <div class="post_share">
+    {{ $s }}:
+    <a href="https://bsky.app/intent/compose?text={{ .Title }} - {{ .Permalink }}" class="bluesky" title="{{ $s }} Bluesky" target="_blank" rel="nofollow">
+      {{ partial "sprite" (dict "icon" "bluesky") }}
+    </a>
+    <a href="#linkedinshare" id="linkedinshare" class="linkedin" title="{{ $s }} LinkedIn" rel="nofollow">
+      {{ partial "sprite" (dict "icon" "linkedin") }}
+    </a>
+    <a href="{{ .Permalink }}" title="Copy Link" class="link link_yank">
+      {{ partial "sprite" (dict "icon" "copy") }}
+    </a>
+  </div>
+  
