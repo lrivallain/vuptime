@@ -81,5 +81,5 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
 &lt;li>Create a pull request on the project.&lt;/li>
 &lt;li>Once accepted and merged to master, the static will be run through this
-&lt;a href="https://github.com/lrivallain/git-book-kubernetes/actions?query=workflow%3A%22Publish+Site%22">Publish GitHub Action&lt;/a>&lt;/li>
+&lt;a href="https://github.com/lrivallain/git-book-kubernetes/actions?query=workflow%3A%22Publish&amp;#43;Site%22">Publish GitHub Action&lt;/a>&lt;/li>
 &lt;/ol></description></item></channel></rss>

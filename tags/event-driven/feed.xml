@@ -405,7 +405,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
 &lt;li>Create a pull request on the project.&lt;/li>
 &lt;li>Once accepted and merged to master, the static will be run through this
-&lt;a href="https://github.com/lrivallain/git-book-kubernetes/actions?query=workflow%3A%22Publish+Site%22">Publish GitHub Action&lt;/a>&lt;/li>
+&lt;a href="https://github.com/lrivallain/git-book-kubernetes/actions?query=workflow%3A%22Publish&amp;#43;Site%22">Publish GitHub Action&lt;/a>&lt;/li>
 &lt;/ol></description></item><item><title>Run Argo workflow from a VEBA event through OpenFaaS</title><link>https://vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/</link><pubDate>Wed, 06 Jan 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/01/06/run-arg-workflows-from-veba-events/</guid><description>
 &lt;p>I recently made posts about the &lt;a href="https://vmweventbroker.io/">VMware Event Broker&lt;/a> (aka VEBA) to explain basic on-boarding in the &lt;em>FaaS&lt;/em> and &lt;em>Event-Driven&lt;/em> worlds.&lt;/p>
 &lt;p>As you may have noticed, the FaaS concept is perfect for use-case where the automation will be:&lt;/p>
@@ -722,7 +722,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a running pod&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">NAME READY STATUS RESTARTS AGE
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">vmware-event-router-859b97c894-bxx94 1/1 Running &lt;span class="m">0&lt;/span> 25m
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/#VMware Event Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/#VMware%20Event%20Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
 &lt;h2 id="first-function">First function&lt;/h2>
 &lt;p>Time to describe our first function use case:&lt;/p>
 &lt;p>We have a lab vCenter with multiple users, multiple projects, PoC etc. And it's a bit hard to know which VM belongs to which user, and if the project is still active.&lt;/p>
@@ -973,7 +973,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a running pod&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">NAME READY STATUS RESTARTS AGE
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">vmware-event-router-859b97c894-bxx94 1/1 Running &lt;span class="m">0&lt;/span> 25m
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-11-02-vmware-event-broker-on-k8s-first-steps/#VMware Event Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-11-02-vmware-event-broker-on-k8s-first-steps/#VMware%20Event%20Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
 &lt;p>If you requested the OpenFaaS deployment, you now have a set of pods in the &lt;code>openfaas&lt;/code> namespace:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">kubectl get pods -n openfaas
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a new set of running pods&lt;/span>

@@ -5,7 +5,7 @@
 &lt;p>Monitoring Azure VMware Solution is a vast topic. This article will focus on forwarding to Azure Data Explorer and visualize through Grafana, metrics that are available out of the box.&lt;/p>
 &lt;p>If you want to go further, I recommend you to read the following articles:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="hhttps://learn.microsoft.com/en-us/azure/azure-vmware/introduction#monitoring-your-private-cloud">Monitoring your private cloud&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#ZgotmplZ">Monitoring your private cloud&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/configure-alerts-for-azure-vmware-solution#supported-metrics-and-activities">Azure VMware Solution metrics&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/manage#azure-vmware-solution-operations-baseline">Cloud Adoption Framework for Azure: Manage Azure VMware Solution&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/eslz-management-and-monitoring">Cloud Adoption Framework for Azure: Management and monitoring for Azure VMware Solution enterprise-scale scenario&lt;/a>&lt;/li>

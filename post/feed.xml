@@ -1,4 +1,107 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/post/</link><description>Recent content in Posts on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 18 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/post/feed.xml" rel="self" type="application/rss+xml"/><item><title>AI-102: Microsoft Azure AI Engineer Associate – Mindmap</title><link>https://vuptime.io/post/2024-11-18-ai102-mindmap/</link><pubDate>Mon, 18 Nov 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-11-18-ai102-mindmap/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/post/</link><description>Recent content in Posts on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 20 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/post/feed.xml" rel="self" type="application/rss+xml"/><item><title>Tooling: Azure Migrate Network Flows Analysis</title><link>https://vuptime.io/post/2025-01-20-azure-migrate-network-flows-analysis/</link><pubDate>Mon, 20 Jan 2025 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2025-01-20-azure-migrate-network-flows-analysis/</guid><description>
+&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Migrating workloads to Azure, particularly Azure VMware Solution, is significantly streamlined by tools such as Azure Migrate and VMware HCX. However, some challenges remain. One major challenge is understanding network flows and preparing migration steps. Many users find it difficult to parse the data collected during Azure Migrate dependencies analysis and organize it into actionable migration waves.&lt;/p>
+&lt;h2 id="the-problem">The problem&lt;/h2>
+&lt;p>When conducting an Azure Migrate dependencies analysis, users often feel overwhelmed by the vast amount of network flow data and the challenge of understanding it. This data is essential for planning and executing a successful migration, but without the appropriate tools, it can be challenging to interpret and utilize effectively.&lt;/p>
+&lt;h2 id="the-solution">The solution&lt;/h2>
+&lt;p>To address this issue, I have developed a comprehensive solution: &lt;a href="https://az-mdv.az.vupti.me/">Azure Migrate Network Flows Analysis&lt;/a> (&lt;a href="https://github.com/lrivallain/az-migrate-dep-visu">Github repo&lt;/a>). This tool helps users understand network flow data by turning it into easy-to-read visuals. It helps users plan and execute migrations better, reducing errors and downtime. The tool also includes features like flows visualizations, filtered table and exports, making the migration process smoother and more likely to succeed.&lt;/p>
+&lt;h2 id="features">Features&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>CSV Import&lt;/strong>: Import CSV files containing network flow data from Azure Migrate Dependency analysis
+&lt;ul>
+&lt;li>The data remains entirely within the browser and is never uploaded to a server, ensuring the protection of
+data privacy.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Data Processing&lt;/strong>: Extract and process data from the uploaded CSV files.&lt;/li>
+&lt;li>&lt;strong>Visualization&lt;/strong>: Visualize the network flows using interactive graphs.&lt;/li>
+&lt;li>&lt;strong>Filtering&lt;/strong>: Filter the data based on various criteria such as IP addresses, ports, and VLANs.&lt;/li>
+&lt;li>&lt;strong>CSV Download&lt;/strong>: Download the filtered data as a CSV file.&lt;/li>
+&lt;li>&lt;strong>VLANs&lt;/strong>: Support for optional VLANs data columns in the CSV file and flow grouping.
+&lt;ul>
+&lt;li>Grouping items by VLAN or subnet is crucial for successful migration planning in an Azure VMware environment
+with HCX. Utilizing L2 extensions and preparing for extension cutover are essential steps to efficiently migrate
+workloads and prevent network issues.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Non RFC1918 IPs&lt;/strong>: Regroup and filter non-RFC1918 IP addresses.&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-to-use">How to use&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>Upload CSV File&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>Navigate to the upload page.&lt;/li>
+&lt;li>Upload a CSV file containing network flow data.&lt;/li>
+&lt;li>The CSV file should have the following columns:
+&lt;ul>
+&lt;li>&lt;code>Source server name&lt;/code>&lt;/li>
+&lt;li>&lt;code>Source IP&lt;/code>&lt;/li>
+&lt;li>&lt;code>Source application&lt;/code>&lt;/li>
+&lt;li>&lt;code>Source process&lt;/code>&lt;/li>
+&lt;li>&lt;code>Destination server name&lt;/code>&lt;/li>
+&lt;li>&lt;code>Destination IP&lt;/code>&lt;/li>
+&lt;li>&lt;code>Destination application&lt;/code>&lt;/li>
+&lt;li>&lt;code>Destination process&lt;/code>&lt;/li>
+&lt;li>&lt;code>Destination port&lt;/code>&lt;/li>
+&lt;li>&lt;code>Source VLAN&lt;/code> (optional)&lt;/li>
+&lt;li>&lt;code>Destination VLAN&lt;/code> (optional)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>View and Filter Data&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>After uploading, you will be redirected to the visualization page.&lt;/li>
+&lt;li>Use the filters to narrow down the data based on source IP, destination IP, port, and VLANs.&lt;/li>
+&lt;li>The data will be displayed in a table and as an interactive graph.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Graph Interaction&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>Click on a connection to get some information about the flow statistics.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Filter and group Non-RFC1918 IPs&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>Use the &amp;quot;Group Non-RFC1918&amp;quot; button to group non-RFC1918 IP addresses.&lt;/li>
+&lt;li>Table will be updated to simplify the search and filtering.&lt;/li>
+&lt;li>This enables to focus on Internet-bound traffic.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Download Filtered Data&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>Click the &amp;quot;Download CSV&amp;quot; button to download the filtered data as a CSV file.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="optional-vlans-data">Optional VLANs data&lt;/h3>
+&lt;p>To help with the filtering, you can add optional VLANs data columns to the CSV file.&lt;/p>
+&lt;p>The columns should be named &lt;code>Source VLAN&lt;/code> and &lt;code>Destination VLAN&lt;/code>.&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Optional columns&lt;/div>
+&lt;p>These columns are not part of the original CSV file exported from Azure Migrate Dependency analysis.&lt;/p>
+&lt;/div>
+&lt;p>The application will use this data to help filter and grouping resources in the visualization.&lt;/p>
+&lt;h2 id="run-your-own-instance">Run your own instance&lt;/h2>
+&lt;p>As the application is a JavaScript application, you can run it locally or host it on your own server. The application is available on &lt;a href="https://github.com/lrivallain/az-migrate-dep-visu">Github&lt;/a> and you can also use the &lt;a href="https://hub.docker.com/r/lrivallain/az-migrate-dep-visu">Docker image&lt;/a> to run it in a container.&lt;/p>
+&lt;h2 id="test-it-">Test it !&lt;/h2>
+&lt;p>The following integration provide a live test of the application with a test set of data. You can also access the application directly at &lt;a href="https://az-mdv.az.vupti.me/">az-mdv.az.vupti.me&lt;/a> and/or use your own data. Feedback is welcome!&lt;/p>
+&lt;p>&lt;object data="https://az-mdv.az.vupti.me/#test" width="100%" height="1500px"
+title="Azure Migrate Network Flows Analysis"
+style="background: linear-gradient(white, white) padding-box,
+linear-gradient(105deg, rgb(255 46 144) 0%, rgb(61 35 185) 100%) border-box;
+border: 4px solid transparent;
+border-radius: 10px;">
+Error: Embedded data could not be displayed, please visit the source: &lt;a href="https://az-mdv.az.vupti.me/">Azure Migrate Network Flows Analysis&lt;/a>
+&lt;/object>&lt;/p>
+&lt;h2 id="whats-next-">What's next ?&lt;/h2>
+&lt;p>I plan to continue improving the tool by adding more features and enhancing the user experience. I welcome feedback and suggestions for future updates. If you have any questions or comments, please feel free to reach out to me.&lt;/p>
+&lt;p>I could also try to add some AI based features to help grouping workloads and suggest migrations waves based on the data. This could be a great addition to the tool.&lt;/p></description></item><item><title>AI-102: Microsoft Azure AI Engineer Associate – Mindmap</title><link>https://vuptime.io/post/2024-11-18-ai102-mindmap/</link><pubDate>Mon, 18 Nov 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-11-18-ai102-mindmap/</guid><description>
 &lt;p>As per the preparation of &lt;a href="https://vuptime.io/post/2024-07-08-ai900-mindmap/">AI-900&lt;/a> this summer, I also prepared for the &lt;a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/?practice-assessment-type=certification">AI-102 exam&lt;/a> by developing a mindmap to solidify my grasp of the essential concepts (&lt;em>spoiler alert:&lt;/em> it works 🥳). I believe it could be beneficial to others, so I've decided to share it there too.&lt;/p>
 &lt;p>You can access the source code on &lt;a href="https://github.com/lrivallain/ai-102-mindmap">GitHub&lt;/a> and view the mindmap in full screen at &lt;a href="https://vupti.me/ai102-mm">vupti.me/ai102-mm&lt;/a> for an interactive experience.&lt;/p>
 &lt;!-- &lt;iframe width="100%" height="2400" src="https://ludovic.rivallain.fr/ai-102-mindmap/"
@@ -627,7 +730,7 @@ src="https://vuptime.io/images/hcx-mon/scenario8-internet-with-specific-policy-r
 &lt;p>Monitoring Azure VMware Solution is a vast topic. This article will focus on forwarding to Azure Data Explorer and visualize through Grafana, metrics that are available out of the box.&lt;/p>
 &lt;p>If you want to go further, I recommend you to read the following articles:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="hhttps://learn.microsoft.com/en-us/azure/azure-vmware/introduction#monitoring-your-private-cloud">Monitoring your private cloud&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#ZgotmplZ">Monitoring your private cloud&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/azure-vmware/configure-alerts-for-azure-vmware-solution#supported-metrics-and-activities">Azure VMware Solution metrics&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/manage#azure-vmware-solution-operations-baseline">Cloud Adoption Framework for Azure: Manage Azure VMware Solution&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/eslz-management-and-monitoring">Cloud Adoption Framework for Azure: Management and monitoring for Azure VMware Solution enterprise-scale scenario&lt;/a>&lt;/li>
@@ -2304,7 +2407,7 @@ src="https://vuptime.io/images/avs-nva/stage3/hub_and_spoke_avs-Step3-Asymmetric
 &lt;p>In this post, we will cover how the two solutions can be linked together in order to provide this &lt;em>&amp;quot;fully-managed-vCloud-Director&amp;quot;&lt;/em> experience.&lt;/p>
 &lt;p>You can also refer to the following links to explore more about the AVS and CDS combination:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://blogs.vmware.com/cloudprovider/2022/08/cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution.html?utm_source=feedly&amp;utm_medium=rss&amp;utm_campaign=cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution">VMware's blog: Cloud Director Service Expanding Multi-Cloud Services on Azure VMware Solution&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://blogs.vmware.com/cloudprovider/2022/08/cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution.html?utm_source=feedly&amp;amp;utm_medium=rss&amp;amp;utm_campaign=cloud-director-service-expanding-multi-cloud-services-on-azure-vmware-solution">VMware's blog: Cloud Director Service Expanding Multi-Cloud Services on Azure VMware Solution&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://azure.microsoft.com/fr-fr/updates/public-preview-enterprise-vmware-cloud-director-service-for-azure-vmware-solution/">Azure update announcement&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-vmware-cds-with-azure">Azure documentation&lt;/a>&lt;/li>
 &lt;/ul>
@@ -4284,7 +4387,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
 &lt;li>Create a pull request on the project.&lt;/li>
 &lt;li>Once accepted and merged to master, the static will be run through this
-&lt;a href="https://github.com/lrivallain/git-book-kubernetes/actions?query=workflow%3A%22Publish+Site%22">Publish GitHub Action&lt;/a>&lt;/li>
+&lt;a href="https://github.com/lrivallain/git-book-kubernetes/actions?query=workflow%3A%22Publish&amp;#43;Site%22">Publish GitHub Action&lt;/a>&lt;/li>
 &lt;/ol></description></item><item><title>Run Argo workflow from a VEBA event through OpenFaaS</title><link>https://vuptime.io/post/2021-01-06-run-arg-workflows-from-veba-events/</link><pubDate>Wed, 06 Jan 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/01/06/run-arg-workflows-from-veba-events/</guid><description>
 &lt;p>I recently made posts about the &lt;a href="https://vmweventbroker.io/">VMware Event Broker&lt;/a> (aka VEBA) to explain basic on-boarding in the &lt;em>FaaS&lt;/em> and &lt;em>Event-Driven&lt;/em> worlds.&lt;/p>
 &lt;p>As you may have noticed, the FaaS concept is perfect for use-case where the automation will be:&lt;/p>
@@ -4601,7 +4704,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a running pod&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">NAME READY STATUS RESTARTS AGE
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">vmware-event-router-859b97c894-bxx94 1/1 Running &lt;span class="m">0&lt;/span> 25m
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/#VMware Event Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/#VMware%20Event%20Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
 &lt;h2 id="first-function">First function&lt;/h2>
 &lt;p>Time to describe our first function use case:&lt;/p>
 &lt;p>We have a lab vCenter with multiple users, multiple projects, PoC etc. And it's a bit hard to know which VM belongs to which user, and if the project is still active.&lt;/p>
@@ -5039,7 +5142,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a running pod&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">NAME READY STATUS RESTARTS AGE
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">vmware-event-router-859b97c894-bxx94 1/1 Running &lt;span class="m">0&lt;/span> 25m
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-11-02-vmware-event-broker-on-k8s-first-steps/#VMware Event Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This pod, in the &lt;code>vmware&lt;/code> is the &lt;a href="https://vuptime.io/post/2020-11-02-vmware-event-broker-on-k8s-first-steps/#VMware%20Event%20Router">&lt;em>VMware Event Router&lt;/em>&lt;/a> as explained previously in this post.&lt;/p>
 &lt;p>If you requested the OpenFaaS deployment, you now have a set of pods in the &lt;code>openfaas&lt;/code> namespace:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">kubectl get pods -n openfaas
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># You should get a new set of running pods&lt;/span>
@@ -6137,12 +6240,12 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> &lt;span class="nx">client&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">cn&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewAPIClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">cn&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewConfiguration&lt;/span>&lt;span class="p">())&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Get random joke&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> &lt;span class="nx">joke&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">client&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JokeControllerApi&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GetRandomJokeValueUsingGET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Background&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="kc">nil&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> &lt;span class="c1">// Test error
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> &lt;span class="c1">// Test error&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Error:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> &lt;span class="c1">// Test HTTP Response code
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusCode&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">200&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> &lt;span class="c1">// Test HTTP Response code&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusCode&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">200&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">joke&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Value&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl"> &lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
@@ -7709,7 +7812,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;blockquote>
 &lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>
 &lt;/blockquote>
-&lt;p>Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;Home=%2fcommunities%2flocalcommunityhome">VMUG France&lt;/a> dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p>
+&lt;p>Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;amp;Home=%2fcommunities%2flocalcommunityhome">VMUG France&lt;/a> dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p>
 &lt;p>L'événènement est à présent orchestré (et bien orchestré!) par &lt;a href="https://twitter.com/Noham_m">Noham Medyouni&lt;/a> (Dell-EMC), &lt;a href="https://twitter.com/fredg_work">Fréderic Giovannacci&lt;/a> (SIB) et &lt;a href="https://twitter.com/notmg">Matthieu Gioia&lt;/a> (consultant indep.) et pour ce RDV parisien de rentrée, 2 invités de marque étaient présents:&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://twitter.com/DuncanYB">Duncan Epping&lt;/a>: Chief Technologist HCI @VMware, Auteur du blog &lt;a href="http://yellow-bricks.com">Yellow Briks&lt;/a>, Coauteur de la &lt;em>bible&lt;/em> &lt;code>Clustering Deepdive&lt;/code>.&lt;/li>
