@@ -17,11 +17,11 @@ toc: true
 
 Migrating workloads to Azure, particularly Azure VMware Solution, is significantly streamlined by tools such as Azure Migrate and VMware HCX. However, some challenges remain. One major challenge is understanding network flows and preparing migration steps. Many users find it difficult to parse the data collected during Azure Migrate dependencies analysis and organize it into actionable migration waves.
 
-## The problem
+### The problem
 
 When conducting an Azure Migrate dependencies analysis, users often feel overwhelmed by the vast amount of network flow data and the challenge of understanding it. This data is essential for planning and executing a successful migration, but without the appropriate tools, it can be challenging to interpret and utilize effectively.
 
-## The solution
+### The solution
 
 To address this issue, I have developed a comprehensive solution: [Azure Migrate Network Flows Analysis](https://az-mdv.az.vupti.me/) ([Github repo](https://github.com/lrivallain/az-migrate-dep-visu)). This tool helps users understand network flow data by turning it into easy-to-read visuals. It helps users plan and execute migrations better, reducing errors and downtime. The tool also includes features like flows visualizations, filtered table and exports, making the migration process smoother and more likely to succeed.
 
