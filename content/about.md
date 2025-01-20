@@ -9,7 +9,7 @@ aliases:
 date: 2014-05-10
 ---
 
-This blog is maintained by [**Ludovic Rivallain**](#ludovic-rivallain) but also hosts contributions from [**Antoine Harlaut**](#antoine-harlaut).
+This blog is maintained by [**Ludovic Rivallain**](#ludovic-rivallain)<!-- but also hosts contributions from [**Antoine Harlaut**](#antoine-harlaut)-->.
 
 ## Legal disclaimer
 
@@ -27,7 +27,7 @@ This website is powered-by [Hugo](https://gohugo.io/) and the [Hugo-clarity](htt
 
 <hr>
 
-## Authors
+## Author
 
 ### Ludovic Rivallain {#lrivallain}
 
@@ -47,6 +47,7 @@ Please refer to my [linkedin profile](https://www.linkedin.com/in/ludovicrivalla
 
 ![::about-vexpert](/images/vexpert.png)
 
+<!--
 <hr>
 
 ### Antoine Harlaut {#aharlaut}
@@ -61,4 +62,4 @@ Passionate by scripting, I'm using **Python** and **Powershell** daily to automa
 
 Here is my [linkedin profile](https://www.linkedin.com/in/antoine-harlaut-a1b6baa5) to contact me.
 
-<hr>
+-->

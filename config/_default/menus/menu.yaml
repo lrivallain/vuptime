@@ -5,9 +5,9 @@ main:
   - name: KB cards
     url: /cards/
     weight: 2
-  - name: My K8S Book
-    url: https://k8s-book.vupti.me
-    weight: 3
+  # - name: My K8S Book
+  #   url: https://k8s-book.vupti.me
+  #   weight: 3
   - name: About
     url: /about/
     weight: 4
