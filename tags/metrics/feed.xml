@@ -55,8 +55,7 @@ src="https://vuptime.io/images/avs-adx-grafana/avs-diagnostic-settings.png"
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> By selecting only the &lt;em>Metrics&lt;/em> category, you can choose to limit the number of event to send to Azure Event Hub. This is useful if you want to limit the cost of the solution. You can create multiple diagnostic settings to send different diagnostic data (logs and/or metrics) to different destinations.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> By selecting only the &lt;em>Metrics&lt;/em> category, you can choose to limit the number of event to send to Azure Event Hub. This is useful if you want to limit the cost of the solution. You can create multiple diagnostic settings to send different diagnostic data (logs and/or metrics) to different destinations.&lt;/p>&lt;/blockquote>
 &lt;h3 id="prepare-azure-data-explorer-database-and-table">Prepare Azure Data Explorer database and table&lt;/h3>
 &lt;p>The second step is to prepare Azure Data Explorer to receive the metrics sent to Azure Event Hub by creating a database and a table to store the metrics. This is done through the Azure portal, in the Azure Data Explorer resource's &lt;em>Data Explorer&lt;/em> pane or by using a kusto query (database creation can only be done through the Azure portal).&lt;/p>
 &lt;p>The following Kusto commands will create the table and the mapping to store the metrics sent by Azure VMware Solution to Azure Event Hub.&lt;/p>

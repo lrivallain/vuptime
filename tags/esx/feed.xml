@@ -8,22 +8,18 @@
 &lt;h1 id="snapshots">Snapshots&lt;/h1>
 &lt;p>Here is the VMware definition of VM snapshot feature (&lt;a href="https://www.vmware.com/support/ws4/doc/preserve_snapshot_ws.html" title="Snapshot definition">source&lt;/a>):&lt;/p>
 &lt;blockquote>
-&lt;p>The snapshot feature is most useful when you want to preserve the state of the virtual machine so you can return to the same state repeatedly.&lt;/p>
-&lt;/blockquote>
+&lt;p>The snapshot feature is most useful when you want to preserve the state of the virtual machine so you can return to the same state repeatedly.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>You can take a snapshot of a virtual machine at any time and revert to that snapshot at any time.&lt;/p>
-&lt;/blockquote>
+&lt;p>You can take a snapshot of a virtual machine at any time and revert to that snapshot at any time.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>You can take a snapshot while a virtual machine is powered on, powered off or suspended. A snapshot preserves the virtual machine just as it was when you took the snapshot - the state of the data on all the virtual machine's disks and whether the virtual machine was powered on, powered off or suspended.&lt;/p>
-&lt;/blockquote>
+&lt;p>You can take a snapshot while a virtual machine is powered on, powered off or suspended. A snapshot preserves the virtual machine just as it was when you took the snapshot - the state of the data on all the virtual machine's disks and whether the virtual machine was powered on, powered off or suspended.&lt;/p>&lt;/blockquote>
 &lt;h2 id="create-snapshots">Create snapshots&lt;/h2>
 &lt;p>To create a snapshot, you can use the 'vim-cmd' command:&lt;/p>
 &lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.create 3 snap01 'snap01 description'
 &lt;/code>&lt;/pre>
 &lt;p>Command usage is:&lt;/p>
 &lt;blockquote>
-&lt;p>Usage: snapshot.create vmid [snapshotName] [snapshotDescription] [includeMemory] [quiesced]&lt;/p>
-&lt;/blockquote>
+&lt;p>Usage: snapshot.create vmid [snapshotName] [snapshotDescription] [includeMemory] [quiesced]&lt;/p>&lt;/blockquote>
 &lt;p>So you can make a snapshot with VM memory and quiesced:&lt;/p>
 &lt;pre>&lt;code>vim-cmd vmsvc/snapshot.create 3 &amp;quot;SnapName&amp;quot; &amp;quot;Snap Description&amp;quot; 1 1
 &lt;/code>&lt;/pre>
@@ -61,8 +57,7 @@ Get Snapshot:
 &lt;p>As you can create and list snapshot(s) for a VM, you can remove them. Deletion operation is also called the &amp;quot;commit&amp;quot; as all recent changes made from the moment the snapshot is taken, are committed to the based disk or the parent snapshot disk file.&lt;/p>
 &lt;p>To remove or commit a snapshot for a VM:&lt;/p>
 &lt;blockquote>
-&lt;p>Usage: snapshot.remove vmid snapId&lt;/p>
-&lt;/blockquote>
+&lt;p>Usage: snapshot.remove vmid snapId&lt;/p>&lt;/blockquote>
 &lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.remove 3 4
 Remove Snapshot:
 |-ROOT
@@ -88,8 +83,7 @@ Remove Snapshot:
 &lt;h2 id="revert-to-a-snapshot">Revert to a snapshot&lt;/h2>
 &lt;p>Goal of VM snapshot is not to only create, list or remove snapshots... It's to be able to revert the VM state to the moment you take the snapshot. To do so, you can use the &lt;code>snapshot.revert&lt;/code> argument.&lt;/p>
 &lt;blockquote>
-&lt;p>Usage: snapshot.revert vmid snapshotId suppressPowerOff&lt;/p>
-&lt;/blockquote>
+&lt;p>Usage: snapshot.revert vmid snapshotId suppressPowerOff&lt;/p>&lt;/blockquote>
 &lt;p>So to revert to the first snapshot of the VM with Vmid 3:&lt;/p>
 &lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.revert 3 1 0
 Revert Snapshot:
@@ -112,14 +106,11 @@ suppressPowerOff = 1
 &lt;h1 id="linked-clone">Linked clone&lt;/h1>
 &lt;p>Linked-clone definition (&lt;a href="https://pubs.vmware.com/workstation-9/index.jsp?topic=%2Fcom.vmware.ws.using.doc%2FGUID-BA264A65-C50F-4345-A787-DCC5C5324DD1.html" title="Linked clone definition">source&lt;/a>):&lt;/p>
 &lt;blockquote>
-&lt;p>A linked clone is a copy of a virtual machine that shares virtual disks with the parent virtual machine in an ongoing manner.&lt;/p>
-&lt;/blockquote>
+&lt;p>A linked clone is a copy of a virtual machine that shares virtual disks with the parent virtual machine in an ongoing manner.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Because a linked clone is made from a snapshot of the parent, disk space is conserved and multiple virtual machines can use the same software installation. All files available on the parent at the moment you take the snapshot continue to remain available to the linked clone.&lt;/p>
-&lt;/blockquote>
+&lt;p>Because a linked clone is made from a snapshot of the parent, disk space is conserved and multiple virtual machines can use the same software installation. All files available on the parent at the moment you take the snapshot continue to remain available to the linked clone.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent. A linked clone must have access to the parent. Without access to the parent, you cannot use a linked clone.&lt;/p>
-&lt;/blockquote>
+&lt;p>Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent. A linked clone must have access to the parent. Without access to the parent, you cannot use a linked clone.&lt;/p>&lt;/blockquote>
 &lt;h2 id="create-a-linked-clone">Create a linked clone&lt;/h2>
 &lt;p>Create a reference snapshot on a source VM. This will be our base for clones.&lt;/p>
 &lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.create 3 &amp;quot;ReferenceSnapshot&amp;quot; &amp;quot;Used for linked clones of Centos VM&amp;quot;

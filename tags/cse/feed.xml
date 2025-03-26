@@ -83,8 +83,7 @@
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">cse decrypt ~/.cse/config.yaml --output ~/.cse/decrypted-config.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you can run the install process...&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>!!!BUT!!!&lt;/strong> We will kill it when the process will download the OVA file(s) in order to hack the content of customization scripts:&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>!!!BUT!!!&lt;/strong> We will kill it when the process will download the OVA file(s) in order to hack the content of customization scripts:&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># !! cut the execution when the OVA is downloading !! CTRL+C&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>When the script is stopped, it is possible to edit the content of customization scripts to insert the proxy settings. In my case:&lt;/p>
@@ -113,8 +112,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">-------------------------------- ---------- ---------------- ------- --------
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">ubuntu-16.04_k8-1.18_weave-2.6.5 &lt;span class="m">1&lt;/span> Yes Yes
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;em>(I removed some columns to ease the post reading)&lt;/em>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>(I removed some columns to ease the post reading)&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h3 id="patching-pika-for-python-38">Patching Pika for Python 3.8&lt;/h3>
 &lt;p>In the next steps, if you use Python version 3.8 (you can check it by running &lt;code> python3 -V&lt;/code> command), you may have an issue with an error message like:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vcd cse template list
@@ -137,8 +135,7 @@
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">cse run -c ~/.cse/config.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>After a series of checks, the process should display a message like:&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;code>waiting for requests (ctrl+c to close)&lt;/code>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;code>waiting for requests (ctrl+c to close)&lt;/code>&lt;/p>&lt;/blockquote>
 &lt;p>You can test it by running the following commands from another terminal instance:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vcd login vcd.vlab.lcl &amp;lt;org&amp;gt; &amp;lt;username&amp;gt;
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">vcd cse template list
@@ -147,8 +144,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">-------------------------------- ---------- ------------ ---------
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">ubuntu-16.04_k8-1.18_weave-2.6.5 &lt;span class="m">1&lt;/span> Yes cse
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;em>(I removed some columns to ease the post reading)&lt;/em>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>(I removed some columns to ease the post reading)&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h3 id="finalize-installation">Finalize installation&lt;/h3>
 &lt;p>Using the CSE server in foreground mode is not the easiest way for day-to-day operations, so we will enable it as a system service:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="c1"># get the service files from the CSE repository&lt;/span>

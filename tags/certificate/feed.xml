@@ -3,8 +3,7 @@
 &lt;h1 id="prepare-informations">Prepare informations&lt;/h1>
 &lt;p>Here is a configuration sample for a single cell deployment. Change settings according to your needs:&lt;/p>
 &lt;blockquote>
-&lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>
-&lt;/blockquote>
+&lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nv">DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;lri.lcl&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="c1"># API and HTTP host info&lt;/span>
@@ -147,8 +146,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no result, for both commands, you should add your certification authority to the trusted ones.&lt;/p>
 &lt;p>By default, the JRE keystore is &lt;em>protected&lt;/em> with a password: &lt;code>changeit&lt;/code>.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> : The letsencrypt sample is purely fictional as the Root certificate &lt;code>DSTRootCAX3&lt;/code> is already included in the included JRE keystore. But for the post, we will act as it is not.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> : The letsencrypt sample is purely fictional as the Root certificate &lt;code>DSTRootCAX3&lt;/code> is already included in the included JRE keystore. But for the post, we will act as it is not.&lt;/p>&lt;/blockquote>
 &lt;h1 id="update-jre-keystore">Update JRE keystore&lt;/h1>
 &lt;p>So your certification authority, possible internal and self-signed, is not known from the JRE keystore and you need to communicate between your vCloud Director and product using certificates issued from this authority. Therefore an update of the trusted certificates is required.&lt;/p>
 &lt;p>We still use the (&lt;em>fabulous&lt;/em>) Java &lt;code>keytool&lt;/code> script to insert new certificates to the keystore.&lt;/p>
@@ -187,15 +185,13 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="shutdown-cell">Shutdown cell&lt;/h1>
 &lt;p>Once done, each cell needs to be 'service-restarted' in order to use the new keystore:&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>&lt;/blockquote>
 &lt;p>Quiesce the cell, to not accept new incoming job on this specific cell:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -quiesce &lt;span class="nb">true&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check that there is no more running job:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -status
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>&lt;/blockquote>
 &lt;p>Shutdown services:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -shutdown
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then restart services:&lt;/p>
@@ -203,6 +199,5 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Have a look on the startup of the service through the logs:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">tail -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/logs/cell.log &lt;span class="p">|&lt;/span> grep -i &lt;span class="s2">&amp;#34;Application Initialization&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;p>When all cells are restarted, your issue with certificate chain should be solved.&lt;/p></description></item></channel></rss>

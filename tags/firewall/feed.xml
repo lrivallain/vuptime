@@ -46,7 +46,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;/picture>
 &lt;/figure>
 &lt;/p>
-&lt;h3 id="transit-segment-or-transit-segmentusu">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
+&lt;h3 id="transit-segment-or-transit-segments">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
 &lt;p>There are two possible strategies regarding the number of &lt;em>Transit-segment&lt;/em> to deploy:&lt;/p>
 &lt;ol>
 &lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
@@ -64,8 +64,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>&lt;/blockquote>
 &lt;h3 id="static-routes">Static routes&lt;/h3>
 &lt;p>In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p>
 &lt;table>
@@ -123,8 +122,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
 &lt;h4 id="east-west-inter-segment-traffic-same-tier-1">East-West, Inter-segment traffic, same Tier-1&lt;/h4>
 &lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p>
 &lt;p>&lt;figure>
@@ -140,8 +138,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>
-&lt;/blockquote>
+&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
 &lt;h4 id="east-west-inter-segment-traffic-different-tier-1">East-West, Inter-segment traffic, different Tier-1&lt;/h4>
 &lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p>
 &lt;p>&lt;figure>
@@ -158,8 +155,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/p>
 &lt;p>This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p>
 &lt;blockquote>
-&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>
-&lt;/blockquote>
+&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>&lt;/blockquote>
 &lt;h4 id="north-south-traffic">North-South traffic&lt;/h4>
 &lt;p>North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p>
 &lt;ul>

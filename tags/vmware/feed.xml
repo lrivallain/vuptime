@@ -360,8 +360,7 @@ src="https://vuptime.io/images/hcx-mon/scenario3-default-mon.png"
 &lt;/p>
 &lt;p>As you probably noticed, network paths are not changed for the migrated VM. This is due to the default setting for &lt;em>router-location&lt;/em>: &lt;code>hcx-enterprise&lt;/code>.&lt;/p>
 &lt;blockquote>
-&lt;p>The &lt;em>router-location&lt;/em> &lt;code>hcx-enterprise&lt;/code> setting value means that on-premises &lt;code>gw&lt;/code> device is still used as the default gateway for the migrated VM.&lt;/p>
-&lt;/blockquote>
+&lt;p>The &lt;em>router-location&lt;/em> &lt;code>hcx-enterprise&lt;/code> setting value means that on-premises &lt;code>gw&lt;/code> device is still used as the default gateway for the migrated VM.&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>
 &lt;picture>
 &lt;img
@@ -531,8 +530,7 @@ src="https://vuptime.io/images/hcx-mon/scenario6-specific-policy-route.png"
 &lt;li>To reach a cloud based specific resource (&lt;code>10.100.2.36/32&lt;/code>), the cloud side gateway is used &lt;span style="color:#FF9933;font-weight:bold;">(↔ orange)&lt;/span>.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>Note: I removed the internet connectivity to simplify the diagram but there is no change in the network path to reach Internet.&lt;/p>
-&lt;/blockquote>
+&lt;p>Note: I removed the internet connectivity to simplify the diagram but there is no change in the network path to reach Internet.&lt;/p>&lt;/blockquote>
 &lt;h2 id="use-policy-routes-for-internet-connectivity">Use policy routes for internet connectivity&lt;/h2>
 &lt;p>In the previous section, we saw that we can use policy routes to optimize the network path to reach a specific resource. We can also use policy routes to optimize or guide the network path to reach Internet (or &lt;code>0.0.0.0/0&lt;/code>).&lt;/p>
 &lt;h3 id="internet-egress-with-default-policy-routes">Internet egress with default policy routes&lt;/h3>
@@ -552,8 +550,7 @@ src="https://vuptime.io/images/hcx-mon/scenario7-internet-with-default-policy-ro
 &lt;p>As Internet (&lt;code>0.0.0.0/0&lt;/code>) is not part of the RFC1918 address spaces configured to use the On-Prem gateway (with the default policy routes), the migrated VM is using the T1 gateway and the Azure egress connectivity of the segment to reach Internet &lt;span style="color:#FF0080;font-weight:bold;">(↔ pink)&lt;/span>.&lt;/p>
 &lt;blockquote>
 &lt;p>&lt;strong>Note&lt;/strong>: The azure egress path to reach Internet may vary depending on the configuration of the Azure VMware Solution SDDC. In this example, the Azure egress is configured to the default &lt;a href="https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/#enable-outbound-internet-access-using-snat">&lt;em>Microsoft Managed SNAT&lt;/em>&lt;/a>.
-You can find some details about the Internet connectivity for AVS, in the following post: &lt;a href="https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/">Azure VMware Solution – Use public IP on NSX-T Edge&lt;/a>.&lt;/p>
-&lt;/blockquote>
+You can find some details about the Internet connectivity for AVS, in the following post: &lt;a href="https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/">Azure VMware Solution – Use public IP on NSX-T Edge&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;h3 id="internet-egress-with-a-specific-policy-route">Internet egress with a specific policy route&lt;/h3>
 &lt;p>Let's add a specific policy route to reach Internet through the on-premises &lt;code>gw&lt;/code> device (&lt;em>router-location&lt;/em> is still set to cloud side gateway):&lt;/p>
 &lt;ul>
@@ -638,8 +635,7 @@ src="https://vuptime.io/images/avs-adx-grafana/avs-diagnostic-settings.png"
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> By selecting only the &lt;em>Metrics&lt;/em> category, you can choose to limit the number of event to send to Azure Event Hub. This is useful if you want to limit the cost of the solution. You can create multiple diagnostic settings to send different diagnostic data (logs and/or metrics) to different destinations.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> By selecting only the &lt;em>Metrics&lt;/em> category, you can choose to limit the number of event to send to Azure Event Hub. This is useful if you want to limit the cost of the solution. You can create multiple diagnostic settings to send different diagnostic data (logs and/or metrics) to different destinations.&lt;/p>&lt;/blockquote>
 &lt;h3 id="prepare-azure-data-explorer-database-and-table">Prepare Azure Data Explorer database and table&lt;/h3>
 &lt;p>The second step is to prepare Azure Data Explorer to receive the metrics sent to Azure Event Hub by creating a database and a table to store the metrics. This is done through the Azure portal, in the Azure Data Explorer resource's &lt;em>Data Explorer&lt;/em> pane or by using a kusto query (database creation can only be done through the Azure portal).&lt;/p>
 &lt;p>The following Kusto commands will create the table and the mapping to store the metrics sent by Azure VMware Solution to Azure Event Hub.&lt;/p>
@@ -1157,7 +1153,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;/picture>
 &lt;/figure>
 &lt;/p>
-&lt;h3 id="transit-segment-or-transit-segmentusu">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
+&lt;h3 id="transit-segment-or-transit-segments">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
 &lt;p>There are two possible strategies regarding the number of &lt;em>Transit-segment&lt;/em> to deploy:&lt;/p>
 &lt;ol>
 &lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
@@ -1175,8 +1171,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>&lt;/blockquote>
 &lt;h3 id="static-routes">Static routes&lt;/h3>
 &lt;p>In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p>
 &lt;table>
@@ -1234,8 +1229,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
 &lt;h4 id="east-west-inter-segment-traffic-same-tier-1">East-West, Inter-segment traffic, same Tier-1&lt;/h4>
 &lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p>
 &lt;p>&lt;figure>
@@ -1251,8 +1245,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>
-&lt;/blockquote>
+&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
 &lt;h4 id="east-west-inter-segment-traffic-different-tier-1">East-West, Inter-segment traffic, different Tier-1&lt;/h4>
 &lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p>
 &lt;p>&lt;figure>
@@ -1269,8 +1262,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/p>
 &lt;p>This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p>
 &lt;blockquote>
-&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>
-&lt;/blockquote>
+&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>&lt;/blockquote>
 &lt;h4 id="north-south-traffic">North-South traffic&lt;/h4>
 &lt;p>North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p>
 &lt;ul>
@@ -1312,8 +1304,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/ul>
 &lt;p>As we want AVS to behave like a spoke, we will apply this rule to the &lt;code>avs-transit-vnet&lt;/code> too.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;h2 id="stage-7--advertise-the-hub-default-routes-to-avs">Stage 7 – Advertise the hub default routes to AVS&lt;/h2>
 &lt;p>First thing, we need to add some routes in a new UDR applied to the &lt;code>nva-subnet&lt;/code>. The added routes will ensure that &lt;code>hub-nva&lt;/code> will be able to propagate AVS related traffic through the &lt;code>avs-bgp-vm&lt;/code>. In out lab setup, we do it for 2 prefix:&lt;/p>
 &lt;ul>
@@ -1597,8 +1588,7 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;p>We created this mockup setup step-by-step to demonstrate the capabilities of some Azure products (like Azure Route Server) and features (like route propagation in UDRs).&lt;/p>
 &lt;p>In the last step we have a working setup with a central &lt;code>hub-nva&lt;/code> VM able to route and filter traffic from/to the AVS environment, spokes vNets, and the on-premises resources.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: the setup described in this post is not meant to be used in production due to the lack of high availability and redundancy of the components. It is just a mockup to demonstrate the capabilities of Azure networking products and features.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: the setup described in this post is not meant to be used in production due to the lack of high availability and redundancy of the components. It is just a mockup to demonstrate the capabilities of Azure networking products and features.&lt;/p>&lt;/blockquote>
 &lt;p>I hope you enjoyed this series and learned something new about Azure networking. There will probably be more posts to extend this series in the future with new topics and use cases like:&lt;/p>
 &lt;ul>
 &lt;li>High availability and redundancy of the components&lt;/li>
@@ -1608,8 +1598,7 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
 &lt;p>We will also &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;p>Please refer to &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">part 1&lt;/a> to get details about the lab environment and the 3 first steps we already covered.&lt;/p>
 &lt;h2 id="stage-4--user-defined-routes-on-gatewaysubnet">Stage 4 – User Defined Routes on GatewaySubnet&lt;/h2>
 &lt;p>In order to &lt;strong>mitigate the asymmetric routing issue&lt;/strong>, we will add a User Defined Routes to the &lt;code>GatewaySubnet&lt;/code> to ensure that the traffic incoming from the VPN client will be routed to the NVA appliance.&lt;/p>
@@ -1644,8 +1633,7 @@ src="https://vuptime.io/images/avs-nva/stage4/UserDefinedRoute_GatewaySubnet.png
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>
-&lt;/blockquote>
+&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>&lt;/blockquote>
 &lt;h3 id="routes-analysis-s4">Routes analysis (s4)&lt;/h3>
 &lt;p>From this point we can see that both VPN-client-to-spokes and spokes-to-VPN-destinations, passing through the &lt;code>hub-nva&lt;/code> appliance:&lt;/p>
 &lt;p>&lt;figure>
@@ -1748,8 +1736,7 @@ src="https://vuptime.io/images/avs-nva/stage6/hub_and_spoke_avs-Step6.drawio.png
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>
-&lt;/blockquote>
+&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>&lt;/blockquote>
 &lt;h3 id="avs-internet-connectivity-settings">AVS Internet connectivity settings&lt;/h3>
 &lt;p>Azure VMware Solution provides three options for Internet connectivity:&lt;/p>
 &lt;ul>
@@ -1841,8 +1828,7 @@ In the meantime, we will use the PowerShell command &lt;code>Get-AzRouteServerPe
 &lt;p>By using a hub and spoke topology with Azure VMware Solution, you can achieve several benefits such as improved security &amp;amp; isolation of cloud hosted workloads. However, you also need to consider some challenges such as complexity, latency, bandwidth limitations, routing complexity, firewall rules management, etc. Therefore, it is important to plan your network design carefully according to your specific requirements.&lt;/p>
 &lt;p>The official Azure documentation already provides a set of scenarios related to network connectivity for Azure VMware Solution. You can find them &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures">here&lt;/a>. In this blog post series, we will reproduce, step-by-step, a mock-up scenario very close from the &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures#network-virtual-appliance-in-azure-virtual-network-to-inspect-all-network-traffic">&lt;em>Network virtual appliance in Azure Virtual Network to inspect all network traffic&lt;/em>&lt;/a> one.&lt;/p>
 &lt;blockquote>
-&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;h2 id="materials">Materials&lt;/h2>
 &lt;p>To illustrate this blog post series, I created a &lt;a href="https://github.com/lrivallain/azure-labs-and-scripts/tree/master/hub-and-spoke-avs-transit-step-by-step">GitHub repository&lt;/a> to host Terraform code to reproduce each step of the process documented here.&lt;/p>
 &lt;p>Using this Terraform content provides a repeatable way to deploy the same environment on Azure but all the steps described in this blog post can also be reproduced using the Azure Portal or Azure CLI.&lt;/p>
@@ -2251,8 +2237,7 @@ src="https://vuptime.io/images/avs-nva/stage3/hub_and_spoke_avs-Step3-Asymmetric
 &lt;h2 id="introduction">Introduction&lt;/h2>
 &lt;p>&lt;a href="https://gateway.performance.vcd.cloud.vmware.com/cloud-director-instances/">VMware Cloud Director Service&lt;/a> (aka &lt;em>CDS&lt;/em>) is a cloud service that provides a unified view of VMware based resources and multi-tenant support, allowing an IT administrator to split resources capacity between tenants. For tenant users, it provides a single pane of glass to manage all VMware-based, cloud resources, including virtual machines, storage, networks, and networks services.&lt;/p>
 &lt;blockquote>
-&lt;p>VMware Cloud Director Service is the SaaS version of the well known &lt;a href="https://www.vmware.com/products/vcloud-director/">VMware (v)Cloud Director&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>VMware Cloud Director Service is the SaaS version of the well known &lt;a href="https://www.vmware.com/products/vcloud-director/">VMware (v)Cloud Director&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;p>Associated to &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solution&lt;/a> (aka &lt;em>AVS&lt;/em>), a large part of the multi-tenants and self-service SDDC stack, is managed by the cloud providers:&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>VMware&lt;/strong>: manage the CDS instance components (cells and service)&lt;/li>
@@ -2976,8 +2961,7 @@ src="https://vuptime.io/images/avs-public-ip/load-balancer-4.png"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="arm-deployment">ARM deployment&lt;/h2>
 &lt;p>According to &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview">Microsoft documentation&lt;/a>:&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Azure Resource Manager&lt;/strong> is the deployment and management service for Azure. It provides a management layer that enables you to create, update, and delete resources in your Azure account. You use management features, like access control, locks, and tags, to secure and organize your resources after deployment.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Azure Resource Manager&lt;/strong> is the deployment and management service for Azure. It provides a management layer that enables you to create, update, and delete resources in your Azure account. You use management features, like access control, locks, and tags, to secure and organize your resources after deployment.&lt;/p>&lt;/blockquote>
 &lt;p>ARM is the core engine used by API, UI &amp;amp; Azure tools to manage Azure resources and it provide a declarative Infrastructure-as-code language to deploy and maintain resources: ARM Templates. ARM Templates can use &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/compare-template-syntax">JSON&lt;/a> or &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview">Bicep&lt;/a> syntax.&lt;/p>
 &lt;p>As other resources, Azure-enabled components of a VMware infrastructure can be managed through ARM and ARM Templates.&lt;/p>
 &lt;p>Lets see a minimal ARM Template to deploy a VMware virtual machine: &lt;strong>&lt;a href="https://vuptime.io/images/arc-vmware/vmware-vm-template.bicep">Download the Bicep file&lt;/a>&lt;/strong>&lt;/p>
@@ -3021,8 +3005,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-vcenter.png"
 &lt;/p>
 &lt;p>In order to use a resource in Azure, an activation is required: Use the &lt;strong>Enable in Azure&lt;/strong> to activate an existing VMware resource in Azure. As with any Azure-based resource, RBAC strategies can be applied to provide or restrict access to &lt;em>Azure-enabled&lt;/em> resources.&lt;/p>
 &lt;blockquote>
-&lt;p>ResourcePool, Networks, Templates and Datastores will appear as &lt;em>hidden resources&lt;/em> in Azure &lt;em>ResourceGroup&lt;/em> you will select in the activation process. They will be used for the VM creation process but cannot be edited from Azure.&lt;/p>
-&lt;/blockquote>
+&lt;p>ResourcePool, Networks, Templates and Datastores will appear as &lt;em>hidden resources&lt;/em> in Azure &lt;em>ResourceGroup&lt;/em> you will select in the activation process. They will be used for the VM creation process but cannot be edited from Azure.&lt;/p>&lt;/blockquote>
 &lt;h3 id="resourcepools">ResourcePools&lt;/h3>
 &lt;p>VMware &lt;em>ResourcePools&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all resourcePools will be displayed in the inventory list (including Cluster and Hosts resourcePool representation). You can enable a ResourcePools in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the resourcePool will then be displayed with a link to explore its details.&lt;/p>
 &lt;p>&lt;figure>
@@ -3040,8 +3023,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-resourcepool.png"
 &lt;h3 id="vm-templates">VM Templates&lt;/h3>
 &lt;p>VMware &lt;em>VM Templates&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all VM Templates will be displayed in the inventory list. You can enable a VM Template in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the Template will then be displayed with a link to explore its details.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Currently, the template from the Content Library are not available. Only VM template from vCenter VM-folders inventory are usable in &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Currently, the template from the Content Library are not available. Only VM template from vCenter VM-folders inventory are usable in &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>
 &lt;picture>
 &lt;img
@@ -3098,8 +3080,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-datastore.png"
 &lt;li>Apply RBAC and tagging policies&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;em>VMware Arc-based guest extensions&lt;/em> are &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/manage-vmware-vms-in-azure#supported-extensions-and-management-services">currently limited to 2 extensions&lt;/a>: Log Analytics agent and cCustom Script execution.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>VMware Arc-based guest extensions&lt;/em> are &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/manage-vmware-vms-in-azure#supported-extensions-and-management-services">currently limited to 2 extensions&lt;/a>: Log Analytics agent and cCustom Script execution.&lt;/p>&lt;/blockquote>
 &lt;h3 id="azure-arc-enabled-servers">Azure Arc enabled servers&lt;/h3>
 &lt;p>If &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> based guest agent is currently limited to 2 extensions, it is still possible to use the normal Arc process to integrate the guest OS management of deployed servers through Azure and to benefit from all the capabilities of &lt;a href="https://azure.microsoft.com/en-us/services/azure-arc/#product-overview">Azure Arc&lt;/a> like (as mentioned in the &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/overview">Arc documentation&lt;/a>):&lt;/p>
 &lt;ul>
@@ -3110,8 +3091,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-datastore.png"
 &lt;li>Configure custom locations as an abstraction layer on top of Azure Arc-enabled Kubernetes clusters and cluster extensions.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;strong>Personal experience&lt;/strong>: I use this combination of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> and &lt;em>Azure Arc-enabled Servers&lt;/em> to fully manage, with Azure, VMware Virtual Machine objects and their Guest OS. This provide me the best of the two solutions.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Personal experience&lt;/strong>: I use this combination of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> and &lt;em>Azure Arc-enabled Servers&lt;/em> to fully manage, with Azure, VMware Virtual Machine objects and their Guest OS. This provide me the best of the two solutions.&lt;/p>&lt;/blockquote>
 &lt;h3 id="register-an-existing-vm">Register an existing VM&lt;/h3>
 &lt;p>You can enable a Virtual Machine in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the VM will then be displayed with a link to explore its details.&lt;/p>
 &lt;p>&lt;figure>
@@ -3314,8 +3294,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-lock.png"
 &lt;p>Announced in &lt;a href="https://azure.microsoft.com/en-us/updates/private-preview-new-azure-arc-capabilities-in-november-2021/">private preview stage&lt;/a> during the &lt;a href="https://aka.ms/IgniteNov21/InnovateAnywhereBlog">Microsoft Ignite&lt;/a> on November 2021, the &lt;a href="https://azure.microsoft.com/en-us/services/azure-arc/#product-overview">Azure Arc&lt;/a> integration with VMware vSphere is now &lt;a href="https://azure.microsoft.com/en-us/updates/public-preview-azure-arc-integration-with-vmware-vsphere/">available in public preview&lt;/a> since March 31&lt;sup>th&lt;/sup>, 2022.&lt;/p>
 &lt;p>The feature, still in development process, is now labeled &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>, and provides a unified governance and management solution for lifecycle and guest OS operations of VMware VMs through Azure Arc.&lt;/p>
 &lt;blockquote>
-&lt;p>As &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solutions&lt;/a> private clouds relies on a &lt;a href="https://www.vmware.com/products/cloud-foundation.html">standardized VMware SDDC&lt;/a>, you can also use &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> to operate your AVS-based workloads.&lt;/p>
-&lt;/blockquote>
+&lt;p>As &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solutions&lt;/a> private clouds relies on a &lt;a href="https://www.vmware.com/products/cloud-foundation.html">standardized VMware SDDC&lt;/a>, you can also use &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> to operate your AVS-based workloads.&lt;/p>&lt;/blockquote>
 &lt;h3 id="how-it-works-">How it works ?&lt;/h3>
 &lt;p>&lt;em>Azure Arc-enabled VMware vSphere&lt;/em> relies on a &lt;em>Resource Bridge&lt;/em> appliance deployed in the target environment (or in a VMware environment with network access to the target one). This bridge will act a the access-point for Azure Arc to get and manage data from vCenter APIs.&lt;/p>
 &lt;p>As of now, the &lt;em>Resource Bridge&lt;/em> requires an outbound connectivity to Internet (specifically to to Azure APIs over HTTPS(443)) and can only be deployed on a VMware environment.&lt;/p>
@@ -3347,8 +3326,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge.png"
 &lt;/ul>
 &lt;h2 id="resource-bridge-deployment">Resource Bridge Deployment&lt;/h2>
 &lt;blockquote>
-&lt;p>&lt;strong>Disclaimer&lt;/strong>: This walkthrough deployment process is not a substitution of the Microsoft Documentation about &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/">&lt;em>Azure Arc-enabled VMware vSphere&lt;/em>&lt;/a>. This blog post will not receive major updates to synchronize with the development status of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> feature and only reflect the process at a specific moment in time.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Disclaimer&lt;/strong>: This walkthrough deployment process is not a substitution of the Microsoft Documentation about &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/">&lt;em>Azure Arc-enabled VMware vSphere&lt;/em>&lt;/a>. This blog post will not receive major updates to synchronize with the development status of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> feature and only reflect the process at a specific moment in time.&lt;/p>&lt;/blockquote>
 &lt;h3 id="pre-requisites">Pre-requisites&lt;/h3>
 &lt;p>In order to have access to all &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> features, I had to register the following Azure resources providers to my subscription:&lt;/p>
 &lt;ul>
@@ -3392,8 +3370,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-01.png"
 &lt;li>Provide a name for a &lt;em>custom location&lt;/em>&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>The &lt;em>custom location&lt;/em> will represent, in Azure, the location of your vCenter deployment.&lt;/p>
-&lt;/blockquote>
+&lt;p>The &lt;em>custom location&lt;/em> will represent, in Azure, the location of your vCenter deployment.&lt;/p>&lt;/blockquote>
 &lt;ol start="3">
 &lt;li>Provide a name for the vCenter in Azure&lt;/li>
 &lt;/ol>
@@ -3411,8 +3388,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-02.png"
 &lt;/p>
 &lt;p>In the next screen of the wizard, you can attach &lt;em>tags&lt;/em> to your new resource. In the third step, you are invited to download a PowerShell-based (Windows) or Azure CLI-based (Linux) version of a script.&lt;/p>
 &lt;blockquote>
-&lt;p>If your subscription is not registered with all the required resource providers, a &lt;strong>Register&lt;/strong> button will appear.&lt;/p>
-&lt;/blockquote>
+&lt;p>If your subscription is not registered with all the required resource providers, a &lt;strong>Register&lt;/strong> button will appear.&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>
 &lt;picture>
 &lt;img
@@ -3441,8 +3417,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-04.png"
 &lt;/p>
 &lt;h4 id="windows-powershell-script">(Windows) Powershell script&lt;/h4>
 &lt;blockquote>
-&lt;p>&lt;a href="https://docs.microsoft.com/fr-fr/powershell/azure/?view=azps-7.4.0">Azure PowerShell&lt;/a> module is required.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://docs.microsoft.com/fr-fr/powershell/azure/?view=azps-7.4.0">Azure PowerShell&lt;/a> module is required.&lt;/p>&lt;/blockquote>
 &lt;p>If you choose the PowerShell (Windows) version of the script:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ps1" data-lang="ps1">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">-ExecutionPolicy&lt;/span> &lt;span class="n">RemoteSigned&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">Az&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span> &lt;span class="n">-Repository&lt;/span> &lt;span class="n">PSGallery&lt;/span>
@@ -3450,8 +3425,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-04.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="p">./&lt;/span>&lt;span class="nb">resource-bridge&lt;/span>&lt;span class="n">-onboarding-script&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ps1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="linux-azure-cli-script">(Linux) Azure CLI script&lt;/h4>
 &lt;blockquote>
-&lt;p>&lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure CLI&lt;/a> is required.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure CLI&lt;/a> is required.&lt;/p>&lt;/blockquote>
 &lt;p>If you choose the PowerShell (Windows) version of the script:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az login
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">bash resource-bridge-onboarding-script.sh
@@ -3577,8 +3551,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-06.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl"> &lt;span class="s2">&amp;#34;vcenterUsername&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;cloudadmin@vsphere.local&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="o">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>
-&lt;/blockquote>
+&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>&lt;/blockquote>
 &lt;p>With this information, you can now connect to your AVS instance.&lt;/p>
 &lt;h2 id="avs-network-management">AVS network management&lt;/h2>
 &lt;p>Some parts of an AVS workload management can be made through the Azure API and portal (in replacement or addition to the VMware products API or UI).&lt;/p>
@@ -3588,8 +3561,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-06.png"
 &lt;p>By default, a first T1 GW is deployed with AVS and you can retrieve details about it by using (&lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/workload-networks/get-gateway">Doc.&lt;/a>):&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/workloadNetworks/default/gateways?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>
-&lt;/blockquote>
+&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>&lt;/blockquote>
 &lt;h3 id="dhcp-service">DHCP service&lt;/h3>
 &lt;p>It is possible to rely on the T1 GW to provide DHCP leases within network segment. The DHCP service can run as a &lt;em>server&lt;/em> or a &lt;em>relay&lt;/em> from another server.&lt;/p>
 &lt;p>The simpliest role to configure is the &lt;em>server&lt;/em> one:&lt;/p>
@@ -3776,8 +3748,7 @@ src="https://vuptime.io/images/avs-api/expressroute-connection.png"
 &lt;li>Other AVS clouds links&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.&lt;/p>
-&lt;/blockquote>
+&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.&lt;/p>&lt;/blockquote>
 &lt;h3 id="collection-import">Collection import&lt;/h3>
 &lt;p>From Postman, web or desktop client, you could import the collection by refering to the following link: &lt;a href="https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json">https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json&lt;/a>.&lt;/p>
 &lt;p>You may also need to import the &lt;em>environment&lt;/em> sample to populate your own data: &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json">https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json&lt;/a>.&lt;/p>
@@ -3794,8 +3765,7 @@ src="https://vuptime.io/images/avs-api/expressroute-connection.png"
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az account get-access-token --subscription 01010101-0101-0101-0101-010101010101 &lt;span class="p">|&lt;/span> jq &lt;span class="s2">&amp;#34;.accessToken&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Eventually, use the value in the &lt;code>accessToken&lt;/code> section of your environment.&lt;/p>
 &lt;blockquote>
-&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;h4 id="setup-accesstoken-for-all-api-calls">Setup &lt;code>accessToken&lt;/code> for all API calls&lt;/h4>
 &lt;p>Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:&lt;/p>
 &lt;p>&lt;figure>
@@ -3818,8 +3788,7 @@ src="https://vuptime.io/images/avs-api/authentication-configuration.png"
 &lt;li>Save and quit this tab&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.&lt;/p>
-&lt;/blockquote>
+&lt;p>This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.&lt;/p>&lt;/blockquote>
 &lt;h3 id="testing">Testing&lt;/h3>
 &lt;p>You can now test the collection by listing the AVS deployments in your subscription:&lt;/p>
 &lt;p>&lt;figure>
@@ -3841,12 +3810,10 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;p>Title photo by &lt;a href="https://unsplash.com/@rodlong">Rod Long&lt;/a> on &lt;a href="https://unsplash.com/photos/vpOeXr5wmR4">Unsplash&lt;/a>&lt;/p></description></item><item><title>VMware Event Broker on Kubernetes with Knative functions - part 2</title><link>https://vuptime.io/post/2021-05-06-vmware-event-broker-on-k8s-with-knative-part2/</link><pubDate>Thu, 06 May 2021 00:00:00 +0000</pubDate><guid>https://vuptime.io/2021/05/06/vmware-event-broker-on-k8s-with-knative-part2/</guid><description>
 &lt;p>This post is the second part of a small series about &lt;em>VMware Event Broker on Kubernetes with Knative functions&lt;/em>.&lt;/p>
 &lt;blockquote>
-&lt;p>If you plan to apply the following procedure, we assume that the content mentioned in the &lt;a href="https://vuptime.io/2021/05/05/vmware-event-broker-on-k8s-with-knative-part1">&lt;strong>Part 1&lt;/strong>&lt;/a> is already deployed in your target setup.&lt;/p>
-&lt;/blockquote>
+&lt;p>If you plan to apply the following procedure, we assume that the content mentioned in the &lt;a href="https://vuptime.io/2021/05/05/vmware-event-broker-on-k8s-with-knative-part1">&lt;strong>Part 1&lt;/strong>&lt;/a> is already deployed in your target setup.&lt;/p>&lt;/blockquote>
 &lt;h1 id="deploy-vmware-event-broker-with-knative-support">Deploy VMware Event Broker with knative support&lt;/h1>
 &lt;blockquote>
-&lt;p>&lt;strong>Disclaimer&lt;/strong>: This section of the post was made with the help of &lt;a href="https://github.com/embano1">@embano1&lt;/a> who provided a knative-ready helm chart for vcenter-event-broker deployment (&lt;a href="https://github.com/vmware-samples/vcenter-event-broker-appliance/pull/392">PR:392&lt;/a>). He also provided an example of the &lt;code>override.yaml&lt;/code> file we will use below.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Disclaimer&lt;/strong>: This section of the post was made with the help of &lt;a href="https://github.com/embano1">@embano1&lt;/a> who provided a knative-ready helm chart for vcenter-event-broker deployment (&lt;a href="https://github.com/vmware-samples/vcenter-event-broker-appliance/pull/392">PR:392&lt;/a>). He also provided an example of the &lt;code>override.yaml&lt;/code> file we will use below.&lt;/p>&lt;/blockquote>
 &lt;h2 id="create-a-namespace">Create a namespace&lt;/h2>
 &lt;p>The following commands will create a namespace &lt;code>vmware-fn&lt;/code> to host and run automation functions.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; vmware-fn-ns.yaml
@@ -3864,8 +3831,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">NAME STATUS AGE
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">vmware-fn Active 10s
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Of course: you can customize this target namespace and even re-use an existing one.&lt;/p>
-&lt;/blockquote>
+&lt;p>Of course: you can customize this target namespace and even re-use an existing one.&lt;/p>&lt;/blockquote>
 &lt;h2 id="create-a-broker">Create a Broker&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">cat &lt;span class="s">&amp;lt;&amp;lt; EOF &amp;gt; mt-broker.yaml
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="s">---
@@ -3903,8 +3869,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="s"> namespace: vmware-fn # namespace where the broker is deployed
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="s">EOF&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Ensure to specify broker name and namespace according to the one configured in the previous section.&lt;/p>
-&lt;/blockquote>
+&lt;p>Ensure to specify broker name and namespace according to the one configured in the previous section.&lt;/p>&lt;/blockquote>
 &lt;h3 id="helm-deployment">Helm deployment&lt;/h3>
 &lt;p>If not already done, we will register the &lt;em>veba&lt;/em> helm-charts registry and get metadata locally:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="c1"># register chart repo and update chart information&lt;/span>
@@ -3916,8 +3881,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">vmware-veba/event-router v0.6.2 v0.6.0 The VMware Event Router is used to connect to v...
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Lets deploy it.&lt;/p>
 &lt;blockquote>
-&lt;p>Here we create a specific namespace &lt;code>vmware&lt;/code> for this purpose but you can reuse &lt;code>vmware-fn&lt;/code> or any other one.&lt;/p>
-&lt;/blockquote>
+&lt;p>Here we create a specific namespace &lt;code>vmware&lt;/code> for this purpose but you can reuse &lt;code>vmware-fn&lt;/code> or any other one.&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">helm install -n vmware --create-namespace veba-knative vmware-veba/event-router -f override.yaml --wait --version v0.6.2
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># Output&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">NAME: veba-knative
@@ -3999,8 +3963,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="deploy-vm-creation-attr-function">Deploy &lt;em>vm-creation-attr&lt;/em> function&lt;/h2>
 &lt;p>I also did a re-write of the &lt;a href="https://github.com/lrivallain/openfaas-fn/tree/master/vm-creation-attr-fn">&lt;em>vm-creation-attr&lt;/em> function&lt;/a> I did write for OpenFaaS process to be knative compliant.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, I did a(nother long) post a few month back &lt;a href="https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/#first-function">about this function&lt;/a>. The main goal is to populate &lt;em>custom attributes&lt;/em> values for VM object based on the user who created the VM, the creation date and the last-poweredon date.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, I did a(nother long) post a few month back &lt;a href="https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/#first-function">about this function&lt;/a>. The main goal is to populate &lt;em>custom attributes&lt;/em> values for VM object based on the user who created the VM, the creation date and the last-poweredon date.&lt;/p>&lt;/blockquote>
 &lt;p>The knative function is hosted on GitHub: &lt;a href="https://github.com/lrivallain/kn-vm-creation-attr-fn">lrivallain/kn-vm-creation-attr-fn&lt;/a>. You can get the &lt;code>function.yaml&lt;/code> file to start the deployment:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -LO https://raw.githubusercontent.com/lrivallain/kn-vm-creation-attr-fn/main/function.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="configuration">Configuration&lt;/h3>
@@ -4028,8 +3991,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">kubectl get pod -n vmware-fn
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>You will notice that there is multiple &lt;code>kn-vm-creation-attr-fn-trigger-xxxx&lt;/code> triggers deployed. It is due to the filtering applied to incoming event, to only get the one matching some specific actions results.&lt;/p>
-&lt;/blockquote>
+&lt;p>You will notice that there is multiple &lt;code>kn-vm-creation-attr-fn-trigger-xxxx&lt;/code> triggers deployed. It is due to the filtering applied to incoming event, to only get the one matching some specific actions results.&lt;/p>&lt;/blockquote>
 &lt;h3 id="test">Test&lt;/h3>
 &lt;p>By looking at pod logs, you can see the actions resulting from the incoming events:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">172.17.0.1 - - [04/May/2021 14:08:00] &amp;#34;POST / HTTP/1.1&amp;#34; 204 -
@@ -4086,12 +4048,10 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;h3 id="setup-description">Setup description&lt;/h3>
 &lt;p>In the following setup, we will deploy &lt;strong>Serving&lt;/strong> and &lt;strong>Eventing&lt;/strong> components with &lt;a href="https://github.com/knative-sandbox/net-kourier">Kourier&lt;/a> as Ingress for Knative Serving.&lt;/p>
 &lt;blockquote>
-&lt;p>Kourier is a lightweight alternative for the Istio ingress as its deployment consists only of an Envoy proxy and a control plane for it.&lt;/p>
-&lt;/blockquote>
+&lt;p>Kourier is a lightweight alternative for the Istio ingress as its deployment consists only of an Envoy proxy and a control plane for it.&lt;/p>&lt;/blockquote>
 &lt;p>I assume that you already have a working Kubernetes cluster.&lt;/p>
 &lt;blockquote>
-&lt;p>If not, you can try &lt;a href="https://kind.sigs.k8s.io/docs/user/quick-start/">&lt;code>kind&lt;/code>&lt;/a> to deploy a local, dev-purpose, cluster.&lt;/p>
-&lt;/blockquote>
+&lt;p>If not, you can try &lt;a href="https://kind.sigs.k8s.io/docs/user/quick-start/">&lt;code>kind&lt;/code>&lt;/a> to deploy a local, dev-purpose, cluster.&lt;/p>&lt;/blockquote>
 &lt;p>The following process also relies on &lt;code>helm&lt;/code> to deploy the vmware event router.&lt;/p>
 &lt;p>We will use the (current) latest version of knative, but you can probably change the value of the following setting according to the &lt;a href="https://github.com/knative/operator/releases">knative latest available release&lt;/a>.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">KN_VERSION&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;v0.22.0&amp;#34;&lt;/span>
@@ -4144,11 +4104,9 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="c1"># Prepare MT-channel based broker&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">kubectl apply -f https://github.com/knative/eventing/releases/download/v0.22.0/mt-channel-broker.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Channels&lt;/strong> are Kubernetes custom resources that define a single event forwarding and persistence layer. &lt;a href="https://knative.dev/docs/eventing/channels/">[More details]&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Channels&lt;/strong> are Kubernetes custom resources that define a single event forwarding and persistence layer. &lt;a href="https://knative.dev/docs/eventing/channels/">[More details]&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>&lt;strong>Brokers&lt;/strong> can be used in combination with subscriptions and triggers to deliver events from an event source to an event sink.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Brokers&lt;/strong> can be used in combination with subscriptions and triggers to deliver events from an event source to an event sink.&lt;/p>&lt;/blockquote>
 &lt;p>Here, the default &lt;em>MT Channel Based Broker&lt;/em> relies on a default, unsuitable for production, &lt;em>In-Memory&lt;/em> channel.&lt;/p>
 &lt;p>We will only use the &lt;em>clusterDefault&lt;/em> settings but, if needed, you can edit the broker configuration by using the next command:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">kubectl edit cm -n knative-eventing config-br-defaults
@@ -4173,8 +4131,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;li>Deterministic&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>BTW, there is a nice list of FaaS Best Practices on the VEBA documentation: &lt;a href="https://vmweventbroker.io/kb/contribute-functions">Writing your own functions&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>BTW, there is a nice list of FaaS Best Practices on the VEBA documentation: &lt;a href="https://vmweventbroker.io/kb/contribute-functions">Writing your own functions&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;p>When you need to break one (or more) of the above rules, it may be necessary to rely on other kinds of automation, like &lt;strong>Workflows&lt;/strong>.&lt;/p>
 &lt;p>In the following post, I will demonstrate how it is possible to forward VEBA events to a very powerful Workflow engine named &lt;a href="https://argoproj.github.io">&lt;strong>Argo&lt;/strong>&lt;/a> to run, for example:&lt;/p>
 &lt;ul>
@@ -4208,8 +4165,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">NAME
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">echoer
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>This &lt;code>echoer&lt;/code> workflow template is a very simple workflow that just repeats the incoming data in its stdin (logs).&lt;/p>
-&lt;/blockquote>
+&lt;p>This &lt;code>echoer&lt;/code> workflow template is a very simple workflow that just repeats the incoming data in its stdin (logs).&lt;/p>&lt;/blockquote>
 &lt;h2 id="configure-the-function">Configure the function&lt;/h2>
 &lt;h3 id="argo-config-secret">Argo config secret&lt;/h3>
 &lt;p>Copy and customize the &lt;code>argoconfig.example.yaml&lt;/code> file:&lt;/p>
@@ -4317,8 +4273,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;p>But I strongly encourage you to test it by yourself and to provide me a feedback.&lt;/p>
 &lt;p>You can also fill a GitHub issue on the project if needed: &lt;a href="https://github.com/lrivallain/openfaas-fn/issues/new/choose">&lt;strong>New issue&lt;/strong>&lt;/a>.&lt;/p></description></item><item><title>VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps</title><link>https://vuptime.io/post/2020-12-17-vmware-event-broker-0.5.0-on-k8s-first-steps/</link><pubDate>Thu, 17 Dec 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/</guid><description>
 &lt;blockquote>
-&lt;p>This post is a re-edition of a previous one: &lt;a href="2020/11/02/vmware-event-broker-on-k8s-first-steps/">VMware Event Broker (aka VEBA) on Kubernetes – First steps&lt;/a>, update to be applicable to the new 0.5.0 release of &lt;em>VEBA&lt;/em>, including the support of &lt;code>helm&lt;/code> chart deployment.&lt;/p>
-&lt;/blockquote>
+&lt;p>This post is a re-edition of a previous one: &lt;a href="2020/11/02/vmware-event-broker-on-k8s-first-steps/">VMware Event Broker (aka VEBA) on Kubernetes – First steps&lt;/a>, update to be applicable to the new 0.5.0 release of &lt;em>VEBA&lt;/em>, including the support of &lt;code>helm&lt;/code> chart deployment.&lt;/p>&lt;/blockquote>
 &lt;p>In the following post, we will (re)discover how to deploy the VMware Event Broker services (VEBA) within an existing Kubernetes (K8S) cluster and use it to add/edit custom attributes information to virtual machines.&lt;/p>
 &lt;p>The goal of the VEBA deployment is to be able to listen for events in the VMware vCenter infrastructure and to run specific tasks when filtered events occurs: it is the &lt;a href="https://octo.vmware.com/vsphere-power-event-driven-automation/">&lt;em>event driven automation&lt;/em>&lt;/a> concept.&lt;/p>
 &lt;p>To be accurate, VEBA stands for &lt;strong>&amp;quot;VMware Event Broker Appliance&amp;quot;&lt;/strong>: a Photon OS based virtual machine, available in OVA format, with an embedded small K8S cluster to support the &lt;strong>&amp;quot;VMware Event Broker&amp;quot;&lt;/strong> services.
@@ -4368,8 +4323,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>Here is one installation method:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -sSL https://cli.openfaas.com &lt;span class="p">|&lt;/span> sudo sh
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>You can also use an alternative installation method described in the &lt;a href="https://github.com/openfaas/faas-cli">&lt;code>faas-cli&lt;/code> project GitHub repository&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>You can also use an alternative installation method described in the &lt;a href="https://github.com/openfaas/faas-cli">&lt;code>faas-cli&lt;/code> project GitHub repository&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;h2 id="openfaas-deployment">OpenFaaS deployment&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">kubectl create ns openfaas
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">kubectl create ns openfaas-fn
@@ -4432,8 +4386,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>We now need to get the OpenFaaS URI to use the &lt;code>faas-cli&lt;/code> client:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$OF_PASS&lt;/span> &lt;span class="p">|&lt;/span> faas-cli login --password-stdin
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>A warning will recommend you to use an HTTPS endpoint instead of the HTTP one: let's ignore it for the moment.&lt;/p>
-&lt;/blockquote>
+&lt;p>A warning will recommend you to use an HTTPS endpoint instead of the HTTP one: let's ignore it for the moment.&lt;/p>&lt;/blockquote>
 &lt;p>At least, you should get a message like: &amp;quot;credentials saved for admin &lt;code>http://openfaas.vlab.lcl&amp;quot;&lt;/code> meaning that you successfully configured your &lt;code>faas-cli&lt;/code> client.&lt;/p>
 &lt;h4 id="login-to-the-ui">Login to the UI&lt;/h4>
 &lt;p>Use the same URL to login with the &lt;code>admin&lt;/code> account to the web UI and you should get something like that:&lt;/p>
@@ -4587,8 +4540,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we need to pull the OpenFaaS language template for the specified &lt;code>lang&lt;/code> in our &lt;code>stack.yml&lt;/code> file:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">faas template store pull python3
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>In fact, this command will pull all (12) the languages templates from the &lt;code>openfaas&lt;/code> registry, not only the one you are looking for.&lt;/p>
-&lt;/blockquote>
+&lt;p>In fact, this command will pull all (12) the languages templates from the &lt;code>openfaas&lt;/code> registry, not only the one you are looking for.&lt;/p>&lt;/blockquote>
 &lt;p>We are ready to deploy our &lt;em>Function-as-a-Service&lt;/em>:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">faas-cli deploy -f stack.yml
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># Output&lt;/span>
@@ -4740,8 +4692,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">cse decrypt ~/.cse/config.yaml --output ~/.cse/decrypted-config.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you can run the install process...&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>!!!BUT!!!&lt;/strong> We will kill it when the process will download the OVA file(s) in order to hack the content of customization scripts:&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>!!!BUT!!!&lt;/strong> We will kill it when the process will download the OVA file(s) in order to hack the content of customization scripts:&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">cse install -c ~/.cse/config.yaml --ssh-key ~/.ssh/id_rsa.pub
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># !! cut the execution when the OVA is downloading !! CTRL+C&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>When the script is stopped, it is possible to edit the content of customization scripts to insert the proxy settings. In my case:&lt;/p>
@@ -4770,8 +4721,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">-------------------------------- ---------- ---------------- ------- --------
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">ubuntu-16.04_k8-1.18_weave-2.6.5 &lt;span class="m">1&lt;/span> Yes Yes
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;em>(I removed some columns to ease the post reading)&lt;/em>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>(I removed some columns to ease the post reading)&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h3 id="patching-pika-for-python-38">Patching Pika for Python 3.8&lt;/h3>
 &lt;p>In the next steps, if you use Python version 3.8 (you can check it by running &lt;code> python3 -V&lt;/code> command), you may have an issue with an error message like:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vcd cse template list
@@ -4794,8 +4744,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">cse run -c ~/.cse/config.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>After a series of checks, the process should display a message like:&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;code>waiting for requests (ctrl+c to close)&lt;/code>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;code>waiting for requests (ctrl+c to close)&lt;/code>&lt;/p>&lt;/blockquote>
 &lt;p>You can test it by running the following commands from another terminal instance:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vcd login vcd.vlab.lcl &amp;lt;org&amp;gt; &amp;lt;username&amp;gt;
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">vcd cse template list
@@ -4804,8 +4753,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">-------------------------------- ---------- ------------ ---------
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">ubuntu-16.04_k8-1.18_weave-2.6.5 &lt;span class="m">1&lt;/span> Yes cse
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;em>(I removed some columns to ease the post reading)&lt;/em>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>(I removed some columns to ease the post reading)&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h3 id="finalize-installation">Finalize installation&lt;/h3>
 &lt;p>Using the CSE server in foreground mode is not the easiest way for day-to-day operations, so we will enable it as a system service:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="c1"># get the service files from the CSE repository&lt;/span>
@@ -4844,8 +4792,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>You can find more details on the way to create/manage CSE K8S clusters in the &lt;a href="https://vmware.github.io/container-service-extension/cse2_6/CLUSTER_MANAGEMENT.html">CSE documentation&lt;/a>.&lt;/p>
 &lt;p>Of course, if you can afford to store a fork of the &lt;a href="https://github.com/vmware/container-service-extension-templates">official templates repository&lt;/a> with your proxy informations and your customisations, it could ease the deployment of new templates when needed: for example by setting up a &lt;em>private&lt;/em> or &lt;em>internal&lt;/em> git repository.&lt;/p></description></item><item><title>VMware Event Broker (aka VEBA) on Kubernetes – First steps</title><link>https://vuptime.io/post/2020-11-02-vmware-event-broker-on-k8s-first-steps/</link><pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate><guid>https://vuptime.io/2020/11/02/vmware-event-broker-on-k8s-first-steps/</guid><description>
 &lt;blockquote>
-&lt;p>&lt;strong>Warning&lt;/strong>: Since the publication of VEBA 0.5.0, the development team provides a &lt;code>helm&lt;/code> chart deployment method. According to this, I made a re-edition of this post to provide a new setup workflow: &lt;a href="https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/">VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Warning&lt;/strong>: Since the publication of VEBA 0.5.0, the development team provides a &lt;code>helm&lt;/code> chart deployment method. According to this, I made a re-edition of this post to provide a new setup workflow: &lt;a href="https://vuptime.io/2020/12/17/vmware-event-broker-0.5.0-on-k8s-first-steps/">VMware Event Broker 0.5.0 (aka VEBA) on Kubernetes – First steps&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;p>In the following post, we will discover how to deploy the VMware Event Broker services (VEBA) within an existing Kubernetes (K8S) cluster and use it to add/edit custom attributes information to virtual machines.&lt;/p>
 &lt;p>The goal of the VEBA deployment is to be able to listen for events in the VMware vCenter infrastructure and to run specific tasks when filtered events occurs: it is the &lt;a href="https://octo.vmware.com/vsphere-power-event-driven-automation/">&lt;em>event driven automation&lt;/em>&lt;/a> concept.&lt;/p>
 &lt;p>To be accurate, VEBA stands for &lt;strong>&amp;quot;VMware Event Broker Appliance&amp;quot;&lt;/strong>: a Photon OS based virtual machine, available in OVA format, with an embedded small K8S cluster to support the &lt;strong>&amp;quot;VMware Event Broker&amp;quot;&lt;/strong> services.
@@ -4891,8 +4838,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;p>Here is one installation method:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -sSL https://cli.openfaas.com &lt;span class="p">|&lt;/span> sudo sh
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>You can also use an alternative installation method described in the &lt;a href="https://github.com/openfaas/faas-cli">&lt;code>faas-cli&lt;/code> project GitHub repository&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>You can also use an alternative installation method described in the &lt;a href="https://github.com/openfaas/faas-cli">&lt;code>faas-cli&lt;/code> project GitHub repository&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;h2 id="veba-deployment-on-kubernetes">VEBA deployment on Kubernetes&lt;/h2>
 &lt;p>The VEBA deployment on K8S is quite simple and does not require a lot of configuration.&lt;/p>
 &lt;h3 id="get-the-veba-code-and-dependencies">Get the VEBA code and dependencies&lt;/h3>
@@ -4929,8 +4875,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">prometheus-857c769b7-mcsmt 1/1 Running &lt;span class="m">0&lt;/span> 27m
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">queue-worker-7b5756c9c4-wv9ml 1/1 Running &lt;span class="m">3&lt;/span> 27m
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>It may take a couple of minutes in order to get all pods in a running state. Be patient.&lt;/p>
-&lt;/blockquote>
+&lt;p>It may take a couple of minutes in order to get all pods in a running state. Be patient.&lt;/p>&lt;/blockquote>
 &lt;h3 id="login-to-your-openfaas-cli-and-ui">Login to your OpenFaaS cli and UI&lt;/h3>
 &lt;h4 id="login-to-faas-cli">Login to &lt;code>faas-cli&lt;/code>&lt;/h4>
 &lt;p>We now need to get the OpenFaaS URI to use the &lt;code>faas-cli&lt;/code> client. The following one-liner should provide you the appropriate information:&lt;/p>
@@ -4940,8 +4885,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>And to login:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;**YourPassword**&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> faas-cli login --password-stdin
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>A warning will recommend you to use an HTTPS endpoint instead of the HTTP one: let's ignore it for the moment.&lt;/p>
-&lt;/blockquote>
+&lt;p>A warning will recommend you to use an HTTPS endpoint instead of the HTTP one: let's ignore it for the moment.&lt;/p>&lt;/blockquote>
 &lt;p>At least, you should get a message like: &amp;quot;credentials saved for admin &lt;code>http://&amp;lt;node ip&amp;gt;:31112&amp;quot;&lt;/code> meaning that you successfully configured your &lt;code>faas-cli&lt;/code> client.&lt;/p>
 &lt;h4 id="login-to-the-ui">Login to the UI&lt;/h4>
 &lt;p>Use the same URL to login with the &lt;code>admin&lt;/code> account to the web UI and you should get something like that:&lt;/p>
@@ -5054,8 +4998,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we need to pull the OpenFaaS language template for the specified &lt;code>lang&lt;/code> in our &lt;code>stack.yml&lt;/code> file:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">faas template store pull python3
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>In fact, this command will pull all (12) the languages templates from the &lt;code>openfaas&lt;/code> registry, not only the one you are looking for.&lt;/p>
-&lt;/blockquote>
+&lt;p>In fact, this command will pull all (12) the languages templates from the &lt;code>openfaas&lt;/code> registry, not only the one you are looking for.&lt;/p>&lt;/blockquote>
 &lt;p>We are ready to deploy our &lt;em>Function-as-a-Service&lt;/em>:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">faas-cli deploy -f stack.yml
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1"># Output&lt;/span>
@@ -5780,8 +5723,7 @@ In the following post, I re-use an existing K8S cluster to support the &amp;quot
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">pip install -r requirements.txt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>&lt;/blockquote>
 &lt;h3 id="go">Go&lt;/h3>
 &lt;p>A part of this post will provide a Go module. Install Go runtime to be able to test it.&lt;/p>
 &lt;h2 id="available-languages">Available languages&lt;/h2>
@@ -6318,12 +6260,10 @@ This method has 2 parameters :&lt;/p>
 &lt;p>Cette session expose en détail le projet Pacific.&lt;/p>
 &lt;blockquote>
 &lt;p>Kubernetes as a platform platform&lt;br>
--- &lt;cite>Joe Beda&lt;/cite>&lt;/p>
-&lt;/blockquote>
+-- &lt;cite>Joe Beda&lt;/cite>&lt;/p>&lt;/blockquote>
 &lt;blockquote>
 &lt;p>Project Pacific is a re-architecture of vSphere with Kubernetes as its control plane.&lt;br>
--- &lt;cite>Jared Rosoff&lt;/cite>&lt;/p>
-&lt;/blockquote>
+-- &lt;cite>Jared Rosoff&lt;/cite>&lt;/p>&lt;/blockquote>
 &lt;p>Kubernetes devient un élément central de vSphere via l'introduction d'un composant d'orchestration nommé &lt;em>Kubernetes Cluster Supervisor&lt;/em>. Le Supervisor utilise ESXi comme worker nodes au lieu de Linux. Ceci passe par une implémentation spécifique de Kubelet, nommée &lt;strong>Spherelet&lt;/strong> qui tourne directement sur ESXi. Il devient ainsi possible de faire tourner des Pods kubernetes natifs sur ESXi avec des performances impressionnantes (30% plus rapide que des Pods tournant dans des VMs Linux, et 8% plus rapide que des Pods tournant sur du bare metal Linux, ceci grâce à des optimisations sur la gestion de la mémoire et du cpu).&lt;/p>
 &lt;p>D'autre part, le Supervisor se base sur des &lt;em>CRDs&lt;/em> et &lt;em>Operators&lt;/em> spécifiques (Machine, MachineSet, MachineDeployment, Cluster, ManagedCluster) afin de permettre de gérer des objets vSphere via des fichiers de description de ressources au format Kubernetes. Des Operators dédiés comme le &lt;em>VM operator&lt;/em> ou le &lt;em>Guest Cluster Operator&lt;/em> offrent la possibilité d'orchestrer le déploiement et cycle de vie de :&lt;/p>
 &lt;ul>
@@ -6557,8 +6497,7 @@ Je parle ici seulement de &lt;em>T0&lt;/em> car il n'ya que les &lt;em>T0&lt;/em
 &lt;p>Petite conférence sur les opérations de debug à mener au sein de NSX-T avec un très bon speaker, si vous avez l'occasion, allez voir ses conférences elles sont toujours très instructives et abordable.&lt;/p>
 &lt;p>Il a repris la conférence qu'il avait fait l'année dernière sur le troubleshooting pas de nouveautés, du coup je vous fais un petit rappel.&lt;/p>
 &lt;blockquote>
-&lt;p>&amp;quot;You shall not pass&amp;quot;&lt;/p>
-&lt;/blockquote>
+&lt;p>&amp;quot;You shall not pass&amp;quot;&lt;/p>&lt;/blockquote>
 &lt;p>Voilà ce que l'on attend de notre firewall, c'est sur ces 4 petits mots que commence la session. L'utilité de notre firewall distribué est bien d'empêcher les attaques sur nos systèmes mais aussi les empêcher de pouvoir rebondir depuis un serveur via une porte dérobée.&lt;/p>
 &lt;p>Néanmoins sans les bons outils il peut être difficile de bien diagnostiquer les problèmes de communication. La difficulté lorsque l'on met en place la micro segmentations avec le firewall distribué est bien de s'assurer que l'on ne va pas contraindre les applications et se créer nos propres problèmes.&lt;/p>
 &lt;p>Le sujet ici est de savoir analyser en temps réel ce qui se passe au sein de notre infrastructure au niveau réseau et firewalling.&lt;/p>
@@ -6700,8 +6639,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>Mon employeur: &lt;strong>SII Group&lt;/strong> qui nous permet de prendre part à ce type d'évènement.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>
-&lt;/blockquote>
+&lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png">&lt;figcaption>
 &lt;h4>Logo vMUG France&lt;/h4>
 &lt;/figcaption>
@@ -6710,8 +6648,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>&lt;a href="https://vuptime.io/about/#aharlaut">@Antoine_hlt&lt;/a> et &lt;a href="https://vuptime.io/about/#lrivallain">moi-même&lt;/a> présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em>vRealize Orchestrator&lt;/em>. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/">présentation que j'avais réalisé à Rennes&lt;/a> il y a quelques mois à l'occasion du &lt;em>meet&amp;amp;geek&lt;/em> organisé à &lt;strong>SII Ouest&lt;/strong>.&lt;/p>
 &lt;p>Nous avions aussi préparé une petite démonstration basé sur le déploiement d'un noeud &lt;em>Kubernetes&lt;/em>.&lt;/p>
 &lt;blockquote>
-&lt;p>Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p>
-&lt;/blockquote>
+&lt;p>Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p>&lt;/blockquote>
 &lt;p>Et nous avions apporté avec nous, un &lt;em>RaspberryPi&lt;/em> connecté à quelques leds de couleur permettant de suivre visuellement, l'état du workflow. L'objet a succité un peu d'amusement: c'était le but.&lt;/p>
 &lt;p>Un merci tout spécial à &lt;a href="https://twitter.com/ErikBussink">Erik Bussink&lt;/a>, venu du pays du fromage et du chocolat, qui a offert à un des spectateurs, un kit &lt;em>RaspberryPi 3b&lt;/em> avec boitier et alimentation POE.&lt;/p>
 &lt;p>Les sources de la présentation sont comme d'habitude, sur github: &lt;a href="https://vupti.me/vmug2019-src">vupti.me/vmug2019-src&lt;/a> et la présentation elle-même, si dessous, ou à l'adresse suivante: &lt;a href="https://vupti.me/vmug2019">vupti.me/vmug2019&lt;/a>.&lt;/p>
@@ -6789,8 +6726,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Since the 9.1 version (&lt;a href="https://docs.vmware.com/en/vCloud-Director/9.1/rn/rel_notes_vcloud_director_91.html">2018, march&lt;/a>), vCloud Director cames with an extensibility feature. This allows to the platform administrator to extend the features perimeter.&lt;/p>
 &lt;p>Indeed, through a dedicated development, it is possible to create the technical context to execute the automation linked to new features to add to the vCD portal (UI, API, backend, third party interconnect...).&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Example&lt;/strong> : Provide to end-users a &lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/samples/ticketing">support-ticketing-interface integrated to the vCD portal&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Example&lt;/strong> : Provide to end-users a &lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/samples/ticketing">support-ticketing-interface integrated to the vCD portal&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;p>The publication perimeter for a custom extension can be set according to the plateform needs and the extension. So it is possible to publish it for:&lt;/p>
 &lt;ul>
 &lt;li>Platform system administrators&lt;/li>
@@ -6819,8 +6755,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Let's take an example:&lt;/p>
 &lt;blockquote>
 &lt;p>Our &lt;code>coffee&lt;/code> extension aims to provide a feature to create &lt;em>coffee machine&lt;/em> order through vCD portal.&lt;/p>
-&lt;p>Requests sent to vCloud API at this path : &lt;code>https://&amp;lt;vcloudserver&amp;gt;/api/coffee/order&lt;/code> and for instance, a &lt;code>POST&lt;/code> request type (and its appropriate parameters) will start a new order to the coffee machine. A &lt;code>GET&lt;/code> request will list the previous commands etc.&lt;/p>
-&lt;/blockquote>
+&lt;p>Requests sent to vCloud API at this path : &lt;code>https://&amp;lt;vcloudserver&amp;gt;/api/coffee/order&lt;/code> and for instance, a &lt;code>POST&lt;/code> request type (and its appropriate parameters) will start a new order to the coffee machine. A &lt;code>GET&lt;/code> request will list the previous commands etc.&lt;/p>&lt;/blockquote>
 &lt;p>To handle the extension related customized requests, a backend server is necessary. This server can be hosted on a dedicated host (or the vCD server (&lt;em>cell&lt;/em>) but not recommended) and can be written in any language of your choice (Python, Java, Node etc.). Messages received by vCD on the extension path (&lt;code>coffee&lt;/code>) will be forwarded to an intermediate RabbitMQ server to be consumed by the extension backend. Once the request content is processed, response content is sent to the AMQP server and consumed by vCD to provide an answer.&lt;/p>
 &lt;p>For our example:&lt;/p>
 &lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/architecture_overview.png">&lt;figcaption>
@@ -6863,8 +6798,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;/ul>
 &lt;p>To consume and publish (&lt;em>consumer/publisher&lt;/em> roles) messages with AMQP protocol, we use the &lt;a href="https://pypi.org/project/kombu/">&lt;code>Kombu&lt;/code>&lt;/a> Python package as it turns out to be very reliable and to provide easy support for &lt;em>thread&lt;/em> usage.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note :&lt;/strong> VMware's examples use the &lt;a href="https://pypi.org/project/pika/">&lt;code>Pika&lt;/code>&lt;/a> module for the same kind of usage.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note :&lt;/strong> VMware's examples use the &lt;a href="https://pypi.org/project/pika/">&lt;code>Pika&lt;/code>&lt;/a> module for the same kind of usage.&lt;/p>&lt;/blockquote>
 &lt;p>We also have developed a &lt;em>MessageWorker&lt;/em> named &lt;a href="https://pypi.org/project/VcdExtMessageWorker/">&lt;code>VcdExtMessageWorker&lt;/code>&lt;/a> to start business-related threads. These extension-&lt;em>threads&lt;/em> represent the potential complexity of the feature to add to vCD (applicative workflow, data analysis, third party requests, etc.). &lt;em>MessageWorker&lt;/em> is generic and can be attached to other kind of extension-threads for other kind of purposes.&lt;/p>
 &lt;p>In the case of &lt;strong>LUMExt&lt;/strong>, &lt;code>VcdExtMessageWorker&lt;/code> initiates a new thread of &lt;em>lumext worker&lt;/em> for each request. This one is in charge of the request-analysis (is it a listing request or a user-creation one, user-edition ?). Once the request is processed, the answer is published to the &lt;code>reply-to&lt;/code> queue of the RabbitMQ server and consumed by vCD.&lt;/p>
 &lt;p>REST API extension provides the following paths to the users:&lt;/p>
@@ -6928,8 +6862,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;/figure>
 &lt;p>&lt;strong>LUMExt&lt;/strong> UI also provides user edition and user deletion and a specific wizard for password reset operation.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note :&lt;/strong> LDAP based groups support is intended but not yet developed.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note :&lt;/strong> LDAP based groups support is intended but not yet developed.&lt;/p>&lt;/blockquote>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>&lt;strong>LUMExt&lt;/strong> is an internal SII project that we &amp;quot;opensource&amp;quot; (MIT license) on &lt;a href="https://github.com/groupe-sii/lumext">github&lt;/a> to demonstrate the extensibility abilities of vCloud Director with a technical and complete use-case.&lt;/p>
 &lt;p>Since about 6 months, our teams have working on these kind of &lt;em>plugins&lt;/em> development for our customers to extend the available features of the vCD portal with tools for their customers (as &lt;em>&amp;quot;Service Provider&amp;quot;&lt;/em>).&lt;/p>
@@ -7256,8 +7189,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>Speaker(s): &lt;strong>Tim Burkard&lt;/strong>&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>You shall not pass !&lt;/p>
-&lt;/blockquote>
+&lt;p>You shall not pass !&lt;/p>&lt;/blockquote>
 &lt;p>Voilà ce que l'on attend de notre firewall et c'est sur ces 4 petits mots que commence la session. L'utilité de notre firewall distribué est bien d'empêcher les attaques sur nos systèmes mais aussi les empêcher de pouvoir rebondir depuis un serveur via une porte dérobée.&lt;/p>
 &lt;p>Néanmoins sans les bons outils il peut être difficile de bien diagnostiquer les problèmes de communication. La difficulté lorsque l'on met en place la micro segmentations avec le firewall distribué est bien de s'assurer que l'on ne va pas contraindre les applications et se créer de nouveaux problèmes.&lt;/p>
 &lt;p>Le sujet ici est de savoir analyser en temps réel ce qui se passe au sein de notre infrastructure au niveau réseau et firewalling.&lt;/p>
@@ -7282,8 +7214,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Arrive ensuite &lt;strong>Pat Gelsinger&lt;/strong>, VMware CEO et visionnaire du cloud en général, pour animer la majeure partie de la session.&lt;/p>
 &lt;p>Depuis 20 ans, VMware a bien changé, et son environnement aussi. A propos de NSX, Pat ose lancer un:&lt;/p>
 &lt;blockquote>
-&lt;p>Networking will never be the same again&lt;/p>
-&lt;/blockquote>
+&lt;p>Networking will never be the same again&lt;/p>&lt;/blockquote>
 &lt;p>VMware montre aussi son attention à son impact sur l'environnement en annonçant être à présent une &lt;strong>société au bilan carbone neutre&lt;/strong> dans ses opérations quotidiennes. Selon leurs estimations, ils ont aussi permis d'économiser la production de l'équivalent de 4 ans de production de carbone d'un pays comme le Royaume Uni depuis 20 ans. Si le chiffre est difficilement vérifiable, il y a tout de même un impact certain.&lt;/p>
 &lt;p>Ray O 'Farrel, VMware CTO, monte ensuite sur scène pour une démonstration d'App Defense, le produit de protection des applications déployées sur une infrastructure VMware et disponible dans la &amp;quot;licence&amp;quot; vSphere Platinium ou, et c'est une nouveauté, &amp;quot;vCloud Suite Platinium&amp;quot;. Basé sur une phase d'apprentissage du comportement d'une application, AD est ensuite capable de verrouiller son comportement et d'alerter en cas de modification de celui-ci: à vous d'appliquer la réponse appropriée: autoriser le changement, ou le traiter comme une menace.&lt;/p>
 &lt;p>VMware annonce ensuite la disponibilité de VMware Cloud Foundation 3.5. Un outil d'automatisation du déploiement d'infrastructures Cloud, hybrides, basée sur des produits et offres membres du programme &lt;em>VMware Cloud Certified&lt;/em>.&lt;/p>
@@ -7431,8 +7362,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>https://vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/09/20/frenchvmug-reboot-paris/</guid><description>
 &lt;blockquote>
-&lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>
-&lt;/blockquote>
+&lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>&lt;/blockquote>
 &lt;p>Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;amp;Home=%2fcommunities%2flocalcommunityhome">VMUG France&lt;/a> dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p>
 &lt;p>L'événènement est à présent orchestré (et bien orchestré!) par &lt;a href="https://twitter.com/Noham_m">Noham Medyouni&lt;/a> (Dell-EMC), &lt;a href="https://twitter.com/fredg_work">Fréderic Giovannacci&lt;/a> (SIB) et &lt;a href="https://twitter.com/notmg">Matthieu Gioia&lt;/a> (consultant indep.) et pour ce RDV parisien de rentrée, 2 invités de marque étaient présents:&lt;/p>
 &lt;ul>
@@ -7483,8 +7413,7 @@ object and its method &lt;a href="http://vroapi.com/Method/vCACCAFE/7.3.0/vCACCA
 &lt;h1 id="prepare-informations">Prepare informations&lt;/h1>
 &lt;p>Here is a configuration sample for a single cell deployment. Change settings according to your needs:&lt;/p>
 &lt;blockquote>
-&lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>
-&lt;/blockquote>
+&lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nv">DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;lri.lcl&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="c1"># API and HTTP host info&lt;/span>
@@ -7648,8 +7577,7 @@ new Cocoen();
 &lt;h1 id="ansible-usage-with-vmware-vcenter">Ansible usage with VMware vCenter&lt;/h1>
 &lt;p>The following sample consist of VM deployment in a existing vCenter infrastructure from a linked-clone operation.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;em>A linked clone is made from a snapshot of the parent. All files available on the parent at the moment of the snapshot continue to remain available to the linked clone. Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent.&lt;/em>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>A linked clone is made from a snapshot of the parent. All files available on the parent at the moment of the snapshot continue to remain available to the linked clone. Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent.&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h2 id="inventory">Inventory&lt;/h2>
 &lt;p>We will create a simple inventory with virtual machines items representing a scalable 2 tiers application with:&lt;/p>
 &lt;ul>
@@ -7730,8 +7658,7 @@ new Cocoen();
 &lt;h2 id="playbook">Playbook&lt;/h2>
 &lt;p>From &lt;a href="http://docs.ansible.com/ansible/latest/playbooks.html">Ansible Docs about Playbooks&lt;/a>:&lt;/p>
 &lt;blockquote>
-&lt;p>Playbooks are Ansible's configuration, deployment, and orchestration language. They can describe a policy you want your remote systems to enforce, or a set of steps in a general IT process. If Ansible modules are the tools in your workshop, playbooks are your instruction manuals, and your inventory of hosts are your raw material.&lt;/p>
-&lt;/blockquote>
+&lt;p>Playbooks are Ansible's configuration, deployment, and orchestration language. They can describe a policy you want your remote systems to enforce, or a set of steps in a general IT process. If Ansible modules are the tools in your workshop, playbooks are your instruction manuals, and your inventory of hosts are your raw material.&lt;/p>&lt;/blockquote>
 &lt;h3 id="dynamic-input-for-some-values">Dynamic input for some values&lt;/h3>
 &lt;p>To manage VM in the vCenter inventory, it's necessary to have credentials for the target. In the following playbook part, we ask user to enter credentials when running the playbook:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nn">---&lt;/span>&lt;span class="w">
@@ -7834,8 +7761,7 @@ new Cocoen();
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">worker03 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="idempotency">Idempotency&lt;/h1>
 &lt;blockquote>
-&lt;p>Modules should be idempotent, that is, running a module multiple times in a sequence should have the same effect as running it just once. One way to achieve idempotency is to have a module check whether its desired final state has already been achieved, and if that state has been achieved, to exit without performing any actions. If all the modules a playbook uses are idempotent, then the playbook itself is likely to be idempotent, so re-running the playbook should be safe.&lt;/p>
-&lt;/blockquote>
+&lt;p>Modules should be idempotent, that is, running a module multiple times in a sequence should have the same effect as running it just once. One way to achieve idempotency is to have a module check whether its desired final state has already been achieved, and if that state has been achieved, to exit without performing any actions. If all the modules a playbook uses are idempotent, then the playbook itself is likely to be idempotent, so re-running the playbook should be safe.&lt;/p>&lt;/blockquote>
 &lt;p>In our case, if VMs are already present, re-run the playbook with same settings won't produce new changes.&lt;/p>
 &lt;p>By replacing the &lt;code>state: poweredon&lt;/code> by &lt;code>state: absent&lt;/code> for VMs, it's possible to unprovision the deployed infrastructure.&lt;/p>
 &lt;p>In the next post(s) I will try to explain the management of vCenter and ESXi hosts configuration through ansible playbooks.&lt;/p></description></item><item><title>VMware - VCSA 6.5u0 or PSC appliance - change SCSI block timeout</title><link>https://vuptime.io/post/2017-09-04-vmware_vcsa65u0_change_scsi_block_timeout/</link><pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/09/04/vmware_vcsa65u0_change_scsi_block_timeout/</guid><description>
@@ -8068,8 +7994,7 @@ new Cocoen();
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no result, for both commands, you should add your certification authority to the trusted ones.&lt;/p>
 &lt;p>By default, the JRE keystore is &lt;em>protected&lt;/em> with a password: &lt;code>changeit&lt;/code>.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> : The letsencrypt sample is purely fictional as the Root certificate &lt;code>DSTRootCAX3&lt;/code> is already included in the included JRE keystore. But for the post, we will act as it is not.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> : The letsencrypt sample is purely fictional as the Root certificate &lt;code>DSTRootCAX3&lt;/code> is already included in the included JRE keystore. But for the post, we will act as it is not.&lt;/p>&lt;/blockquote>
 &lt;h1 id="update-jre-keystore">Update JRE keystore&lt;/h1>
 &lt;p>So your certification authority, possible internal and self-signed, is not known from the JRE keystore and you need to communicate between your vCloud Director and product using certificates issued from this authority. Therefore an update of the trusted certificates is required.&lt;/p>
 &lt;p>We still use the (&lt;em>fabulous&lt;/em>) Java &lt;code>keytool&lt;/code> script to insert new certificates to the keystore.&lt;/p>
@@ -8108,15 +8033,13 @@ new Cocoen();
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="shutdown-cell">Shutdown cell&lt;/h1>
 &lt;p>Once done, each cell needs to be 'service-restarted' in order to use the new keystore:&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>&lt;/blockquote>
 &lt;p>Quiesce the cell, to not accept new incoming job on this specific cell:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -quiesce &lt;span class="nb">true&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check that there is no more running job:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -status
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>&lt;/blockquote>
 &lt;p>Shutdown services:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -shutdown
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then restart services:&lt;/p>
@@ -8124,8 +8047,7 @@ new Cocoen();
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Have a look on the startup of the service through the logs:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">tail -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/logs/cell.log &lt;span class="p">|&lt;/span> grep -i &lt;span class="s2">&amp;#34;Application Initialization&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;p>When all cells are restarted, your issue with certificate chain should be solved.&lt;/p></description></item><item><title>VMware - Explore vCloud Director catalog publishing feature</title><link>https://vuptime.io/post/2017-08-02-vmware-explorevcd-catalog-publishing-feature/</link><pubDate>Wed, 02 Aug 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/08/02/VMware-ExploreVCD-catalog-publishing-feature/</guid><description>
 &lt;p>VMware introduced in version 5.5 of vCloud Director, a feature to externaly expose catalogs and if necessary, to subscribe to an externaly exposed one.&lt;/p>
 &lt;p>This is useful to synchronize catalog between two (or more) vCloud Director instances.&lt;/p>
@@ -8172,11 +8094,9 @@ new Cocoen();
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-u&lt;/code> option is used to pass authentification informations to the HTTP request header. As we do not set any user, the credentials only contains password, following the &amp;quot;:&amp;quot; separator.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-u&lt;/code> option is used to pass authentification informations to the HTTP request header. As we do not set any user, the credentials only contains password, following the &amp;quot;:&amp;quot; separator.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-s&lt;/code> option make culr mute the progress or error messages. Remove it to see potential error for debuging.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-s&lt;/code> option make culr mute the progress or error messages. Remove it to see potential error for debuging.&lt;/p>&lt;/blockquote>
 &lt;p>This request give us metadata about the catalog : name, description, version... And &lt;code>itemsHref&lt;/code> give us clue to continue exploration and list the catalog items.&lt;/p>
 &lt;h2 id="list-items">List items&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -s -u :MyPassword &lt;span class="se">\
@@ -8248,8 +8168,7 @@ new Cocoen();
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">Content-Length: &lt;span class="m">0&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">...
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-i&lt;/code> option is used to include the HTTP response headers in the output.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-i&lt;/code> option is used to include the HTTP response headers in the output.&lt;/p>&lt;/blockquote>
 &lt;p>Oups, it's a &lt;code>302&lt;/code> redirect so we need to follow redirect. 2 choices:&lt;/p>
 &lt;ul>
 &lt;li>You adapt the request with the &lt;code>Location&lt;/code> path from the HTTP response header&lt;/li>
@@ -8258,8 +8177,7 @@ new Cocoen();
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -s -L -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf &amp;gt; myVapp/descriptor.ovf
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>&lt;/blockquote>
 &lt;p>And you can proceed similarly for the other files for each VM of the vApp:&lt;/p>
 &lt;ul>
 &lt;li>descriptor.mf&lt;/li>
@@ -8463,22 +8381,18 @@ of the VMware PowerShell SDK to manage vSphere environments.&lt;/p>
 &lt;h1 id="snapshots">Snapshots&lt;/h1>
 &lt;p>Here is the VMware definition of VM snapshot feature (&lt;a href="https://www.vmware.com/support/ws4/doc/preserve_snapshot_ws.html" title="Snapshot definition">source&lt;/a>):&lt;/p>
 &lt;blockquote>
-&lt;p>The snapshot feature is most useful when you want to preserve the state of the virtual machine so you can return to the same state repeatedly.&lt;/p>
-&lt;/blockquote>
+&lt;p>The snapshot feature is most useful when you want to preserve the state of the virtual machine so you can return to the same state repeatedly.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>You can take a snapshot of a virtual machine at any time and revert to that snapshot at any time.&lt;/p>
-&lt;/blockquote>
+&lt;p>You can take a snapshot of a virtual machine at any time and revert to that snapshot at any time.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>You can take a snapshot while a virtual machine is powered on, powered off or suspended. A snapshot preserves the virtual machine just as it was when you took the snapshot - the state of the data on all the virtual machine's disks and whether the virtual machine was powered on, powered off or suspended.&lt;/p>
-&lt;/blockquote>
+&lt;p>You can take a snapshot while a virtual machine is powered on, powered off or suspended. A snapshot preserves the virtual machine just as it was when you took the snapshot - the state of the data on all the virtual machine's disks and whether the virtual machine was powered on, powered off or suspended.&lt;/p>&lt;/blockquote>
 &lt;h2 id="create-snapshots">Create snapshots&lt;/h2>
 &lt;p>To create a snapshot, you can use the 'vim-cmd' command:&lt;/p>
 &lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.create 3 snap01 'snap01 description'
 &lt;/code>&lt;/pre>
 &lt;p>Command usage is:&lt;/p>
 &lt;blockquote>
-&lt;p>Usage: snapshot.create vmid [snapshotName] [snapshotDescription] [includeMemory] [quiesced]&lt;/p>
-&lt;/blockquote>
+&lt;p>Usage: snapshot.create vmid [snapshotName] [snapshotDescription] [includeMemory] [quiesced]&lt;/p>&lt;/blockquote>
 &lt;p>So you can make a snapshot with VM memory and quiesced:&lt;/p>
 &lt;pre>&lt;code>vim-cmd vmsvc/snapshot.create 3 &amp;quot;SnapName&amp;quot; &amp;quot;Snap Description&amp;quot; 1 1
 &lt;/code>&lt;/pre>
@@ -8516,8 +8430,7 @@ Get Snapshot:
 &lt;p>As you can create and list snapshot(s) for a VM, you can remove them. Deletion operation is also called the &amp;quot;commit&amp;quot; as all recent changes made from the moment the snapshot is taken, are committed to the based disk or the parent snapshot disk file.&lt;/p>
 &lt;p>To remove or commit a snapshot for a VM:&lt;/p>
 &lt;blockquote>
-&lt;p>Usage: snapshot.remove vmid snapId&lt;/p>
-&lt;/blockquote>
+&lt;p>Usage: snapshot.remove vmid snapId&lt;/p>&lt;/blockquote>
 &lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.remove 3 4
 Remove Snapshot:
 |-ROOT
@@ -8543,8 +8456,7 @@ Remove Snapshot:
 &lt;h2 id="revert-to-a-snapshot">Revert to a snapshot&lt;/h2>
 &lt;p>Goal of VM snapshot is not to only create, list or remove snapshots... It's to be able to revert the VM state to the moment you take the snapshot. To do so, you can use the &lt;code>snapshot.revert&lt;/code> argument.&lt;/p>
 &lt;blockquote>
-&lt;p>Usage: snapshot.revert vmid snapshotId suppressPowerOff&lt;/p>
-&lt;/blockquote>
+&lt;p>Usage: snapshot.revert vmid snapshotId suppressPowerOff&lt;/p>&lt;/blockquote>
 &lt;p>So to revert to the first snapshot of the VM with Vmid 3:&lt;/p>
 &lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.revert 3 1 0
 Revert Snapshot:
@@ -8567,14 +8479,11 @@ suppressPowerOff = 1
 &lt;h1 id="linked-clone">Linked clone&lt;/h1>
 &lt;p>Linked-clone definition (&lt;a href="https://pubs.vmware.com/workstation-9/index.jsp?topic=%2Fcom.vmware.ws.using.doc%2FGUID-BA264A65-C50F-4345-A787-DCC5C5324DD1.html" title="Linked clone definition">source&lt;/a>):&lt;/p>
 &lt;blockquote>
-&lt;p>A linked clone is a copy of a virtual machine that shares virtual disks with the parent virtual machine in an ongoing manner.&lt;/p>
-&lt;/blockquote>
+&lt;p>A linked clone is a copy of a virtual machine that shares virtual disks with the parent virtual machine in an ongoing manner.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Because a linked clone is made from a snapshot of the parent, disk space is conserved and multiple virtual machines can use the same software installation. All files available on the parent at the moment you take the snapshot continue to remain available to the linked clone.&lt;/p>
-&lt;/blockquote>
+&lt;p>Because a linked clone is made from a snapshot of the parent, disk space is conserved and multiple virtual machines can use the same software installation. All files available on the parent at the moment you take the snapshot continue to remain available to the linked clone.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent. A linked clone must have access to the parent. Without access to the parent, you cannot use a linked clone.&lt;/p>
-&lt;/blockquote>
+&lt;p>Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent. A linked clone must have access to the parent. Without access to the parent, you cannot use a linked clone.&lt;/p>&lt;/blockquote>
 &lt;h2 id="create-a-linked-clone">Create a linked clone&lt;/h2>
 &lt;p>Create a reference snapshot on a source VM. This will be our base for clones.&lt;/p>
 &lt;pre>&lt;code>$ vim-cmd vmsvc/snapshot.create 3 &amp;quot;ReferenceSnapshot&amp;quot; &amp;quot;Used for linked clones of Centos VM&amp;quot;

@@ -9,8 +9,7 @@
 &lt;p>Since the 9.1 version (&lt;a href="https://docs.vmware.com/en/vCloud-Director/9.1/rn/rel_notes_vcloud_director_91.html">2018, march&lt;/a>), vCloud Director cames with an extensibility feature. This allows to the platform administrator to extend the features perimeter.&lt;/p>
 &lt;p>Indeed, through a dedicated development, it is possible to create the technical context to execute the automation linked to new features to add to the vCD portal (UI, API, backend, third party interconnect...).&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Example&lt;/strong> : Provide to end-users a &lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/samples/ticketing">support-ticketing-interface integrated to the vCD portal&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Example&lt;/strong> : Provide to end-users a &lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/samples/ticketing">support-ticketing-interface integrated to the vCD portal&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;p>The publication perimeter for a custom extension can be set according to the plateform needs and the extension. So it is possible to publish it for:&lt;/p>
 &lt;ul>
 &lt;li>Platform system administrators&lt;/li>
@@ -39,8 +38,7 @@
 &lt;p>Let's take an example:&lt;/p>
 &lt;blockquote>
 &lt;p>Our &lt;code>coffee&lt;/code> extension aims to provide a feature to create &lt;em>coffee machine&lt;/em> order through vCD portal.&lt;/p>
-&lt;p>Requests sent to vCloud API at this path : &lt;code>https://&amp;lt;vcloudserver&amp;gt;/api/coffee/order&lt;/code> and for instance, a &lt;code>POST&lt;/code> request type (and its appropriate parameters) will start a new order to the coffee machine. A &lt;code>GET&lt;/code> request will list the previous commands etc.&lt;/p>
-&lt;/blockquote>
+&lt;p>Requests sent to vCloud API at this path : &lt;code>https://&amp;lt;vcloudserver&amp;gt;/api/coffee/order&lt;/code> and for instance, a &lt;code>POST&lt;/code> request type (and its appropriate parameters) will start a new order to the coffee machine. A &lt;code>GET&lt;/code> request will list the previous commands etc.&lt;/p>&lt;/blockquote>
 &lt;p>To handle the extension related customized requests, a backend server is necessary. This server can be hosted on a dedicated host (or the vCD server (&lt;em>cell&lt;/em>) but not recommended) and can be written in any language of your choice (Python, Java, Node etc.). Messages received by vCD on the extension path (&lt;code>coffee&lt;/code>) will be forwarded to an intermediate RabbitMQ server to be consumed by the extension backend. Once the request content is processed, response content is sent to the AMQP server and consumed by vCD to provide an answer.&lt;/p>
 &lt;p>For our example:&lt;/p>
 &lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/architecture_overview.png">&lt;figcaption>
@@ -83,8 +81,7 @@
 &lt;/ul>
 &lt;p>To consume and publish (&lt;em>consumer/publisher&lt;/em> roles) messages with AMQP protocol, we use the &lt;a href="https://pypi.org/project/kombu/">&lt;code>Kombu&lt;/code>&lt;/a> Python package as it turns out to be very reliable and to provide easy support for &lt;em>thread&lt;/em> usage.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note :&lt;/strong> VMware's examples use the &lt;a href="https://pypi.org/project/pika/">&lt;code>Pika&lt;/code>&lt;/a> module for the same kind of usage.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note :&lt;/strong> VMware's examples use the &lt;a href="https://pypi.org/project/pika/">&lt;code>Pika&lt;/code>&lt;/a> module for the same kind of usage.&lt;/p>&lt;/blockquote>
 &lt;p>We also have developed a &lt;em>MessageWorker&lt;/em> named &lt;a href="https://pypi.org/project/VcdExtMessageWorker/">&lt;code>VcdExtMessageWorker&lt;/code>&lt;/a> to start business-related threads. These extension-&lt;em>threads&lt;/em> represent the potential complexity of the feature to add to vCD (applicative workflow, data analysis, third party requests, etc.). &lt;em>MessageWorker&lt;/em> is generic and can be attached to other kind of extension-threads for other kind of purposes.&lt;/p>
 &lt;p>In the case of &lt;strong>LUMExt&lt;/strong>, &lt;code>VcdExtMessageWorker&lt;/code> initiates a new thread of &lt;em>lumext worker&lt;/em> for each request. This one is in charge of the request-analysis (is it a listing request or a user-creation one, user-edition ?). Once the request is processed, the answer is published to the &lt;code>reply-to&lt;/code> queue of the RabbitMQ server and consumed by vCD.&lt;/p>
 &lt;p>REST API extension provides the following paths to the users:&lt;/p>
@@ -148,8 +145,7 @@
 &lt;/figure>
 &lt;p>&lt;strong>LUMExt&lt;/strong> UI also provides user edition and user deletion and a specific wizard for password reset operation.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note :&lt;/strong> LDAP based groups support is intended but not yet developed.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note :&lt;/strong> LDAP based groups support is intended but not yet developed.&lt;/p>&lt;/blockquote>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>&lt;strong>LUMExt&lt;/strong> is an internal SII project that we &amp;quot;opensource&amp;quot; (MIT license) on &lt;a href="https://github.com/groupe-sii/lumext">github&lt;/a> to demonstrate the extensibility abilities of vCloud Director with a technical and complete use-case.&lt;/p>
 &lt;p>Since about 6 months, our teams have working on these kind of &lt;em>plugins&lt;/em> development for our customers to extend the available features of the vCD portal with tools for their customers (as &lt;em>&amp;quot;Service Provider&amp;quot;&lt;/em>).&lt;/p>
@@ -164,8 +160,7 @@
 &lt;h1 id="prepare-informations">Prepare informations&lt;/h1>
 &lt;p>Here is a configuration sample for a single cell deployment. Change settings according to your needs:&lt;/p>
 &lt;blockquote>
-&lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>
-&lt;/blockquote>
+&lt;p>If you are using multi-cells deployment, I stronlgy recommend you to extend informations in the &lt;code>-ext &amp;quot;san=dns:...&amp;quot;&lt;/code> parameter of the certificate creation to include each cell DNS and IP and the VIP FQDN at least.&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nv">DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;lri.lcl&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="c1"># API and HTTP host info&lt;/span>
@@ -308,8 +303,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no result, for both commands, you should add your certification authority to the trusted ones.&lt;/p>
 &lt;p>By default, the JRE keystore is &lt;em>protected&lt;/em> with a password: &lt;code>changeit&lt;/code>.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> : The letsencrypt sample is purely fictional as the Root certificate &lt;code>DSTRootCAX3&lt;/code> is already included in the included JRE keystore. But for the post, we will act as it is not.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> : The letsencrypt sample is purely fictional as the Root certificate &lt;code>DSTRootCAX3&lt;/code> is already included in the included JRE keystore. But for the post, we will act as it is not.&lt;/p>&lt;/blockquote>
 &lt;h1 id="update-jre-keystore">Update JRE keystore&lt;/h1>
 &lt;p>So your certification authority, possible internal and self-signed, is not known from the JRE keystore and you need to communicate between your vCloud Director and product using certificates issued from this authority. Therefore an update of the trusted certificates is required.&lt;/p>
 &lt;p>We still use the (&lt;em>fabulous&lt;/em>) Java &lt;code>keytool&lt;/code> script to insert new certificates to the keystore.&lt;/p>
@@ -348,15 +342,13 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="shutdown-cell">Shutdown cell&lt;/h1>
 &lt;p>Once done, each cell needs to be 'service-restarted' in order to use the new keystore:&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> :Do not forget to move the vCenter proxy role before restarting cells.&lt;/p>&lt;/blockquote>
 &lt;p>Quiesce the cell, to not accept new incoming job on this specific cell:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -quiesce &lt;span class="nb">true&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check that there is no more running job:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -status
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> Since a couple of versions, when you use the &lt;code>quiesce true&lt;/code> command, the command is not returning prompt until there is no more job left on the cell. The status command could be considered as useless.&lt;/p>&lt;/blockquote>
 &lt;p>Shutdown services:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nv">$VCLOUD_HOME&lt;/span>/bin/cell-management-tool -u administrator -p &lt;span class="s1">&amp;#39;********&amp;#39;&lt;/span> cell -shutdown
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then restart services:&lt;/p>
@@ -364,8 +356,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Have a look on the startup of the service through the logs:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">tail -f &lt;span class="nv">$VCLOUD_HOME&lt;/span>/logs/cell.log &lt;span class="p">|&lt;/span> grep -i &lt;span class="s2">&amp;#34;Application Initialization&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong> : A better documentation about the cell shutdown is available in &lt;a href="http://pubs.vmware.com/vcd-820/index.jsp#com.vmware.vcloud.install.doc/GUID-65C8B7B6-EC5E-4BDA-8564-56DD6671F5FE.html?resultof=%2522%2573%2568%2575%2574%2564%256f%2577%256e%2522%2520">official VMware documentation about vCD&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;p>When all cells are restarted, your issue with certificate chain should be solved.&lt;/p></description></item><item><title>VMware - Explore vCloud Director catalog publishing feature</title><link>https://vuptime.io/post/2017-08-02-vmware-explorevcd-catalog-publishing-feature/</link><pubDate>Wed, 02 Aug 2017 00:00:00 +0000</pubDate><guid>https://vuptime.io/2017/08/02/VMware-ExploreVCD-catalog-publishing-feature/</guid><description>
 &lt;p>VMware introduced in version 5.5 of vCloud Director, a feature to externaly expose catalogs and if necessary, to subscribe to an externaly exposed one.&lt;/p>
 &lt;p>This is useful to synchronize catalog between two (or more) vCloud Director instances.&lt;/p>
@@ -412,11 +403,9 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-u&lt;/code> option is used to pass authentification informations to the HTTP request header. As we do not set any user, the credentials only contains password, following the &amp;quot;:&amp;quot; separator.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-u&lt;/code> option is used to pass authentification informations to the HTTP request header. As we do not set any user, the credentials only contains password, following the &amp;quot;:&amp;quot; separator.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-s&lt;/code> option make culr mute the progress or error messages. Remove it to see potential error for debuging.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-s&lt;/code> option make culr mute the progress or error messages. Remove it to see potential error for debuging.&lt;/p>&lt;/blockquote>
 &lt;p>This request give us metadata about the catalog : name, description, version... And &lt;code>itemsHref&lt;/code> give us clue to continue exploration and list the catalog items.&lt;/p>
 &lt;h2 id="list-items">List items&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -s -u :MyPassword &lt;span class="se">\
@@ -488,8 +477,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">Content-Length: &lt;span class="m">0&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">...
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-i&lt;/code> option is used to include the HTTP response headers in the output.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-i&lt;/code> option is used to include the HTTP response headers in the output.&lt;/p>&lt;/blockquote>
 &lt;p>Oups, it's a &lt;code>302&lt;/code> redirect so we need to follow redirect. 2 choices:&lt;/p>
 &lt;ul>
 &lt;li>You adapt the request with the &lt;code>Location&lt;/code> path from the HTTP response header&lt;/li>
@@ -498,8 +486,7 @@
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -s -L -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf &amp;gt; myVapp/descriptor.ovf
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>&lt;/blockquote>
 &lt;p>And you can proceed similarly for the other files for each VM of the vApp:&lt;/p>
 &lt;ul>
 &lt;li>descriptor.mf&lt;/li>

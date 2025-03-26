@@ -73,8 +73,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl"> &lt;span class="s2">&amp;#34;vcenterUsername&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;cloudadmin@vsphere.local&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="o">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>
-&lt;/blockquote>
+&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>&lt;/blockquote>
 &lt;p>With this information, you can now connect to your AVS instance.&lt;/p>
 &lt;h2 id="avs-network-management">AVS network management&lt;/h2>
 &lt;p>Some parts of an AVS workload management can be made through the Azure API and portal (in replacement or addition to the VMware products API or UI).&lt;/p>
@@ -84,8 +83,7 @@
 &lt;p>By default, a first T1 GW is deployed with AVS and you can retrieve details about it by using (&lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/workload-networks/get-gateway">Doc.&lt;/a>):&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/workloadNetworks/default/gateways?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>
-&lt;/blockquote>
+&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>&lt;/blockquote>
 &lt;h3 id="dhcp-service">DHCP service&lt;/h3>
 &lt;p>It is possible to rely on the T1 GW to provide DHCP leases within network segment. The DHCP service can run as a &lt;em>server&lt;/em> or a &lt;em>relay&lt;/em> from another server.&lt;/p>
 &lt;p>The simpliest role to configure is the &lt;em>server&lt;/em> one:&lt;/p>
@@ -657,8 +655,7 @@ src="https://vuptime.io/images/avs-api/expressroute-connection.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">pip install -r requirements.txt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>&lt;/blockquote>
 &lt;h3 id="go">Go&lt;/h3>
 &lt;p>A part of this post will provide a Go module. Install Go runtime to be able to test it.&lt;/p>
 &lt;h2 id="available-languages">Available languages&lt;/h2>

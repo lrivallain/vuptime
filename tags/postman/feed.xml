@@ -39,8 +39,7 @@
 &lt;li>Other AVS clouds links&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.&lt;/p>
-&lt;/blockquote>
+&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.&lt;/p>&lt;/blockquote>
 &lt;h3 id="collection-import">Collection import&lt;/h3>
 &lt;p>From Postman, web or desktop client, you could import the collection by refering to the following link: &lt;a href="https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json">https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json&lt;/a>.&lt;/p>
 &lt;p>You may also need to import the &lt;em>environment&lt;/em> sample to populate your own data: &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json">https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json&lt;/a>.&lt;/p>
@@ -57,8 +56,7 @@
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az account get-access-token --subscription 01010101-0101-0101-0101-010101010101 &lt;span class="p">|&lt;/span> jq &lt;span class="s2">&amp;#34;.accessToken&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Eventually, use the value in the &lt;code>accessToken&lt;/code> section of your environment.&lt;/p>
 &lt;blockquote>
-&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;h4 id="setup-accesstoken-for-all-api-calls">Setup &lt;code>accessToken&lt;/code> for all API calls&lt;/h4>
 &lt;p>Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:&lt;/p>
 &lt;p>&lt;figure>
@@ -81,8 +79,7 @@ src="https://vuptime.io/images/avs-api/authentication-configuration.png"
 &lt;li>Save and quit this tab&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.&lt;/p>
-&lt;/blockquote>
+&lt;p>This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.&lt;/p>&lt;/blockquote>
 &lt;h3 id="testing">Testing&lt;/h3>
 &lt;p>You can now test the collection by listing the AVS deployments in your subscription:&lt;/p>
 &lt;p>&lt;figure>

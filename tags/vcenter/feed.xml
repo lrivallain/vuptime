@@ -370,8 +370,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">pip install -r requirements.txt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>&lt;/blockquote>
 &lt;h3 id="go">Go&lt;/h3>
 &lt;p>A part of this post will provide a Go module. Install Go runtime to be able to test it.&lt;/p>
 &lt;h2 id="available-languages">Available languages&lt;/h2>

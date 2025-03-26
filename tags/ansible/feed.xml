@@ -7,8 +7,7 @@
 &lt;ul>
 &lt;li>&lt;code>root&lt;/code> password expiration policy and &lt;em>shell idle timeout&lt;/em> are security policies that can be required in a production environment (and so, do not apply the example tasks in such case.)&lt;/li>
 &lt;li>SSH server authentication keys are very important for security concerns too and should not be blindly trusted.&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;h2 id="server-authentication">Server authentication&lt;/h2>
 &lt;p>When you connect by SSH to a remote server, you need to trust the key provided by the server. You probably already know the below message:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ssh root@mynewserver
@@ -20,8 +19,7 @@
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="m">256&lt;/span> SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE root@mynewserver &lt;span class="o">(&lt;/span>ECDSA&lt;span class="o">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> the fingerprints of key generated during the instance deployment, is commonly available in the console logs: it could help to retrieve it for comparison.&lt;/p>
-&lt;/blockquote>
+&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> the fingerprints of key generated during the instance deployment, is commonly available in the console logs: it could help to retrieve it for comparison.&lt;/p>&lt;/blockquote>
 &lt;p>In the above example, the &lt;em>ECDSA&lt;/em> fingerprint match and you can trust it by accepting the confirmation from the SSH client.&lt;/p>
 &lt;h3 id="blind-trust-ssh-servers-keys-with-ansible">Blind trust SSH servers keys with Ansible&lt;/h3>
 &lt;p>For system out of production (testing purpose), I do not make the above check and I make a &lt;em>&amp;quot;blind&amp;quot;&lt;/em> consent on the first seen key.&lt;/p>
@@ -55,8 +53,7 @@
 &lt;li>If key is trusted, user can access to the server. If not, user connection is rejected (or he needs to use another method, like password prompt.)&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> it is possible to provide public keys to store on the instance at deployment. In that case, public key authentication is immediately available on the server.&lt;/p>
-&lt;/blockquote>
+&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> it is possible to provide public keys to store on the instance at deployment. In that case, public key authentication is immediately available on the server.&lt;/p>&lt;/blockquote>
 &lt;p>If you don't use a &lt;code>cloud-init&lt;/code> based clone or server creation, you can use an Ansible playbook to push keys to the target server:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
@@ -74,8 +71,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will be prompt to provide the account password. Once pushed, you can use the public key as an authentication mechanism for Ansible instead of passwords:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Please note that &lt;code>--ask-pass&lt;/code> is no more necessary to run a playbook, based on SSH protocol to your target once the ansible user public key is installed.&lt;/p>
-&lt;/blockquote>
+&lt;p>Please note that &lt;code>--ask-pass&lt;/code> is no more necessary to run a playbook, based on SSH protocol to your target once the ansible user public key is installed.&lt;/p>&lt;/blockquote>
 &lt;h2 id="password-expiration">Password expiration&lt;/h2>
 &lt;p>When using editor's appliance (like VMware's ones), you may need to reconfigure the password expiration for the &lt;code>root&lt;/code> account. For lab and testing purposes, I fully disable the expiration policy with the following tasks:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
@@ -104,8 +100,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">regexp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;.*readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">line&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;#readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Warning:&lt;/strong> As mentionned above, most of the previous tasks may affect the security of the target environment: use this content with caution.&lt;/p>
-&lt;/blockquote></description></item><item><title>Ansible/VMware modules - first steps</title><link>https://vuptime.io/post/2018-02-07-ansible-vmware_modules_-_first_steps/</link><pubDate>Wed, 07 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/07/ansible-vmware_modules_-_first_steps/</guid><description>
+&lt;p>&lt;strong>Warning:&lt;/strong> As mentionned above, most of the previous tasks may affect the security of the target environment: use this content with caution.&lt;/p>&lt;/blockquote></description></item><item><title>Ansible/VMware modules - first steps</title><link>https://vuptime.io/post/2018-02-07-ansible-vmware_modules_-_first_steps/</link><pubDate>Wed, 07 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/07/ansible-vmware_modules_-_first_steps/</guid><description>
 &lt;p>Ansible is a well known software to automates software provisioning, configuration management, and application deployment. In concrete terms, it's possible to manage infrastructure deployment and configuration during life cycle from sets of configuration files.&lt;/p>
 &lt;p>In the following post, I will try to explain how to use it with some VMware modules from ansible installation to the management of a vCenter based infrastructure.&lt;/p>
 &lt;h1 id="ansible-installation">Ansible installation&lt;/h1>
@@ -122,8 +117,7 @@
 &lt;h1 id="ansible-usage-with-vmware-vcenter">Ansible usage with VMware vCenter&lt;/h1>
 &lt;p>The following sample consist of VM deployment in a existing vCenter infrastructure from a linked-clone operation.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;em>A linked clone is made from a snapshot of the parent. All files available on the parent at the moment of the snapshot continue to remain available to the linked clone. Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent.&lt;/em>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>A linked clone is made from a snapshot of the parent. All files available on the parent at the moment of the snapshot continue to remain available to the linked clone. Ongoing changes to the virtual disk of the parent do not affect the linked clone, and changes to the disk of the linked clone do not affect the parent.&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h2 id="inventory">Inventory&lt;/h2>
 &lt;p>We will create a simple inventory with virtual machines items representing a scalable 2 tiers application with:&lt;/p>
 &lt;ul>
@@ -204,8 +198,7 @@
 &lt;h2 id="playbook">Playbook&lt;/h2>
 &lt;p>From &lt;a href="http://docs.ansible.com/ansible/latest/playbooks.html">Ansible Docs about Playbooks&lt;/a>:&lt;/p>
 &lt;blockquote>
-&lt;p>Playbooks are Ansible's configuration, deployment, and orchestration language. They can describe a policy you want your remote systems to enforce, or a set of steps in a general IT process. If Ansible modules are the tools in your workshop, playbooks are your instruction manuals, and your inventory of hosts are your raw material.&lt;/p>
-&lt;/blockquote>
+&lt;p>Playbooks are Ansible's configuration, deployment, and orchestration language. They can describe a policy you want your remote systems to enforce, or a set of steps in a general IT process. If Ansible modules are the tools in your workshop, playbooks are your instruction manuals, and your inventory of hosts are your raw material.&lt;/p>&lt;/blockquote>
 &lt;h3 id="dynamic-input-for-some-values">Dynamic input for some values&lt;/h3>
 &lt;p>To manage VM in the vCenter inventory, it's necessary to have credentials for the target. In the following playbook part, we ask user to enter credentials when running the playbook:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="nn">---&lt;/span>&lt;span class="w">
@@ -308,8 +301,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">worker03 : &lt;span class="nv">ok&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> &lt;span class="nv">changed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="nv">unreachable&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="nv">failed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="idempotency">Idempotency&lt;/h1>
 &lt;blockquote>
-&lt;p>Modules should be idempotent, that is, running a module multiple times in a sequence should have the same effect as running it just once. One way to achieve idempotency is to have a module check whether its desired final state has already been achieved, and if that state has been achieved, to exit without performing any actions. If all the modules a playbook uses are idempotent, then the playbook itself is likely to be idempotent, so re-running the playbook should be safe.&lt;/p>
-&lt;/blockquote>
+&lt;p>Modules should be idempotent, that is, running a module multiple times in a sequence should have the same effect as running it just once. One way to achieve idempotency is to have a module check whether its desired final state has already been achieved, and if that state has been achieved, to exit without performing any actions. If all the modules a playbook uses are idempotent, then the playbook itself is likely to be idempotent, so re-running the playbook should be safe.&lt;/p>&lt;/blockquote>
 &lt;p>In our case, if VMs are already present, re-run the playbook with same settings won't produce new changes.&lt;/p>
 &lt;p>By replacing the &lt;code>state: poweredon&lt;/code> by &lt;code>state: absent&lt;/code> for VMs, it's possible to unprovision the deployed infrastructure.&lt;/p>
 &lt;p>In the next post(s) I will try to explain the management of vCenter and ESXi hosts configuration through ansible playbooks.&lt;/p></description></item></channel></rss>

@@ -46,7 +46,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;/picture>
 &lt;/figure>
 &lt;/p>
-&lt;h3 id="transit-segment-or-transit-segmentusu">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
+&lt;h3 id="transit-segment-or-transit-segments">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
 &lt;p>There are two possible strategies regarding the number of &lt;em>Transit-segment&lt;/em> to deploy:&lt;/p>
 &lt;ol>
 &lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
@@ -64,8 +64,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>&lt;/blockquote>
 &lt;h3 id="static-routes">Static routes&lt;/h3>
 &lt;p>In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p>
 &lt;table>
@@ -123,8 +122,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
 &lt;h4 id="east-west-inter-segment-traffic-same-tier-1">East-West, Inter-segment traffic, same Tier-1&lt;/h4>
 &lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p>
 &lt;p>&lt;figure>
@@ -140,8 +138,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>
-&lt;/blockquote>
+&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
 &lt;h4 id="east-west-inter-segment-traffic-different-tier-1">East-West, Inter-segment traffic, different Tier-1&lt;/h4>
 &lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p>
 &lt;p>&lt;figure>
@@ -158,8 +155,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/p>
 &lt;p>This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p>
 &lt;blockquote>
-&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>
-&lt;/blockquote>
+&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>&lt;/blockquote>
 &lt;h4 id="north-south-traffic">North-South traffic&lt;/h4>
 &lt;p>North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p>
 &lt;ul>
@@ -201,8 +197,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/ul>
 &lt;p>As we want AVS to behave like a spoke, we will apply this rule to the &lt;code>avs-transit-vnet&lt;/code> too.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;h2 id="stage-7--advertise-the-hub-default-routes-to-avs">Stage 7 – Advertise the hub default routes to AVS&lt;/h2>
 &lt;p>First thing, we need to add some routes in a new UDR applied to the &lt;code>nva-subnet&lt;/code>. The added routes will ensure that &lt;code>hub-nva&lt;/code> will be able to propagate AVS related traffic through the &lt;code>avs-bgp-vm&lt;/code>. In out lab setup, we do it for 2 prefix:&lt;/p>
 &lt;ul>
@@ -486,8 +481,7 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;p>We created this mockup setup step-by-step to demonstrate the capabilities of some Azure products (like Azure Route Server) and features (like route propagation in UDRs).&lt;/p>
 &lt;p>In the last step we have a working setup with a central &lt;code>hub-nva&lt;/code> VM able to route and filter traffic from/to the AVS environment, spokes vNets, and the on-premises resources.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: the setup described in this post is not meant to be used in production due to the lack of high availability and redundancy of the components. It is just a mockup to demonstrate the capabilities of Azure networking products and features.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: the setup described in this post is not meant to be used in production due to the lack of high availability and redundancy of the components. It is just a mockup to demonstrate the capabilities of Azure networking products and features.&lt;/p>&lt;/blockquote>
 &lt;p>I hope you enjoyed this series and learned something new about Azure networking. There will probably be more posts to extend this series in the future with new topics and use cases like:&lt;/p>
 &lt;ul>
 &lt;li>High availability and redundancy of the components&lt;/li>
@@ -497,8 +491,7 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
 &lt;p>We will also &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;p>Please refer to &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">part 1&lt;/a> to get details about the lab environment and the 3 first steps we already covered.&lt;/p>
 &lt;h2 id="stage-4--user-defined-routes-on-gatewaysubnet">Stage 4 – User Defined Routes on GatewaySubnet&lt;/h2>
 &lt;p>In order to &lt;strong>mitigate the asymmetric routing issue&lt;/strong>, we will add a User Defined Routes to the &lt;code>GatewaySubnet&lt;/code> to ensure that the traffic incoming from the VPN client will be routed to the NVA appliance.&lt;/p>
@@ -533,8 +526,7 @@ src="https://vuptime.io/images/avs-nva/stage4/UserDefinedRoute_GatewaySubnet.png
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>
-&lt;/blockquote>
+&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>&lt;/blockquote>
 &lt;h3 id="routes-analysis-s4">Routes analysis (s4)&lt;/h3>
 &lt;p>From this point we can see that both VPN-client-to-spokes and spokes-to-VPN-destinations, passing through the &lt;code>hub-nva&lt;/code> appliance:&lt;/p>
 &lt;p>&lt;figure>
@@ -637,8 +629,7 @@ src="https://vuptime.io/images/avs-nva/stage6/hub_and_spoke_avs-Step6.drawio.png
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>
-&lt;/blockquote>
+&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>&lt;/blockquote>
 &lt;h3 id="avs-internet-connectivity-settings">AVS Internet connectivity settings&lt;/h3>
 &lt;p>Azure VMware Solution provides three options for Internet connectivity:&lt;/p>
 &lt;ul>
@@ -730,8 +721,7 @@ In the meantime, we will use the PowerShell command &lt;code>Get-AzRouteServerPe
 &lt;p>By using a hub and spoke topology with Azure VMware Solution, you can achieve several benefits such as improved security &amp;amp; isolation of cloud hosted workloads. However, you also need to consider some challenges such as complexity, latency, bandwidth limitations, routing complexity, firewall rules management, etc. Therefore, it is important to plan your network design carefully according to your specific requirements.&lt;/p>
 &lt;p>The official Azure documentation already provides a set of scenarios related to network connectivity for Azure VMware Solution. You can find them &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures">here&lt;/a>. In this blog post series, we will reproduce, step-by-step, a mock-up scenario very close from the &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures#network-virtual-appliance-in-azure-virtual-network-to-inspect-all-network-traffic">&lt;em>Network virtual appliance in Azure Virtual Network to inspect all network traffic&lt;/em>&lt;/a> one.&lt;/p>
 &lt;blockquote>
-&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;h2 id="materials">Materials&lt;/h2>
 &lt;p>To illustrate this blog post series, I created a &lt;a href="https://github.com/lrivallain/azure-labs-and-scripts/tree/master/hub-and-spoke-avs-transit-step-by-step">GitHub repository&lt;/a> to host Terraform code to reproduce each step of the process documented here.&lt;/p>
 &lt;p>Using this Terraform content provides a repeatable way to deploy the same environment on Azure but all the steps described in this blog post can also be reproduced using the Azure Portal or Azure CLI.&lt;/p>
@@ -1140,8 +1130,7 @@ src="https://vuptime.io/images/avs-nva/stage3/hub_and_spoke_avs-Step3-Asymmetric
 &lt;h2 id="introduction">Introduction&lt;/h2>
 &lt;p>&lt;a href="https://gateway.performance.vcd.cloud.vmware.com/cloud-director-instances/">VMware Cloud Director Service&lt;/a> (aka &lt;em>CDS&lt;/em>) is a cloud service that provides a unified view of VMware based resources and multi-tenant support, allowing an IT administrator to split resources capacity between tenants. For tenant users, it provides a single pane of glass to manage all VMware-based, cloud resources, including virtual machines, storage, networks, and networks services.&lt;/p>
 &lt;blockquote>
-&lt;p>VMware Cloud Director Service is the SaaS version of the well known &lt;a href="https://www.vmware.com/products/vcloud-director/">VMware (v)Cloud Director&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>VMware Cloud Director Service is the SaaS version of the well known &lt;a href="https://www.vmware.com/products/vcloud-director/">VMware (v)Cloud Director&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;p>Associated to &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solution&lt;/a> (aka &lt;em>AVS&lt;/em>), a large part of the multi-tenants and self-service SDDC stack, is managed by the cloud providers:&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>VMware&lt;/strong>: manage the CDS instance components (cells and service)&lt;/li>
@@ -1603,8 +1592,7 @@ src="https://vuptime.io/images/avs-cds/download-cds-instance-log-bundle.png"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="arm-deployment">ARM deployment&lt;/h2>
 &lt;p>According to &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview">Microsoft documentation&lt;/a>:&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Azure Resource Manager&lt;/strong> is the deployment and management service for Azure. It provides a management layer that enables you to create, update, and delete resources in your Azure account. You use management features, like access control, locks, and tags, to secure and organize your resources after deployment.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Azure Resource Manager&lt;/strong> is the deployment and management service for Azure. It provides a management layer that enables you to create, update, and delete resources in your Azure account. You use management features, like access control, locks, and tags, to secure and organize your resources after deployment.&lt;/p>&lt;/blockquote>
 &lt;p>ARM is the core engine used by API, UI &amp;amp; Azure tools to manage Azure resources and it provide a declarative Infrastructure-as-code language to deploy and maintain resources: ARM Templates. ARM Templates can use &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/compare-template-syntax">JSON&lt;/a> or &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview">Bicep&lt;/a> syntax.&lt;/p>
 &lt;p>As other resources, Azure-enabled components of a VMware infrastructure can be managed through ARM and ARM Templates.&lt;/p>
 &lt;p>Lets see a minimal ARM Template to deploy a VMware virtual machine: &lt;strong>&lt;a href="https://vuptime.io/images/arc-vmware/vmware-vm-template.bicep">Download the Bicep file&lt;/a>&lt;/strong>&lt;/p>
@@ -1648,8 +1636,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-vcenter.png"
 &lt;/p>
 &lt;p>In order to use a resource in Azure, an activation is required: Use the &lt;strong>Enable in Azure&lt;/strong> to activate an existing VMware resource in Azure. As with any Azure-based resource, RBAC strategies can be applied to provide or restrict access to &lt;em>Azure-enabled&lt;/em> resources.&lt;/p>
 &lt;blockquote>
-&lt;p>ResourcePool, Networks, Templates and Datastores will appear as &lt;em>hidden resources&lt;/em> in Azure &lt;em>ResourceGroup&lt;/em> you will select in the activation process. They will be used for the VM creation process but cannot be edited from Azure.&lt;/p>
-&lt;/blockquote>
+&lt;p>ResourcePool, Networks, Templates and Datastores will appear as &lt;em>hidden resources&lt;/em> in Azure &lt;em>ResourceGroup&lt;/em> you will select in the activation process. They will be used for the VM creation process but cannot be edited from Azure.&lt;/p>&lt;/blockquote>
 &lt;h3 id="resourcepools">ResourcePools&lt;/h3>
 &lt;p>VMware &lt;em>ResourcePools&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all resourcePools will be displayed in the inventory list (including Cluster and Hosts resourcePool representation). You can enable a ResourcePools in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the resourcePool will then be displayed with a link to explore its details.&lt;/p>
 &lt;p>&lt;figure>
@@ -1667,8 +1654,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-resourcepool.png"
 &lt;h3 id="vm-templates">VM Templates&lt;/h3>
 &lt;p>VMware &lt;em>VM Templates&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all VM Templates will be displayed in the inventory list. You can enable a VM Template in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the Template will then be displayed with a link to explore its details.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Currently, the template from the Content Library are not available. Only VM template from vCenter VM-folders inventory are usable in &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Currently, the template from the Content Library are not available. Only VM template from vCenter VM-folders inventory are usable in &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>
 &lt;picture>
 &lt;img
@@ -1725,8 +1711,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-datastore.png"
 &lt;li>Apply RBAC and tagging policies&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;em>VMware Arc-based guest extensions&lt;/em> are &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/manage-vmware-vms-in-azure#supported-extensions-and-management-services">currently limited to 2 extensions&lt;/a>: Log Analytics agent and cCustom Script execution.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>VMware Arc-based guest extensions&lt;/em> are &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/manage-vmware-vms-in-azure#supported-extensions-and-management-services">currently limited to 2 extensions&lt;/a>: Log Analytics agent and cCustom Script execution.&lt;/p>&lt;/blockquote>
 &lt;h3 id="azure-arc-enabled-servers">Azure Arc enabled servers&lt;/h3>
 &lt;p>If &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> based guest agent is currently limited to 2 extensions, it is still possible to use the normal Arc process to integrate the guest OS management of deployed servers through Azure and to benefit from all the capabilities of &lt;a href="https://azure.microsoft.com/en-us/services/azure-arc/#product-overview">Azure Arc&lt;/a> like (as mentioned in the &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/overview">Arc documentation&lt;/a>):&lt;/p>
 &lt;ul>
@@ -1737,8 +1722,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-datastore.png"
 &lt;li>Configure custom locations as an abstraction layer on top of Azure Arc-enabled Kubernetes clusters and cluster extensions.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;strong>Personal experience&lt;/strong>: I use this combination of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> and &lt;em>Azure Arc-enabled Servers&lt;/em> to fully manage, with Azure, VMware Virtual Machine objects and their Guest OS. This provide me the best of the two solutions.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Personal experience&lt;/strong>: I use this combination of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> and &lt;em>Azure Arc-enabled Servers&lt;/em> to fully manage, with Azure, VMware Virtual Machine objects and their Guest OS. This provide me the best of the two solutions.&lt;/p>&lt;/blockquote>
 &lt;h3 id="register-an-existing-vm">Register an existing VM&lt;/h3>
 &lt;p>You can enable a Virtual Machine in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the VM will then be displayed with a link to explore its details.&lt;/p>
 &lt;p>&lt;figure>
@@ -1941,8 +1925,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-lock.png"
 &lt;p>Announced in &lt;a href="https://azure.microsoft.com/en-us/updates/private-preview-new-azure-arc-capabilities-in-november-2021/">private preview stage&lt;/a> during the &lt;a href="https://aka.ms/IgniteNov21/InnovateAnywhereBlog">Microsoft Ignite&lt;/a> on November 2021, the &lt;a href="https://azure.microsoft.com/en-us/services/azure-arc/#product-overview">Azure Arc&lt;/a> integration with VMware vSphere is now &lt;a href="https://azure.microsoft.com/en-us/updates/public-preview-azure-arc-integration-with-vmware-vsphere/">available in public preview&lt;/a> since March 31&lt;sup>th&lt;/sup>, 2022.&lt;/p>
 &lt;p>The feature, still in development process, is now labeled &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>, and provides a unified governance and management solution for lifecycle and guest OS operations of VMware VMs through Azure Arc.&lt;/p>
 &lt;blockquote>
-&lt;p>As &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solutions&lt;/a> private clouds relies on a &lt;a href="https://www.vmware.com/products/cloud-foundation.html">standardized VMware SDDC&lt;/a>, you can also use &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> to operate your AVS-based workloads.&lt;/p>
-&lt;/blockquote>
+&lt;p>As &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solutions&lt;/a> private clouds relies on a &lt;a href="https://www.vmware.com/products/cloud-foundation.html">standardized VMware SDDC&lt;/a>, you can also use &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> to operate your AVS-based workloads.&lt;/p>&lt;/blockquote>
 &lt;h3 id="how-it-works-">How it works ?&lt;/h3>
 &lt;p>&lt;em>Azure Arc-enabled VMware vSphere&lt;/em> relies on a &lt;em>Resource Bridge&lt;/em> appliance deployed in the target environment (or in a VMware environment with network access to the target one). This bridge will act a the access-point for Azure Arc to get and manage data from vCenter APIs.&lt;/p>
 &lt;p>As of now, the &lt;em>Resource Bridge&lt;/em> requires an outbound connectivity to Internet (specifically to to Azure APIs over HTTPS(443)) and can only be deployed on a VMware environment.&lt;/p>
@@ -1974,8 +1957,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge.png"
 &lt;/ul>
 &lt;h2 id="resource-bridge-deployment">Resource Bridge Deployment&lt;/h2>
 &lt;blockquote>
-&lt;p>&lt;strong>Disclaimer&lt;/strong>: This walkthrough deployment process is not a substitution of the Microsoft Documentation about &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/">&lt;em>Azure Arc-enabled VMware vSphere&lt;/em>&lt;/a>. This blog post will not receive major updates to synchronize with the development status of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> feature and only reflect the process at a specific moment in time.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Disclaimer&lt;/strong>: This walkthrough deployment process is not a substitution of the Microsoft Documentation about &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/">&lt;em>Azure Arc-enabled VMware vSphere&lt;/em>&lt;/a>. This blog post will not receive major updates to synchronize with the development status of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> feature and only reflect the process at a specific moment in time.&lt;/p>&lt;/blockquote>
 &lt;h3 id="pre-requisites">Pre-requisites&lt;/h3>
 &lt;p>In order to have access to all &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> features, I had to register the following Azure resources providers to my subscription:&lt;/p>
 &lt;ul>
@@ -2019,8 +2001,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-01.png"
 &lt;li>Provide a name for a &lt;em>custom location&lt;/em>&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>The &lt;em>custom location&lt;/em> will represent, in Azure, the location of your vCenter deployment.&lt;/p>
-&lt;/blockquote>
+&lt;p>The &lt;em>custom location&lt;/em> will represent, in Azure, the location of your vCenter deployment.&lt;/p>&lt;/blockquote>
 &lt;ol start="3">
 &lt;li>Provide a name for the vCenter in Azure&lt;/li>
 &lt;/ol>
@@ -2038,8 +2019,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-02.png"
 &lt;/p>
 &lt;p>In the next screen of the wizard, you can attach &lt;em>tags&lt;/em> to your new resource. In the third step, you are invited to download a PowerShell-based (Windows) or Azure CLI-based (Linux) version of a script.&lt;/p>
 &lt;blockquote>
-&lt;p>If your subscription is not registered with all the required resource providers, a &lt;strong>Register&lt;/strong> button will appear.&lt;/p>
-&lt;/blockquote>
+&lt;p>If your subscription is not registered with all the required resource providers, a &lt;strong>Register&lt;/strong> button will appear.&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>
 &lt;picture>
 &lt;img
@@ -2068,8 +2048,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-04.png"
 &lt;/p>
 &lt;h4 id="windows-powershell-script">(Windows) Powershell script&lt;/h4>
 &lt;blockquote>
-&lt;p>&lt;a href="https://docs.microsoft.com/fr-fr/powershell/azure/?view=azps-7.4.0">Azure PowerShell&lt;/a> module is required.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://docs.microsoft.com/fr-fr/powershell/azure/?view=azps-7.4.0">Azure PowerShell&lt;/a> module is required.&lt;/p>&lt;/blockquote>
 &lt;p>If you choose the PowerShell (Windows) version of the script:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ps1" data-lang="ps1">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">-ExecutionPolicy&lt;/span> &lt;span class="n">RemoteSigned&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">Az&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span> &lt;span class="n">-Repository&lt;/span> &lt;span class="n">PSGallery&lt;/span>
@@ -2077,8 +2056,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-04.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="p">./&lt;/span>&lt;span class="nb">resource-bridge&lt;/span>&lt;span class="n">-onboarding-script&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ps1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="linux-azure-cli-script">(Linux) Azure CLI script&lt;/h4>
 &lt;blockquote>
-&lt;p>&lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure CLI&lt;/a> is required.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure CLI&lt;/a> is required.&lt;/p>&lt;/blockquote>
 &lt;p>If you choose the PowerShell (Windows) version of the script:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az login
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">bash resource-bridge-onboarding-script.sh
@@ -2204,8 +2182,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-06.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl"> &lt;span class="s2">&amp;#34;vcenterUsername&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;cloudadmin@vsphere.local&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="o">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>
-&lt;/blockquote>
+&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>&lt;/blockquote>
 &lt;p>With this information, you can now connect to your AVS instance.&lt;/p>
 &lt;h2 id="avs-network-management">AVS network management&lt;/h2>
 &lt;p>Some parts of an AVS workload management can be made through the Azure API and portal (in replacement or addition to the VMware products API or UI).&lt;/p>
@@ -2215,8 +2192,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-06.png"
 &lt;p>By default, a first T1 GW is deployed with AVS and you can retrieve details about it by using (&lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/workload-networks/get-gateway">Doc.&lt;/a>):&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/workloadNetworks/default/gateways?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>
-&lt;/blockquote>
+&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>&lt;/blockquote>
 &lt;h3 id="dhcp-service">DHCP service&lt;/h3>
 &lt;p>It is possible to rely on the T1 GW to provide DHCP leases within network segment. The DHCP service can run as a &lt;em>server&lt;/em> or a &lt;em>relay&lt;/em> from another server.&lt;/p>
 &lt;p>The simpliest role to configure is the &lt;em>server&lt;/em> one:&lt;/p>
@@ -2403,8 +2379,7 @@ src="https://vuptime.io/images/avs-api/expressroute-connection.png"
 &lt;li>Other AVS clouds links&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.&lt;/p>
-&lt;/blockquote>
+&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.&lt;/p>&lt;/blockquote>
 &lt;h3 id="collection-import">Collection import&lt;/h3>
 &lt;p>From Postman, web or desktop client, you could import the collection by refering to the following link: &lt;a href="https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json">https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json&lt;/a>.&lt;/p>
 &lt;p>You may also need to import the &lt;em>environment&lt;/em> sample to populate your own data: &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json">https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json&lt;/a>.&lt;/p>
@@ -2421,8 +2396,7 @@ src="https://vuptime.io/images/avs-api/expressroute-connection.png"
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az account get-access-token --subscription 01010101-0101-0101-0101-010101010101 &lt;span class="p">|&lt;/span> jq &lt;span class="s2">&amp;#34;.accessToken&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Eventually, use the value in the &lt;code>accessToken&lt;/code> section of your environment.&lt;/p>
 &lt;blockquote>
-&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;h4 id="setup-accesstoken-for-all-api-calls">Setup &lt;code>accessToken&lt;/code> for all API calls&lt;/h4>
 &lt;p>Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:&lt;/p>
 &lt;p>&lt;figure>
@@ -2445,8 +2419,7 @@ src="https://vuptime.io/images/avs-api/authentication-configuration.png"
 &lt;li>Save and quit this tab&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.&lt;/p>
-&lt;/blockquote>
+&lt;p>This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.&lt;/p>&lt;/blockquote>
 &lt;h3 id="testing">Testing&lt;/h3>
 &lt;p>You can now test the collection by listing the AVS deployments in your subscription:&lt;/p>
 &lt;p>&lt;figure>

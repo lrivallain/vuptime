@@ -178,8 +178,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl"> &lt;span class="s2">&amp;#34;vcenterUsername&amp;#34;&lt;/span>: &lt;span class="s2">&amp;#34;cloudadmin@vsphere.local&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="o">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>
-&lt;/blockquote>
+&lt;p>Please note that you must use the &lt;code>post&lt;/code> HTTP method to get credentials.&lt;/p>&lt;/blockquote>
 &lt;p>With this information, you can now connect to your AVS instance.&lt;/p>
 &lt;h2 id="avs-network-management">AVS network management&lt;/h2>
 &lt;p>Some parts of an AVS workload management can be made through the Azure API and portal (in replacement or addition to the VMware products API or UI).&lt;/p>
@@ -189,8 +188,7 @@
 &lt;p>By default, a first T1 GW is deployed with AVS and you can retrieve details about it by using (&lt;a href="https://docs.microsoft.com/en-us/rest/api/avs/workload-networks/get-gateway">Doc.&lt;/a>):&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az rest -m get -u &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">SDDC_BASE_URI&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">/workloadNetworks/default/gateways?&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">API_VERSION&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>
-&lt;/blockquote>
+&lt;p>Note: Only a &lt;code>get&lt;/code> method is available as you cannot Create, Update or Delete T1 gateways through the Azure API/UI: actions on T1 GW are only available from NSX-T itself (including creating new GWs).&lt;/p>&lt;/blockquote>
 &lt;h3 id="dhcp-service">DHCP service&lt;/h3>
 &lt;p>It is possible to rely on the T1 GW to provide DHCP leases within network segment. The DHCP service can run as a &lt;em>server&lt;/em> or a &lt;em>relay&lt;/em> from another server.&lt;/p>
 &lt;p>The simpliest role to configure is the &lt;em>server&lt;/em> one:&lt;/p>
@@ -377,8 +375,7 @@ src="https://vuptime.io/images/avs-api/expressroute-connection.png"
 &lt;li>Other AVS clouds links&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.&lt;/p>
-&lt;/blockquote>
+&lt;p>This collection does not cover the VMware side of the API available when deploying an AVS cluster. If you need to use VMware products REST APIs, the documentation and endpoints are the same ones than with on-prem SDDC products. It is another benefit of using VMware managed-products instances: You do not change your habits and your existing automation tooling.&lt;/p>&lt;/blockquote>
 &lt;h3 id="collection-import">Collection import&lt;/h3>
 &lt;p>From Postman, web or desktop client, you could import the collection by refering to the following link: &lt;a href="https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json">https://raw.githubusercontent.com/lrivallain/avs-rest-api-postman-collection/master/avs-rest-api-postman-collection.json&lt;/a>.&lt;/p>
 &lt;p>You may also need to import the &lt;em>environment&lt;/em> sample to populate your own data: &lt;a href="https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json">https://github.com/lrivallain/avs-rest-api-postman-collection/raw/master/avs-rest-api-postman_environment.json&lt;/a>.&lt;/p>
@@ -395,8 +392,7 @@ src="https://vuptime.io/images/avs-api/expressroute-connection.png"
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az account get-access-token --subscription 01010101-0101-0101-0101-010101010101 &lt;span class="p">|&lt;/span> jq &lt;span class="s2">&amp;#34;.accessToken&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Eventually, use the value in the &lt;code>accessToken&lt;/code> section of your environment.&lt;/p>
 &lt;blockquote>
-&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>The token generated with &lt;code>get-access-token&lt;/code> is valid for only one hour. For other token generation methods you can refer to the &lt;a href="https://docs.microsoft.com/en-us/rest/api/azure/#register-your-client-application-with-azure-ad">Azure documentation&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;h4 id="setup-accesstoken-for-all-api-calls">Setup &lt;code>accessToken&lt;/code> for all API calls&lt;/h4>
 &lt;p>Sadly in the export/import process of Postman collection, a variable used for authentication is lost and needs to be set manually:&lt;/p>
 &lt;p>&lt;figure>
@@ -419,8 +415,7 @@ src="https://vuptime.io/images/avs-api/authentication-configuration.png"
 &lt;li>Save and quit this tab&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.&lt;/p>
-&lt;/blockquote>
+&lt;p>This has to be done only once when you import the collection. When you will generate a new access-token, this variable will remain and map to the updated token value.&lt;/p>&lt;/blockquote>
 &lt;h3 id="testing">Testing&lt;/h3>
 &lt;p>You can now test the collection by listing the AVS deployments in your subscription:&lt;/p>
 &lt;p>&lt;figure>
@@ -865,8 +860,7 @@ src="https://vuptime.io/images/avs-api/list-avs-sddc.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">pip install -r requirements.txt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>&lt;/blockquote>
 &lt;h3 id="go">Go&lt;/h3>
 &lt;p>A part of this post will provide a Go module. Install Go runtime to be able to test it.&lt;/p>
 &lt;h2 id="available-languages">Available languages&lt;/h2>

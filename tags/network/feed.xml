@@ -1,4 +1,311 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/network/</link><description>Recent content in Network on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 17 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/network/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMware HCX: To the MON &amp; Back</title><link>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/network/</link><description>Recent content in Network on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 26 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/network/feed.xml" rel="self" type="application/rss+xml"/><item><title>How to keep your IP addresses while migrating to Azure VMware Solution</title><link>https://vuptime.io/post/2025-03-26-keep-ip-addresses-while-migrating-to-avs/</link><pubDate>Wed, 26 Mar 2025 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2025-03-26-keep-ip-addresses-while-migrating-to-avs/</guid><description>
+&lt;p>Migrating On Premises assets to a cloud solution can be a complex process, especially when it comes to considering existing IP addresses plan. One key benefit of migrating to Azure VMware Solution (AVS) is the ability to keep existing IP addresses, which can simplify the migration process and reduce downtime. However, this approach requires careful planning and consideration of network principles to ensure a smooth transition.&lt;/p>
+&lt;p>This post will explore some considerations for keeping IP addresses during the migration to AVS, including the importance of understanding network dependencies and the potential impact on performance. It will also discuss the benefits of leveraging VMware Hybrid Cloud Extension (HCX) Layer 2 extensions to facilitate the migration process.&lt;/p>
+&lt;h2 id="general-considerations">General Considerations&lt;/h2>
+&lt;p>First and foremost, we need to align ourselves on some fundamental network principles before exploring solutions. These principles are crucial to understand when planning a migration to Azure VMware Solution (AVS) and maintaining existing IP addresses, as we cannot re-invent networking principles to suit our IP journey expectations.&lt;/p>
+&lt;h3 id="a-single-routed-network-can-only-be-accessible-from-one-location">A single routed network can only be accessible from one location&lt;/h3>
+&lt;p>It seems obvious, but it is important to understand that a routed network can only be accessible from one location at a time. This means that if you have a routed network in your on-premises environment (like 10.1.2.0/24 for example), a network with the same IP address range cannot be published from the cloud side at the same time. This is a fundamental principle of networking and must be taken into account when planning your migration.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="A single routed network can only be accessible from one location"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-keep-ip/a-single-routed-network-can-only-be-accessible-from-one-location.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="assets-in-a-single-vlan-share-the-same-broadcast-domain">Assets in a single vLAN share the same broadcast domain&lt;/h3>
+&lt;p>When assets are in the same VLAN, they share the same broadcast domain. This means that they can communicate with each other without the need for a router. This will also applied on assets in an extended L2 network.&lt;/p>
+&lt;p>Example of ARP broadcast over an extended L2 network:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Assets in a single vLAN share the same broadcast domain"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-keep-ip/assets-in-a-single-vlan-subnet-share-the-same-broadcast-domain.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="migrated-asset-will-still-continue-to-use-its-configured-gateway-to-reach-routed-peers">Migrated asset will still continue to use its configured gateway to reach routed peers&lt;/h3>
+&lt;p>When you migrate an asset to the cloud and retain its IP address, it will continue to use its configured gateway to reach routed peers. This means that if you have a routed network in your on-premises environment, the migrated asset will still use its on-premises gateway to communicate with other assets in the same network. Typically, this connectivity path will be utilized for both egress and ingress traffic.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="If keeping IP address: migrated asset will still continue to use its configured gateway to reach routed peers"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-keep-ip/migrated-asset-will-still-continue-to-use-its-configured-gateway-to-reach-routed-peers.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="latency-will-exist-between-migrated-and-non-migrated-assets">Latency will exist between migrated and non-migrated assets&lt;/h3>
+&lt;p>When you migrate an asset to the cloud and retain its IP address, latency will exist between migrated and non-migrated assets. In addition to the familiar on-premises connectivity, several other factors will contribute to latency:&lt;/p>
+&lt;ul>
+&lt;li>Geographical distance between the two locations&lt;/li>
+&lt;li>Link quality and routing hops&lt;/li>
+&lt;li>Link usage and congestion&lt;/li>
+&lt;li>Tunneling techniques and protocols used&lt;/li>
+&lt;li>Possible tromboning of traffic&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Latency will exist between migrated and non-migrated assets"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-keep-ip/latency-will-exist-between-migrated-and-non-migrated-assets.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>Traffic latency can also affect cloud to cloud communication in case of extended L2 networks: this is the tromboning effect.&lt;/p>
+&lt;h4 id="what-is-traffic-tromboning">What is traffic tromboning?&lt;/h4>
+&lt;p>Traffic tromboning occurs when traffic is sent from one location to another and then back again, rather than taking a direct path.&lt;/p>
+&lt;p>&lt;strong>Example:&lt;/strong> One of the worst scenarios is when a migrated asset in the cloud tries to communicate with another asset in a different network. If the gateway of one asset is on-premises, the traffic will travel from the migrated asset (cloud side) to the on-premises gateway, and then back to the cloud side to reach the destination asset. The response will follow the same path: from the destination asset (cloud side) to the on-premises gateway, and finally back to the migrated asset.&lt;/p>
+&lt;p>This pattern can strongly affect performance and perceived latency.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="What is traffic tromboning?"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-keep-ip/traffic-tromboning.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="extend-network-to-keep-ip-addresses">Extend network to keep IP addresses&lt;/h2>
+&lt;p>As you may already have guessed, the solution to keep IP addresses while migrating to a cloud solution, is to extend the network(s) and to consider migration &amp;quot;per network&amp;quot; instead of per VM/application or other kind of asset.&lt;/p>
+&lt;p>In order to do things properly, I will recommend the following approach:&lt;/p>
+&lt;h3 id="execution-plan">Execution Plan&lt;/h3>
+&lt;ol>
+&lt;li>&lt;strong>Plan, plan, plan!&lt;/strong>
+&lt;ul>
+&lt;li>Carefully select network(s) to extend.&lt;/li>
+&lt;li>Understand the next phases and the way to execute them with the network to extend.&lt;/li>
+&lt;li>Understand all the dependencies of the network.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Extend L2 Network&lt;/strong>
+&lt;ul>
+&lt;li>Network will now be able to host assets in two locations.&lt;/li>
+&lt;li>The gateway will remain on-premises (for most assets).&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Migrate Assets&lt;/strong>
+&lt;ul>
+&lt;li>Migrated assets will keep connectivity and IP addresses.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Evacuate Remaining Assets&lt;/strong>
+&lt;ul>
+&lt;li>If needed: some assets may require reIP to ensure the network is free from resources on-premises.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Switchover Connectivity&lt;/strong>
+&lt;ul>
+&lt;li>Connectivity is now switched to the cloud side.&lt;/li>
+&lt;li>All workloads will use native connectivity.&lt;/li>
+&lt;li>L2 Extension is removed.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>Regarding the migration project, each step of the execution plan has its own criticality level, which can be summarized as follows:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Phase&lt;/th>
+&lt;th>Criticality&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Plan&lt;/td>
+&lt;td>&lt;span style="color: #ff5733;">Critical&lt;/span>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Extend L2 Network&lt;/td>
+&lt;td>&lt;span style="color: #33e0ff;">Low&lt;/span>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Migrate Assets&lt;/td>
+&lt;td>&lt;span style="color: #ff9f33;">Medium&lt;/span>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Evacuate Remaining Assets&lt;/td>
+&lt;td>&lt;span style="color: #33e0ff;">Low&lt;/span>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Switchover Connectivity&lt;/td>
+&lt;td>&lt;span style="color: #ff5733;">Critical&lt;/span>*&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>* &lt;em>Depends a lot on the planning phase.&lt;/em>&lt;/p>
+&lt;h3 id="how-does-it-work">How does it work?&lt;/h3>
+&lt;p>Here is a simplified diagram of how the network extension works:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="How does it work?"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-keep-ip/how-does-it-work.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;p>After carreful planning:&lt;/p>
+&lt;ol>
+&lt;li>The network extension is implemented using extension technology (examples will be provided later).&lt;/li>
+&lt;li>Assets from this network are either migrated (retaining their IP addresses) or evacuated from the network (Re-IP, decommission, etc.).&lt;/li>
+&lt;li>The network extension is removed, and connectivity is switched to the cloud side.&lt;/li>
+&lt;/ol>
+&lt;h3 id="how-is-my-network-currently-built">How is my network currently built?&lt;/h3>
+&lt;p>While planning the migration, it is important to understand how your network is currently built and what are your ambitions for the migration project. This will help you identify potential issues and plan for a successful migration.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;span style="color:rgb(75, 194, 81);">Best Case Scenario&lt;/span>&lt;/th>
+&lt;th>&lt;span style="color: #ff5733;">Worst Case Scenario&lt;/span>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Small Layer 2 (L2) subnets with only VMware assets.&lt;/td>
+&lt;td>A flat network topology.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>All assets will migrate to the cloud.&lt;/td>
+&lt;td>Not all resources will switch to the cloud&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>A good understanding of network dependencies between networks and assets.&lt;/td>
+&lt;td>Limited knowledge of network dependencies.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>No dependencies with on-premises after migration.&lt;/td>
+&lt;td>Lots of dependencies with on-premises after migration.&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;div class="notices info">
+&lt;div class="label">Note&lt;/div>
+&lt;p>If we can easily determine best and worst case scenarios criteria, &lt;strong>all shades can exist&lt;/strong> between these two extreme scenarios.&lt;/p>
+&lt;/div>
+&lt;h2 id="risks-mitigation">Risks mitigation&lt;/h2>
+&lt;p>In the following section, we will oversee some possible mitigation strategies for the previous risks.&lt;/p>
+&lt;h3 id="networks-with-vmware-and-non-vmware-assets">Networks with VMware and non-VMware assets&lt;/h3>
+&lt;ul>
+&lt;li>Per network: consider the level of effort to re-IP one or the other category. Example:
+&lt;ul>
+&lt;li>&lt;em>80% of my assets will remain on-premises: change IP addresses for the 20% migrated?&lt;/em>&lt;/li>
+&lt;li>&lt;em>80% of my assets will migrate to the cloud: change IP addresses for the 20% remaining on-premises?&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>L2 extension can still help to migrate resources, even if considering a re-IP strategy for the migrated workload.&lt;/li>
+&lt;/ul>
+&lt;h3 id="dependencies-with-on-premises-after-migration">Dependencies with on-premises after migration&lt;/h3>
+&lt;ul>
+&lt;li>Consider a cloud migration of services hosted on-premises: PaaS/IaaS etc.&lt;/li>
+&lt;li>Adapt connectivity methods between environments: more bandwidth, less latency, etc.&lt;/li>
+&lt;/ul>
+&lt;h3 id="limited-knowledge-of-network-dependencies">Limited knowledge of network dependencies&lt;/h3>
+&lt;ul>
+&lt;li>&lt;em>Azure Migrate&lt;/em> can help to &lt;a href="https://learn.microsoft.com/en-us/azure/migrate/concepts-dependency-visualization">map all the dependencies of network and assets&lt;/a>.
+&lt;ul>
+&lt;li>+ &lt;a href="https://az-mdv.az.vupti.me/">Azure Migrate Network Flows Analysis&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Other tools like &lt;em>VMware Aria Operations for Networks&lt;/em>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="vmware-hybrid-cloud-extension-hcx">VMware Hybrid Cloud Extension (HCX)&lt;/h2>
+&lt;p>VMware HCX is a powerful tool that can help you extend your network and keep your IP addresses during the migration to Azure VMware Solution (AVS). It provides a seamless way to migrate workloads while maintaining their existing IP addresses, which can simplify the migration process and reduce downtime.&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Note&lt;/div>
+&lt;p>HCX Enterprise is a &lt;strong>free add-on for AVS&lt;/strong>: you can use it to migrate workloads from on-premises to AVS without any additional cost.&lt;/p>
+&lt;/div>
+&lt;h3 id="prerequisites-to-consider-for-hcx-l2-extensions">Prerequisites to consider for HCX L2 Extensions&lt;/h3>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Prerequisites&lt;/th>
+&lt;th>Mitigation&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>(Standard) vSwitch are not supported by HCX to extend L2 network. &lt;br>→ Consider migrating to &lt;em>Distributed-vSwitch&lt;/em>&lt;/td>
+&lt;td>&lt;ul>&lt;li>Easy to validate,&lt;/li>&lt;li>Relatively easy to remediate&lt;/li>&lt;/ul>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>HCX supports of NSX-V to NSX-T migration is &lt;a href="https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/hcx-4-11-release-notes/vmware-hcx-411-release-notes.html">deprecated in version 4.11&lt;/a>&lt;/td>
+&lt;td>&lt;ul>&lt;li>Easy to validate,&lt;/li>&lt;li>Currently supported&lt;/li>&lt;/ul>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>HCX supports migration for vSphere and vCenter 6.5 &lt;a href="https://knowledge.broadcom.com/external/article?articleNumber=321571">with limited support&lt;/a>&lt;/td>
+&lt;td>&lt;ul>&lt;li>Easy to validate,&lt;/li>&lt;li>Currently supported&lt;/li>&lt;/ul>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="traffic-tromboning-mitigation-with-hcx-mobility-optimized-network-mon">Traffic tromboning mitigation with HCX Mobility Optimized Network (MON)&lt;/h3>
+&lt;p>One of the key benefits of using HCX is its ability to optimize network traffic and reduce latency. &lt;em>HCX Mobility Optimized Network (MON)&lt;/em> is a feature that helps to minimize the tromboning effect by optimizing the path that traffic takes between migrated and non-migrated assets or with resources in other networks.&lt;/p>
+&lt;p>In a previous post (&lt;a href="https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/#mobility-optimized-network-enablement">VMware HCX: To the MON &amp;amp; Back&lt;/a>), we had the opportunity to see how HCX MON is working and how to configure it to greatly reduce the tromboning effect.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Network path example with HCX L2 network extension and MON feature enabled"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/hcx-mon/scenario5-no-policy-routes.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="nsx-autonomous-edge">NSX Autonomous Edge&lt;/h2>
+&lt;p>An alternative approach to HCX is to use NSX Autonomous Edge (NSX AE) to extend your network and keep your IP addresses during the migration to Azure VMware Solution (AVS). This approach will rely on NSX-T VPN features to create tunnels between the on-premises and cloud environments, allowing you to extend your network and keep your IP addresses while migrating workloads.&lt;/p>
+&lt;div class="notices info">
+&lt;div class="label">Note&lt;/div>
+&lt;p>Note: Standard vSwitch are supported with NSX AE.&lt;/p>
+&lt;/div>
+&lt;h3 id="prerequisites-and-limitations-to-consider-for-nsx-l2-extensions">Prerequisites and limitations to consider for NSX L2 Extensions&lt;/h3>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Prerequisites&lt;/th>
+&lt;th>Mitigation&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Trunk interface required to extend multiple VLANs.&lt;br>&lt;ul>&lt;li>Promiscuous Mode required.&lt;/li>&lt;li>Forget Transmit required.&lt;/li>&lt;/ul>&lt;/td>
+&lt;td>&lt;ul>&lt;li>Easy to validate,&lt;/li>&lt;li>Easy to remediate&lt;/li>&lt;/ul>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>No HCX MON-like optimization.&lt;/td>
+&lt;td>Network extension cutover is recommended as soon as migration is completed.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Download NSX AE OVF requires Broadcom entitlement.&lt;/td>
+&lt;td>n/a&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>In conclusion, keeping your IP addresses while migrating to Azure VMware Solution (AVS) is not a complex process but requires &lt;strong>careful planning and consideration of network principles&lt;/strong>.&lt;/p>
+&lt;p>By leveraging VMware Hybrid Cloud Extension (HCX) Layer 2 extensions or NSX Autonomous Edge, you can simplify the migration process and avoid/reduce downtime while maintaining existing IP addresses.&lt;/p></description></item><item><title>VMware HCX: To the MON &amp; Back</title><link>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/</guid><description>
 &lt;p>No, we are not switching to a music blog genre to discuss the &lt;em>&amp;quot;To the Moon &amp;amp; Back&amp;quot;&lt;/em> song from &lt;strong>Savage Garden&lt;/strong> (I am sorry if you were expecting that) There is no typo in the title: we are going to explore VMware HCX network extensions and the MON feature, aka &lt;em>Mobility Optimized Network&lt;/em>.&lt;/p>
 &lt;p>If you are not familiar with HCX, it is a VMware solution that allows you to migrate workloads from on-premises to the cloud, or from cloud to cloud. It also allows you to stretch your networks from migration source to the destination. It is a very powerful solution that can be used in many different scenarios to accelerate a migration project.&lt;/p>
 &lt;p>In this article, we are going to focus on the network extension part of HCX, and more specifically on a poorly understood feature: &lt;em>Mobility Optimized Network&lt;/em>.&lt;/p>
@@ -106,8 +413,7 @@ src="https://vuptime.io/images/hcx-mon/scenario3-default-mon.png"
 &lt;/p>
 &lt;p>As you probably noticed, network paths are not changed for the migrated VM. This is due to the default setting for &lt;em>router-location&lt;/em>: &lt;code>hcx-enterprise&lt;/code>.&lt;/p>
 &lt;blockquote>
-&lt;p>The &lt;em>router-location&lt;/em> &lt;code>hcx-enterprise&lt;/code> setting value means that on-premises &lt;code>gw&lt;/code> device is still used as the default gateway for the migrated VM.&lt;/p>
-&lt;/blockquote>
+&lt;p>The &lt;em>router-location&lt;/em> &lt;code>hcx-enterprise&lt;/code> setting value means that on-premises &lt;code>gw&lt;/code> device is still used as the default gateway for the migrated VM.&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>
 &lt;picture>
 &lt;img
@@ -277,8 +583,7 @@ src="https://vuptime.io/images/hcx-mon/scenario6-specific-policy-route.png"
 &lt;li>To reach a cloud based specific resource (&lt;code>10.100.2.36/32&lt;/code>), the cloud side gateway is used &lt;span style="color:#FF9933;font-weight:bold;">(↔ orange)&lt;/span>.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>Note: I removed the internet connectivity to simplify the diagram but there is no change in the network path to reach Internet.&lt;/p>
-&lt;/blockquote>
+&lt;p>Note: I removed the internet connectivity to simplify the diagram but there is no change in the network path to reach Internet.&lt;/p>&lt;/blockquote>
 &lt;h2 id="use-policy-routes-for-internet-connectivity">Use policy routes for internet connectivity&lt;/h2>
 &lt;p>In the previous section, we saw that we can use policy routes to optimize the network path to reach a specific resource. We can also use policy routes to optimize or guide the network path to reach Internet (or &lt;code>0.0.0.0/0&lt;/code>).&lt;/p>
 &lt;h3 id="internet-egress-with-default-policy-routes">Internet egress with default policy routes&lt;/h3>
@@ -298,8 +603,7 @@ src="https://vuptime.io/images/hcx-mon/scenario7-internet-with-default-policy-ro
 &lt;p>As Internet (&lt;code>0.0.0.0/0&lt;/code>) is not part of the RFC1918 address spaces configured to use the On-Prem gateway (with the default policy routes), the migrated VM is using the T1 gateway and the Azure egress connectivity of the segment to reach Internet &lt;span style="color:#FF0080;font-weight:bold;">(↔ pink)&lt;/span>.&lt;/p>
 &lt;blockquote>
 &lt;p>&lt;strong>Note&lt;/strong>: The azure egress path to reach Internet may vary depending on the configuration of the Azure VMware Solution SDDC. In this example, the Azure egress is configured to the default &lt;a href="https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/#enable-outbound-internet-access-using-snat">&lt;em>Microsoft Managed SNAT&lt;/em>&lt;/a>.
-You can find some details about the Internet connectivity for AVS, in the following post: &lt;a href="https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/">Azure VMware Solution – Use public IP on NSX-T Edge&lt;/a>.&lt;/p>
-&lt;/blockquote>
+You can find some details about the Internet connectivity for AVS, in the following post: &lt;a href="https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/">Azure VMware Solution – Use public IP on NSX-T Edge&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;h3 id="internet-egress-with-a-specific-policy-route">Internet egress with a specific policy route&lt;/h3>
 &lt;p>Let's add a specific policy route to reach Internet through the on-premises &lt;code>gw&lt;/code> device (&lt;em>router-location&lt;/em> is still set to cloud side gateway):&lt;/p>
 &lt;ul>
@@ -375,7 +679,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;/picture>
 &lt;/figure>
 &lt;/p>
-&lt;h3 id="transit-segment-or-transit-segmentusu">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
+&lt;h3 id="transit-segment-or-transit-segments">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
 &lt;p>There are two possible strategies regarding the number of &lt;em>Transit-segment&lt;/em> to deploy:&lt;/p>
 &lt;ol>
 &lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
@@ -393,8 +697,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-
 &lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>&lt;/blockquote>
 &lt;h3 id="static-routes">Static routes&lt;/h3>
 &lt;p>In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p>
 &lt;table>
@@ -452,8 +755,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
 &lt;h4 id="east-west-inter-segment-traffic-same-tier-1">East-West, Inter-segment traffic, same Tier-1&lt;/h4>
 &lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p>
 &lt;p>&lt;figure>
@@ -469,8 +771,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>
-&lt;/blockquote>
+&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
 &lt;h4 id="east-west-inter-segment-traffic-different-tier-1">East-West, Inter-segment traffic, different Tier-1&lt;/h4>
 &lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p>
 &lt;p>&lt;figure>
@@ -487,8 +788,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/p>
 &lt;p>This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p>
 &lt;blockquote>
-&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>
-&lt;/blockquote>
+&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>&lt;/blockquote>
 &lt;h4 id="north-south-traffic">North-South traffic&lt;/h4>
 &lt;p>North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p>
 &lt;ul>
@@ -530,8 +830,7 @@ src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-
 &lt;/ul>
 &lt;p>As we want AVS to behave like a spoke, we will apply this rule to the &lt;code>avs-transit-vnet&lt;/code> too.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;h2 id="stage-7--advertise-the-hub-default-routes-to-avs">Stage 7 – Advertise the hub default routes to AVS&lt;/h2>
 &lt;p>First thing, we need to add some routes in a new UDR applied to the &lt;code>nva-subnet&lt;/code>. The added routes will ensure that &lt;code>hub-nva&lt;/code> will be able to propagate AVS related traffic through the &lt;code>avs-bgp-vm&lt;/code>. In out lab setup, we do it for 2 prefix:&lt;/p>
 &lt;ul>
@@ -815,8 +1114,7 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;p>We created this mockup setup step-by-step to demonstrate the capabilities of some Azure products (like Azure Route Server) and features (like route propagation in UDRs).&lt;/p>
 &lt;p>In the last step we have a working setup with a central &lt;code>hub-nva&lt;/code> VM able to route and filter traffic from/to the AVS environment, spokes vNets, and the on-premises resources.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: the setup described in this post is not meant to be used in production due to the lack of high availability and redundancy of the components. It is just a mockup to demonstrate the capabilities of Azure networking products and features.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: the setup described in this post is not meant to be used in production due to the lack of high availability and redundancy of the components. It is just a mockup to demonstrate the capabilities of Azure networking products and features.&lt;/p>&lt;/blockquote>
 &lt;p>I hope you enjoyed this series and learned something new about Azure networking. There will probably be more posts to extend this series in the future with new topics and use cases like:&lt;/p>
 &lt;ul>
 &lt;li>High availability and redundancy of the components&lt;/li>
@@ -826,8 +1124,7 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
 &lt;p>We will also &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;p>Please refer to &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">part 1&lt;/a> to get details about the lab environment and the 3 first steps we already covered.&lt;/p>
 &lt;h2 id="stage-4--user-defined-routes-on-gatewaysubnet">Stage 4 – User Defined Routes on GatewaySubnet&lt;/h2>
 &lt;p>In order to &lt;strong>mitigate the asymmetric routing issue&lt;/strong>, we will add a User Defined Routes to the &lt;code>GatewaySubnet&lt;/code> to ensure that the traffic incoming from the VPN client will be routed to the NVA appliance.&lt;/p>
@@ -862,8 +1159,7 @@ src="https://vuptime.io/images/avs-nva/stage4/UserDefinedRoute_GatewaySubnet.png
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>
-&lt;/blockquote>
+&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>&lt;/blockquote>
 &lt;h3 id="routes-analysis-s4">Routes analysis (s4)&lt;/h3>
 &lt;p>From this point we can see that both VPN-client-to-spokes and spokes-to-VPN-destinations, passing through the &lt;code>hub-nva&lt;/code> appliance:&lt;/p>
 &lt;p>&lt;figure>
@@ -966,8 +1262,7 @@ src="https://vuptime.io/images/avs-nva/stage6/hub_and_spoke_avs-Step6.drawio.png
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>
-&lt;/blockquote>
+&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>&lt;/blockquote>
 &lt;h3 id="avs-internet-connectivity-settings">AVS Internet connectivity settings&lt;/h3>
 &lt;p>Azure VMware Solution provides three options for Internet connectivity:&lt;/p>
 &lt;ul>
@@ -1059,8 +1354,7 @@ In the meantime, we will use the PowerShell command &lt;code>Get-AzRouteServerPe
 &lt;p>By using a hub and spoke topology with Azure VMware Solution, you can achieve several benefits such as improved security &amp;amp; isolation of cloud hosted workloads. However, you also need to consider some challenges such as complexity, latency, bandwidth limitations, routing complexity, firewall rules management, etc. Therefore, it is important to plan your network design carefully according to your specific requirements.&lt;/p>
 &lt;p>The official Azure documentation already provides a set of scenarios related to network connectivity for Azure VMware Solution. You can find them &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures">here&lt;/a>. In this blog post series, we will reproduce, step-by-step, a mock-up scenario very close from the &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures#network-virtual-appliance-in-azure-virtual-network-to-inspect-all-network-traffic">&lt;em>Network virtual appliance in Azure Virtual Network to inspect all network traffic&lt;/em>&lt;/a> one.&lt;/p>
 &lt;blockquote>
-&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;h2 id="materials">Materials&lt;/h2>
 &lt;p>To illustrate this blog post series, I created a &lt;a href="https://github.com/lrivallain/azure-labs-and-scripts/tree/master/hub-and-spoke-avs-transit-step-by-step">GitHub repository&lt;/a> to host Terraform code to reproduce each step of the process documented here.&lt;/p>
 &lt;p>Using this Terraform content provides a repeatable way to deploy the same environment on Azure but all the steps described in this blog post can also be reproduced using the Azure Portal or Azure CLI.&lt;/p>

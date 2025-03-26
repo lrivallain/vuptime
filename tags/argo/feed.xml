@@ -9,8 +9,7 @@
 &lt;li>Deterministic&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>BTW, there is a nice list of FaaS Best Practices on the VEBA documentation: &lt;a href="https://vmweventbroker.io/kb/contribute-functions">Writing your own functions&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>BTW, there is a nice list of FaaS Best Practices on the VEBA documentation: &lt;a href="https://vmweventbroker.io/kb/contribute-functions">Writing your own functions&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;p>When you need to break one (or more) of the above rules, it may be necessary to rely on other kinds of automation, like &lt;strong>Workflows&lt;/strong>.&lt;/p>
 &lt;p>In the following post, I will demonstrate how it is possible to forward VEBA events to a very powerful Workflow engine named &lt;a href="https://argoproj.github.io">&lt;strong>Argo&lt;/strong>&lt;/a> to run, for example:&lt;/p>
 &lt;ul>
@@ -44,8 +43,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">NAME
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">echoer
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>This &lt;code>echoer&lt;/code> workflow template is a very simple workflow that just repeats the incoming data in its stdin (logs).&lt;/p>
-&lt;/blockquote>
+&lt;p>This &lt;code>echoer&lt;/code> workflow template is a very simple workflow that just repeats the incoming data in its stdin (logs).&lt;/p>&lt;/blockquote>
 &lt;h2 id="configure-the-function">Configure the function&lt;/h2>
 &lt;h3 id="argo-config-secret">Argo config secret&lt;/h3>
 &lt;p>Copy and customize the &lt;code>argoconfig.example.yaml&lt;/code> file:&lt;/p>

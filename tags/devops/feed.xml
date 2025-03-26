@@ -370,8 +370,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">wget https://github.com/lrivallain/rest-loves-swagger/raw/master/demo/utils.py
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">pip install -r requirements.txt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Warning:&lt;/strong> I strongly suggest that you review the content of all the files you download on your computer before using them!&lt;/p>&lt;/blockquote>
 &lt;h3 id="go">Go&lt;/h3>
 &lt;p>A part of this post will provide a Go module. Install Go runtime to be able to test it.&lt;/p>
 &lt;h2 id="available-languages">Available languages&lt;/h2>
@@ -586,8 +585,7 @@
 &lt;ul>
 &lt;li>&lt;code>root&lt;/code> password expiration policy and &lt;em>shell idle timeout&lt;/em> are security policies that can be required in a production environment (and so, do not apply the example tasks in such case.)&lt;/li>
 &lt;li>SSH server authentication keys are very important for security concerns too and should not be blindly trusted.&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;h2 id="server-authentication">Server authentication&lt;/h2>
 &lt;p>When you connect by SSH to a remote server, you need to trust the key provided by the server. You probably already know the below message:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ssh root@mynewserver
@@ -599,8 +597,7 @@
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="m">256&lt;/span> SHA256:u0cQf5a5f1DAoCWwqDGfCOjtWR+LdXrmSFo5XJKnEsE root@mynewserver &lt;span class="o">(&lt;/span>ECDSA&lt;span class="o">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> the fingerprints of key generated during the instance deployment, is commonly available in the console logs: it could help to retrieve it for comparison.&lt;/p>
-&lt;/blockquote>
+&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> the fingerprints of key generated during the instance deployment, is commonly available in the console logs: it could help to retrieve it for comparison.&lt;/p>&lt;/blockquote>
 &lt;p>In the above example, the &lt;em>ECDSA&lt;/em> fingerprint match and you can trust it by accepting the confirmation from the SSH client.&lt;/p>
 &lt;h3 id="blind-trust-ssh-servers-keys-with-ansible">Blind trust SSH servers keys with Ansible&lt;/h3>
 &lt;p>For system out of production (testing purpose), I do not make the above check and I make a &lt;em>&amp;quot;blind&amp;quot;&lt;/em> consent on the first seen key.&lt;/p>
@@ -634,8 +631,7 @@
 &lt;li>If key is trusted, user can access to the server. If not, user connection is rejected (or he needs to use another method, like password prompt.)&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> it is possible to provide public keys to store on the instance at deployment. In that case, public key authentication is immediately available on the server.&lt;/p>
-&lt;/blockquote>
+&lt;p>In cloud instances using &lt;code>cloud-init&lt;/code> it is possible to provide public keys to store on the instance at deployment. In that case, public key authentication is immediately available on the server.&lt;/p>&lt;/blockquote>
 &lt;p>If you don't use a &lt;code>cloud-init&lt;/code> based clone or server creation, you can use an Ansible playbook to push keys to the target server:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
@@ -653,8 +649,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will be prompt to provide the account password. Once pushed, you can use the public key as an authentication mechanism for Ansible instead of passwords:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">ansible-playbook playbooks/ssh_setup.yml -i inventories/lab.yml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>Please note that &lt;code>--ask-pass&lt;/code> is no more necessary to run a playbook, based on SSH protocol to your target once the ansible user public key is installed.&lt;/p>
-&lt;/blockquote>
+&lt;p>Please note that &lt;code>--ask-pass&lt;/code> is no more necessary to run a playbook, based on SSH protocol to your target once the ansible user public key is installed.&lt;/p>&lt;/blockquote>
 &lt;h2 id="password-expiration">Password expiration&lt;/h2>
 &lt;p>When using editor's appliance (like VMware's ones), you may need to reconfigure the password expiration for the &lt;code>root&lt;/code> account. For lab and testing purposes, I fully disable the expiration policy with the following tasks:&lt;/p>
 &lt;p>{% raw %}&lt;/p>
@@ -683,5 +678,4 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">regexp&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;.*readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">line&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;#readonly TMOUT&amp;#39;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Warning:&lt;/strong> As mentionned above, most of the previous tasks may affect the security of the target environment: use this content with caution.&lt;/p>
-&lt;/blockquote></description></item></channel></rss>
+&lt;p>&lt;strong>Warning:&lt;/strong> As mentionned above, most of the previous tasks may affect the security of the target environment: use this content with caution.&lt;/p>&lt;/blockquote></description></item></channel></rss>

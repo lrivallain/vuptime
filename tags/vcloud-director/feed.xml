@@ -2,8 +2,7 @@
 &lt;h2 id="introduction">Introduction&lt;/h2>
 &lt;p>&lt;a href="https://gateway.performance.vcd.cloud.vmware.com/cloud-director-instances/">VMware Cloud Director Service&lt;/a> (aka &lt;em>CDS&lt;/em>) is a cloud service that provides a unified view of VMware based resources and multi-tenant support, allowing an IT administrator to split resources capacity between tenants. For tenant users, it provides a single pane of glass to manage all VMware-based, cloud resources, including virtual machines, storage, networks, and networks services.&lt;/p>
 &lt;blockquote>
-&lt;p>VMware Cloud Director Service is the SaaS version of the well known &lt;a href="https://www.vmware.com/products/vcloud-director/">VMware (v)Cloud Director&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>VMware Cloud Director Service is the SaaS version of the well known &lt;a href="https://www.vmware.com/products/vcloud-director/">VMware (v)Cloud Director&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;p>Associated to &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solution&lt;/a> (aka &lt;em>AVS&lt;/em>), a large part of the multi-tenants and self-service SDDC stack, is managed by the cloud providers:&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>VMware&lt;/strong>: manage the CDS instance components (cells and service)&lt;/li>

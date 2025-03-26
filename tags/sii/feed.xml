@@ -9,8 +9,7 @@
 &lt;p>Since the 9.1 version (&lt;a href="https://docs.vmware.com/en/vCloud-Director/9.1/rn/rel_notes_vcloud_director_91.html">2018, march&lt;/a>), vCloud Director cames with an extensibility feature. This allows to the platform administrator to extend the features perimeter.&lt;/p>
 &lt;p>Indeed, through a dedicated development, it is possible to create the technical context to execute the automation linked to new features to add to the vCD portal (UI, API, backend, third party interconnect...).&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Example&lt;/strong> : Provide to end-users a &lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/samples/ticketing">support-ticketing-interface integrated to the vCD portal&lt;/a>.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Example&lt;/strong> : Provide to end-users a &lt;a href="https://github.com/vmware/vcd-ext-sdk/tree/master/ui/samples/ticketing">support-ticketing-interface integrated to the vCD portal&lt;/a>.&lt;/p>&lt;/blockquote>
 &lt;p>The publication perimeter for a custom extension can be set according to the plateform needs and the extension. So it is possible to publish it for:&lt;/p>
 &lt;ul>
 &lt;li>Platform system administrators&lt;/li>
@@ -39,8 +38,7 @@
 &lt;p>Let's take an example:&lt;/p>
 &lt;blockquote>
 &lt;p>Our &lt;code>coffee&lt;/code> extension aims to provide a feature to create &lt;em>coffee machine&lt;/em> order through vCD portal.&lt;/p>
-&lt;p>Requests sent to vCloud API at this path : &lt;code>https://&amp;lt;vcloudserver&amp;gt;/api/coffee/order&lt;/code> and for instance, a &lt;code>POST&lt;/code> request type (and its appropriate parameters) will start a new order to the coffee machine. A &lt;code>GET&lt;/code> request will list the previous commands etc.&lt;/p>
-&lt;/blockquote>
+&lt;p>Requests sent to vCloud API at this path : &lt;code>https://&amp;lt;vcloudserver&amp;gt;/api/coffee/order&lt;/code> and for instance, a &lt;code>POST&lt;/code> request type (and its appropriate parameters) will start a new order to the coffee machine. A &lt;code>GET&lt;/code> request will list the previous commands etc.&lt;/p>&lt;/blockquote>
 &lt;p>To handle the extension related customized requests, a backend server is necessary. This server can be hosted on a dedicated host (or the vCD server (&lt;em>cell&lt;/em>) but not recommended) and can be written in any language of your choice (Python, Java, Node etc.). Messages received by vCD on the extension path (&lt;code>coffee&lt;/code>) will be forwarded to an intermediate RabbitMQ server to be consumed by the extension backend. Once the request content is processed, response content is sent to the AMQP server and consumed by vCD to provide an answer.&lt;/p>
 &lt;p>For our example:&lt;/p>
 &lt;figure>&lt;img src="https://vuptime.io/images/lumext-for-vcd/architecture_overview.png">&lt;figcaption>
@@ -83,8 +81,7 @@
 &lt;/ul>
 &lt;p>To consume and publish (&lt;em>consumer/publisher&lt;/em> roles) messages with AMQP protocol, we use the &lt;a href="https://pypi.org/project/kombu/">&lt;code>Kombu&lt;/code>&lt;/a> Python package as it turns out to be very reliable and to provide easy support for &lt;em>thread&lt;/em> usage.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note :&lt;/strong> VMware's examples use the &lt;a href="https://pypi.org/project/pika/">&lt;code>Pika&lt;/code>&lt;/a> module for the same kind of usage.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note :&lt;/strong> VMware's examples use the &lt;a href="https://pypi.org/project/pika/">&lt;code>Pika&lt;/code>&lt;/a> module for the same kind of usage.&lt;/p>&lt;/blockquote>
 &lt;p>We also have developed a &lt;em>MessageWorker&lt;/em> named &lt;a href="https://pypi.org/project/VcdExtMessageWorker/">&lt;code>VcdExtMessageWorker&lt;/code>&lt;/a> to start business-related threads. These extension-&lt;em>threads&lt;/em> represent the potential complexity of the feature to add to vCD (applicative workflow, data analysis, third party requests, etc.). &lt;em>MessageWorker&lt;/em> is generic and can be attached to other kind of extension-threads for other kind of purposes.&lt;/p>
 &lt;p>In the case of &lt;strong>LUMExt&lt;/strong>, &lt;code>VcdExtMessageWorker&lt;/code> initiates a new thread of &lt;em>lumext worker&lt;/em> for each request. This one is in charge of the request-analysis (is it a listing request or a user-creation one, user-edition ?). Once the request is processed, the answer is published to the &lt;code>reply-to&lt;/code> queue of the RabbitMQ server and consumed by vCD.&lt;/p>
 &lt;p>REST API extension provides the following paths to the users:&lt;/p>
@@ -148,8 +145,7 @@
 &lt;/figure>
 &lt;p>&lt;strong>LUMExt&lt;/strong> UI also provides user edition and user deletion and a specific wizard for password reset operation.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note :&lt;/strong> LDAP based groups support is intended but not yet developed.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note :&lt;/strong> LDAP based groups support is intended but not yet developed.&lt;/p>&lt;/blockquote>
 &lt;h2 id="conclusion">Conclusion&lt;/h2>
 &lt;p>&lt;strong>LUMExt&lt;/strong> is an internal SII project that we &amp;quot;opensource&amp;quot; (MIT license) on &lt;a href="https://github.com/groupe-sii/lumext">github&lt;/a> to demonstrate the extensibility abilities of vCloud Director with a technical and complete use-case.&lt;/p>
 &lt;p>Since about 6 months, our teams have working on these kind of &lt;em>plugins&lt;/em> development for our customers to extend the available features of the vCD portal with tools for their customers (as &lt;em>&amp;quot;Service Provider&amp;quot;&lt;/em>).&lt;/p>

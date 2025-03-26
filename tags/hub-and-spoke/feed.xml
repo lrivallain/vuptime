@@ -9,8 +9,7 @@
 &lt;/ul>
 &lt;p>As we want AVS to behave like a spoke, we will apply this rule to the &lt;code>avs-transit-vnet&lt;/code> too.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;h2 id="stage-7--advertise-the-hub-default-routes-to-avs">Stage 7 – Advertise the hub default routes to AVS&lt;/h2>
 &lt;p>First thing, we need to add some routes in a new UDR applied to the &lt;code>nva-subnet&lt;/code>. The added routes will ensure that &lt;code>hub-nva&lt;/code> will be able to propagate AVS related traffic through the &lt;code>avs-bgp-vm&lt;/code>. In out lab setup, we do it for 2 prefix:&lt;/p>
 &lt;ul>
@@ -294,8 +293,7 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;p>We created this mockup setup step-by-step to demonstrate the capabilities of some Azure products (like Azure Route Server) and features (like route propagation in UDRs).&lt;/p>
 &lt;p>In the last step we have a working setup with a central &lt;code>hub-nva&lt;/code> VM able to route and filter traffic from/to the AVS environment, spokes vNets, and the on-premises resources.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: the setup described in this post is not meant to be used in production due to the lack of high availability and redundancy of the components. It is just a mockup to demonstrate the capabilities of Azure networking products and features.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: the setup described in this post is not meant to be used in production due to the lack of high availability and redundancy of the components. It is just a mockup to demonstrate the capabilities of Azure networking products and features.&lt;/p>&lt;/blockquote>
 &lt;p>I hope you enjoyed this series and learned something new about Azure networking. There will probably be more posts to extend this series in the future with new topics and use cases like:&lt;/p>
 &lt;ul>
 &lt;li>High availability and redundancy of the components&lt;/li>
@@ -305,8 +303,7 @@ src="https://vuptime.io/images/avs-nva/stage9/onprem-to-avs.drawio.png"
 &lt;p>In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">previous blog post&lt;/a>, we have seen how to deploy a basic environment to start mocking-up an Azure VMware Solution (AVS) environment in a hub and spoke topology. In the &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/#stage-3--user-defined-route-on-spokes--gw-propagation-false">last section&lt;/a>, we discovered a glitch-in-the-Matrix when we lookup for the traffic between VPN and spoke VMs. We will see in this blog post &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-4--user-defined-routes-on-gatewaysubnet">how to fix this issue&lt;/a>.&lt;/p>
 &lt;p>We will also &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-5--introduction-of-an-avs-transit-vnet">introduce the first components of an AVS transit vNet&lt;/a> to land the Express Route circuit from an AVS deployment and &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/#stage-6--advertise-a-default-routes-to-avs">how to inject a default BGP route to VMware workloads&lt;/a>.&lt;/p>
 &lt;blockquote>
-&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>As a reminder, the components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;p>Please refer to &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">part 1&lt;/a> to get details about the lab environment and the 3 first steps we already covered.&lt;/p>
 &lt;h2 id="stage-4--user-defined-routes-on-gatewaysubnet">Stage 4 – User Defined Routes on GatewaySubnet&lt;/h2>
 &lt;p>In order to &lt;strong>mitigate the asymmetric routing issue&lt;/strong>, we will add a User Defined Routes to the &lt;code>GatewaySubnet&lt;/code> to ensure that the traffic incoming from the VPN client will be routed to the NVA appliance.&lt;/p>
@@ -341,8 +338,7 @@ src="https://vuptime.io/images/avs-nva/stage4/UserDefinedRoute_GatewaySubnet.png
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>
-&lt;/blockquote>
+&lt;p>Of course, depending on the used IP address plan, it is possible to simplify and group multiple routes under a common prefix.&lt;/p>&lt;/blockquote>
 &lt;h3 id="routes-analysis-s4">Routes analysis (s4)&lt;/h3>
 &lt;p>From this point we can see that both VPN-client-to-spokes and spokes-to-VPN-destinations, passing through the &lt;code>hub-nva&lt;/code> appliance:&lt;/p>
 &lt;p>&lt;figure>
@@ -445,8 +441,7 @@ src="https://vuptime.io/images/avs-nva/stage6/hub_and_spoke_avs-Step6.drawio.png
 &lt;/figure>
 &lt;/p>
 &lt;blockquote>
-&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>
-&lt;/blockquote>
+&lt;p>As mentioned earlier, this is a first and temporary step. Validating this setup where the Internet breakout is made in the &lt;code>avs-transit-vnet&lt;/code> for the AVS deployment will help to understand and prepare for the next steps.&lt;/p>&lt;/blockquote>
 &lt;h3 id="avs-internet-connectivity-settings">AVS Internet connectivity settings&lt;/h3>
 &lt;p>Azure VMware Solution provides three options for Internet connectivity:&lt;/p>
 &lt;ul>
@@ -538,8 +533,7 @@ In the meantime, we will use the PowerShell command &lt;code>Get-AzRouteServerPe
 &lt;p>By using a hub and spoke topology with Azure VMware Solution, you can achieve several benefits such as improved security &amp;amp; isolation of cloud hosted workloads. However, you also need to consider some challenges such as complexity, latency, bandwidth limitations, routing complexity, firewall rules management, etc. Therefore, it is important to plan your network design carefully according to your specific requirements.&lt;/p>
 &lt;p>The official Azure documentation already provides a set of scenarios related to network connectivity for Azure VMware Solution. You can find them &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures">here&lt;/a>. In this blog post series, we will reproduce, step-by-step, a mock-up scenario very close from the &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/example-architectures#network-virtual-appliance-in-azure-virtual-network-to-inspect-all-network-traffic">&lt;em>Network virtual appliance in Azure Virtual Network to inspect all network traffic&lt;/em>&lt;/a> one.&lt;/p>
 &lt;blockquote>
-&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>
-&lt;/blockquote>
+&lt;p>The components and network design described in this blog post are only for demonstration purposes. They are not intended to be used in a production environment and does not represent Azure best practices. They are provided as-is for mock-up and learning purposes only.&lt;/p>&lt;/blockquote>
 &lt;h2 id="materials">Materials&lt;/h2>
 &lt;p>To illustrate this blog post series, I created a &lt;a href="https://github.com/lrivallain/azure-labs-and-scripts/tree/master/hub-and-spoke-avs-transit-step-by-step">GitHub repository&lt;/a> to host Terraform code to reproduce each step of the process documented here.&lt;/p>
 &lt;p>Using this Terraform content provides a repeatable way to deploy the same environment on Azure but all the steps described in this blog post can also be reproduced using the Azure Portal or Azure CLI.&lt;/p>

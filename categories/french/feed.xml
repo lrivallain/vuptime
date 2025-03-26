@@ -437,12 +437,10 @@
 &lt;p>Cette session expose en détail le projet Pacific.&lt;/p>
 &lt;blockquote>
 &lt;p>Kubernetes as a platform platform&lt;br>
--- &lt;cite>Joe Beda&lt;/cite>&lt;/p>
-&lt;/blockquote>
+-- &lt;cite>Joe Beda&lt;/cite>&lt;/p>&lt;/blockquote>
 &lt;blockquote>
 &lt;p>Project Pacific is a re-architecture of vSphere with Kubernetes as its control plane.&lt;br>
--- &lt;cite>Jared Rosoff&lt;/cite>&lt;/p>
-&lt;/blockquote>
+-- &lt;cite>Jared Rosoff&lt;/cite>&lt;/p>&lt;/blockquote>
 &lt;p>Kubernetes devient un élément central de vSphere via l'introduction d'un composant d'orchestration nommé &lt;em>Kubernetes Cluster Supervisor&lt;/em>. Le Supervisor utilise ESXi comme worker nodes au lieu de Linux. Ceci passe par une implémentation spécifique de Kubelet, nommée &lt;strong>Spherelet&lt;/strong> qui tourne directement sur ESXi. Il devient ainsi possible de faire tourner des Pods kubernetes natifs sur ESXi avec des performances impressionnantes (30% plus rapide que des Pods tournant dans des VMs Linux, et 8% plus rapide que des Pods tournant sur du bare metal Linux, ceci grâce à des optimisations sur la gestion de la mémoire et du cpu).&lt;/p>
 &lt;p>D'autre part, le Supervisor se base sur des &lt;em>CRDs&lt;/em> et &lt;em>Operators&lt;/em> spécifiques (Machine, MachineSet, MachineDeployment, Cluster, ManagedCluster) afin de permettre de gérer des objets vSphere via des fichiers de description de ressources au format Kubernetes. Des Operators dédiés comme le &lt;em>VM operator&lt;/em> ou le &lt;em>Guest Cluster Operator&lt;/em> offrent la possibilité d'orchestrer le déploiement et cycle de vie de :&lt;/p>
 &lt;ul>
@@ -676,8 +674,7 @@ Je parle ici seulement de &lt;em>T0&lt;/em> car il n'ya que les &lt;em>T0&lt;/em
 &lt;p>Petite conférence sur les opérations de debug à mener au sein de NSX-T avec un très bon speaker, si vous avez l'occasion, allez voir ses conférences elles sont toujours très instructives et abordable.&lt;/p>
 &lt;p>Il a repris la conférence qu'il avait fait l'année dernière sur le troubleshooting pas de nouveautés, du coup je vous fais un petit rappel.&lt;/p>
 &lt;blockquote>
-&lt;p>&amp;quot;You shall not pass&amp;quot;&lt;/p>
-&lt;/blockquote>
+&lt;p>&amp;quot;You shall not pass&amp;quot;&lt;/p>&lt;/blockquote>
 &lt;p>Voilà ce que l'on attend de notre firewall, c'est sur ces 4 petits mots que commence la session. L'utilité de notre firewall distribué est bien d'empêcher les attaques sur nos systèmes mais aussi les empêcher de pouvoir rebondir depuis un serveur via une porte dérobée.&lt;/p>
 &lt;p>Néanmoins sans les bons outils il peut être difficile de bien diagnostiquer les problèmes de communication. La difficulté lorsque l'on met en place la micro segmentations avec le firewall distribué est bien de s'assurer que l'on ne va pas contraindre les applications et se créer nos propres problèmes.&lt;/p>
 &lt;p>Le sujet ici est de savoir analyser en temps réel ce qui se passe au sein de notre infrastructure au niveau réseau et firewalling.&lt;/p>
@@ -819,8 +816,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>Mon employeur: &lt;strong>SII Group&lt;/strong> qui nous permet de prendre part à ce type d'évènement.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>
-&lt;/blockquote>
+&lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png">&lt;figcaption>
 &lt;h4>Logo vMUG France&lt;/h4>
 &lt;/figcaption>
@@ -829,8 +825,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>&lt;a href="https://vuptime.io/about/#aharlaut">@Antoine_hlt&lt;/a> et &lt;a href="https://vuptime.io/about/#lrivallain">moi-même&lt;/a> présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em>vRealize Orchestrator&lt;/em>. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/">présentation que j'avais réalisé à Rennes&lt;/a> il y a quelques mois à l'occasion du &lt;em>meet&amp;amp;geek&lt;/em> organisé à &lt;strong>SII Ouest&lt;/strong>.&lt;/p>
 &lt;p>Nous avions aussi préparé une petite démonstration basé sur le déploiement d'un noeud &lt;em>Kubernetes&lt;/em>.&lt;/p>
 &lt;blockquote>
-&lt;p>Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p>
-&lt;/blockquote>
+&lt;p>Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p>&lt;/blockquote>
 &lt;p>Et nous avions apporté avec nous, un &lt;em>RaspberryPi&lt;/em> connecté à quelques leds de couleur permettant de suivre visuellement, l'état du workflow. L'objet a succité un peu d'amusement: c'était le but.&lt;/p>
 &lt;p>Un merci tout spécial à &lt;a href="https://twitter.com/ErikBussink">Erik Bussink&lt;/a>, venu du pays du fromage et du chocolat, qui a offert à un des spectateurs, un kit &lt;em>RaspberryPi 3b&lt;/em> avec boitier et alimentation POE.&lt;/p>
 &lt;p>Les sources de la présentation sont comme d'habitude, sur github: &lt;a href="https://vupti.me/vmug2019-src">vupti.me/vmug2019-src&lt;/a> et la présentation elle-même, si dessous, ou à l'adresse suivante: &lt;a href="https://vupti.me/vmug2019">vupti.me/vmug2019&lt;/a>.&lt;/p>
@@ -1163,8 +1158,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;li>Speaker(s): &lt;strong>Tim Burkard&lt;/strong>&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>You shall not pass !&lt;/p>
-&lt;/blockquote>
+&lt;p>You shall not pass !&lt;/p>&lt;/blockquote>
 &lt;p>Voilà ce que l'on attend de notre firewall et c'est sur ces 4 petits mots que commence la session. L'utilité de notre firewall distribué est bien d'empêcher les attaques sur nos systèmes mais aussi les empêcher de pouvoir rebondir depuis un serveur via une porte dérobée.&lt;/p>
 &lt;p>Néanmoins sans les bons outils il peut être difficile de bien diagnostiquer les problèmes de communication. La difficulté lorsque l'on met en place la micro segmentations avec le firewall distribué est bien de s'assurer que l'on ne va pas contraindre les applications et se créer de nouveaux problèmes.&lt;/p>
 &lt;p>Le sujet ici est de savoir analyser en temps réel ce qui se passe au sein de notre infrastructure au niveau réseau et firewalling.&lt;/p>
@@ -1189,8 +1183,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;p>Arrive ensuite &lt;strong>Pat Gelsinger&lt;/strong>, VMware CEO et visionnaire du cloud en général, pour animer la majeure partie de la session.&lt;/p>
 &lt;p>Depuis 20 ans, VMware a bien changé, et son environnement aussi. A propos de NSX, Pat ose lancer un:&lt;/p>
 &lt;blockquote>
-&lt;p>Networking will never be the same again&lt;/p>
-&lt;/blockquote>
+&lt;p>Networking will never be the same again&lt;/p>&lt;/blockquote>
 &lt;p>VMware montre aussi son attention à son impact sur l'environnement en annonçant être à présent une &lt;strong>société au bilan carbone neutre&lt;/strong> dans ses opérations quotidiennes. Selon leurs estimations, ils ont aussi permis d'économiser la production de l'équivalent de 4 ans de production de carbone d'un pays comme le Royaume Uni depuis 20 ans. Si le chiffre est difficilement vérifiable, il y a tout de même un impact certain.&lt;/p>
 &lt;p>Ray O 'Farrel, VMware CTO, monte ensuite sur scène pour une démonstration d'App Defense, le produit de protection des applications déployées sur une infrastructure VMware et disponible dans la &amp;quot;licence&amp;quot; vSphere Platinium ou, et c'est une nouveauté, &amp;quot;vCloud Suite Platinium&amp;quot;. Basé sur une phase d'apprentissage du comportement d'une application, AD est ensuite capable de verrouiller son comportement et d'alerter en cas de modification de celui-ci: à vous d'appliquer la réponse appropriée: autoriser le changement, ou le traiter comme une menace.&lt;/p>
 &lt;p>VMware annonce ensuite la disponibilité de VMware Cloud Foundation 3.5. Un outil d'automatisation du déploiement d'infrastructures Cloud, hybrides, basée sur des produits et offres membres du programme &lt;em>VMware Cloud Certified&lt;/em>.&lt;/p>
@@ -1285,8 +1278,7 @@ Petite subtilité par rapport à NSX-V, au niveau des NSX controller et Manager 
 &lt;/figure>
 &lt;/p></description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>https://vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/09/20/frenchvmug-reboot-paris/</guid><description>
 &lt;blockquote>
-&lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>
-&lt;/blockquote>
+&lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>&lt;/blockquote>
 &lt;p>Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;amp;Home=%2fcommunities%2flocalcommunityhome">VMUG France&lt;/a> dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p>
 &lt;p>L'événènement est à présent orchestré (et bien orchestré!) par &lt;a href="https://twitter.com/Noham_m">Noham Medyouni&lt;/a> (Dell-EMC), &lt;a href="https://twitter.com/fredg_work">Fréderic Giovannacci&lt;/a> (SIB) et &lt;a href="https://twitter.com/notmg">Matthieu Gioia&lt;/a> (consultant indep.) et pour ce RDV parisien de rentrée, 2 invités de marque étaient présents:&lt;/p>
 &lt;ul>

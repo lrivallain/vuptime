@@ -44,11 +44,9 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="nt">&amp;#34;metadata&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="p">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-u&lt;/code> option is used to pass authentification informations to the HTTP request header. As we do not set any user, the credentials only contains password, following the &amp;quot;:&amp;quot; separator.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-u&lt;/code> option is used to pass authentification informations to the HTTP request header. As we do not set any user, the credentials only contains password, following the &amp;quot;:&amp;quot; separator.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-s&lt;/code> option make culr mute the progress or error messages. Remove it to see potential error for debuging.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-s&lt;/code> option make culr mute the progress or error messages. Remove it to see potential error for debuging.&lt;/p>&lt;/blockquote>
 &lt;p>This request give us metadata about the catalog : name, description, version... And &lt;code>itemsHref&lt;/code> give us clue to continue exploration and list the catalog items.&lt;/p>
 &lt;h2 id="list-items">List items&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -s -u :MyPassword &lt;span class="se">\
@@ -120,8 +118,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">8&lt;/span>&lt;span class="cl">Content-Length: &lt;span class="m">0&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">9&lt;/span>&lt;span class="cl">...
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-i&lt;/code> option is used to include the HTTP response headers in the output.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-i&lt;/code> option is used to include the HTTP response headers in the output.&lt;/p>&lt;/blockquote>
 &lt;p>Oups, it's a &lt;code>302&lt;/code> redirect so we need to follow redirect. 2 choices:&lt;/p>
 &lt;ul>
 &lt;li>You adapt the request with the &lt;code>Location&lt;/code> path from the HTTP response header&lt;/li>
@@ -130,8 +127,7 @@
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">curl -s -L -u :MyPassword &lt;span class="se">\
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="se">&lt;/span> https://moncloud.enfrance.net/vcsp/lib/4c8f39ca-b7ef-4bac-acf4-c377401a729d/item/83f573cd-e5ab-442e-a585-53b6e2c5e820/file/descriptor.ovf &amp;gt; myVapp/descriptor.ovf
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note:&lt;/strong> &lt;code>-L&lt;/code> option is used to make curl follow a redirect.&lt;/p>&lt;/blockquote>
 &lt;p>And you can proceed similarly for the other files for each VM of the vApp:&lt;/p>
 &lt;ul>
 &lt;li>descriptor.mf&lt;/li>

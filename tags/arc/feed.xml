@@ -38,8 +38,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="arm-deployment">ARM deployment&lt;/h2>
 &lt;p>According to &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview">Microsoft documentation&lt;/a>:&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Azure Resource Manager&lt;/strong> is the deployment and management service for Azure. It provides a management layer that enables you to create, update, and delete resources in your Azure account. You use management features, like access control, locks, and tags, to secure and organize your resources after deployment.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Azure Resource Manager&lt;/strong> is the deployment and management service for Azure. It provides a management layer that enables you to create, update, and delete resources in your Azure account. You use management features, like access control, locks, and tags, to secure and organize your resources after deployment.&lt;/p>&lt;/blockquote>
 &lt;p>ARM is the core engine used by API, UI &amp;amp; Azure tools to manage Azure resources and it provide a declarative Infrastructure-as-code language to deploy and maintain resources: ARM Templates. ARM Templates can use &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/compare-template-syntax">JSON&lt;/a> or &lt;a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview">Bicep&lt;/a> syntax.&lt;/p>
 &lt;p>As other resources, Azure-enabled components of a VMware infrastructure can be managed through ARM and ARM Templates.&lt;/p>
 &lt;p>Lets see a minimal ARM Template to deploy a VMware virtual machine: &lt;strong>&lt;a href="https://vuptime.io/images/arc-vmware/vmware-vm-template.bicep">Download the Bicep file&lt;/a>&lt;/strong>&lt;/p>
@@ -83,8 +82,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-vcenter.png"
 &lt;/p>
 &lt;p>In order to use a resource in Azure, an activation is required: Use the &lt;strong>Enable in Azure&lt;/strong> to activate an existing VMware resource in Azure. As with any Azure-based resource, RBAC strategies can be applied to provide or restrict access to &lt;em>Azure-enabled&lt;/em> resources.&lt;/p>
 &lt;blockquote>
-&lt;p>ResourcePool, Networks, Templates and Datastores will appear as &lt;em>hidden resources&lt;/em> in Azure &lt;em>ResourceGroup&lt;/em> you will select in the activation process. They will be used for the VM creation process but cannot be edited from Azure.&lt;/p>
-&lt;/blockquote>
+&lt;p>ResourcePool, Networks, Templates and Datastores will appear as &lt;em>hidden resources&lt;/em> in Azure &lt;em>ResourceGroup&lt;/em> you will select in the activation process. They will be used for the VM creation process but cannot be edited from Azure.&lt;/p>&lt;/blockquote>
 &lt;h3 id="resourcepools">ResourcePools&lt;/h3>
 &lt;p>VMware &lt;em>ResourcePools&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all resourcePools will be displayed in the inventory list (including Cluster and Hosts resourcePool representation). You can enable a ResourcePools in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the resourcePool will then be displayed with a link to explore its details.&lt;/p>
 &lt;p>&lt;figure>
@@ -102,8 +100,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-resourcepool.png"
 &lt;h3 id="vm-templates">VM Templates&lt;/h3>
 &lt;p>VMware &lt;em>VM Templates&lt;/em> cannot be created, edited or remove but can be registered for VM creation scenario. By default, all VM Templates will be displayed in the inventory list. You can enable a VM Template in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the Template will then be displayed with a link to explore its details.&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Currently, the template from the Content Library are not available. Only VM template from vCenter VM-folders inventory are usable in &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Note&lt;/strong>: Currently, the template from the Content Library are not available. Only VM template from vCenter VM-folders inventory are usable in &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>.&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>
 &lt;picture>
 &lt;img
@@ -160,8 +157,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-datastore.png"
 &lt;li>Apply RBAC and tagging policies&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;em>VMware Arc-based guest extensions&lt;/em> are &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/manage-vmware-vms-in-azure#supported-extensions-and-management-services">currently limited to 2 extensions&lt;/a>: Log Analytics agent and cCustom Script execution.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;em>VMware Arc-based guest extensions&lt;/em> are &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/manage-vmware-vms-in-azure#supported-extensions-and-management-services">currently limited to 2 extensions&lt;/a>: Log Analytics agent and cCustom Script execution.&lt;/p>&lt;/blockquote>
 &lt;h3 id="azure-arc-enabled-servers">Azure Arc enabled servers&lt;/h3>
 &lt;p>If &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> based guest agent is currently limited to 2 extensions, it is still possible to use the normal Arc process to integrate the guest OS management of deployed servers through Azure and to benefit from all the capabilities of &lt;a href="https://azure.microsoft.com/en-us/services/azure-arc/#product-overview">Azure Arc&lt;/a> like (as mentioned in the &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/overview">Arc documentation&lt;/a>):&lt;/p>
 &lt;ul>
@@ -172,8 +168,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-datastore.png"
 &lt;li>Configure custom locations as an abstraction layer on top of Azure Arc-enabled Kubernetes clusters and cluster extensions.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;strong>Personal experience&lt;/strong>: I use this combination of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> and &lt;em>Azure Arc-enabled Servers&lt;/em> to fully manage, with Azure, VMware Virtual Machine objects and their Guest OS. This provide me the best of the two solutions.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Personal experience&lt;/strong>: I use this combination of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> and &lt;em>Azure Arc-enabled Servers&lt;/em> to fully manage, with Azure, VMware Virtual Machine objects and their Guest OS. This provide me the best of the two solutions.&lt;/p>&lt;/blockquote>
 &lt;h3 id="register-an-existing-vm">Register an existing VM&lt;/h3>
 &lt;p>You can enable a Virtual Machine in Azure by selecting it and click on &lt;strong>Enable in Azure&lt;/strong>. You will be prompted for an Azure &lt;em>ResourceGroup&lt;/em> attachment and the VM will then be displayed with a link to explore its details.&lt;/p>
 &lt;p>&lt;figure>
@@ -376,8 +371,7 @@ src="https://vuptime.io/images/arc-vmware/arc-vmware-vm-lock.png"
 &lt;p>Announced in &lt;a href="https://azure.microsoft.com/en-us/updates/private-preview-new-azure-arc-capabilities-in-november-2021/">private preview stage&lt;/a> during the &lt;a href="https://aka.ms/IgniteNov21/InnovateAnywhereBlog">Microsoft Ignite&lt;/a> on November 2021, the &lt;a href="https://azure.microsoft.com/en-us/services/azure-arc/#product-overview">Azure Arc&lt;/a> integration with VMware vSphere is now &lt;a href="https://azure.microsoft.com/en-us/updates/public-preview-azure-arc-integration-with-vmware-vsphere/">available in public preview&lt;/a> since March 31&lt;sup>th&lt;/sup>, 2022.&lt;/p>
 &lt;p>The feature, still in development process, is now labeled &lt;em>Azure Arc-enabled VMware vSphere&lt;/em>, and provides a unified governance and management solution for lifecycle and guest OS operations of VMware VMs through Azure Arc.&lt;/p>
 &lt;blockquote>
-&lt;p>As &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solutions&lt;/a> private clouds relies on a &lt;a href="https://www.vmware.com/products/cloud-foundation.html">standardized VMware SDDC&lt;/a>, you can also use &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> to operate your AVS-based workloads.&lt;/p>
-&lt;/blockquote>
+&lt;p>As &lt;a href="https://azure.microsoft.com/en-us/services/azure-vmware/">Azure VMware Solutions&lt;/a> private clouds relies on a &lt;a href="https://www.vmware.com/products/cloud-foundation.html">standardized VMware SDDC&lt;/a>, you can also use &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> to operate your AVS-based workloads.&lt;/p>&lt;/blockquote>
 &lt;h3 id="how-it-works-">How it works ?&lt;/h3>
 &lt;p>&lt;em>Azure Arc-enabled VMware vSphere&lt;/em> relies on a &lt;em>Resource Bridge&lt;/em> appliance deployed in the target environment (or in a VMware environment with network access to the target one). This bridge will act a the access-point for Azure Arc to get and manage data from vCenter APIs.&lt;/p>
 &lt;p>As of now, the &lt;em>Resource Bridge&lt;/em> requires an outbound connectivity to Internet (specifically to to Azure APIs over HTTPS(443)) and can only be deployed on a VMware environment.&lt;/p>
@@ -409,8 +403,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge.png"
 &lt;/ul>
 &lt;h2 id="resource-bridge-deployment">Resource Bridge Deployment&lt;/h2>
 &lt;blockquote>
-&lt;p>&lt;strong>Disclaimer&lt;/strong>: This walkthrough deployment process is not a substitution of the Microsoft Documentation about &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/">&lt;em>Azure Arc-enabled VMware vSphere&lt;/em>&lt;/a>. This blog post will not receive major updates to synchronize with the development status of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> feature and only reflect the process at a specific moment in time.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>Disclaimer&lt;/strong>: This walkthrough deployment process is not a substitution of the Microsoft Documentation about &lt;a href="https://docs.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/">&lt;em>Azure Arc-enabled VMware vSphere&lt;/em>&lt;/a>. This blog post will not receive major updates to synchronize with the development status of &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> feature and only reflect the process at a specific moment in time.&lt;/p>&lt;/blockquote>
 &lt;h3 id="pre-requisites">Pre-requisites&lt;/h3>
 &lt;p>In order to have access to all &lt;em>Azure Arc-enabled VMware vSphere&lt;/em> features, I had to register the following Azure resources providers to my subscription:&lt;/p>
 &lt;ul>
@@ -454,8 +447,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-01.png"
 &lt;li>Provide a name for a &lt;em>custom location&lt;/em>&lt;/li>
 &lt;/ol>
 &lt;blockquote>
-&lt;p>The &lt;em>custom location&lt;/em> will represent, in Azure, the location of your vCenter deployment.&lt;/p>
-&lt;/blockquote>
+&lt;p>The &lt;em>custom location&lt;/em> will represent, in Azure, the location of your vCenter deployment.&lt;/p>&lt;/blockquote>
 &lt;ol start="3">
 &lt;li>Provide a name for the vCenter in Azure&lt;/li>
 &lt;/ol>
@@ -473,8 +465,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-02.png"
 &lt;/p>
 &lt;p>In the next screen of the wizard, you can attach &lt;em>tags&lt;/em> to your new resource. In the third step, you are invited to download a PowerShell-based (Windows) or Azure CLI-based (Linux) version of a script.&lt;/p>
 &lt;blockquote>
-&lt;p>If your subscription is not registered with all the required resource providers, a &lt;strong>Register&lt;/strong> button will appear.&lt;/p>
-&lt;/blockquote>
+&lt;p>If your subscription is not registered with all the required resource providers, a &lt;strong>Register&lt;/strong> button will appear.&lt;/p>&lt;/blockquote>
 &lt;p>&lt;figure>
 &lt;picture>
 &lt;img
@@ -503,8 +494,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-04.png"
 &lt;/p>
 &lt;h4 id="windows-powershell-script">(Windows) Powershell script&lt;/h4>
 &lt;blockquote>
-&lt;p>&lt;a href="https://docs.microsoft.com/fr-fr/powershell/azure/?view=azps-7.4.0">Azure PowerShell&lt;/a> module is required.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://docs.microsoft.com/fr-fr/powershell/azure/?view=azps-7.4.0">Azure PowerShell&lt;/a> module is required.&lt;/p>&lt;/blockquote>
 &lt;p>If you choose the PowerShell (Windows) version of the script:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ps1" data-lang="ps1">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="nb">Set-ExecutionPolicy&lt;/span> &lt;span class="n">-ExecutionPolicy&lt;/span> &lt;span class="n">RemoteSigned&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="nb">Install-Module&lt;/span> &lt;span class="n">-Name&lt;/span> &lt;span class="n">Az&lt;/span> &lt;span class="n">-Scope&lt;/span> &lt;span class="n">CurrentUser&lt;/span> &lt;span class="n">-Repository&lt;/span> &lt;span class="n">PSGallery&lt;/span>
@@ -512,8 +502,7 @@ src="https://vuptime.io/images/arc-vmware/arc-resource-bridge-creation-04.png"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="p">./&lt;/span>&lt;span class="nb">resource-bridge&lt;/span>&lt;span class="n">-onboarding-script&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">ps1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="linux-azure-cli-script">(Linux) Azure CLI script&lt;/h4>
 &lt;blockquote>
-&lt;p>&lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure CLI&lt;/a> is required.&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://docs.microsoft.com/en-us/cli/azure/">Azure CLI&lt;/a> is required.&lt;/p>&lt;/blockquote>
 &lt;p>If you choose the PowerShell (Windows) version of the script:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">az login
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">bash resource-bridge-onboarding-script.sh
