@@ -6,6 +6,8 @@ author_name: Ludovic Rivallain
 categories:
 - Azure
 tags:
+- vmware
+- azure
 - Migrate
 - Azure VMware Solution
 - HCX

@@ -6,8 +6,8 @@ author_name: Ludovic Rivallain
 categories:
 - Azure
 tags:
+- azure
 - Migrate
-- Azure VMware Solution
 - Tools
 thumbnail: /images/thumbs/az-mdv-icon.png
 toc: true

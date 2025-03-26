@@ -4,7 +4,7 @@ date: "2024-11-05"
 author: lrivallain
 author_name: Ludovic Rivallain
 categories:
-- VMware
+- Azure
 tags:
 - vmware
 - azure
@@ -27,7 +27,7 @@ Let's do a quick overview of the different options available to extend the stora
 
 ## Azure NetApp Files
 
-The initial solution to expand storage capacity was to utilize Azure NetApp Files (ANF) as the storage backend for Azure VMware Solution (AVS). ANF volumes are mounted as NFS datastores on the ESXi hosts within the AVS cluster. Network connectivity is managed through a dedicated Azure Virtual Network (vNet) and subnet, along with an ExpressRoute gateway. 
+The initial solution to expand storage capacity was to utilize Azure NetApp Files (ANF) as the storage backend for Azure VMware Solution (AVS). ANF volumes are mounted as NFS datastores on the ESXi hosts within the AVS cluster. Network connectivity is managed through a dedicated Azure Virtual Network (vNet) and subnet, along with an ExpressRoute gateway.
 
 {{% notice info "Note" %}}
 ANF is a first party service in Azure.
@@ -47,7 +47,7 @@ Pure Storage is a third party service in Azure.
 
 ## Azure Elastic SAN
 
-GA since October 2024, Azure Elastic SAN integration with AVS provides a new way to extend the storage capacity of your AVS cluster. Azure Elastic SAN is a fully managed service that provides block storage to your AVS cluster. 
+GA since October 2024, Azure Elastic SAN integration with AVS provides a new way to extend the storage capacity of your AVS cluster. Azure Elastic SAN is a fully managed service that provides block storage to your AVS cluster.
 
 {{% notice info "Note" %}}
 Azure Elastic SAN is a first party service in Azure.
@@ -74,7 +74,7 @@ Azure Elastic SAN is [available in multiple Azure regions](https://learn.microso
 
 ![Azure Elastic SAN and AVS: Network topology](/images/avs-esan/eSAN-and-AVS-network-topology.png)
 
-The previous illustration shows the network topology when integrating Azure Elastic SAN with AVS. 
+The previous illustration shows the network topology when integrating Azure Elastic SAN with AVS.
 
 ESXi hosts in the AVS cluster are connected to the Azure Elastic SAN service through the following components
 
