@@ -10,7 +10,7 @@ tags:
 - Azure VMware Solution
 - HCX
 - Network
-thumbnail: /images/thumbs/az-mdv-icon.png
+thumbnail: /images/thumbs/keep-ip.png
 toc: true
 ---
 
