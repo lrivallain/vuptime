@@ -1,5 +1,5 @@
 ---
-title: "How to keep your IP addresses while migrating to Azure VMware Solution"
+title: "How to retain your IP addresses while migrating to Azure VMware Solution"
 date: "2025-03-26"
 author: lrivallain
 author_name: Ludovic Rivallain
@@ -17,9 +17,9 @@ featureImage: /images/thumbs/keep-ip.png
 toc: true
 ---
 
-Migrating On Premises assets to a cloud solution can be a complex process, especially when it comes to considering existing IP addresses plan. One key benefit of migrating to Azure VMware Solution (AVS) is the ability to keep existing IP addresses, which can simplify the migration process and reduce downtime. However, this approach requires careful planning and consideration of network principles to ensure a smooth transition.
+Migrating On Premises assets to a cloud solution can be a complex process, especially when it comes to considering existing IP addresses plan. One key benefit of migrating to Azure VMware Solution (AVS) is the ability to retain existing IP addresses, which can simplify the migration process and reduce downtime. However, this approach requires careful planning and consideration of network principles to ensure a smooth transition.
 
-This post will explore some considerations for keeping IP addresses during the migration to AVS, including the importance of understanding network dependencies and the potential impact on performance. It will also discuss the benefits of leveraging VMware Hybrid Cloud Extension (HCX) Layer 2 extensions to facilitate the migration process.
+This post will explore some considerations for retaining IP addresses during the migration to AVS, including the importance of understanding network dependencies and the potential impact on performance. It will also discuss the benefits of leveraging VMware Hybrid Cloud Extension (HCX) Layer 2 extensions to facilitate the migration process.
 
 ## General Considerations
 
@@ -39,11 +39,11 @@ Example of ARP broadcast over an extended L2 network:
 
 ![Assets in a single vLAN share the same broadcast domain](/images/avs-keep-ip/assets-in-a-single-vlan-subnet-share-the-same-broadcast-domain.png)
 
-### Migrated asset will still continue to use its configured gateway to reach routed peers
+### Migrated asset will continue to use its configured gateway to reach routed peers
 
 When you migrate an asset to the cloud and retain its IP address, it will continue to use its configured gateway to reach routed peers. This means that if you have a routed network in your on-premises environment, the migrated asset will still use its on-premises gateway to communicate with other assets in the same network. Typically, this connectivity path will be utilized for both egress and ingress traffic.
 
-![If keeping IP address: migrated asset will still continue to use its configured gateway to reach routed peers](/images/avs-keep-ip/migrated-asset-will-still-continue-to-use-its-configured-gateway-to-reach-routed-peers.png)
+![If retaining IP address: migrated asset will continue to use its configured gateway to reach routed peers](/images/avs-keep-ip/migrated-asset-will-still-continue-to-use-its-configured-gateway-to-reach-routed-peers.png)
 
 ### Latency will exist between migrated and non-migrated assets
 
@@ -69,9 +69,9 @@ This pattern can strongly affect performance and perceived latency.
 
 ![What is traffic tromboning?](/images/avs-keep-ip/traffic-tromboning.png)
 
-## Extend network to keep IP addresses
+## Extend network to retain IP addresses
 
-As you may already have guessed, the solution to keep IP addresses while migrating to a cloud solution, is to extend the network(s) and to consider migration "per network" instead of per VM/application or other kind of asset.
+As you may already have guessed, the solution to retain IP addresses while migrating to a cloud solution, is to extend the network(s) and to consider migration "per network" instead of per VM/application or other kind of asset.
 
 In order to do things properly, I will recommend the following approach:
 
@@ -85,7 +85,7 @@ In order to do things properly, I will recommend the following approach:
    - Network will now be able to host assets in two locations.
    - The gateway will remain on-premises (for most assets).
 3. **Migrate Assets**
-   - Migrated assets will keep connectivity and IP addresses.
+   - Migrated assets will retain connectivity and IP addresses.
 4. **Evacuate Remaining Assets**
    - If needed: some assets may require reIP to ensure the network is free from resources on-premises.
 5. **Switchover Connectivity**
@@ -155,7 +155,7 @@ In the following section, we will oversee some possible mitigation strategies fo
 
 ## VMware Hybrid Cloud Extension (HCX)
 
-VMware HCX is a powerful tool that can help you extend your network and keep your IP addresses during the migration to Azure VMware Solution (AVS). It provides a seamless way to migrate workloads while maintaining their existing IP addresses, which can simplify the migration process and reduce downtime.
+VMware HCX is a powerful tool that can help you extend your network and retain your IP addresses during the migration to Azure VMware Solution (AVS). It provides a seamless way to migrate workloads while maintaining their existing IP addresses, which can simplify the migration process and reduce downtime.
 
 {{% notice info "Note" %}}
 HCX Enterprise is a **free add-on for AVS**: you can use it to migrate workloads from on-premises to AVS without any additional cost.
@@ -166,8 +166,8 @@ HCX Enterprise is a **free add-on for AVS**: you can use it to migrate workloads
 | Prerequisites | Mitigation |
 | ------------- | ---------- |
 | (Standard) vSwitch are not supported by HCX to extend L2 network. <br>→ Consider migrating to *Distributed-vSwitch* | <ul><li>Easy to validate,</li><li>Relatively easy to remediate</li></ul> |
-| HCX supports of NSX-V to NSX-T migration is [deprecated in version 4.11](https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/hcx-4-11-release-notes/vmware-hcx-411-release-notes.html) | <ul><li>Easy to validate,</li><li>Currently supported</li></ul> |
-| HCX supports migration for vSphere and vCenter 6.5 [with limited support](https://knowledge.broadcom.com/external/article?articleNumber=321571) | <ul><li>Easy to validate,</li><li>Currently supported</li></ul> |
+| HCX support of NSX-V to NSX-T migration is [deprecated in version 4.11](https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/hcx-4-11-release-notes/vmware-hcx-411-release-notes.html) | <ul><li>Easy to validate,</li><li>Currently supported</li></ul> |
+| HCX support migration for vSphere and vCenter 6.5 [with limited support](https://knowledge.broadcom.com/external/article?articleNumber=321571) | <ul><li>Easy to validate,</li><li>Currently supported</li></ul> |
 
 ### Traffic tromboning mitigation with HCX Mobility Optimized Network (MON)
 
@@ -180,7 +180,7 @@ In a previous post ([VMware HCX: To the MON & Back](https://vuptime.io/post/2023
 
 ## NSX Autonomous Edge
 
-An alternative approach to HCX is to use NSX Autonomous Edge (NSX AE) to extend your network and keep your IP addresses during the migration to Azure VMware Solution (AVS). This approach will rely on NSX-T VPN features to create tunnels between the on-premises and cloud environments, allowing you to extend your network and keep your IP addresses while migrating workloads.
+An alternative approach to HCX is to use NSX Autonomous Edge (NSX AE) to extend your network and retain your IP addresses during the migration to Azure VMware Solution (AVS). This approach will rely on NSX-T VPN features to create tunnels between the on-premises and cloud environments, allowing you to extend your network and retain your IP addresses while migrating workloads.
 
 {{% notice info "Note" %}}
 Note: Standard vSwitch are supported with NSX AE.
@@ -196,6 +196,6 @@ Note: Standard vSwitch are supported with NSX AE.
 
 ## Conclusion
 
-In conclusion, keeping your IP addresses while migrating to Azure VMware Solution (AVS) is not a complex process but requires **careful planning and consideration of network principles**.
+In conclusion, retaining your IP addresses while migrating to Azure VMware Solution (AVS) is not a complex process but requires **careful planning and consideration of network principles**.
 
 By leveraging VMware Hybrid Cloud Extension (HCX) Layer 2 extensions or NSX Autonomous Edge, you can simplify the migration process and avoid/reduce downtime while maintaining existing IP addresses.
