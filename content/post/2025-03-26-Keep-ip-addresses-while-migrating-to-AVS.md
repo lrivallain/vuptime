@@ -13,12 +13,10 @@ tags:
 - HCX
 - Network
 thumbnail: /images/thumbs/keep-ip.png
+featureImage: /images/thumbs/keep-ip.png
 toc: true
 ---
 
-<div style="float: left; margin-right: 20px;">
-    <img src="/images/thumbs/keep-ip.png" width="500" height="500" style="border-radius: 10px; border: 2px solid #ccc;">
-</div>
 Migrating On Premises assets to a cloud solution can be a complex process, especially when it comes to considering existing IP addresses plan. One key benefit of migrating to Azure VMware Solution (AVS) is the ability to keep existing IP addresses, which can simplify the migration process and reduce downtime. However, this approach requires careful planning and consideration of network principles to ensure a smooth transition.
 
 This post will explore some considerations for keeping IP addresses during the migration to AVS, including the importance of understanding network dependencies and the potential impact on performance. It will also discuss the benefits of leveraging VMware Hybrid Cloud Extension (HCX) Layer 2 extensions to facilitate the migration process.
