@@ -1,4 +1,627 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Azure on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/azure/</link><description>Recent content in Azure on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Wed, 26 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/azure/feed.xml" rel="self" type="application/rss+xml"/><item><title>How to retain your IP addresses while migrating to Azure VMware Solution</title><link>https://vuptime.io/post/2025-03-26-keep-ip-addresses-while-migrating-to-avs/</link><pubDate>Wed, 26 Mar 2025 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2025-03-26-keep-ip-addresses-while-migrating-to-avs/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Azure on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/azure/</link><description>Recent content in Azure on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 21 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/azure/feed.xml" rel="self" type="application/rss+xml"/><item><title>AVS RVTools Analyzer: Supercharging AVS migration assessments with AI capabilities</title><link>https://vuptime.io/post/2025-08-21-avs-rvtools-analyzer-with-mcp-capability/</link><pubDate>Thu, 21 Aug 2025 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2025-08-21-avs-rvtools-analyzer-with-mcp-capability/</guid><description>
+&lt;p>Migrating workloads from a VMware environment to an Azure VMware Solution (AVS) is a complex process that requires detailed planning and a careful understanding of the source infrastructure. To begin this process, tools like &lt;a href="https://www.dell.com/en-us/shop/vmware/sl/rvtools">RVTools&lt;/a> can be used to export a comprehensive snapshot of the VMware environment, providing a wealth of data about virtual machines, hardware configurations, resource usage, and more. This exported data becomes invaluable for assessing potential migration risks, identifying patterns, and flagging areas that may require attention or remediation ahead of the migration. By leveraging the insights from RVTools exports, we can better prepare for a smooth and efficient transition to the Azure VMware Solution.&lt;/p>
+&lt;p>To streamline and enhance this critical assessment step, I developed the &lt;a href="https://github.com/lrivallain/avs-rvtools-analyzer">&lt;strong>AVS RVTools Analyzer&lt;/strong>&lt;/a>. This tool is designed to quickly extract and highlight the most common patterns requiring attention from an RVTools export. By prioritizing “&lt;em>migration-blocking&lt;/em>” risks over lower-priority warnings or informational items, the tool enables a sharper focus on issues that could derail a migration if left unaddressed. With the AVS RVTools Analyzer, it is easier to get a clear picture of all potential risks and challenges upfront, ensuring that teams can mitigate issues early and make informed decisions before committing further resources to the migration project.&lt;/p>
+&lt;h2 id="avs-rvtools-analyzer-architecture">AVS RVTools Analyzer architecture&lt;/h2>
+&lt;p>The AVS RVTools Analyzer is built as a unified FastAPI application that combines both:&lt;/p>
+&lt;ul>
+&lt;li>A web interface: &lt;code>/&lt;/code>&lt;/li>
+&lt;li>REST API: &lt;code>/api&lt;/code>&lt;/li>
+&lt;li>Model Context Protocol (MCP) server capabilities: &lt;code>/mcp&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>This architecture allows multiple kind of usage including:&lt;/p>
+&lt;ul>
+&lt;li>Starting the tool and uploading RVTools export files through the web interface&lt;/li>
+&lt;li>Accessing analysis results via the REST API for automated processes&lt;/li>
+&lt;li>Integrating with other AI tools using the MCP server capabilities and benefiting from advanced context-aware analysis and AI capabilities to suggest remediation actions&lt;/li>
+&lt;/ul>
+&lt;div class="goat svg-container ">
+&lt;svg
+xmlns="http://www.w3.org/2000/svg"
+font-family="Menlo,Lucida Console,monospace"
+viewBox="0 0 704 553"
+>
+&lt;g transform='translate(8,16)'>
+&lt;path d='M 64,0 L 296,0' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 72,32 L 288,32' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 64,64 L 296,64' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 0,112 L 368,112' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 8,144 L 360,144' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 24,176 L 184,176' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 216,176 L 352,176' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 32,208 L 176,208' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 224,208 L 344,208' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 24,256 L 184,256' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 216,256 L 352,256' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 24,288 L 344,288' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 32,320 L 336,320' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 384,336 L 448,336' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 24,368 L 344,368' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 0,384 L 368,384' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 64,432 L 296,432' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 72,464 L 288,464' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 64,528 L 296,528' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 0,112 L 0,384' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 24,176 L 24,256' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 24,288 L 24,368' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 64,0 L 64,64' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 64,432 L 64,528' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 176,72 L 176,88' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 176,392 L 176,408' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 184,176 L 184,256' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 216,176 L 216,256' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 296,0 L 296,64' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 296,432 L 296,528' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 344,288 L 344,368' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 352,176 L 352,256' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 368,112 L 368,384' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 176,72 L 176,80' fill='none' stroke='currentColor'>&lt;/path>
+&lt;path d='M 176,392 L 176,400' fill='none' stroke='currentColor'>&lt;/path>
+&lt;polygon points='392.000000,336.000000 380.000000,330.399994 380.000000,341.600006' fill='currentColor' transform='rotate(180.000000, 384.000000, 336.000000)'>&lt;/polygon>
+&lt;polygon points='456.000000,336.000000 444.000000,330.399994 444.000000,341.600006' fill='currentColor' transform='rotate(0.000000, 448.000000, 336.000000)'>&lt;/polygon>
+&lt;text text-anchor='middle' x='40' y='228' fill='currentColor' style='font-size:1em'>(&lt;/text>
+&lt;text text-anchor='middle' x='40' y='244' fill='currentColor' style='font-size:1em'>&amp;amp;&lt;/text>
+&lt;text text-anchor='middle' x='40' y='340' fill='currentColor' style='font-size:1em'>(&lt;/text>
+&lt;text text-anchor='middle' x='40' y='356' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='48' y='228' fill='currentColor' style='font-size:1em'>U&lt;/text>
+&lt;text text-anchor='middle' x='48' y='340' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='48' y='356' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='56' y='196' fill='currentColor' style='font-size:1em'>W&lt;/text>
+&lt;text text-anchor='middle' x='56' y='228' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='56' y='244' fill='currentColor' style='font-size:1em'>R&lt;/text>
+&lt;text text-anchor='middle' x='56' y='340' fill='currentColor' style='font-size:1em'>I&lt;/text>
+&lt;text text-anchor='middle' x='56' y='356' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='64' y='196' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='64' y='228' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='64' y='244' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='64' y='356' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='72' y='196' fill='currentColor' style='font-size:1em'>b&lt;/text>
+&lt;text text-anchor='middle' x='72' y='228' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='72' y='244' fill='currentColor' style='font-size:1em'>p&lt;/text>
+&lt;text text-anchor='middle' x='72' y='308' fill='currentColor' style='font-size:1em'>M&lt;/text>
+&lt;text text-anchor='middle' x='72' y='340' fill='currentColor' style='font-size:1em'>I&lt;/text>
+&lt;text text-anchor='middle' x='72' y='356' fill='currentColor' style='font-size:1em'>y&lt;/text>
+&lt;text text-anchor='middle' x='80' y='132' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='80' y='244' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='80' y='308' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='80' y='340' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='80' y='356' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='88' y='132' fill='currentColor' style='font-size:1em'>V&lt;/text>
+&lt;text text-anchor='middle' x='88' y='196' fill='currentColor' style='font-size:1em'>I&lt;/text>
+&lt;text text-anchor='middle' x='88' y='228' fill='currentColor' style='font-size:1em'>F&lt;/text>
+&lt;text text-anchor='middle' x='88' y='244' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='88' y='308' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='88' y='340' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='88' y='356' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='88' y='484' fill='currentColor' style='font-size:1em'>-&lt;/text>
+&lt;text text-anchor='middle' x='88' y='500' fill='currentColor' style='font-size:1em'>-&lt;/text>
+&lt;text text-anchor='middle' x='96' y='52' fill='currentColor' style='font-size:1em'>U&lt;/text>
+&lt;text text-anchor='middle' x='96' y='132' fill='currentColor' style='font-size:1em'>S&lt;/text>
+&lt;text text-anchor='middle' x='96' y='196' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='96' y='228' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='96' y='244' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='96' y='308' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='96' y='340' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='96' y='356' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='104' y='52' fill='currentColor' style='font-size:1em'>p&lt;/text>
+&lt;text text-anchor='middle' x='104' y='196' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='104' y='228' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='104' y='308' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='104' y='340' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='104' y='484' fill='currentColor' style='font-size:1em'>D&lt;/text>
+&lt;text text-anchor='middle' x='104' y='500' fill='currentColor' style='font-size:1em'>I&lt;/text>
+&lt;text text-anchor='middle' x='104' y='516' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='112' y='52' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='112' y='132' fill='currentColor' style='font-size:1em'>R&lt;/text>
+&lt;text text-anchor='middle' x='112' y='196' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='112' y='228' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='112' y='244' fill='currentColor' style='font-size:1em'>V&lt;/text>
+&lt;text text-anchor='middle' x='112' y='340' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='112' y='356' fill='currentColor' style='font-size:1em'>&amp;amp;&lt;/text>
+&lt;text text-anchor='middle' x='112' y='484' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='112' y='500' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='112' y='516' fill='currentColor' style='font-size:1em'>c&lt;/text>
+&lt;text text-anchor='middle' x='120' y='52' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='120' y='132' fill='currentColor' style='font-size:1em'>V&lt;/text>
+&lt;text text-anchor='middle' x='120' y='196' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='120' y='244' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='120' y='308' fill='currentColor' style='font-size:1em'>C&lt;/text>
+&lt;text text-anchor='middle' x='120' y='340' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='120' y='452' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='120' y='484' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='120' y='500' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='120' y='516' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='128' y='52' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='128' y='132' fill='currentColor' style='font-size:1em'>T&lt;/text>
+&lt;text text-anchor='middle' x='128' y='196' fill='currentColor' style='font-size:1em'>f&lt;/text>
+&lt;text text-anchor='middle' x='128' y='228' fill='currentColor' style='font-size:1em'>U&lt;/text>
+&lt;text text-anchor='middle' x='128' y='244' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='128' y='308' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='128' y='340' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='128' y='356' fill='currentColor' style='font-size:1em'>S&lt;/text>
+&lt;text text-anchor='middle' x='128' y='452' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='128' y='484' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='128' y='500' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='128' y='516' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='136' y='52' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='136' y='132' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='136' y='196' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='136' y='228' fill='currentColor' style='font-size:1em'>p&lt;/text>
+&lt;text text-anchor='middle' x='136' y='244' fill='currentColor' style='font-size:1em'>w&lt;/text>
+&lt;text text-anchor='middle' x='136' y='308' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='136' y='340' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='136' y='356' fill='currentColor' style='font-size:1em'>u&lt;/text>
+&lt;text text-anchor='middle' x='136' y='452' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='136' y='484' fill='currentColor' style='font-size:1em'>c&lt;/text>
+&lt;text text-anchor='middle' x='136' y='500' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='136' y='516' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='144' y='132' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='144' y='196' fill='currentColor' style='font-size:1em'>c&lt;/text>
+&lt;text text-anchor='middle' x='144' y='228' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='144' y='244' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='144' y='308' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='144' y='340' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='144' y='356' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='144' y='452' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='144' y='484' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='144' y='500' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='144' y='516' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='152' y='52' fill='currentColor' style='font-size:1em'>R&lt;/text>
+&lt;text text-anchor='middle' x='152' y='132' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='152' y='196' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='152' y='228' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='152' y='244' fill='currentColor' style='font-size:1em'>)&lt;/text>
+&lt;text text-anchor='middle' x='152' y='308' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='152' y='340' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='152' y='356' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='152' y='452' fill='currentColor' style='font-size:1em'>y&lt;/text>
+&lt;text text-anchor='middle' x='152' y='500' fill='currentColor' style='font-size:1em'>f&lt;/text>
+&lt;text text-anchor='middle' x='152' y='516' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='160' y='52' fill='currentColor' style='font-size:1em'>V&lt;/text>
+&lt;text text-anchor='middle' x='160' y='132' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='160' y='228' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='160' y='308' fill='currentColor' style='font-size:1em'>x&lt;/text>
+&lt;text text-anchor='middle' x='160' y='356' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='160' y='452' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='160' y='484' fill='currentColor' style='font-size:1em'>M&lt;/text>
+&lt;text text-anchor='middle' x='160' y='500' fill='currentColor' style='font-size:1em'>y&lt;/text>
+&lt;text text-anchor='middle' x='168' y='20' fill='currentColor' style='font-size:1em'>U&lt;/text>
+&lt;text text-anchor='middle' x='168' y='52' fill='currentColor' style='font-size:1em'>T&lt;/text>
+&lt;text text-anchor='middle' x='168' y='228' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='168' y='308' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='168' y='340' fill='currentColor' style='font-size:1em'>w&lt;/text>
+&lt;text text-anchor='middle' x='168' y='356' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='168' y='452' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='168' y='484' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='168' y='516' fill='currentColor' style='font-size:1em'>&amp;amp;&lt;/text>
+&lt;text text-anchor='middle' x='176' y='20' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='176' y='52' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='176' y='100' fill='currentColor' style='font-size:1em'>V&lt;/text>
+&lt;text text-anchor='middle' x='176' y='132' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='176' y='340' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='176' y='356' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='176' y='420' fill='currentColor' style='font-size:1em'>V&lt;/text>
+&lt;text text-anchor='middle' x='176' y='452' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='176' y='484' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='176' y='500' fill='currentColor' style='font-size:1em'>R&lt;/text>
+&lt;text text-anchor='middle' x='184' y='20' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='184' y='52' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='184' y='132' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='184' y='308' fill='currentColor' style='font-size:1em'>P&lt;/text>
+&lt;text text-anchor='middle' x='184' y='340' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='184' y='356' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='184' y='484' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='184' y='500' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='184' y='516' fill='currentColor' style='font-size:1em'>W&lt;/text>
+&lt;text text-anchor='middle' x='192' y='20' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='192' y='52' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='192' y='132' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='192' y='308' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='192' y='340' fill='currentColor' style='font-size:1em'>h&lt;/text>
+&lt;text text-anchor='middle' x='192' y='356' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='192' y='452' fill='currentColor' style='font-size:1em'>R&lt;/text>
+&lt;text text-anchor='middle' x='192' y='484' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='192' y='500' fill='currentColor' style='font-size:1em'>m&lt;/text>
+&lt;text text-anchor='middle' x='192' y='516' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='200' y='20' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='200' y='52' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='200' y='132' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='200' y='308' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='200' y='356' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='200' y='452' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='200' y='484' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='200' y='500' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='200' y='516' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='208' y='132' fill='currentColor' style='font-size:1em'>y&lt;/text>
+&lt;text text-anchor='middle' x='208' y='308' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='208' y='340' fill='currentColor' style='font-size:1em'>C&lt;/text>
+&lt;text text-anchor='middle' x='208' y='356' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='208' y='452' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='208' y='484' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='208' y='500' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='208' y='516' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='216' y='52' fill='currentColor' style='font-size:1em'>E&lt;/text>
+&lt;text text-anchor='middle' x='216' y='132' fill='currentColor' style='font-size:1em'>z&lt;/text>
+&lt;text text-anchor='middle' x='216' y='308' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='216' y='340' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='216' y='356' fill='currentColor' style='font-size:1em'>)&lt;/text>
+&lt;text text-anchor='middle' x='216' y='452' fill='currentColor' style='font-size:1em'>u&lt;/text>
+&lt;text text-anchor='middle' x='216' y='484' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='216' y='500' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='216' y='516' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='224' y='52' fill='currentColor' style='font-size:1em'>x&lt;/text>
+&lt;text text-anchor='middle' x='224' y='132' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='224' y='308' fill='currentColor' style='font-size:1em'>c&lt;/text>
+&lt;text text-anchor='middle' x='224' y='340' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='224' y='452' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='224' y='484' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='224' y='500' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='224' y='516' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='232' y='52' fill='currentColor' style='font-size:1em'>p&lt;/text>
+&lt;text text-anchor='middle' x='232' y='132' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='232' y='228' fill='currentColor' style='font-size:1em'>(&lt;/text>
+&lt;text text-anchor='middle' x='232' y='244' fill='currentColor' style='font-size:1em'>P&lt;/text>
+&lt;text text-anchor='middle' x='232' y='308' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='232' y='340' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='232' y='452' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='232' y='500' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='232' y='516' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='240' y='52' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='240' y='228' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='240' y='244' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='240' y='308' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='240' y='340' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='240' y='452' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='240' y='484' fill='currentColor' style='font-size:1em'>R&lt;/text>
+&lt;text text-anchor='middle' x='240' y='500' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='240' y='516' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='248' y='52' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='248' y='132' fill='currentColor' style='font-size:1em'>(&lt;/text>
+&lt;text text-anchor='middle' x='248' y='228' fill='currentColor' style='font-size:1em'>u&lt;/text>
+&lt;text text-anchor='middle' x='248' y='244' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='248' y='340' fill='currentColor' style='font-size:1em'>x&lt;/text>
+&lt;text text-anchor='middle' x='248' y='484' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='248' y='500' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='256' y='52' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='256' y='132' fill='currentColor' style='font-size:1em'>F&lt;/text>
+&lt;text text-anchor='middle' x='256' y='196' fill='currentColor' style='font-size:1em'>R&lt;/text>
+&lt;text text-anchor='middle' x='256' y='228' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='256' y='244' fill='currentColor' style='font-size:1em'>c&lt;/text>
+&lt;text text-anchor='middle' x='256' y='308' fill='currentColor' style='font-size:1em'>(&lt;/text>
+&lt;text text-anchor='middle' x='256' y='340' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='256' y='484' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='256' y='500' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='264' y='132' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='264' y='196' fill='currentColor' style='font-size:1em'>E&lt;/text>
+&lt;text text-anchor='middle' x='264' y='228' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='264' y='244' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='264' y='308' fill='currentColor' style='font-size:1em'>M&lt;/text>
+&lt;text text-anchor='middle' x='264' y='340' fill='currentColor' style='font-size:1em'>-&lt;/text>
+&lt;text text-anchor='middle' x='264' y='484' fill='currentColor' style='font-size:1em'>k&lt;/text>
+&lt;text text-anchor='middle' x='272' y='132' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='272' y='196' fill='currentColor' style='font-size:1em'>S&lt;/text>
+&lt;text text-anchor='middle' x='272' y='228' fill='currentColor' style='font-size:1em'>m&lt;/text>
+&lt;text text-anchor='middle' x='272' y='244' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='272' y='308' fill='currentColor' style='font-size:1em'>C&lt;/text>
+&lt;text text-anchor='middle' x='272' y='340' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='272' y='484' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='280' y='132' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='280' y='196' fill='currentColor' style='font-size:1em'>T&lt;/text>
+&lt;text text-anchor='middle' x='280' y='228' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='280' y='244' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='280' y='308' fill='currentColor' style='font-size:1em'>P&lt;/text>
+&lt;text text-anchor='middle' x='280' y='340' fill='currentColor' style='font-size:1em'>w&lt;/text>
+&lt;text text-anchor='middle' x='288' y='132' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='288' y='228' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='288' y='244' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='288' y='308' fill='currentColor' style='font-size:1em'>)&lt;/text>
+&lt;text text-anchor='middle' x='288' y='340' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='296' y='132' fill='currentColor' style='font-size:1em'>P&lt;/text>
+&lt;text text-anchor='middle' x='296' y='196' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='296' y='228' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='296' y='244' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='296' y='340' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='304' y='132' fill='currentColor' style='font-size:1em'>I&lt;/text>
+&lt;text text-anchor='middle' x='304' y='196' fill='currentColor' style='font-size:1em'>P&lt;/text>
+&lt;text text-anchor='middle' x='304' y='228' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='304' y='244' fill='currentColor' style='font-size:1em'>)&lt;/text>
+&lt;text text-anchor='middle' x='304' y='340' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='312' y='132' fill='currentColor' style='font-size:1em'>)&lt;/text>
+&lt;text text-anchor='middle' x='312' y='196' fill='currentColor' style='font-size:1em'>I&lt;/text>
+&lt;text text-anchor='middle' x='464' y='340' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='464' y='356' fill='currentColor' style='font-size:1em'>R&lt;/text>
+&lt;text text-anchor='middle' x='472' y='340' fill='currentColor' style='font-size:1em'>I&lt;/text>
+&lt;text text-anchor='middle' x='472' y='356' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='480' y='356' fill='currentColor' style='font-size:1em'>m&lt;/text>
+&lt;text text-anchor='middle' x='488' y='340' fill='currentColor' style='font-size:1em'>T&lt;/text>
+&lt;text text-anchor='middle' x='488' y='356' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='496' y='340' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='496' y='356' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='504' y='340' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='504' y='356' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='512' y='340' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='512' y='356' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='520' y='340' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='520' y='356' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='528' y='356' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='536' y='340' fill='currentColor' style='font-size:1em'>(&lt;/text>
+&lt;text text-anchor='middle' x='536' y='356' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='544' y='340' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='544' y='356' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='552' y='340' fill='currentColor' style='font-size:1em'>.&lt;/text>
+&lt;text text-anchor='middle' x='560' y='340' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='560' y='356' fill='currentColor' style='font-size:1em'>S&lt;/text>
+&lt;text text-anchor='middle' x='568' y='340' fill='currentColor' style='font-size:1em'>.&lt;/text>
+&lt;text text-anchor='middle' x='568' y='356' fill='currentColor' style='font-size:1em'>u&lt;/text>
+&lt;text text-anchor='middle' x='576' y='340' fill='currentColor' style='font-size:1em'>,&lt;/text>
+&lt;text text-anchor='middle' x='576' y='356' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='584' y='356' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='592' y='340' fill='currentColor' style='font-size:1em'>A&lt;/text>
+&lt;text text-anchor='middle' x='592' y='356' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='600' y='340' fill='currentColor' style='font-size:1em'>I&lt;/text>
+&lt;text text-anchor='middle' x='600' y='356' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='608' y='356' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='616' y='340' fill='currentColor' style='font-size:1em'>M&lt;/text>
+&lt;text text-anchor='middle' x='616' y='356' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='624' y='340' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='624' y='356' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='632' y='340' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='632' y='356' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='640' y='340' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='640' y='356' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='648' y='340' fill='currentColor' style='font-size:1em'>l&lt;/text>
+&lt;text text-anchor='middle' x='648' y='356' fill='currentColor' style='font-size:1em'>)&lt;/text>
+&lt;text text-anchor='middle' x='656' y='340' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='672' y='340' fill='currentColor' style='font-size:1em'>f&lt;/text>
+&lt;text text-anchor='middle' x='680' y='340' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='688' y='340' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;/g>
+&lt;/svg>
+&lt;/div>
+&lt;h2 id="features-at-a-glance">Features at a Glance&lt;/h2>
+&lt;p>The &lt;strong>AVS RVTools Analyzer&lt;/strong> currently identifies &lt;strong>14 types of migration risks&lt;/strong> across &lt;strong>five key categories&lt;/strong>, helping you mitigate issues before moving to Azure VMware Solution (AVS).&lt;/p>
+&lt;h3 id="risk-categories">Risk Categories&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>Infrastructure&lt;/strong> (2 risks):&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Incompatible ESX Versions&lt;/strong> (Info): Detects version-related issues.&lt;/li>
+&lt;li>&lt;strong>Non-Intel Hosts&lt;/strong> (Warning): Identifies hosts requiring cold migration, as AVS supports only Intel CPUs.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Virtual Machines&lt;/strong> (6 risks):&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Suspended VMs&lt;/strong> (Warning): Requires powered-on or powered-off states.&lt;/li>
+&lt;li>&lt;strong>Oracle VMs&lt;/strong> (Info): Flags licensing cost concerns.&lt;/li>
+&lt;li>&lt;strong>VMware Tools Not Running&lt;/strong> (Warning): Impacts migration via HCX.&lt;/li>
+&lt;li>&lt;strong>Large Provisioned VMs&lt;/strong> (Warning): &amp;gt;10TB storage can delay migration.&lt;/li>
+&lt;li>&lt;strong>High vCPU VMs&lt;/strong> (Blocking): Exceeds AVS core limits and must be downsized.&lt;/li>
+&lt;li>&lt;strong>High Memory VMs&lt;/strong> (Info): May challenge AVS SKU memory limits.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Storage&lt;/strong> (3 risks):&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Risky Disks&lt;/strong> (Blocking): Unsupported &amp;quot;Independent&amp;quot; or RDM disks.&lt;/li>
+&lt;li>&lt;strong>Snapshots&lt;/strong> (Warning): Increase migration complexity.&lt;/li>
+&lt;li>&lt;strong>CD-ROM Issues&lt;/strong> (Warning): Cause boot or migration errors.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Networking&lt;/strong> (2 risks):&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Non-DVS Switches&lt;/strong> (Blocking): Requires distributed vSwitches to work with HCX network extension.&lt;/li>
+&lt;li>&lt;strong>DVPort Issues&lt;/strong> (Warning): Detects misconfigurations (e.g., VLAN 0, promiscuous mode).&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Compatibility&lt;/strong> (1 risk):&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>vUSB Devices&lt;/strong> (Blocking): Unsupported on AVS and must be disconnected.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="risk-severity-levels">Risk Severity Levels&lt;/h3>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Severity Level&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;th>Count&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;strong>Info&lt;/strong>&lt;/td>
+&lt;td>Awareness items, no action&lt;/td>
+&lt;td>3&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Warning&lt;/strong>&lt;/td>
+&lt;td>Important, should be fixed&lt;/td>
+&lt;td>7&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Blocking&lt;/strong>&lt;/td>
+&lt;td>Critical, must be resolved&lt;/td>
+&lt;td>5&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="usage">Usage&lt;/h2>
+&lt;h3 id="installation-and-server-startup">Installation and server startup&lt;/h3>
+&lt;p>The tools is built with Python, available on &lt;a href="https://pypi.org/project/avs-rvtools-analyzer/">PyPI&lt;/a> and can be used with &lt;a href="https://docs.astral.sh/uv/">&lt;code>uv&lt;/code>&lt;/a> or &lt;a href="https://pip.pypa.io/en/stable/">&lt;code>pip&lt;/code>&lt;/a>.&lt;/p>
+&lt;p>I will demonstrate the installation and usage of the tool using uv but you can use other installation methods if you prefer.&lt;/p>
+&lt;h4 id="prerequisites">Prerequisites&lt;/h4>
+&lt;p>Make sure you have &lt;a href="https://docs.astral.sh/uv/">&lt;code>uv&lt;/code>&lt;/a> installed:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="c1"># On Windows (PowerShell)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">powershell -ExecutionPolicy ByPass -c &lt;span class="s2">&amp;#34;irm https://astral.sh/uv/install.ps1 | iex&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="c1"># On macOS/Linux&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">curl -LsSf https://astral.sh/uv/install.sh &lt;span class="p">|&lt;/span> sh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="quick-start-with-uv">Quick Start with &lt;code>uv&lt;/code>&lt;/h4>
+&lt;p>Run the unified application with both web UI and MCP API:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="c1"># Run directly from PyPI (latest published version)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">uv tool run avs-rvtools-analyzer
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="c1"># Or run from source (current installed version)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">uv run avs-rvtools-analyzer
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With the default configuration, the application provides:&lt;/p>
+&lt;ul>
+&lt;li>Web interface: &lt;code>http://127.0.0.1:8000&lt;/code> (upload and analyze files)&lt;/li>
+&lt;li>API documentation: &lt;code>http://127.0.0.1:8000/docs&lt;/code> (interactive OpenAPI docs)&lt;/li>
+&lt;li>MCP tools: Available at &lt;code>/mcp&lt;/code> endpoint for AI integration&lt;/li>
+&lt;/ul>
+&lt;h3 id="web-ui">Web UI&lt;/h3>
+&lt;p>The web interface allows users to upload files for analysis and view the results in a user-friendly format. It is also possible to print the analysis report as a PDF file or to export a CSV files of each section content.&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Upload form"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-rvtools-analyzer/upload_form.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Analysis report in web UI"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-rvtools-analyzer/analyze_webui.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="rest-api">REST API&lt;/h3>
+&lt;p>REST API is fully documented using OpenAPI and can be used to automate the analysis process or integrate with other systems. &lt;code>openapi.json&lt;/code> file is provided at the root of the project and integrated with Swagger UI and ReDoc:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Swagger UI::picture-border"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-rvtools-analyzer/rest_api_swagger.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="ai-integration">AI Integration&lt;/h2>
+&lt;div class="notices warning">
+&lt;div class="label">Disclaimer&lt;/div>
+&lt;p>The AI integration in RVTools Analyzer may produce unexpected behavior or inaccuracies in the analysis results. It is strongly recommended to review the output carefully and validate it against known data. Additionally, please ensure that data privacy and compliance requirements are taken into account when using AI tools, as submitted data will be shared with AI systems.&lt;/p>
+&lt;p>The provided tools &lt;strong>run locally&lt;/strong> to generate an analysis report from the uploaded RVTools file. When integrated with AI models, the data is processed and analyzed to deliver deeper insights and recommendations. If your AI models are not running in a local or secure environment, it is essential to verify that data is handled appropriately and in compliance with applicable regulations and your organization’s policies.&lt;/p>
+&lt;/div>
+&lt;p>The AVS RVTools Analyzer now integrates with AI systems to deliver enhanced capabilities, such as advanced data analysis, predictive modeling, and automated decision-making.&lt;/p>
+&lt;p>To enable seamless interaction with AI models and tools, I implemented the &lt;a href="https://docs.astral.sh/mcp/">Model Context Protocol (MCP)&lt;/a>, a standardized framework designed for AI integration. The MCP server is available at the &lt;code>/mcp&lt;/code> endpoint and provides the following key tools:&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>&lt;code>analyze_file&lt;/code>&lt;/strong>: Analyze RVTools file by providing a file path on the server.&lt;/li>
+&lt;li>&lt;strong>&lt;code>analyze_uploaded_file&lt;/code>&lt;/strong>: Upload and analyze RVTools Excel file.&lt;/li>
+&lt;li>&lt;strong>&lt;code>list_available_risks&lt;/code>&lt;/strong>: List all migration risks that can be assessed by this tool.&lt;/li>
+&lt;li>&lt;strong>&lt;code>get_sku_capabilities&lt;/code>&lt;/strong>: Get Azure VMware Solution (AVS) SKU hardware capabilities and specifications.&lt;/li>
+&lt;/ol>
+&lt;h3 id="example-of-ai-tool-usage-in-visual-studio-code">Example of AI tool usage in Visual Studio Code&lt;/h3>
+&lt;p>To demonstrate the usage of the AVS RVTools Analyzer with AI integration, I will provide an example of how to use the MCP tools within Visual Studio Code.&lt;/p>
+&lt;h4 id="create-the-mcp-server-in-visual-studio-code">Create the MCP server in Visual Studio Code&lt;/h4>
+&lt;ol>
+&lt;li>Open the command palette (Ctrl+Shift+P) and run the &lt;code>MCP: Add server&lt;/code> command.&lt;/li>
+&lt;li>This will prompt you for server type to add: &lt;code>http&lt;/code> in our case.&lt;/li>
+&lt;li>Enter the server URL: &lt;code>http://127.0.0.1:8000/mcp&lt;/code>.&lt;/li>
+&lt;li>Enter a name that fit your needs to recognize the server in available tooling.&lt;/li>
+&lt;li>In Copilot tools list, you can now check that MCP server capabilities are listed.
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="MCP server capabilities in Visual Studio Code"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-rvtools-analyzer/mpc_in_visual_studio_code.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/li>
+&lt;/ol>
+&lt;h4 id="using-the-mcp-capacities-to-assess-a-rvtools-file">Using the MCP capacities to assess a RVTools file&lt;/h4>
+&lt;ol>
+&lt;li>In the Copilot prompt, enter a prompt like:&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>I need a summarized analyze of AVS migration risks for the following file: &lt;code>/\&amp;lt;path to your file\&amp;gt;/RVTools_export_all_test.xlsx&lt;/code>&lt;/p>&lt;/blockquote>
+&lt;ol start="2">
+&lt;li>
+&lt;p>When prompted for a confirmation before running a request to a MCP tool, review the details and confirm the action.
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Confirm MCP tool request"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-rvtools-analyzer/mpc_confirm_mcp_tool_use.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>This should return a summarized analysis of the migration risks found in the provided RVTools file.
+&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="MCP analyze summary"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-rvtools-analyzer/mpc_analyze_summary.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>It is possible to dig deeper in the analysis by using specific prompts. For example:&lt;/p>
+&lt;blockquote>
+&lt;p>I need to analyze the migration risks related to VM snapshots in this file. Provide me the list of VMs and snapshots.&lt;/p>&lt;/blockquote>
+&lt;p>With the help of the used LLM model, the risk analysis is performed on the MCP server, then provided to the model to generate a detailed response based on the analysis results:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Example of a deeper analyze with details about the related items and the process to follow for mitigation"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-rvtools-analyzer/mpc_deep_analyze.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h4 id="using-the-mcp-integration-to-get-sku-capabilities">Using the MCP integration to get SKU capabilities&lt;/h4>
+&lt;p>Example of prompt:&lt;/p>
+&lt;blockquote>
+&lt;p>I want to compare CPU capabilities of AVS SKU AV36P and AV64&lt;/p>&lt;/blockquote>
+&lt;p>The MCP tool will return the CPU capabilities of the requested AVS SKU, allowing you to compare them easily:&lt;/p>
+&lt;p>&lt;figure>
+&lt;picture>
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AVS SKU CPU Comparison: AV36P vs AV64"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/avs-rvtools-analyzer/avs_sku_comparison.png"
+/>
+&lt;/picture>
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>The integration of the AVS RVTools Analyzer with AI systems through the Model Context Protocol (MCP) significantly enhances its capabilities. Users can leverage the MCP tools to perform in-depth analysis of RVTools data, assess migration risks, and obtain detailed information about possible mitigation actions.&lt;/p>
+&lt;p>In the future, I plan to extend the tool to provide advanced features and add new risks detection based on user feedback and real field usage.&lt;/p>
+&lt;p>The project is open source and contributions are welcome. If you have ideas for new features, improvements, or additional risks to detect, feel free to open an issue or submit a pull request on the &lt;a href="https://github.com/lrivallain/avs-rvtools-analyzer">GitHub repository&lt;/a>.&lt;/p></description></item><item><title>How to retain your IP addresses while migrating to Azure VMware Solution</title><link>https://vuptime.io/post/2025-03-26-keep-ip-addresses-while-migrating-to-avs/</link><pubDate>Wed, 26 Mar 2025 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2025-03-26-keep-ip-addresses-while-migrating-to-avs/</guid><description>
 &lt;p>Migrating On Premises assets to a cloud solution can be a complex process, especially when it comes to considering existing IP addresses plan. One key benefit of migrating to Azure VMware Solution (AVS) is the ability to retain existing IP addresses, which can simplify the migration process and reduce downtime. However, this approach requires careful planning and consideration of network principles to ensure a smooth transition.&lt;/p>
 &lt;p>This post will explore some considerations for retaining IP addresses during the migration to AVS, including the importance of understanding network dependencies and the potential impact on performance. It will also discuss the benefits of leveraging VMware Hybrid Cloud Extension (HCX) Layer 2 extensions to facilitate the migration process.&lt;/p>
 &lt;h2 id="general-considerations">General Considerations&lt;/h2>
@@ -1127,42 +1750,42 @@ src="https://vuptime.io/images/avs-adx-grafana/dashboard-example-3.png"
 &lt;/ul>
 &lt;h3 id="example-of-terraform-code-to-create-the-event-hub-namespace-event-hub">Example of Terraform code to create the Event Hub Namespace, Event Hub&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub_namespace&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhubnamespace&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-eventhubnamespace&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="na">location&lt;/span> = &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_location&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="na">sku&lt;/span> = &lt;span class="s2">&amp;#34;Standard&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="na">capacity&lt;/span> = &lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-eventhubnamespace&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> &lt;span class="nx">resource_group_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="nx">location&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_location&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="nx">sku&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;Standard&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="nx">capacity&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="m">1&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;span class="c1">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="c1">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="c1"># Authorization Rule to allow AVS SDDC diagnostic log forwarded to sent logs to the Event Hub
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub_namespace_authorization_rule&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhubnamespace-authorization-rule&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-authorization-rule&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> &lt;span class="na">namespace_name&lt;/span> = &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-authorization-rule&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> &lt;span class="nx">namespace_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> &lt;span class="nx">resource_group_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="na">listen&lt;/span> = &lt;span class="kc">false&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="na">send&lt;/span> = &lt;span class="kc">true&lt;/span>&lt;span class="c1"> # AVS SDDC diagnostic log forwarded to sent logs to the Event Hub
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">manage&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="nx">listen&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="nx">send&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="c1"> # AVS SDDC diagnostic log forwarded to sent logs to the Event Hub
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">manage&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">false&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="example-of-terraform-code-to-create-authorization-rules">Example of Terraform code to create Authorization Rules&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-terraform" data-lang="terraform">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="c1"># Authorization Rule to allow an Azure Function to listen to event hub messages and
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1"># to send logs to the VMware Aria Operations for Logs Cloud Service
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub_namespace_authorization_rule&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhubnamespace-af-authorization-rule&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;af-authorization-rule&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="na">namespace_name&lt;/span> = &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;af-authorization-rule&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="nx">namespace_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="nx">resource_group_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl"> &lt;span class="na">listen&lt;/span> = &lt;span class="kc">true&lt;/span>&lt;span class="c1"> # Azure Function will listen to event hub messages
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="na">send&lt;/span> = &lt;span class="kc">false&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl"> &lt;span class="na">manage&lt;/span> = &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl"> &lt;span class="nx">listen&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="c1"> # Azure Function will listen to event hub messages
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">send&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl"> &lt;span class="nx">manage&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">false&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="kr">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhub&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> &lt;span class="na">name&lt;/span> = &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-eventhub&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="na">resource_group_name&lt;/span> = &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="na">namespace_name&lt;/span> = &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl"> &lt;span class="na">partition_count&lt;/span> = &lt;span class="m">2&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> &lt;span class="na">message_retention&lt;/span> = &lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="kr">resource&lt;/span> &lt;span class="s2">&amp;#34;azurerm_eventhub&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;eventhub&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nb">var&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">sddc_name&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">-eventhub&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="nx">resource_group_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">azurerm_resource_group&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">avs_rg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="nx">namespace_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">azurerm_eventhub_namespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">eventhubnamespace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl"> &lt;span class="nx">partition_count&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="m">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> &lt;span class="nx">message_retention&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="m">1&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="azure-vmware-solution-sddc-diagnostic-logs">Azure VMware Solution SDDC Diagnostic Logs&lt;/h2>
 &lt;p>In order to forward the logs from the Azure VMware Solution SDDC to the Event Hub, we will leverage on the Azure Diagnostic Settings.&lt;/p>
