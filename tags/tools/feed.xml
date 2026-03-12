@@ -1,104 +1,406 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tools on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/tools/</link><description>Recent content in Tools on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 20 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/tools/feed.xml" rel="self" type="application/rss+xml"/><item><title>Tooling: Azure Migrate Network Flows Analysis</title><link>https://vuptime.io/post/2025-01-20-azure-migrate-network-flows-analysis/</link><pubDate>Mon, 20 Jan 2025 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2025-01-20-azure-migrate-network-flows-analysis/</guid><description>
-&lt;h2 id="introduction">Introduction&lt;/h2>
-&lt;p>Migrating workloads to Azure, particularly Azure VMware Solution, is significantly streamlined by tools such as Azure Migrate and VMware HCX. However, some challenges remain. One major challenge is understanding network flows and preparing migration steps. Many users find it difficult to parse the data collected during Azure Migrate dependencies analysis and organize it into actionable migration waves.&lt;/p>
-&lt;h3 id="the-problem">The problem&lt;/h3>
-&lt;p>When conducting an Azure Migrate dependencies analysis, users often feel overwhelmed by the vast amount of network flow data and the challenge of understanding it. This data is essential for planning and executing a successful migration, but without the appropriate tools, it can be challenging to interpret and utilize effectively.&lt;/p>
-&lt;h3 id="the-solution">The solution&lt;/h3>
-&lt;p>To address this issue, I have developed a comprehensive solution: &lt;a href="https://az-mdv.az.vupti.me/">Azure Migrate Network Flows Analysis&lt;/a> (&lt;a href="https://github.com/lrivallain/az-migrate-dep-visu">Github repo&lt;/a>). This tool helps users understand network flow data by turning it into easy-to-read visuals. It helps users plan and execute migrations better, reducing errors and downtime. The tool also includes features like flows visualizations, filtered table and exports, making the migration process smoother and more likely to succeed.&lt;/p>
-&lt;h2 id="features">Features&lt;/h2>
-&lt;ul>
-&lt;li>&lt;strong>CSV Import&lt;/strong>: Import CSV files containing network flow data from Azure Migrate Dependency analysis
-&lt;ul>
-&lt;li>The data remains entirely within the browser and is never uploaded to a server, ensuring the protection of
-data privacy.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;strong>Data Processing&lt;/strong>: Extract and process data from the uploaded CSV files.&lt;/li>
-&lt;li>&lt;strong>Visualization&lt;/strong>: Visualize the network flows using interactive graphs.&lt;/li>
-&lt;li>&lt;strong>Filtering&lt;/strong>: Filter the data based on various criteria such as IP addresses, ports, and VLANs.&lt;/li>
-&lt;li>&lt;strong>CSV Download&lt;/strong>: Download the filtered data as a CSV file.&lt;/li>
-&lt;li>&lt;strong>VLANs&lt;/strong>: Support for optional VLANs data columns in the CSV file and flow grouping.
-&lt;ul>
-&lt;li>Grouping items by VLAN or subnet is crucial for successful migration planning in an Azure VMware environment
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tools on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/tools/</link><description>Recent content in Tools on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Thu, 12 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/tools/feed.xml" rel="self" type="application/rss+xml"/><item><title>`az-scout`: Scout Azure regions for VM availability, zone mappings, deployment planning and more</title><link>https://vuptime.io/post/2026-03-13-az-scout-azure-availability-zone-explorer/</link><pubDate>Thu, 12 Mar 2026 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2026-03-13-az-scout-azure-availability-zone-explorer/</guid><description>
+&lt;p&gt;When planning resilient VM deployments across Azure regions and Availability Zones, operators often face a set of recurring questions that are surprisingly hard to answer quickly:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Do my subscriptions share the same physical datacenter for logical zone 1?&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Which VM SKUs are available in all three zones with enough quota headroom?&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;What is the Spot placement likelihood for this SKU family right now?&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Which deployment plan gives me the best confidence score across zones?&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;How can I guarantee capacity for my VM allocation in this region?&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These questions require correlating data from multiple Azure ARM endpoints — zone mappings, SKU catalogs, quota usage, spot placement scores, and retail pricing — then cross-referencing it across subscriptions. Doing this manually in the portal or with CLI scripts can be tedious and error-prone.&lt;/p&gt;
+&lt;p&gt;To address this, &lt;a href="https://github.com/rsabile"&gt;Remy Sabile&lt;/a&gt; and I co-authored &lt;a href="https://github.com/az-scout/az-scout"&gt;&lt;strong&gt;az-scout&lt;/strong&gt;&lt;/a&gt;: a multi-purpose tool that brings all of this data together in one web UI, with an integrated AI assistant and an MCP server for AI agent integration.&lt;/p&gt;
+&lt;p&gt;And the best part? It's fully extensible through a &lt;a href="https://vuptime.io/post/2026-03-13-az-scout-azure-availability-zone-explorer/#the-plugin-system"&gt;plugin system&lt;/a&gt;, &lt;strong&gt;allowing anyone to add new capabilities&lt;/strong&gt;!&lt;/p&gt;
+&lt;h2 id="what-az-scout-does"&gt;What &lt;code&gt;az-scout&lt;/code&gt; does&lt;/h2&gt;
+&lt;p&gt;az-scout is a Python web application built with FastAPI. Once authenticated with Azure credentials (&lt;code&gt;az login&lt;/code&gt; or any method supported by &lt;code&gt;DefaultAzureCredential&lt;/code&gt;), it provides:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AZ Topology&lt;/strong&gt; — visualize logical-to-physical zone mappings across all your subscriptions for a given region, rendered as a D3.js graph to instantly spot whether two subscriptions share the same physical zone for a given logical number.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AZ Topology — D3.js graph showing logical-to-physical zone mappings"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/topology-graph.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Deployment Planner&lt;/strong&gt; — list VM SKUs with zone availability, restrictions, quota headroom, Spot placement scores, and pricing. Each SKU gets a &lt;strong&gt;Deployment Confidence Score&lt;/strong&gt; (0–100) synthesized from multiple signals.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Deployment Planner — SKU table with zone availability, pricing, and confidence scores"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/planner-table.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Click on any SKU to drill into detailed pricing (PayGo, Spot, Reserved Instances, Savings Plans) and VM profile:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: center"&gt;Pricing detail&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Spot placement scores&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Pricing modal showing PayGo, Spot, RI, and SP rates"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/pricing-modal.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Spot placement score modal with per-zone likelihood"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/spot-modal.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AI Chat Assistant&lt;/strong&gt; — an optional chat panel powered by Azure OpenAI with tool-calling support. It can query zones, SKUs, pricing, and spot scores on your behalf and present structured results.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="AI Chat Assistant with tool-calling support"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/ai-chat.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MCP Server&lt;/strong&gt; — a &lt;a href="https://modelcontextprotocol.io/"&gt;Model Context Protocol&lt;/a&gt; server that exposes all capabilities as MCP tools, allowing AI agents (Claude Desktop, VS Code Copilot, etc.) to query your Azure infrastructure directly.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The tool is designed for local use — you run it on your workstation, and it talks directly to Azure APIs using your credentials.&lt;/p&gt;
+&lt;h2 id="quick-start"&gt;Quick start&lt;/h2&gt;
+&lt;p&gt;If you have Python ≥ 3.11 and valid Azure credentials:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# If not already done:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;az login
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;3&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;4&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# No install required — just run it&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;5&lt;/span&gt;&lt;span class="cl"&gt;uvx az-scout
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Your browser opens at &lt;code&gt;http://127.0.0.1:5001&lt;/code&gt; and you are ready to go.&lt;/p&gt;
+&lt;p&gt;For a permanent installation with &lt;code&gt;uv&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;uv install az-scout
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;az-scout
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Or with Docker:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;docker run --rm -p 8000:8000 &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt; -e &lt;span class="nv"&gt;AZURE_TENANT_ID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;your-tenant&amp;gt; &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;3&lt;/span&gt;&lt;span class="cl"&gt; -e &lt;span class="nv"&gt;AZURE_CLIENT_ID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;your-client-id&amp;gt; &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;4&lt;/span&gt;&lt;span class="cl"&gt; -e &lt;span class="nv"&gt;AZURE_CLIENT_SECRET&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;your-secret&amp;gt; &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;5&lt;/span&gt;&lt;span class="cl"&gt; ghcr.io/az-scout/az-scout:latest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="architecture-overview"&gt;Architecture overview&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;az-scout&lt;/code&gt; follows a clean separation of concerns that makes it both maintainable for the core and extensible for plugins:&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="az-scout architecture overview"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/architecture.svg"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;azure_api&lt;/strong&gt; module is the heart of the application. It provides helper functions to interact with Azure APIs: plugins can call these functions to get consistent authentication, retry logic, and error handling without worrying about the underlying API details.&lt;/p&gt;
+&lt;h2 id="the-plugin-system"&gt;The plugin system&lt;/h2&gt;
+&lt;p&gt;One of the most interesting aspects of &lt;code&gt;az-scout&lt;/code&gt; is its &lt;strong&gt;plugin architecture&lt;/strong&gt;. The core application handles zone topology and deployment planning, but any additional capability is added through plugins — pip-installable Python packages that are auto-discovered at startup.&lt;/p&gt;
+&lt;h3 id="how-plugins-work"&gt;How plugins work&lt;/h3&gt;
+&lt;p&gt;A plugin is a standard Python package that registers an &lt;code&gt;az_scout.plugins&lt;/code&gt; entry point:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-toml" data-lang="toml"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;project&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;entry-points&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;az_scout.plugins&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;my_plugin&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;az_scout_myplugin:plugin&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;At startup, &lt;code&gt;az-scout&lt;/code&gt; discovers all installed plugins via &lt;code&gt;importlib.metadata.entry_points&lt;/code&gt; and wires up their contributions automatically — no configuration needed.&lt;/p&gt;
+&lt;p&gt;Each plugin can contribute any combination of:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Layer&lt;/th&gt;
+&lt;th&gt;What it provides&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;API routes&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;FastAPI &lt;code&gt;APIRouter&lt;/code&gt; mounted at &lt;code&gt;/plugins/{name}/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;MCP tools&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Functions exposed on the MCP server for AI agents&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;UI tabs&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Bootstrap tabs rendered in the main app&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Static assets&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;CSS, JS, HTML fragments served alongside the plugin&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Chat modes&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Custom AI chat personalities with domain-specific prompts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Prompt guidance&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Extra context injected into the default AI chat mode&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="creating-a-plugin"&gt;Creating a plugin&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;az-scout&lt;/code&gt; includes a built-in scaffold generator:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;az-scout create-plugin
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This launches an interactive wizard that will asks for a plugin name, slug, package name, and GitHub repository details, then generates a complete project structure with routing, MCP tools, UI tab, tests, CI workflows, and proper packaging.&lt;/p&gt;
+&lt;h2 id="existing-plugins"&gt;Existing plugins&lt;/h2&gt;
+&lt;p&gt;Several plugins already extend az-scout's capabilities:&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="Plugin Manager UI showing installed and recommended plugins"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/plugin-manager.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Plugin&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href="https://github.com/az-scout/az-scout-plugin-batch-sku"&gt;az-scout-plugin-batch-sku&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Azure Batch SKU availability — discover and compare Batch-supported VM SKUs per region&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href="https://github.com/az-scout/az-scout-plugin-latency-stats"&gt;az-scout-plugin-latency-stats&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Inter-region and Inter-zones latency statistics — World map with pairwise RTT between Azure regions&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href="https://github.com/az-scout/az-scout-plugin-avs-sku"&gt;az-scout-plugin-avs-sku&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Azure VMware Solution (AVS) SKU exploration with regional pricing and generation compatibility&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href="https://github.com/az-scout/az-scout-plugin-odcr-coverage"&gt;az-scout-plugin-odcr-coverage&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;On-Demand Capacity Reservation (ODCR) coverage analysis — identify VMs at risk of allocation failure&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href="https://github.com/az-scout/az-scout-plugin-strategy-advisor"&gt;az-scout-plugin-strategy-advisor&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;em&gt;(WIP)&lt;/em&gt; Multi-region capacity strategy recommendation engine&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="notices info"&gt;
+&lt;div class="label"&gt;Coming soon&lt;/div&gt;
+&lt;p&gt;Future blog posts will dive into each plugin individually, covering their implementation details, Azure API integration patterns, and how they leverage the plugin architecture.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="ai-integration"&gt;AI integration&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;az-scout&lt;/code&gt; integrates with AI in three ways:&lt;/p&gt;
+&lt;h3 id="ai-chat-assistant"&gt;AI Chat Assistant&lt;/h3&gt;
+&lt;p&gt;When configured with Azure OpenAI credentials (&lt;code&gt;AZURE_OPENAI_ENDPOINT&lt;/code&gt;, &lt;code&gt;AZURE_OPENAI_API_KEY&lt;/code&gt;, &lt;code&gt;AZURE_OPENAI_DEPLOYMENT&lt;/code&gt;), a chat panel appears in the UI. The assistant can:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Call MCP tools to help providing the best possible answer to user questions about zones, SKUs, pricing, spot scores…&lt;/li&gt;
+&lt;li&gt;Clickable actions or prompt suggestions&lt;/li&gt;
+&lt;li&gt;Switch between &lt;em&gt;discussion&lt;/em&gt; mode (general Q&amp;amp;A), &lt;em&gt;planner&lt;/em&gt; mode (guided deployment advisor).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Plugins can contribute their own chat modes with domain-specific system prompts: e.g., &lt;em&gt;AVS SKU advisor&lt;/em&gt;.&lt;/p&gt;
+&lt;h3 id="cli-chat"&gt;CLI Chat&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;az-scout&lt;/code&gt; also includes an interactive AI chat that runs entirely in the terminal — no browser needed. It uses the same Azure OpenAI backend and MCP tools as the web UI chat.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Interactive session&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;az-scout chat
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;3&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;4&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# One-shot query&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;5&lt;/span&gt;&lt;span class="cl"&gt;az-scout chat &lt;span class="s2"&gt;&amp;#34;What SKUs are available in francecentral with at least 8 vCPUs?&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="CLI Chat — interactive terminal session with Rich rendering"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/cli-chat.png"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;The CLI chat features Rich-rendered streaming (markdown, tables, code blocks), tool-call visualization, interactive numbered choices, conversation history with arrow-key navigation, and tab auto-completion for slash commands like &lt;code&gt;/region&lt;/code&gt;, &lt;code&gt;/mode&lt;/code&gt;, &lt;code&gt;/subscription&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="mcp-server"&gt;MCP Server&lt;/h3&gt;
+&lt;p&gt;The built-in MCP server exposes all capabilities as tools that any MCP-compatible AI agent can call. This means you can use Claude Desktop, VS Code Copilot, or any other MCP client to query your Azure infrastructure through natural language — without the web UI.&lt;/p&gt;
+&lt;p&gt;The MCP server is available both via stdio (for local CLI integration) and Streamable HTTP (for hosted deployments):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# stdio transport (local)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;az-scout mcp
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;3&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;4&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Streamable HTTP (for Container Apps, etc.)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;5&lt;/span&gt;&lt;span class="cl"&gt;az-scout mcp --http --port &lt;span class="m"&gt;8080&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The default &lt;code&gt;web&lt;/code&gt; running mode embeds a &lt;em&gt;Streamable HTTP&lt;/em&gt; MCP server side to side with the web UI capabilities: enabling a combined use of the web interface and AI agents simultaneously.&lt;/p&gt;
+&lt;h3 id="plugin-in-ai-integration"&gt;Plugin in AI integration&lt;/h3&gt;
+&lt;p&gt;Each plugin can contribute to the AI integration by providing:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MCP tools&lt;/strong&gt; — any plugin function can be exposed as an MCP tool with a simple decorator, making it callable from AI agents.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Chat modes&lt;/strong&gt; — plugins can define their own chat modes with custom system prompts, allowing them to provide specialized AI assistants for their domain.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Prompt guidance&lt;/strong&gt; — plugins can inject additional context into the default chat mode, enriching the assistant's knowledge with plugin-specific information.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
+&lt;img
+loading="lazy"
+decoding="async"
+alt="How plugins contribute to AI integration"
+class="image_figure image_internal image_unprocessed"
+src="https://vuptime.io/images/az-scout/plugin-ai-integration.svg"
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id="whats-next"&gt;What's next&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;az-scout&lt;/code&gt; is an evolving project. The plugin ecosystem is growing, and the core continues to gain new capabilities. Upcoming posts in this series will cover:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AZ Topology&lt;/strong&gt; — understanding logical-to-physical zone mappings and why they matter for multi-subscription architectures&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Deployment Planner&lt;/strong&gt; — how the Confidence Score is computed and how to interpret its signals&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MCP integration&lt;/strong&gt; — using &lt;code&gt;az-scout&lt;/code&gt; as an AI agent backend for infrastructure planning&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;External plugins&lt;/strong&gt; — deep dives into community-contributed plugins and how they leverage the architecture&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="resources"&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Documentation:&lt;/strong&gt; &lt;a href="https://docs.az-scout.com"&gt;docs.az-scout.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GitHub:&lt;/strong&gt; &lt;a href="https://github.com/az-scout/az-scout"&gt;github.com/az-scout/az-scout&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PyPI:&lt;/strong&gt; &lt;a href="https://pypi.org/project/az-scout/"&gt;pypi.org/project/az-scout&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Start your plugin adventure:&lt;/strong&gt; it is as simple as &lt;code&gt;az-scout create-plugin&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="notices warning"&gt;
+&lt;div class="label"&gt;Disclaimer&lt;/div&gt;
+&lt;p&gt;This tool is not affiliated with Microsoft. All capacity, pricing, and latency information are indicative and not a guarantee of deployment success. Spot placement scores are probabilistic. Quota values and pricing are dynamic and may change between planning and actual deployment.&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>Tooling: Azure Migrate Network Flows Analysis</title><link>https://vuptime.io/post/2025-01-20-azure-migrate-network-flows-analysis/</link><pubDate>Mon, 20 Jan 2025 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2025-01-20-azure-migrate-network-flows-analysis/</guid><description>
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Migrating workloads to Azure, particularly Azure VMware Solution, is significantly streamlined by tools such as Azure Migrate and VMware HCX. However, some challenges remain. One major challenge is understanding network flows and preparing migration steps. Many users find it difficult to parse the data collected during Azure Migrate dependencies analysis and organize it into actionable migration waves.&lt;/p&gt;
+&lt;h3 id="the-problem"&gt;The problem&lt;/h3&gt;
+&lt;p&gt;When conducting an Azure Migrate dependencies analysis, users often feel overwhelmed by the vast amount of network flow data and the challenge of understanding it. This data is essential for planning and executing a successful migration, but without the appropriate tools, it can be challenging to interpret and utilize effectively.&lt;/p&gt;
+&lt;h3 id="the-solution"&gt;The solution&lt;/h3&gt;
+&lt;p&gt;To address this issue, I have developed a comprehensive solution: &lt;a href="https://az-mdv.az.vupti.me/"&gt;Azure Migrate Network Flows Analysis&lt;/a&gt; (&lt;a href="https://github.com/lrivallain/az-migrate-dep-visu"&gt;Github repo&lt;/a&gt;). This tool helps users understand network flow data by turning it into easy-to-read visuals. It helps users plan and execute migrations better, reducing errors and downtime. The tool also includes features like flows visualizations, filtered table and exports, making the migration process smoother and more likely to succeed.&lt;/p&gt;
+&lt;h2 id="features"&gt;Features&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CSV Import&lt;/strong&gt;: Import CSV files containing network flow data from Azure Migrate Dependency analysis
+&lt;ul&gt;
+&lt;li&gt;The data remains entirely within the browser and is never uploaded to a server, ensuring the protection of
+data privacy.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data Processing&lt;/strong&gt;: Extract and process data from the uploaded CSV files.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Visualization&lt;/strong&gt;: Visualize the network flows using interactive graphs.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Filtering&lt;/strong&gt;: Filter the data based on various criteria such as IP addresses, ports, and VLANs.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CSV Download&lt;/strong&gt;: Download the filtered data as a CSV file.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;VLANs&lt;/strong&gt;: Support for optional VLANs data columns in the CSV file and flow grouping.
+&lt;ul&gt;
+&lt;li&gt;Grouping items by VLAN or subnet is crucial for successful migration planning in an Azure VMware environment
 with HCX. Utilizing L2 extensions and preparing for extension cutover are essential steps to efficiently migrate
-workloads and prevent network issues.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;strong>Non RFC1918 IPs&lt;/strong>: Regroup and filter non-RFC1918 IP addresses.&lt;/li>
-&lt;/ul>
-&lt;h2 id="how-to-use">How to use&lt;/h2>
-&lt;ol>
-&lt;li>
-&lt;p>&lt;strong>Upload CSV File&lt;/strong>:&lt;/p>
-&lt;ul>
-&lt;li>Navigate to the upload page.&lt;/li>
-&lt;li>Upload a CSV file containing network flow data.&lt;/li>
-&lt;li>The CSV file should have the following columns:
-&lt;ul>
-&lt;li>&lt;code>Source server name&lt;/code>&lt;/li>
-&lt;li>&lt;code>Source IP&lt;/code>&lt;/li>
-&lt;li>&lt;code>Source application&lt;/code>&lt;/li>
-&lt;li>&lt;code>Source process&lt;/code>&lt;/li>
-&lt;li>&lt;code>Destination server name&lt;/code>&lt;/li>
-&lt;li>&lt;code>Destination IP&lt;/code>&lt;/li>
-&lt;li>&lt;code>Destination application&lt;/code>&lt;/li>
-&lt;li>&lt;code>Destination process&lt;/code>&lt;/li>
-&lt;li>&lt;code>Destination port&lt;/code>&lt;/li>
-&lt;li>&lt;code>Source VLAN&lt;/code> (optional)&lt;/li>
-&lt;li>&lt;code>Destination VLAN&lt;/code> (optional)&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>View and Filter Data&lt;/strong>:&lt;/p>
-&lt;ul>
-&lt;li>After uploading, you will be redirected to the visualization page.&lt;/li>
-&lt;li>Use the filters to narrow down the data based on source IP, destination IP, port, and VLANs.&lt;/li>
-&lt;li>The data will be displayed in a table and as an interactive graph.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>Graph Interaction&lt;/strong>:&lt;/p>
-&lt;ul>
-&lt;li>Click on a connection to get some information about the flow statistics.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>Filter and group Non-RFC1918 IPs&lt;/strong>:&lt;/p>
-&lt;ul>
-&lt;li>Use the &amp;quot;Group Non-RFC1918&amp;quot; button to group non-RFC1918 IP addresses.&lt;/li>
-&lt;li>Table will be updated to simplify the search and filtering.&lt;/li>
-&lt;li>This enables to focus on Internet-bound traffic.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>Download Filtered Data&lt;/strong>:&lt;/p>
-&lt;ul>
-&lt;li>Click the &amp;quot;Download CSV&amp;quot; button to download the filtered data as a CSV file.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ol>
-&lt;h3 id="optional-vlans-data">Optional VLANs data&lt;/h3>
-&lt;p>To help with the filtering, you can add optional VLANs data columns to the CSV file.&lt;/p>
-&lt;p>The columns should be named &lt;code>Source VLAN&lt;/code> and &lt;code>Destination VLAN&lt;/code>.&lt;/p>
-&lt;div class="notices info">
-&lt;div class="label">Optional columns&lt;/div>
-&lt;p>These columns are not part of the original CSV file exported from Azure Migrate Dependency analysis.&lt;/p>
-&lt;/div>
-&lt;p>The application will use this data to help filter and grouping resources in the visualization.&lt;/p>
-&lt;h2 id="run-your-own-instance">Run your own instance&lt;/h2>
-&lt;p>As the application is a JavaScript application, you can run it locally or host it on your own server. The application is available on &lt;a href="https://github.com/lrivallain/az-migrate-dep-visu">Github&lt;/a> and you can also use the &lt;a href="https://hub.docker.com/r/lrivallain/az-migrate-dep-visu">Docker image&lt;/a> to run it in a container.&lt;/p>
-&lt;h2 id="test-it-">Test it !&lt;/h2>
-&lt;p>The following integration provide a live test of the application with a test set of data. You can also access the application directly at &lt;a href="https://az-mdv.az.vupti.me/">az-mdv.az.vupti.me&lt;/a> and/or use your own data. Feedback is welcome!&lt;/p>
-&lt;p>&lt;object data="https://az-mdv.az.vupti.me/#test" width="100%" height="1500px"
+workloads and prevent network issues.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Non RFC1918 IPs&lt;/strong&gt;: Regroup and filter non-RFC1918 IP addresses.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="how-to-use"&gt;How to use&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Upload CSV File&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Navigate to the upload page.&lt;/li&gt;
+&lt;li&gt;Upload a CSV file containing network flow data.&lt;/li&gt;
+&lt;li&gt;The CSV file should have the following columns:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Source server name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Source IP&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Source application&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Source process&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Destination server name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Destination IP&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Destination application&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Destination process&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Destination port&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Source VLAN&lt;/code&gt; (optional)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Destination VLAN&lt;/code&gt; (optional)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;View and Filter Data&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;After uploading, you will be redirected to the visualization page.&lt;/li&gt;
+&lt;li&gt;Use the filters to narrow down the data based on source IP, destination IP, port, and VLANs.&lt;/li&gt;
+&lt;li&gt;The data will be displayed in a table and as an interactive graph.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Graph Interaction&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Click on a connection to get some information about the flow statistics.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Filter and group Non-RFC1918 IPs&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use the &amp;quot;Group Non-RFC1918&amp;quot; button to group non-RFC1918 IP addresses.&lt;/li&gt;
+&lt;li&gt;Table will be updated to simplify the search and filtering.&lt;/li&gt;
+&lt;li&gt;This enables to focus on Internet-bound traffic.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Download Filtered Data&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Click the &amp;quot;Download CSV&amp;quot; button to download the filtered data as a CSV file.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="optional-vlans-data"&gt;Optional VLANs data&lt;/h3&gt;
+&lt;p&gt;To help with the filtering, you can add optional VLANs data columns to the CSV file.&lt;/p&gt;
+&lt;p&gt;The columns should be named &lt;code&gt;Source VLAN&lt;/code&gt; and &lt;code&gt;Destination VLAN&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="notices info"&gt;
+&lt;div class="label"&gt;Optional columns&lt;/div&gt;
+&lt;p&gt;These columns are not part of the original CSV file exported from Azure Migrate Dependency analysis.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;The application will use this data to help filter and grouping resources in the visualization.&lt;/p&gt;
+&lt;h2 id="run-your-own-instance"&gt;Run your own instance&lt;/h2&gt;
+&lt;p&gt;As the application is a JavaScript application, you can run it locally or host it on your own server. The application is available on &lt;a href="https://github.com/lrivallain/az-migrate-dep-visu"&gt;Github&lt;/a&gt; and you can also use the &lt;a href="https://hub.docker.com/r/lrivallain/az-migrate-dep-visu"&gt;Docker image&lt;/a&gt; to run it in a container.&lt;/p&gt;
+&lt;h2 id="test-it-"&gt;Test it !&lt;/h2&gt;
+&lt;p&gt;The following integration provide a live test of the application with a test set of data. You can also access the application directly at &lt;a href="https://az-mdv.az.vupti.me/"&gt;az-mdv.az.vupti.me&lt;/a&gt; and/or use your own data. Feedback is welcome!&lt;/p&gt;
+&lt;p&gt;&lt;object data="https://az-mdv.az.vupti.me/#test" width="100%" height="1500px"
 title="Azure Migrate Network Flows Analysis"
 style="background: linear-gradient(white, white) padding-box,
 linear-gradient(105deg, rgb(255 46 144) 0%, rgb(61 35 185) 100%) border-box;
 border: 4px solid transparent;
-border-radius: 10px;">
-Error: Embedded data could not be displayed, please visit the source: &lt;a href="https://az-mdv.az.vupti.me/">Azure Migrate Network Flows Analysis&lt;/a>
-&lt;/object>&lt;/p>
-&lt;h2 id="whats-next-">What's next ?&lt;/h2>
-&lt;p>I plan to continue improving the tool by adding more features and enhancing the user experience. I welcome feedback and suggestions for future updates. If you have any questions or comments, please feel free to reach out to me.&lt;/p>
-&lt;p>I could also try to add some AI based features to help grouping workloads and suggest migrations waves based on the data. This could be a great addition to the tool.&lt;/p></description></item></channel></rss>
+border-radius: 10px;"&gt;
+Error: Embedded data could not be displayed, please visit the source: &lt;a href="https://az-mdv.az.vupti.me/"&gt;Azure Migrate Network Flows Analysis&lt;/a&gt;
+&lt;/object&gt;&lt;/p&gt;
+&lt;h2 id="whats-next-"&gt;What's next ?&lt;/h2&gt;
+&lt;p&gt;I plan to continue improving the tool by adding more features and enhancing the user experience. I welcome feedback and suggestions for future updates. If you have any questions or comments, please feel free to reach out to me.&lt;/p&gt;
+&lt;p&gt;I could also try to add some AI based features to help grouping workloads and suggest migrations waves based on the data. This could be a great addition to the tool.&lt;/p&gt;</description></item></channel></rss>

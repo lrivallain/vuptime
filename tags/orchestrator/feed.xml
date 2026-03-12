@@ -1,201 +1,201 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Orchestrator on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/orchestrator/</link><description>Recent content in Orchestrator on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Fri, 13 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/orchestrator/feed.xml" rel="self" type="application/rss+xml"/><item><title>Interact with the vRealize Automation IaaS objects on vRealize Orchestrator</title><link>https://vuptime.io/post/2019-12-13-use-iaas-object-in-vro/</link><pubDate>Fri, 13 Dec 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/12/13/use-iaas-object-in-vro/</guid><description>
-&lt;p>As described on another &lt;a href="https://vuptime.io/cards/vra-linqpad-explore-iaas-objects/">blog post&lt;/a>, vRA IaaS objects can be gathered using the model manager.
-This article will show you how to interact with this kind of object using &lt;code>vRealize Orchestrator&lt;/code>.&lt;/p>
-&lt;p>On this first sample, we are trying to get a virtual machine named &lt;code>TESTVM02&lt;/code> on the model manager.
-The VirtualMachine object has a property called &lt;code>VirtualMachineName&lt;/code> that we can used to filter the virtual machine by its name.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm.png">&lt;figcaption>
-&lt;h4>Image&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Here is the javascript code in order to get this virtual machine machine.
-It will return a object of type &lt;a href="http://www.vroapi.com/Class/vCAC/7.2.0/VCACEntity">VCAC:Entity&lt;/a>.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="c1">// Inputs : vcacHost : vCAC:vCACHOST
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="c1">// Define the virtual machine name to search
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;TESTVM02&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="c1">// Use the management model
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">modelName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;ManagementModelEntities.svc&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="c1">// Get the virtual machines object
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">entitySetName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;VirtualMachines&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="c1">// Filter the result by the property VirtualMachineName
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">filter&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;VirtualMachineName eq &amp;#39;&amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s2">&amp;#34;&amp;#39;&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">orderBy&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">top&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">skip&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">headers&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">select&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="c1">// Query the model manager
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vms&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vCACEntityManager&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">readModelEntitiesBySystemQuery&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vcacHost&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">modelName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">entitySetName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">filter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">orderBy&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">select&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">top&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">skip&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">headers&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl">&lt;span class="c1">// Check if the virtual machine has been found
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vms&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">null&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nx">vms&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">){&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;There is no virtual machine named &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">23&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl">&lt;span class="k">else&lt;/span>&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;Virtual machine &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; found&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">28&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Workflow in action :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm.png">&lt;figcaption>
-&lt;h4>Image&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Great ! Once the virtual machine captured, we can access to all its properties.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Orchestrator on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/orchestrator/</link><description>Recent content in Orchestrator on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Fri, 13 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/orchestrator/feed.xml" rel="self" type="application/rss+xml"/><item><title>Interact with the vRealize Automation IaaS objects on vRealize Orchestrator</title><link>https://vuptime.io/post/2019-12-13-use-iaas-object-in-vro/</link><pubDate>Fri, 13 Dec 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/12/13/use-iaas-object-in-vro</guid><description>
+&lt;p&gt;As described on another &lt;a href="https://vuptime.io/cards/vra-linqpad-explore-iaas-objects/"&gt;blog post&lt;/a&gt;, vRA IaaS objects can be gathered using the model manager.
+This article will show you how to interact with this kind of object using &lt;code&gt;vRealize Orchestrator&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;On this first sample, we are trying to get a virtual machine named &lt;code&gt;TESTVM02&lt;/code&gt; on the model manager.
+The VirtualMachine object has a property called &lt;code&gt;VirtualMachineName&lt;/code&gt; that we can used to filter the virtual machine by its name.&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Image&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Here is the javascript code in order to get this virtual machine machine.
+It will return a object of type &lt;a href="http://www.vroapi.com/Class/vCAC/7.2.0/VCACEntity"&gt;VCAC:Entity&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-javascript" data-lang="javascript"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Inputs : vcacHost : vCAC:vCACHOST
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 2&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 3&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Define the virtual machine name to search
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 4&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;vmName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;TESTVM02&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 5&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 6&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Use the management model
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 7&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;modelName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;ManagementModelEntities.svc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 8&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Get the virtual machines object
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 9&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;entitySetName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;VirtualMachines&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;10&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Filter the result by the property VirtualMachineName
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;11&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;filter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;VirtualMachineName eq &amp;#39;&amp;#34;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;vmName&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&amp;#39;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;12&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;orderBy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;13&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;14&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;skip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;15&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;headers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;16&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;select&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;17&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;18&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Query the model manager
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;19&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;vms&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vCACEntityManager&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;readModelEntitiesBySystemQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;vcacHost&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;modelName&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;entitySetName&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;orderBy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;select&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;skip&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;20&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Check if the virtual machine has been found
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;21&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;vms&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nx"&gt;vms&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;22&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;message&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;There is no virtual machine named &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;vmName&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;23&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;warn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;message&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;24&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;25&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;26&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;message&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Virtual machine &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;vmName&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; found&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;27&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;message&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;28&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Workflow in action :&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Image&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Great ! Once the virtual machine captured, we can access to all its properties.
 For instance, we need to know the vCPU and RAM configured on the virtual machine.
-The request is simple, we'll use the method &lt;code>get_property&lt;/code> on the object &lt;code>VCAC:Entity&lt;/code>&lt;/p>
-&lt;p>You just need to get the corresponding properties names:
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_request.png">&lt;figcaption>
-&lt;h4>Image&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="c1">// Get the first virtual machine on the result (There is only one as we used the filter)
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vm&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vms&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">];&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmVcpu&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMCPUs&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmRam&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VMTotalMemoryMB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">&lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;The virtual machine &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; is configured &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmVcpu&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; vCPU and &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vmRam&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; RAM&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png">&lt;figcaption>
-&lt;h4>Image&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Everything is working well, but now we also want to display the virtual machine hard-disks.
-There is a property name called &lt;code>VMDiskHardware&lt;/code> but not directly accessible because this is a child object of &lt;code>VirtualMachine&lt;/code>.&lt;/p>
-&lt;p>Using LINQPAD, we can access to this property by using the method &lt;code>expand&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c#" data-lang="c#">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="n">VirtualMachines&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Expand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;VMDiskHardware&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Where&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">v&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">VirtualMachineName&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="s">&amp;#34;TESTVM02&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_disks.png">&lt;figcaption>
-&lt;h4>Image&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>With vRO, we have to use the the method &lt;code>get_link&lt;/code> of the corresponding &lt;code>VCAC:Entity&lt;/code>
-This method has 2 parameters :&lt;/p>
-&lt;ul>
-&lt;li>The first one is your IaaS manager ( &lt;code>vCAC:vCACHost&lt;/code> object on vRO )&lt;/li>
-&lt;li>The second is the link name ( the child object name ).&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmDisks&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vm&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getLink&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vcacHost&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;VMDiskHardware&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="nx">each&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vmDisk&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="nx">vmDisks&lt;/span>&lt;span class="p">){&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl"> &lt;span class="nx">diskName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vmDisk&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;DiskName&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl"> &lt;span class="nx">diskSize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vmDisk&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;Capacity&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">diskName&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; is configured with &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">diskSize&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; GB&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">6&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">7&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_disks.png">&lt;figcaption>
-&lt;h4>Image&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Perfect ! We can now request the IaaS database in order to get a lot of usefull information to extend the use on vRealize Automation.&lt;/p>
-&lt;p>To end this blog post, here is another sample to get the VirtualMachine created after a defined date :&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_date.png">&lt;figcaption>
-&lt;h4>Image&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="c1">// Inputs : startDate : Date; vcacHost : vCAC:vCACHOST
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="nx">startDateFormatted&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">formatDate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">startDate&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;yyyy-MM-dd&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39;T00:00:00&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="c1">//Define the model name
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">modelName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;ManagementModelEntities.svc&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="c1">//Get the virtual machines
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">entitySetName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;VirtualMachines&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="c1">//Get all the vcac vm created after the defined date
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">filter&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;VMCreationDate ge datetime&amp;#39;&amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s2">&amp;#34;&amp;#39;&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">orderBy&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">top&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">skip&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">headers&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">select&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="c1">//Query the database
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">vms&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">vCACEntityManager&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">readModelEntitiesBySystemQuery&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vcacHost&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">modelName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">entitySetName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">filter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">orderBy&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">select&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">top&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">skip&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">headers&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl">&lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">vms&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">null&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nx">vms&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">){&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;There is no created virtual machine after &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">23&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl">&lt;span class="k">else&lt;/span>&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;There is &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">vms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">length&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39; created virtual machine after &amp;#39;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="nx">startDateFormatted&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl"> &lt;span class="nx">System&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_by_date.png">&lt;figcaption>
-&lt;h4>Image&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>You are now ready the use the IaaS object directly in vRO ;)&lt;/p></description></item><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>https://vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/08/05/released-vro-package-diff_v2/</guid><description>
-&lt;p>About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: &lt;a href="https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/">vRO Package Diff&lt;/a>. Initial version was a simple python script accepting 2 files as arguments and without any input controls.&lt;/p>
-&lt;p>Today, I publish a v2 of the tool with the following changes:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>vro-package-diff&lt;/code> is now a Pypi hosted project: &lt;a href="https://pypi.org/project/vro-package-diff/">vro-package-diff&lt;/a> and so, can be installed with &lt;code>pip install&lt;/code> command.&lt;/li>
-&lt;li>An endpoit &lt;code>vro-diff&lt;/code> to access to the tool from any path location.&lt;/li>
-&lt;li>Usage of &lt;a href="https://click.palletsprojects.com/">&lt;code>click&lt;/code>&lt;/a> to manage:
-&lt;ul>
-&lt;li>inputs packages&lt;/li>
-&lt;li>help&lt;/li>
-&lt;li>legend display&lt;/li>
-&lt;li>test feature&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>A &lt;em>test&lt;/em> feature&lt;/li>
-&lt;li>Documentation is hosted on &lt;a href="https://vro-package-diff.readthedocs.io">vro-package-diff.readthedocs.io&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://travis-ci.org/lrivallain/vro-package-diff/">Travis pipeline&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png">&lt;figcaption>
-&lt;h4>Sample output of vro-diff-package&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;h2 id="install-the-new-version">Install the new version&lt;/h2>
-&lt;p>From a python environment with &lt;code>pip&lt;/code> installed:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">pip install vro-package-diff
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
-&lt;h3 id="get-the-help">Get the help&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">vro-diff --help
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">Usage: vro-diff &lt;span class="o">[&lt;/span>OPTIONS&lt;span class="o">]&lt;/span> REFERENCE_PACKAGE COMPARED_PACKAGE
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">Start a diff operation between two vRO packages.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">REFERENCE_PACKAGE is the package you want to use as &lt;span class="nb">source&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">COMPARED_PACKAGE is the one you want to compare with reference one
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">Options:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">-l, --legend Display the legend after the diff table
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">-t, --test Exit with &lt;span class="sb">`&lt;/span>0&lt;span class="sb">`&lt;/span> &lt;span class="k">if&lt;/span> package can be safely imported. Else, returns
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> the number of errors
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">-h, --help Show this message and exit.
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="examples">Examples&lt;/h3>
-&lt;p>Compare two packages:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then display legend (&lt;code>--legend&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare, then exit with error if there is conflicts (&lt;code>-–test&lt;/code>):&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$?&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The script will exit with the number of items with a conflict situation.&lt;/p>
-&lt;p>This &lt;code>-–test&lt;/code> option can be usefull to implement CI/CD pipelines to compare, then upload(if there is no conflict) vRO packages.&lt;/p>
-&lt;h3 id="contributions">Contributions&lt;/h3>
-&lt;p>This tool needs vRO users to be tested and improved based on feedback and &lt;a href="https://github.com/lrivallain/vro-package-diff/graphs/contributors">contributions&lt;/a>: Feel free to &lt;a href="https://github.com/lrivallain/vro-package-diff/issues/new">open issue&lt;/a> or &lt;a href="https://github.com/lrivallain/vro-package-diff/compare">create pull request&lt;/a>.&lt;/p></description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>https://vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/</guid><description>
-&lt;p>I have recently published a draft tool to provide a table-formated diff of two vRealize Orchestrator packages.&lt;/p>
-&lt;p>Project is available on &lt;a href="https://github.com/lrivallain/vro-package-diff/">GitHub project&lt;/a> and will evolve in futur to support more package item's types and to provide better information about differences.&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png">&lt;figcaption>
-&lt;h4>Sample of output&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;h2 id="installation">Installation&lt;/h2>
-&lt;p>&lt;strong>Requirements:&lt;/strong> Python 3 and &lt;code>pip&lt;/code> installed.&lt;/p>
-&lt;p>Download:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">git clone https://github.com/lrivallain/vro-package-diff.git
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="nb">cd&lt;/span> vro-package-diff
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>(optionnal) Create python virtualenv:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">virtualenv -p python3 --no-site-packages venv
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">. venv/bin/activate
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Install required python packages:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">pip install -r requirements.txt
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="usage">Usage&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">python ./vro_package_diff.py packageA.package packageB.package
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>packageA.package&lt;/code> : oldest package file&lt;/li>
-&lt;li>&lt;code>packageB.package&lt;/code> : newest package file&lt;/li>
-&lt;/ul>
-&lt;h2 id="logs">Logs&lt;/h2>
-&lt;p>Execution logs are saved in the &lt;code>diff.log&lt;/code> file. The file is overwritten at each execution of the diff tool.&lt;/p></description></item></channel></rss>
+The request is simple, we'll use the method &lt;code&gt;get_property&lt;/code&gt; on the object &lt;code&gt;VCAC:Entity&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You just need to get the corresponding properties names:
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_request.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Image&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-javascript" data-lang="javascript"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Get the first virtual machine on the result (There is only one as we used the filter)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;vm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vms&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;3&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;vmVcpu&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getProperty&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;VMCPUs&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;4&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;vmRam&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getProperty&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;VMTotalMemoryMB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;5&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;The virtual machine &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;vmName&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; is configured &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;vmVcpu&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; vCPU and &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;vmRam&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; RAM&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;figure&gt;&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_vcpu_ram.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Image&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Everything is working well, but now we also want to display the virtual machine hard-disks.
+There is a property name called &lt;code&gt;VMDiskHardware&lt;/code&gt; but not directly accessible because this is a child object of &lt;code&gt;VirtualMachine&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Using LINQPAD, we can access to this property by using the method &lt;code&gt;expand&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c#" data-lang="c#"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;VirtualMachines&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Expand&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;VMDiskHardware&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;Where&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="p"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;VirtualMachineName&lt;/span&gt; &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#34;TESTVM02&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;figure&gt;&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_disks.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Image&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;With vRO, we have to use the the method &lt;code&gt;get_link&lt;/code&gt; of the corresponding &lt;code&gt;VCAC:Entity&lt;/code&gt;
+This method has 2 parameters :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The first one is your IaaS manager ( &lt;code&gt;vCAC:vCACHost&lt;/code&gt; object on vRO )&lt;/li&gt;
+&lt;li&gt;The second is the link name ( the child object name ).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-javascript" data-lang="javascript"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;vmDisks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getLink&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;vcacHost&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;VMDiskHardware&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nx"&gt;each&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;vmDisk&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nx"&gt;vmDisks&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;3&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;diskName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vmDisk&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getProperty&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DiskName&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;4&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;diskSize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vmDisk&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getProperty&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Capacity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;5&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;diskName&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; is configured with &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;diskSize&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; GB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;6&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;7&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;figure&gt;&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_disks.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Image&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Perfect ! We can now request the IaaS database in order to get a lot of usefull information to extend the use on vRealize Automation.&lt;/p&gt;
+&lt;p&gt;To end this blog post, here is another sample to get the VirtualMachine created after a defined date :&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/iaas_vro/model_manager_vm_date.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Image&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-javascript" data-lang="javascript"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 1&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Inputs : startDate : Date; vcacHost : vCAC:vCACHOST
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 2&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 3&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;startDateFormatted&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;formatDate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;startDate&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;yyyy-MM-dd&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;T00:00:00&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 4&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 5&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//Define the model name
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 6&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;modelName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;ManagementModelEntities.svc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 7&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//Get the virtual machines
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 8&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;entitySetName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;VirtualMachines&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 9&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;10&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//Get all the vcac vm created after the defined date
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;11&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;filter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;VMCreationDate ge datetime&amp;#39;&amp;#34;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;startDateFormatted&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&amp;#39;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;12&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;orderBy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;13&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;14&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;skip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;15&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;headers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;16&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;select&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;17&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;18&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//Query the database
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;19&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;vms&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vCACEntityManager&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;readModelEntitiesBySystemQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;vcacHost&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;modelName&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;entitySetName&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;orderBy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;select&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;skip&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;20&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;vms&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nx"&gt;vms&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;21&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;message&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;There is no created virtual machine after &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;startDateFormatted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;22&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;warn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;message&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;23&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;24&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;25&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;message&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;There is &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;vms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;length&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; created virtual machine after &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;startDateFormatted&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;26&lt;/span&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;message&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;27&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;figure&gt;&lt;img src="https://vuptime.io/images/iaas_vro/workflow_iaas_get_vm_by_date.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Image&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;You are now ready the use the IaaS object directly in vRO ;)&lt;/p&gt;</description></item><item><title>New release of VMware vRealize Orchestrator package diff tool</title><link>https://vuptime.io/post/2019-08-05-released-vro-package-diff_v2/</link><pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/08/05/released-vro-package-diff_v2</guid><description>
+&lt;p&gt;About a year ago, I published a small tool to compare two VMware vRealize Orchestrator packages file: &lt;a href="https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool/"&gt;vRO Package Diff&lt;/a&gt;. Initial version was a simple python script accepting 2 files as arguments and without any input controls.&lt;/p&gt;
+&lt;p&gt;Today, I publish a v2 of the tool with the following changes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vro-package-diff&lt;/code&gt; is now a Pypi hosted project: &lt;a href="https://pypi.org/project/vro-package-diff/"&gt;vro-package-diff&lt;/a&gt; and so, can be installed with &lt;code&gt;pip install&lt;/code&gt; command.&lt;/li&gt;
+&lt;li&gt;An endpoit &lt;code&gt;vro-diff&lt;/code&gt; to access to the tool from any path location.&lt;/li&gt;
+&lt;li&gt;Usage of &lt;a href="https://click.palletsprojects.com/"&gt;&lt;code&gt;click&lt;/code&gt;&lt;/a&gt; to manage:
+&lt;ul&gt;
+&lt;li&gt;inputs packages&lt;/li&gt;
+&lt;li&gt;help&lt;/li&gt;
+&lt;li&gt;legend display&lt;/li&gt;
+&lt;li&gt;test feature&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A &lt;em&gt;test&lt;/em&gt; feature&lt;/li&gt;
+&lt;li&gt;Documentation is hosted on &lt;a href="https://vro-package-diff.readthedocs.io"&gt;vro-package-diff.readthedocs.io&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://travis-ci.org/lrivallain/vro-package-diff/"&gt;Travis pipeline&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/vro-diff-package/vro-diff-package_v2.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Sample output of vro-diff-package&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h2 id="install-the-new-version"&gt;Install the new version&lt;/h2&gt;
+&lt;p&gt;From a python environment with &lt;code&gt;pip&lt;/code&gt; installed:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;pip install vro-package-diff
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="usage"&gt;Usage&lt;/h2&gt;
+&lt;h3 id="get-the-help"&gt;Get the help&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 1&lt;/span&gt;&lt;span class="cl"&gt;vro-diff --help
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 2&lt;/span&gt;&lt;span class="cl"&gt;Usage: vro-diff &lt;span class="o"&gt;[&lt;/span&gt;OPTIONS&lt;span class="o"&gt;]&lt;/span&gt; REFERENCE_PACKAGE COMPARED_PACKAGE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 3&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 4&lt;/span&gt;&lt;span class="cl"&gt;Start a diff operation between two vRO packages.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 5&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 6&lt;/span&gt;&lt;span class="cl"&gt;REFERENCE_PACKAGE is the package you want to use as &lt;span class="nb"&gt;source&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 7&lt;/span&gt;&lt;span class="cl"&gt;COMPARED_PACKAGE is the one you want to compare with reference one
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 8&lt;/span&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt; 9&lt;/span&gt;&lt;span class="cl"&gt;Options:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;10&lt;/span&gt;&lt;span class="cl"&gt;-l, --legend Display the legend after the diff table
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;11&lt;/span&gt;&lt;span class="cl"&gt;-t, --test Exit with &lt;span class="sb"&gt;`&lt;/span&gt;0&lt;span class="sb"&gt;`&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; package can be safely imported. Else, returns
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;12&lt;/span&gt;&lt;span class="cl"&gt; the number of errors
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;13&lt;/span&gt;&lt;span class="cl"&gt;-h, --help Show this message and exit.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="examples"&gt;Examples&lt;/h3&gt;
+&lt;p&gt;Compare two packages:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;vro-diff tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Compare, then display legend (&lt;code&gt;--legend&lt;/code&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;vro-diff --legend --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Compare, then exit with error if there is conflicts (&lt;code&gt;-–test&lt;/code&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;vro-diff --test tests/data/package_v1.0.package tests/data/package_v1.1.package
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The script will exit with the number of items with a conflict situation.&lt;/p&gt;
+&lt;p&gt;This &lt;code&gt;-–test&lt;/code&gt; option can be usefull to implement CI/CD pipelines to compare, then upload(if there is no conflict) vRO packages.&lt;/p&gt;
+&lt;h3 id="contributions"&gt;Contributions&lt;/h3&gt;
+&lt;p&gt;This tool needs vRO users to be tested and improved based on feedback and &lt;a href="https://github.com/lrivallain/vro-package-diff/graphs/contributors"&gt;contributions&lt;/a&gt;: Feel free to &lt;a href="https://github.com/lrivallain/vro-package-diff/issues/new"&gt;open issue&lt;/a&gt; or &lt;a href="https://github.com/lrivallain/vro-package-diff/compare"&gt;create pull request&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>VMware vRealize orchestrator package diff python tool</title><link>https://vuptime.io/post/2018-02-28-vmware-vrealizeorchestrator-package-diff-python-tool/</link><pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/02/28/vmware-vrealizeorchestrator-package-diff-python-tool</guid><description>
+&lt;p&gt;I have recently published a draft tool to provide a table-formated diff of two vRealize Orchestrator packages.&lt;/p&gt;
+&lt;p&gt;Project is available on &lt;a href="https://github.com/lrivallain/vro-package-diff/"&gt;GitHub project&lt;/a&gt; and will evolve in futur to support more package item's types and to provide better information about differences.&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/vro-diff-package/vro-package-diff-sample.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Sample of output&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h2 id="installation"&gt;Installation&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Requirements:&lt;/strong&gt; Python 3 and &lt;code&gt;pip&lt;/code&gt; installed.&lt;/p&gt;
+&lt;p&gt;Download:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;git clone https://github.com/lrivallain/vro-package-diff.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; vro-package-diff
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;(optionnal) Create python virtualenv:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;virtualenv -p python3 --no-site-packages venv
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;2&lt;/span&gt;&lt;span class="cl"&gt;. venv/bin/activate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Install required python packages:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;pip install -r requirements.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="usage"&gt;Usage&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;python ./vro_package_diff.py packageA.package packageB.package
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;packageA.package&lt;/code&gt; : oldest package file&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;packageB.package&lt;/code&gt; : newest package file&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="logs"&gt;Logs&lt;/h2&gt;
+&lt;p&gt;Execution logs are saved in the &lt;code&gt;diff.log&lt;/code&gt; file. The file is overwritten at each execution of the diff tool.&lt;/p&gt;</description></item></channel></rss>

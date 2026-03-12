@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mindmap on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/mindmap/</link><description>Recent content in Mindmap on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 18 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/mindmap/feed.xml" rel="self" type="application/rss+xml"/><item><title>AI-102: Microsoft Azure AI Engineer Associate – Mindmap</title><link>https://vuptime.io/post/2024-11-18-ai102-mindmap/</link><pubDate>Mon, 18 Nov 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-11-18-ai102-mindmap/</guid><description>
-&lt;p>As per the preparation of &lt;a href="https://vuptime.io/post/2024-07-08-ai900-mindmap/">AI-900&lt;/a> this summer, I also prepared for the &lt;a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/?practice-assessment-type=certification">AI-102 exam&lt;/a> by developing a mindmap to solidify my grasp of the essential concepts (&lt;em>spoiler alert:&lt;/em> it works 🥳). I believe it could be beneficial to others, so I've decided to share it there too.&lt;/p>
-&lt;p>You can access the source code on &lt;a href="https://github.com/lrivallain/ai-102-mindmap">GitHub&lt;/a> and view the mindmap in full screen at &lt;a href="https://vupti.me/ai102-mm">vupti.me/ai102-mm&lt;/a> for an interactive experience.&lt;/p>
+&lt;p&gt;As per the preparation of &lt;a href="https://vuptime.io/post/2024-07-08-ai900-mindmap/"&gt;AI-900&lt;/a&gt; this summer, I also prepared for the &lt;a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/?practice-assessment-type=certification"&gt;AI-102 exam&lt;/a&gt; by developing a mindmap to solidify my grasp of the essential concepts (&lt;em&gt;spoiler alert:&lt;/em&gt; it works 🥳). I believe it could be beneficial to others, so I've decided to share it there too.&lt;/p&gt;
+&lt;p&gt;You can access the source code on &lt;a href="https://github.com/lrivallain/ai-102-mindmap"&gt;GitHub&lt;/a&gt; and view the mindmap in full screen at &lt;a href="https://vupti.me/ai102-mm"&gt;vupti.me/ai102-mm&lt;/a&gt; for an interactive experience.&lt;/p&gt;
 &lt;!-- &lt;iframe width="100%" height="2400" src="https://ludovic.rivallain.fr/ai-102-mindmap/"
 title="AI-102: Microsoft Azure AI Engineer Associate – Mindmap"
 style="background: linear-gradient(white, white) padding-box,
 linear-gradient(105deg, rgb(255 46 144) 0%, rgb(61 35 185) 100%) border-box;
 border: 4px solid transparent;
 border-radius: 10px;"
-allowfullscreen >
-&lt;/iframe> -->
-&lt;p>&lt;object data="https://ludovic.rivallain.fr/ai-102-mindmap/" width="100%" height="2400"
+allowfullscreen &gt;
+&lt;/iframe&gt; --&gt;
+&lt;p&gt;&lt;object data="https://ludovic.rivallain.fr/ai-102-mindmap/" width="100%" height="2400"
 title="AI-102: Microsoft Azure AI Engineer Associate – Mindmap"
 style="background: linear-gradient(white, white) padding-box,
 linear-gradient(105deg, rgb(255 46 144) 0%, rgb(61 35 185) 100%) border-box;
 border: 4px solid transparent;
-border-radius: 10px;">
-Error: Embedded data could not be displayed, please visit the source: &lt;a href="https://ludovic.rivallain.fr/ai-102-mindmap/">AI-102: Microsoft Azure AI Engineer Associate – Mindmap&lt;/a>
-&lt;/object>&lt;/p></description></item><item><title>AI-900: Microsoft Azure AI Fundamentals – Mindmap</title><link>https://vuptime.io/post/2024-07-08-ai900-mindmap/</link><pubDate>Mon, 08 Jul 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-07-08-ai900-mindmap/</guid><description>
-&lt;p>As &lt;a href="https://learn.microsoft.com/api/credentials/share/en-us/lrivallain/523BBA671361423C?sharingId=35D5A001D221F55E">I prepared for&lt;/a> the &lt;a href="https://learn.microsoft.com/en-us/training/courses/ai-900t00">AI-900 exam&lt;/a>, I developed a mindmap to solidify my grasp of the essential concepts. I believe it could be beneficial to others, so I've decided to share it.&lt;/p>
-&lt;p>The mindmap, crafted using &lt;a href="https://markmap.js.org/">Markmap&lt;/a>, is Markdown-based, offering a dynamic and customizable way to visualize information. The simplicity of its syntax allows for a range of personalization options to suit any preference.&lt;/p>
-&lt;p>You can access the source code on &lt;a href="https://github.com/lrivallain/ai-900-mindmap">GitHub&lt;/a> and view the mindmap in full screen at &lt;a href="https://vupti.me/ai900-mm">vupti.me/ai900-mm&lt;/a> for an interactive experience.&lt;/p>
+border-radius: 10px;"&gt;
+Error: Embedded data could not be displayed, please visit the source: &lt;a href="https://ludovic.rivallain.fr/ai-102-mindmap/"&gt;AI-102: Microsoft Azure AI Engineer Associate – Mindmap&lt;/a&gt;
+&lt;/object&gt;&lt;/p&gt;</description></item><item><title>AI-900: Microsoft Azure AI Fundamentals – Mindmap</title><link>https://vuptime.io/post/2024-07-08-ai900-mindmap/</link><pubDate>Mon, 08 Jul 2024 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2024-07-08-ai900-mindmap/</guid><description>
+&lt;p&gt;As &lt;a href="https://learn.microsoft.com/api/credentials/share/en-us/lrivallain/523BBA671361423C?sharingId=35D5A001D221F55E"&gt;I prepared for&lt;/a&gt; the &lt;a href="https://learn.microsoft.com/en-us/training/courses/ai-900t00"&gt;AI-900 exam&lt;/a&gt;, I developed a mindmap to solidify my grasp of the essential concepts. I believe it could be beneficial to others, so I've decided to share it.&lt;/p&gt;
+&lt;p&gt;The mindmap, crafted using &lt;a href="https://markmap.js.org/"&gt;Markmap&lt;/a&gt;, is Markdown-based, offering a dynamic and customizable way to visualize information. The simplicity of its syntax allows for a range of personalization options to suit any preference.&lt;/p&gt;
+&lt;p&gt;You can access the source code on &lt;a href="https://github.com/lrivallain/ai-900-mindmap"&gt;GitHub&lt;/a&gt; and view the mindmap in full screen at &lt;a href="https://vupti.me/ai900-mm"&gt;vupti.me/ai900-mm&lt;/a&gt; for an interactive experience.&lt;/p&gt;
 &lt;!--
 &lt;iframe width="100%" height="2400" src="https://ludovic.rivallain.fr/ai-900-mindmap/"
 title="AI-900: Microsoft Azure AI Fundamentals – Mindmap"
@@ -27,14 +27,14 @@ style="background: linear-gradient(white, white) padding-box,
 linear-gradient(105deg, rgb(255 46 144) 0%, rgb(61 35 185) 100%) border-box;
 border: 4px solid transparent;
 border-radius: 10px;"
-allowfullscreen >
-&lt;/iframe>
--->
-&lt;p>&lt;object data="https://ludovic.rivallain.fr/ai-900-mindmap/" width="100%" height="2400"
+allowfullscreen &gt;
+&lt;/iframe&gt;
+--&gt;
+&lt;p&gt;&lt;object data="https://ludovic.rivallain.fr/ai-900-mindmap/" width="100%" height="2400"
 title="AI-900: Microsoft Azure AI Fundamentals – Mindmap"
 style="background: linear-gradient(white, white) padding-box,
 linear-gradient(105deg, rgb(255 46 144) 0%, rgb(61 35 185) 100%) border-box;
 border: 4px solid transparent;
-border-radius: 10px;">
-Error: Embedded data could not be displayed, please visit the source: &lt;a href="https://ludovic.rivallain.fr/ai-900-mindmap/">AI-900: Microsoft Azure AI Fundamentals – Mindmap&lt;/a>
-&lt;/object>&lt;/p></description></item></channel></rss>
+border-radius: 10px;"&gt;
+Error: Embedded data could not be displayed, please visit the source: &lt;a href="https://ludovic.rivallain.fr/ai-900-mindmap/"&gt;AI-900: Microsoft Azure AI Fundamentals – Mindmap&lt;/a&gt;
+&lt;/object&gt;&lt;/p&gt;</description></item></channel></rss>

@@ -27,7 +27,7 @@
 </span></span><span class=line><span class=ln>9</span><span class=cl><span class=nb>export</span> <span class=nv>VMWARE_VCD_PASSWORD</span><span class=o>=</span><span class=s2>&#34;************&#34;</span>
 </span></span></code></pre></div><h2 id=vcenter-sdk-with-codegen>vCenter SDK with Codegen</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln> 1</span><span class=cl><span class=c1># Get the API swagger description</span>
 </span></span><span class=line><span class=ln> 2</span><span class=cl>curl -sk https://<span class=nv>$VMWARE_VCENTER_HOSTNAME</span>/apiexplorer/json/vcenter.json  <span class=se>\
-</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=se></span>  &gt; codegen/in/vcenter.json
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl>  &gt; codegen/in/vcenter.json
 </span></span><span class=line><span class=ln> 4</span><span class=cl>
 </span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1># Create a config file for our future python module</span>
 </span></span><span class=line><span class=ln> 6</span><span class=cl><span class=nb>echo</span> <span class=s1>&#39;{
@@ -38,11 +38,11 @@
 </span></span><span class=line><span class=ln>11</span><span class=cl>
 </span></span><span class=line><span class=ln>12</span><span class=cl><span class=c1># Generate the SDK</span>
 </span></span><span class=line><span class=ln>13</span><span class=cl>docker run --rm -v <span class=si>${</span><span class=nv>PWD</span><span class=si>}</span>/codegen:/local <span class=se>\
-</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=se></span>  swaggerapi/swagger-codegen-cli generate <span class=se>\
-</span></span></span><span class=line><span class=ln>15</span><span class=cl><span class=se></span>    -i /local/in/vcenter.json <span class=se>\
-</span></span></span><span class=line><span class=ln>16</span><span class=cl><span class=se></span>    -o /local/out/python-vc <span class=se>\
-</span></span></span><span class=line><span class=ln>17</span><span class=cl><span class=se></span>    -c /local/in/config_vc_client.json <span class=se>\
-</span></span></span><span class=line><span class=ln>18</span><span class=cl><span class=se></span>    -l python
+</span></span></span><span class=line><span class=ln>14</span><span class=cl>  swaggerapi/swagger-codegen-cli generate <span class=se>\
+</span></span></span><span class=line><span class=ln>15</span><span class=cl>    -i /local/in/vcenter.json <span class=se>\
+</span></span></span><span class=line><span class=ln>16</span><span class=cl>    -o /local/out/python-vc <span class=se>\
+</span></span></span><span class=line><span class=ln>17</span><span class=cl>    -c /local/in/config_vc_client.json <span class=se>\
+</span></span></span><span class=line><span class=ln>18</span><span class=cl>    -l python
 </span></span><span class=line><span class=ln>19</span><span class=cl>
 </span></span><span class=line><span class=ln>20</span><span class=cl><span class=c1># Install new python mdule with PIP</span>
 </span></span><span class=line><span class=ln>21</span><span class=cl>pip install codegen/out/python-vc
@@ -250,7 +250,7 @@
 </span></span><span class=line><span class=ln>131</span><span class=cl><span class=p>}</span>
 </span></span></code></pre></div><h2 id=vcloud-director-sdk-with-codegen>vCloud Director SDK with Codegen</h2><p>Last example, using vCloud Director.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=ln> 1</span><span class=cl><span class=c1># Get the API swagger description</span>
 </span></span><span class=line><span class=ln> 2</span><span class=cl>curl -sk https://<span class=nv>$VMWARE_VCD_HOSTNAME</span>/api-explorer/tenant/orgdemo/cloudapi.json <span class=se>\
-</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=se></span>  &gt; codegen/in/cloudapi.json
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl>  &gt; codegen/in/cloudapi.json
 </span></span><span class=line><span class=ln> 4</span><span class=cl>
 </span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1># Create a config file for our future python module</span>
 </span></span><span class=line><span class=ln> 6</span><span class=cl><span class=nb>echo</span> <span class=s1>&#39;{
@@ -261,11 +261,11 @@
 </span></span><span class=line><span class=ln>11</span><span class=cl>
 </span></span><span class=line><span class=ln>12</span><span class=cl><span class=c1># Generate the SDK</span>
 </span></span><span class=line><span class=ln>13</span><span class=cl>docker run --rm -v <span class=si>${</span><span class=nv>PWD</span><span class=si>}</span>/codegen:/local <span class=se>\
-</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=se></span>  swaggerapi/swagger-codegen-cli generate <span class=se>\
-</span></span></span><span class=line><span class=ln>15</span><span class=cl><span class=se></span>    -i /local/in/cloudapi.json <span class=se>\
-</span></span></span><span class=line><span class=ln>16</span><span class=cl><span class=se></span>    -o /local/out/python-vcd <span class=se>\
-</span></span></span><span class=line><span class=ln>17</span><span class=cl><span class=se></span>    -c /local/in/config_vcd_client.json <span class=se>\
-</span></span></span><span class=line><span class=ln>18</span><span class=cl><span class=se></span>    -l python
+</span></span></span><span class=line><span class=ln>14</span><span class=cl>  swaggerapi/swagger-codegen-cli generate <span class=se>\
+</span></span></span><span class=line><span class=ln>15</span><span class=cl>    -i /local/in/cloudapi.json <span class=se>\
+</span></span></span><span class=line><span class=ln>16</span><span class=cl>    -o /local/out/python-vcd <span class=se>\
+</span></span></span><span class=line><span class=ln>17</span><span class=cl>    -c /local/in/config_vcd_client.json <span class=se>\
+</span></span></span><span class=line><span class=ln>18</span><span class=cl>    -l python
 </span></span><span class=line><span class=ln>19</span><span class=cl>
 </span></span><span class=line><span class=ln>20</span><span class=cl><span class=c1># Install new python mdule with PIP</span>
 </span></span><span class=line><span class=ln>21</span><span class=cl>pip install codegen/out/python-vcd
@@ -324,10 +324,10 @@
 </span></span><span class=line><span class=ln>4</span><span class=cl>DEMO_VCD 	Token: Manage - urn:vcloud:right:23e7a571-4928-3c49-891f-f835474a9dc3 - MODIFY
 </span></span><span class=line><span class=ln>5</span><span class=cl>DEMO_VCD 	Token: Manage All - urn:vcloud:right:67878e89-9d94-302f-92fd-997313c68ee1 - MODIFY
 </span></span><span class=line><span class=ln>6</span><span class=cl>DEMO_VCD 	API Explorer: View - urn:vcloud:right:9ff43a6c-2c50-3b53-b00f-6f020b6bb5a0 - VIEW
-</span></span></code></pre></div><h2 id=conclusion>Conclusion</h2><p>As you see, it is very easy to generate a new API client SDK from a VMware product. Authentication could require some customization but the most limiting thing will be linked to the limited available actions through the REST API on some products.</p><p>Anyway, for the available and documented REST API parts, you can now deliver/provide a lot of SDK, even without knowing the bases of the used language.</p></div><div class=post_comments></div></article><aside class=sidebar><section class=sidebar_inner><br><div class=author_header><img src=https://vuptime.io/icons/favicon_500px.png alt=" photo"><h2></h2></div><div class=author_bio>A cloud builders blog: Virtualization, Cloud Computing, VMware, Kubernetes, Infra-as-code…</div><a href=https://vuptime.io/about/ class="button mt-1" role=button title='Read More'>Read More</a><h2 class=mt-4>Recent Posts</h2><ul class=flex-column><li><a href=https://vuptime.io/post/2025-08-21-avs-rvtools-analyzer-with-mcp-capability/ class=nav-link title="AVS RVTools Analyzer: Supercharging AVS migration assessments with AI capabilities">AVS RVTools Analyzer: Supercharging AVS migration assessments with AI capabilities</a></li><li><a href=https://vuptime.io/post/2025-03-26-keep-ip-addresses-while-migrating-to-avs/ class=nav-link title="How to retain your IP addresses while migrating to Azure VMware Solution">How to retain your IP addresses while migrating to Azure VMware Solution</a></li><li><a href=https://vuptime.io/post/2025-01-20-azure-migrate-network-flows-analysis/ class=nav-link title="Tooling: Azure Migrate Network Flows Analysis">Tooling: Azure Migrate Network Flows Analysis</a></li><li><a href=https://vuptime.io/post/2024-11-18-ai102-mindmap/ class=nav-link title="AI-102: Microsoft Azure AI Engineer Associate – Mindmap">AI-102: Microsoft Azure AI Engineer Associate – Mindmap</a></li><li><a href=https://vuptime.io/post/2024-11-08-vcloud-director-rest-api-with-terraform/ class=nav-link title="VMware vCloud Director REST API with Terraform">VMware vCloud Director REST API with Terraform</a></li><li><a href=https://vuptime.io/post/2024-11-05-azure-elasticsan-and-avs/ class=nav-link title="Azure Elastic SAN to extend Azure VMware Solution storage">Azure Elastic SAN to extend Azure VMware Solution storage</a></li><li><a href=https://vuptime.io/post/2024-07-08-ai900-mindmap/ class=nav-link title="AI-900: Microsoft Azure AI Fundamentals – Mindmap">AI-900: Microsoft Azure AI Fundamentals – Mindmap</a></li><li><a href=https://vuptime.io/post/2023-08-17-hcx-to-the-mon-and-back/ class=nav-link title="VMware HCX: To the MON & Back">VMware HCX: To the MON & Back</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>Categories</h2><nav class=tags_nav><a href=https://vuptime.io/categories/vmware/ class="post_tag button button_translucent" title=vmware>VMWARE
+</span></span></code></pre></div><h2 id=conclusion>Conclusion</h2><p>As you see, it is very easy to generate a new API client SDK from a VMware product. Authentication could require some customization but the most limiting thing will be linked to the limited available actions through the REST API on some products.</p><p>Anyway, for the available and documented REST API parts, you can now deliver/provide a lot of SDK, even without knowing the bases of the used language.</p></div><div class=post_comments></div></article><aside class=sidebar><section class=sidebar_inner><br><div class=author_header><img src=https://vuptime.io/icons/favicon_500px.png alt="Ludovic Rivallain photo"><h2>Ludovic Rivallain</h2></div><div class=author_bio>A cloud builders blog: Virtualization, Cloud Computing, VMware, Kubernetes, Infra-as-code…</div><a href=https://vuptime.io/about/ class="button mt-1" role=button title='Read More'>Read More</a><h2 class=mt-4>Recent Posts</h2><ul class=flex-column><li><a href=https://vuptime.io/post/2026-03-13-az-scout-azure-availability-zone-explorer/ class=nav-link title="`az-scout`: Scout Azure regions for VM availability, zone mappings, deployment planning and more"><code>az-scout</code>: Scout Azure regions for VM availability, zone mappings, deployment planning and more</a></li><li><a href=https://vuptime.io/post/2025-08-21-avs-rvtools-analyzer-with-mcp-capability/ class=nav-link title="AVS RVTools Analyzer: Supercharging AVS migration assessments with AI capabilities">AVS RVTools Analyzer: Supercharging AVS migration assessments with AI capabilities</a></li><li><a href=https://vuptime.io/post/2025-03-26-keep-ip-addresses-while-migrating-to-avs/ class=nav-link title="How to retain your IP addresses while migrating to Azure VMware Solution">How to retain your IP addresses while migrating to Azure VMware Solution</a></li><li><a href=https://vuptime.io/post/2025-01-20-azure-migrate-network-flows-analysis/ class=nav-link title="Tooling: Azure Migrate Network Flows Analysis">Tooling: Azure Migrate Network Flows Analysis</a></li><li><a href=https://vuptime.io/post/2024-11-18-ai102-mindmap/ class=nav-link title="AI-102: Microsoft Azure AI Engineer Associate – Mindmap">AI-102: Microsoft Azure AI Engineer Associate – Mindmap</a></li><li><a href=https://vuptime.io/post/2024-11-08-vcloud-director-rest-api-with-terraform/ class=nav-link title="VMware vCloud Director REST API with Terraform">VMware vCloud Director REST API with Terraform</a></li><li><a href=https://vuptime.io/post/2024-11-05-azure-elasticsan-and-avs/ class=nav-link title="Azure Elastic SAN to extend Azure VMware Solution storage">Azure Elastic SAN to extend Azure VMware Solution storage</a></li><li><a href=https://vuptime.io/post/2024-07-08-ai900-mindmap/ class=nav-link title="AI-900: Microsoft Azure AI Fundamentals – Mindmap">AI-900: Microsoft Azure AI Fundamentals – Mindmap</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>Categories</h2><nav class=tags_nav><a href=https://vuptime.io/categories/vmware/ class="post_tag button button_translucent" title=vmware>VMWARE
 <span class=button_tally>57</span>
 </a><a href=https://vuptime.io/categories/azure/ class="post_tag button button_translucent" title=azure>AZURE
-<span class=button_tally>19</span>
+<span class=button_tally>20</span>
 </a><a href=https://vuptime.io/categories/french/ class="post_tag button button_translucent" title=french>FRENCH
 <span class=button_tally>17</span>
 </a><a href=https://vuptime.io/categories/automation/ class="post_tag button button_translucent" title=automation>AUTOMATION
@@ -350,7 +350,7 @@
 <span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=tags-section>Tags</h2><nav class=tags_nav><a href=https://vuptime.io/tags/vmware/ class="post_tag button button_translucent" title=vmware>VMWARE
 <span class=button_tally>76</span>
 </a><a href=https://vuptime.io/tags/azure/ class="post_tag button button_translucent" title=azure>AZURE
-<span class=button_tally>19</span>
+<span class=button_tally>20</span>
 </a><a href=https://vuptime.io/tags/azure-vmware-solution/ class="post_tag button button_translucent" title="azure vmware solution">AZURE VMWARE SOLUTION
 <span class=button_tally>17</span>
 </a><a href=https://vuptime.io/tags/vmworld/ class="post_tag button button_translucent" title=vmworld>VMWORLD
@@ -376,7 +376,7 @@
 </a><a href=https://vuptime.io/tags/linux/ class="post_tag button button_translucent" title=linux>LINUX
 <span class=button_tally>7</span>
 </a><a href=https://vuptime.io/tags/script/ class="post_tag button button_translucent" title=script>SCRIPT
-<span class=button_tally>7</span></a><br><div class="post_tags_toggle button">All Tags</div><div class=post_tags><div class=tags_list><a href=https://vuptime.io/tags/ai/ class="post_tag button button_translucent" data-position=3 title=ai>AI<span class=button_tally>3</span>
+<span class=button_tally>7</span></a><br><div class="post_tags_toggle button">All Tags</div><div class=post_tags><div class=tags_list><a href=https://vuptime.io/tags/ai/ class="post_tag button button_translucent" data-position=4 title=ai>AI<span class=button_tally>4</span>
 </a><a href=https://vuptime.io/tags/amqp/ class="post_tag button button_translucent" data-position=1 title=amqp>AMQP<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/ansible/ class="post_tag button button_translucent" data-position=2 title=ansible>ANSIBLE<span class=button_tally>2</span>
 </a><a href=https://vuptime.io/tags/api/ class="post_tag button button_translucent" data-position=10 title=api>API<span class=button_tally>10</span>
@@ -384,8 +384,9 @@
 </a><a href=https://vuptime.io/tags/argo/ class="post_tag button button_translucent" data-position=1 title=argo>ARGO<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/authentication/ class="post_tag button button_translucent" data-position=1 title=authentication>AUTHENTICATION<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/automation/ class="post_tag button button_translucent" data-position=7 title=automation>AUTOMATION<span class=button_tally>7</span>
+</a><a href=https://vuptime.io/tags/availability-zones/ class="post_tag button button_translucent" data-position=1 title="availability zones">AVAILABILITY ZONES<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/avs/ class="post_tag button button_translucent" data-position=11 title=avs>AVS<span class=button_tally>11</span>
-</a><a href=https://vuptime.io/tags/azure/ class="post_tag button button_translucent" data-position=19 title=azure>AZURE<span class=button_tally>19</span>
+</a><a href=https://vuptime.io/tags/azure/ class="post_tag button button_translucent" data-position=20 title=azure>AZURE<span class=button_tally>20</span>
 </a><a href=https://vuptime.io/tags/azure-vmware-solution/ class="post_tag button button_translucent" data-position=17 title="azure vmware solution">AZURE VMWARE SOLUTION<span class=button_tally>17</span>
 </a><a href=https://vuptime.io/tags/bash/ class="post_tag button button_translucent" data-position=2 title=bash>BASH<span class=button_tally>2</span>
 </a><a href=https://vuptime.io/tags/book/ class="post_tag button button_translucent" data-position=1 title=book>BOOK<span class=button_tally>1</span>
@@ -449,7 +450,7 @@
 </a><a href=https://vuptime.io/tags/linked/ class="post_tag button button_translucent" data-position=1 title=linked>LINKED<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/linux/ class="post_tag button button_translucent" data-position=7 title=linux>LINUX<span class=button_tally>7</span>
 </a><a href=https://vuptime.io/tags/logs/ class="post_tag button button_translucent" data-position=2 title=logs>LOGS<span class=button_tally>2</span>
-</a><a href=https://vuptime.io/tags/mcp/ class="post_tag button button_translucent" data-position=1 title=mcp>MCP<span class=button_tally>1</span>
+</a><a href=https://vuptime.io/tags/mcp/ class="post_tag button button_translucent" data-position=2 title=mcp>MCP<span class=button_tally>2</span>
 </a><a href=https://vuptime.io/tags/metrics/ class="post_tag button button_translucent" data-position=1 title=metrics>METRICS<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/migrate/ class="post_tag button button_translucent" data-position=3 title=migrate>MIGRATE<span class=button_tally>3</span>
 </a><a href=https://vuptime.io/tags/mindmap/ class="post_tag button button_translucent" data-position=2 title=mindmap>MINDMAP<span class=button_tally>2</span>
@@ -471,13 +472,14 @@
 </a><a href=https://vuptime.io/tags/ovh/ class="post_tag button button_translucent" data-position=1 title=ovh>OVH<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/password/ class="post_tag button button_translucent" data-position=1 title=password>PASSWORD<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/plugin/ class="post_tag button button_translucent" data-position=3 title=plugin>PLUGIN<span class=button_tally>3</span>
+</a><a href=https://vuptime.io/tags/plugins/ class="post_tag button button_translucent" data-position=1 title=plugins>PLUGINS<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/postman/ class="post_tag button button_translucent" data-position=1 title=postman>POSTMAN<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/powercli/ class="post_tag button button_translucent" data-position=2 title=powercli>POWERCLI<span class=button_tally>2</span>
 </a><a href=https://vuptime.io/tags/powershell/ class="post_tag button button_translucent" data-position=2 title=powershell>POWERSHELL<span class=button_tally>2</span>
 </a><a href=https://vuptime.io/tags/privileges/ class="post_tag button button_translucent" data-position=1 title=privileges>PRIVILEGES<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/psc/ class="post_tag button button_translucent" data-position=2 title=psc>PSC<span class=button_tally>2</span>
 </a><a href=https://vuptime.io/tags/public/ class="post_tag button button_translucent" data-position=1 title=public>PUBLIC<span class=button_tally>1</span>
-</a><a href=https://vuptime.io/tags/python/ class="post_tag button button_translucent" data-position=4 title=python>PYTHON<span class=button_tally>4</span>
+</a><a href=https://vuptime.io/tags/python/ class="post_tag button button_translucent" data-position=5 title=python>PYTHON<span class=button_tally>5</span>
 </a><a href=https://vuptime.io/tags/rabbitmq/ class="post_tag button button_translucent" data-position=1 title=rabbitmq>RABBITMQ<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/rest/ class="post_tag button button_translucent" data-position=5 title=rest>REST<span class=button_tally>5</span>
 </a><a href=https://vuptime.io/tags/rvtools/ class="post_tag button button_translucent" data-position=1 title=rvtools>RVTOOLS<span class=button_tally>1</span>
@@ -496,7 +498,7 @@
 </a><a href=https://vuptime.io/tags/terraform/ class="post_tag button button_translucent" data-position=1 title=terraform>TERRAFORM<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/timeout/ class="post_tag button button_translucent" data-position=2 title=timeout>TIMEOUT<span class=button_tally>2</span>
 </a><a href=https://vuptime.io/tags/tips/ class="post_tag button button_translucent" data-position=1 title=tips>TIPS<span class=button_tally>1</span>
-</a><a href=https://vuptime.io/tags/tools/ class="post_tag button button_translucent" data-position=1 title=tools>TOOLS<span class=button_tally>1</span>
+</a><a href=https://vuptime.io/tags/tools/ class="post_tag button button_translucent" data-position=2 title=tools>TOOLS<span class=button_tally>2</span>
 </a><a href=https://vuptime.io/tags/training/ class="post_tag button button_translucent" data-position=1 title=training>TRAINING<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/troubleshoot/ class="post_tag button button_translucent" data-position=1 title=troubleshoot>TROUBLESHOOT<span class=button_tally>1</span>
 </a><a href=https://vuptime.io/tags/troubleshooting/ class="post_tag button button_translucent" data-position=1 title=troubleshooting>TROUBLESHOOTING<span class=button_tally>1</span>

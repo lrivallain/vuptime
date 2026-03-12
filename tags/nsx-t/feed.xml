@@ -1,451 +1,455 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nsx-T on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/nsx-t/</link><description>Recent content in Nsx-T on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/nsx-t/feed.xml" rel="self" type="application/rss+xml"/><item><title>Third-party firewall NVA in Azure VMware Solution NSX-T deployment</title><link>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</link><pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</guid><description>
-&lt;p>In a previous series of blog posts (posts: &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">1&lt;/a>, &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/">2&lt;/a> &amp;amp; &lt;a href="https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/">3&lt;/a>), we covered the deployment of a third-party firewall Network Virtual Appliance (NVA) in Azure to integrate an Azure VMware Solution (AVS) deployment in a Hub&amp;amp;Spoke network topology. This setup enable traffic filtering for &lt;em>ingress&lt;/em> and &lt;em>egress&lt;/em> traffic &lt;em>to&lt;/em> and &lt;em>from&lt;/em> the AVS environment (N/S) but do not provide any filtering between AVS workloads (E/W). The recommended way to achieve this is to rely on the NSX-T distributed firewall capabilities.&lt;/p>
-&lt;p>In this blog post, we will cover the deployment of a third-party firewall NVA in an AVS SDDC itself to provide traffic filtering between AVS workloads without relying on the NSX-T distributed firewall capabilities.&lt;/p>
-&lt;p>I will not discuss here the reasons to deploy a 3&lt;sup>rd&lt;/sup> firewall NVA in AVS SDDC. I will just mention that this is a common request from customers that want to continue using the same firewall technology in AVS that they have been using for an on-premises datacenter.&lt;/p>
-&lt;p>This topic was also covered by several colleagues of mine in previous blog posts:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://techcommunity.microsoft.com/t5/azure-migration-and/firewall-integration-in-azure-vmware-solution/ba-p/2254961">Third-party firewall NVA in Azure VMware Solution&lt;/a> by &lt;a href="https://techcommunity.microsoft.com/t5/user/viewprofilepage/user-id/704914">Amit Aneja&lt;/a> (Microsoft).&lt;/li>
-&lt;li>&lt;a href="https://vskeeball.com/2022/03/28/third-party-firewalls-in-avs/">Third Party Firewalls in AVS&lt;/a> by &lt;a href="https://www.linkedin.com/in/kenyonhensler/">Kenyon Hensler&lt;/a> (Microsoft).&lt;/li>
-&lt;li>&lt;a href="https://www.virtualworkloads.com/2020/07/azure-vmware-solution-connecting-3rd-party-networking-and-security-platforms/">Azure VMware Solution: Connecting 3rd Party Networking and Security Platforms&lt;/a> By: &lt;a href="https://www.linkedin.com/in/vcdx076/">Gourav Bhardwaj&lt;/a> (VMware), &lt;a href="https://www.virtualworkloads.com/author/trevordavis/">Trevor Davis&lt;/a> (Microsoft) and &lt;a href="https://www.linkedin.com/in/jjtm/">Jeffrey Moore&lt;/a> (VMware).&lt;/li>
-&lt;/ul>
-&lt;p>I will try to provide some details to help in the deployment of a such solution.&lt;/p>
-&lt;h2 id="default-avs-topology">Default AVS topology&lt;/h2>
-&lt;p>By default, an AVS SDDC is deployed with preprovisioned NSX-T Tier-0 and Tier-1 Gateways. The Tier-0 Gateway is used to connect the AVS SDDC to &lt;em>Top-of-rack&lt;/em> and Azure SDN, and is fully Microsoft-managed. The default Tier-1 Gateway can be used to deploy network segments and is customer-managed. Customers can also create more Tier-1 Gateways if needed.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+&lt;p&gt;In a previous series of blog posts (posts: &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/"&gt;1&lt;/a&gt;, &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/"&gt;2&lt;/a&gt; &amp;amp; &lt;a href="https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/"&gt;3&lt;/a&gt;), we covered the deployment of a third-party firewall Network Virtual Appliance (NVA) in Azure to integrate an Azure VMware Solution (AVS) deployment in a Hub&amp;amp;Spoke network topology. This setup enable traffic filtering for &lt;em&gt;ingress&lt;/em&gt; and &lt;em&gt;egress&lt;/em&gt; traffic &lt;em&gt;to&lt;/em&gt; and &lt;em&gt;from&lt;/em&gt; the AVS environment (N/S) but do not provide any filtering between AVS workloads (E/W). The recommended way to achieve this is to rely on the NSX-T distributed firewall capabilities.&lt;/p&gt;
+&lt;p&gt;In this blog post, we will cover the deployment of a third-party firewall NVA in an AVS SDDC itself to provide traffic filtering between AVS workloads without relying on the NSX-T distributed firewall capabilities.&lt;/p&gt;
+&lt;p&gt;I will not discuss here the reasons to deploy a 3&lt;sup&gt;rd&lt;/sup&gt; firewall NVA in AVS SDDC. I will just mention that this is a common request from customers that want to continue using the same firewall technology in AVS that they have been using for an on-premises datacenter.&lt;/p&gt;
+&lt;p&gt;This topic was also covered by several colleagues of mine in previous blog posts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://techcommunity.microsoft.com/t5/azure-migration-and/firewall-integration-in-azure-vmware-solution/ba-p/2254961"&gt;Third-party firewall NVA in Azure VMware Solution&lt;/a&gt; by &lt;a href="https://techcommunity.microsoft.com/t5/user/viewprofilepage/user-id/704914"&gt;Amit Aneja&lt;/a&gt; (Microsoft).&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://vskeeball.com/2022/03/28/third-party-firewalls-in-avs/"&gt;Third Party Firewalls in AVS&lt;/a&gt; by &lt;a href="https://www.linkedin.com/in/kenyonhensler/"&gt;Kenyon Hensler&lt;/a&gt; (Microsoft).&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.virtualworkloads.com/2020/07/azure-vmware-solution-connecting-3rd-party-networking-and-security-platforms/"&gt;Azure VMware Solution: Connecting 3rd Party Networking and Security Platforms&lt;/a&gt; By: &lt;a href="https://www.linkedin.com/in/vcdx076/"&gt;Gourav Bhardwaj&lt;/a&gt; (VMware), &lt;a href="https://www.virtualworkloads.com/author/trevordavis/"&gt;Trevor Davis&lt;/a&gt; (Microsoft) and &lt;a href="https://www.linkedin.com/in/jjtm/"&gt;Jeffrey Moore&lt;/a&gt; (VMware).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I will try to provide some details to help in the deployment of a such solution.&lt;/p&gt;
+&lt;h2 id="default-avs-topology"&gt;Default AVS topology&lt;/h2&gt;
+&lt;p&gt;By default, an AVS SDDC is deployed with preprovisioned NSX-T Tier-0 and Tier-1 Gateways. The Tier-0 Gateway is used to connect the AVS SDDC to &lt;em&gt;Top-of-rack&lt;/em&gt; and Azure SDN, and is fully Microsoft-managed. The default Tier-1 Gateway can be used to deploy network segments and is customer-managed. Customers can also create more Tier-1 Gateways if needed.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="AVS default topology"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-default-topology.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h2 id="challenges-of-inserting-a-third-party-firewall-nva-in-avs-sddc">Challenges of inserting a third-party firewall NVA in AVS SDDC&lt;/h2>
-&lt;p>The first limit to understand with 3&lt;sup>rd&lt;/sup> party NVA insertion in AVS SDDC is that it is not possible to rely on &lt;a href="https://docs.vmware.com/en/VMware-NSX/4.1/administration/GUID-891363D9-D7D6-418B-9C81-33F2A42EA665.html">NSX-T &lt;em>Service Insertion&lt;/em>&lt;/a> capabilities. This limit is mostly driven by the &amp;quot;&lt;em>managed&lt;/em>&amp;quot; nature of Azure VMware Solution.&lt;/p>
-&lt;p>A second limit to consider it that 3&lt;sup>rd&lt;/sup> party NVA deployed in the AVS SDDC are limited by the number of virtual network interfaces that can be attached to a single VM. With only 10 NICs available per Virtual Machine, it is not possible to directly connect an NVA to a deployment with more than 9 workload segments.&lt;/p>
-&lt;p>A possible mitigation is to use a &lt;em>Transit Segment&lt;/em>. This &lt;em>Transit Segment&lt;/em> will be connected to additional Tier-1 Gateway and will be used to route traffic between the NVA and the workload segments via additional Tier-1 Gateways. In this topology, the new limit will be based on the maximum number of Tier-1 Gateways that can be deployed in an AVS SDDC and/or the size of the transit subnet address plan. This enables provisioning 100s of workload segments if needed.&lt;/p>
-&lt;h2 id="layered-network-topology">Layered network topology&lt;/h2>
-&lt;p>In order to deploy a third-party firewall NVA in an AVS SDDC, we will need to deploy a layered network topology. This topology will be composed of 3 layers:&lt;/p>
-&lt;ul>
-&lt;li>A &lt;strong>Root-segment&lt;/strong>, connected to the first layer of Tier-1 gateway (like the one deployed by default) and to the NVA uplink.&lt;/li>
-&lt;li>One or more &lt;strong>Transit-segment&lt;/strong>, connected to the NVA downlink(s) and a second layer of Tier-1 gateways&lt;/li>
-&lt;li>Workload-segments where the Virtual Machines will be deployed.&lt;/li>
-&lt;/ul>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id="challenges-of-inserting-a-third-party-firewall-nva-in-avs-sddc"&gt;Challenges of inserting a third-party firewall NVA in AVS SDDC&lt;/h2&gt;
+&lt;p&gt;The first limit to understand with 3&lt;sup&gt;rd&lt;/sup&gt; party NVA insertion in AVS SDDC is that it is not possible to rely on &lt;a href="https://docs.vmware.com/en/VMware-NSX/4.1/administration/GUID-891363D9-D7D6-418B-9C81-33F2A42EA665.html"&gt;NSX-T &lt;em&gt;Service Insertion&lt;/em&gt;&lt;/a&gt; capabilities. This limit is mostly driven by the &amp;quot;&lt;em&gt;managed&lt;/em&gt;&amp;quot; nature of Azure VMware Solution.&lt;/p&gt;
+&lt;p&gt;A second limit to consider it that 3&lt;sup&gt;rd&lt;/sup&gt; party NVA deployed in the AVS SDDC are limited by the number of virtual network interfaces that can be attached to a single VM. With only 10 NICs available per Virtual Machine, it is not possible to directly connect an NVA to a deployment with more than 9 workload segments.&lt;/p&gt;
+&lt;p&gt;A possible mitigation is to use a &lt;em&gt;Transit Segment&lt;/em&gt;. This &lt;em&gt;Transit Segment&lt;/em&gt; will be connected to additional Tier-1 Gateway and will be used to route traffic between the NVA and the workload segments via additional Tier-1 Gateways. In this topology, the new limit will be based on the maximum number of Tier-1 Gateways that can be deployed in an AVS SDDC and/or the size of the transit subnet address plan. This enables provisioning 100s of workload segments if needed.&lt;/p&gt;
+&lt;h2 id="layered-network-topology"&gt;Layered network topology&lt;/h2&gt;
+&lt;p&gt;In order to deploy a third-party firewall NVA in an AVS SDDC, we will need to deploy a layered network topology. This topology will be composed of 3 layers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A &lt;strong&gt;Root-segment&lt;/strong&gt;, connected to the first layer of Tier-1 gateway (like the one deployed by default) and to the NVA uplink.&lt;/li&gt;
+&lt;li&gt;One or more &lt;strong&gt;Transit-segment&lt;/strong&gt;, connected to the NVA downlink(s) and a second layer of Tier-1 gateways&lt;/li&gt;
+&lt;li&gt;Workload-segments where the Virtual Machines will be deployed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="AVS layered topology"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-topology.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h3 id="transit-segment-or-transit-segments">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
-&lt;p>There are two possible strategies regarding the number of &lt;em>Transit-segment&lt;/em> to deploy:&lt;/p>
-&lt;ol>
-&lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
-&lt;/ol>
-&lt;ul>
-&lt;li>This setup will provide scalability &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
-&lt;li>This setup can be more complex to maintain and will have scalability limit if E/W traffic filtering at NVA level, is required.&lt;/li>
-&lt;/ul>
-&lt;ol start="2">
-&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
-&lt;/ol>
-&lt;ul>
-&lt;li>This &amp;quot;1 Tier-1 gateway per workload segment&amp;quot; setup will mitigate the issue mentioned above regarding the filtering of E/W traffic.&lt;/li>
-&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
-&lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
-&lt;/ul>
-&lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>&lt;/blockquote>
-&lt;h3 id="static-routes">Static routes&lt;/h3>
-&lt;p>In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Gateway/Device&lt;/th>
-&lt;th>Route&lt;/th>
-&lt;th>Next Hop&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Root Tier-1&lt;/td>
-&lt;td>workload segments&lt;/td>
-&lt;td>NVA&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Workload Tier-1s&lt;/td>
-&lt;td>default route (0/0)&lt;/td>
-&lt;td>NVA&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>NVA&lt;/td>
-&lt;td>workload segments&lt;/td>
-&lt;td>Workload Tier-1&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>Here is an example, applied to my lab environment:&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id="transit-segment-or-transit-segments"&gt;Transit-segment or Transit-segment&lt;u&gt;s&lt;/u&gt;&lt;/h3&gt;
+&lt;p&gt;There are two possible strategies regarding the number of &lt;em&gt;Transit-segment&lt;/em&gt; to deploy:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Using multiple &lt;em&gt;Transit-segments&lt;/em&gt; enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;This setup will provide scalability &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1"&gt;but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;This setup can be more complex to maintain and will have scalability limit if E/W traffic filtering at NVA level, is required.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;Using a single &lt;em&gt;Transit-segment&lt;/em&gt; enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#east-west-inter-segment-traffic-different-tier-1"&gt;dedicate 1 Tier-1 gateway per workload segment&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;This &amp;quot;1 Tier-1 gateway per workload segment&amp;quot; setup will mitigate the issue mentioned above regarding the filtering of E/W traffic.&lt;/li&gt;
+&lt;li&gt;This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#security-recommendations"&gt;Security recommendations&lt;/a&gt; section.&lt;/li&gt;
+&lt;li&gt;Scalability is limited to &lt;em&gt;Transit&lt;/em&gt; subnet size: a proper planning is required to not run out of IP addresses.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: In this blog post, I will try to illustrate the two strategies.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="static-routes"&gt;Static routes&lt;/h3&gt;
+&lt;p&gt;In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Gateway/Device&lt;/th&gt;
+&lt;th&gt;Route&lt;/th&gt;
+&lt;th&gt;Next Hop&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Root Tier-1&lt;/td&gt;
+&lt;td&gt;workload segments&lt;/td&gt;
+&lt;td&gt;NVA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Workload Tier-1s&lt;/td&gt;
+&lt;td&gt;default route (0/0)&lt;/td&gt;
+&lt;td&gt;NVA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NVA&lt;/td&gt;
+&lt;td&gt;workload segments&lt;/td&gt;
+&lt;td&gt;Workload Tier-1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Here is an example, applied to my lab environment:&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Static routes to configure"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-static-routes.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h3 id="traffic-flow-analysis">Traffic flow analysis&lt;/h3>
-&lt;h4 id="intra-segment-traffic">Intra-segment traffic&lt;/h4>
-&lt;p>As you may already imagine, the traffic flow for Virtual Machines deployed in the same workload segment will not be impacted by the NVA insertion. The traffic will be routed directly between the Virtual Machines at the L2 level.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id="traffic-flow-analysis"&gt;Traffic flow analysis&lt;/h3&gt;
+&lt;h4 id="intra-segment-traffic"&gt;Intra-segment traffic&lt;/h4&gt;
+&lt;p&gt;As you may already imagine, the traffic flow for Virtual Machines deployed in the same workload segment will not be impacted by the NVA insertion. The traffic will be routed directly between the Virtual Machines at the L2 level.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Traffic flow between VMs in the same segment"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-intra-segment.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
-&lt;h4 id="east-west-inter-segment-traffic-same-tier-1">East-West, Inter-segment traffic, same Tier-1&lt;/h4>
-&lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong&gt;NSX-T Distributed Firewall&lt;/strong&gt; capabilities.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="east-west-inter-segment-traffic-same-tier-1"&gt;East-West, Inter-segment traffic, same Tier-1&lt;/h4&gt;
+&lt;p&gt;The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Traffic flow between VMs in different segments, same T1"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-side-to-side-segments.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;blockquote>
-&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
-&lt;h4 id="east-west-inter-segment-traffic-different-tier-1">East-West, Inter-segment traffic, different Tier-1&lt;/h4>
-&lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;To filter this kind of network traffic, you can either rely on the &lt;strong&gt;NSX-T Distributed Firewall&lt;/strong&gt; or &lt;strong&gt;Gateway Firewall&lt;/strong&gt; capabilities.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="east-west-inter-segment-traffic-different-tier-1"&gt;East-West, Inter-segment traffic, different Tier-1&lt;/h4&gt;
+&lt;p&gt;The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Traffic flow between VMs in different segments, different T1"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-segment-to-segment-through-fw.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p>
-&lt;blockquote>
-&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>&lt;/blockquote>
-&lt;h4 id="north-south-traffic">North-South traffic&lt;/h4>
-&lt;p>North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p>
-&lt;ul>
-&lt;li>Azure based resources&lt;/li>
-&lt;li>On-premises resources via ExpressRoute or VPN&lt;/li>
-&lt;li>Internet&lt;/li>
-&lt;/ul>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In order to generalize this configuration, we will need to deploy a &lt;strong&gt;Tier-1 Gateway per workload segment&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="north-south-traffic"&gt;North-South traffic&lt;/h4&gt;
+&lt;p&gt;North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Azure based resources&lt;/li&gt;
+&lt;li&gt;On-premises resources via ExpressRoute or VPN&lt;/li&gt;
+&lt;li&gt;Internet&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Traffic flow between VMs in different segments, different T1"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-north-south-connectivity.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h2 id="other-considerations">Other considerations&lt;/h2>
-&lt;h3 id="security-recommendations">Security recommendations&lt;/h3>
-&lt;p>With multiple routing devices (Tier-1 gateways) deployed behind the NVA, it is important to ensure that the NVA is not bypassed by the traffic. It is recommended to consider blocking &lt;a href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Redirect">ICMP redirects&lt;/a> at the distributed firewall level and to configure the NVA to:&lt;/p>
-&lt;ul>
-&lt;li>Ignore ICMP redirects&lt;/li>
-&lt;li>Not send ICMP redirects&lt;/li>
-&lt;/ul>
-&lt;p>Introducing new static routes may also lead to traffic routing bypassing the NVA. It is important to ensure a proper configuration of the static routes in the Tier-1 Gateways.&lt;/p>
-&lt;h3 id="nva-high-availability">NVA high availability&lt;/h3>
-&lt;p>Here I only demonstrated the capacity to architect and organize traffic flow, to be filtered by a single NVA instance. In a production environment, it is important to consider the high availability of the NVA. This can be achieved by deploying multiple NVA instances and consider VRRP (Virtual Router Redundancy Protocol) grouping and load-balancing to ensure the high availability of the NVA.&lt;/p>
-&lt;h3 id="known-limitations">Known limitations&lt;/h3>
-&lt;p>A well-known limitation of this design topology is about HCX and the &lt;a href="https://docs.vmware.com/en/VMware-HCX/4.6/hcx-user-guide/GUID-0E254D74-60A9-479C-825D-F373C41F40BC.html">Mobility Optimized Network&lt;/a> (MON) were the behavior can be hard to predict. This is a reason &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/network-hub-spoke#third-party-nva-integration-in-avs">Mobility Optimized Network is not supported by Microsoft in AVS with a third party NVA setup&lt;/a>.&lt;/p></description></item><item><title>Azure VMware Solution – Use public IP on NSX-T Edge</title><link>https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/</link><pubDate>Wed, 17 Aug 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/</guid><description>
-&lt;p>A few days ago, Microsoft released a new feature for Azure VMware Solution: &lt;em>&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge">Enable Public IP to the NSX Edge&lt;/a>&lt;/em>. I take the opportunity to review this new feature and the other options available to provide Internet connectivity to your Azure VMware Solution (both for In or Out-bound traffic).&lt;/p>
-&lt;h2 id="internet-access-options-for-azure-vmware-solution">Internet access options for Azure VMware solution&lt;/h2>
-&lt;p>To provide internet access (inbound and/outbound) to an Azure VMware Solution deployment, 3 options are available:&lt;/p>
-&lt;ol>
-&lt;li>Use a Microsoft-managed SNAT (outbound connectivity only) (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-managed-snat-for-workloads">doc.&lt;/a>)&lt;/li>
-&lt;li>Advertise a default route using Azure Firewall, Azure vWAN or a third-party Network Virtual Appliance (NVA) (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/disable-internet-access">doc.&lt;/a>)&lt;/li>
-&lt;li>Use Public IP address(es) published down to the NSX-T Edge (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge">doc.&lt;/a>)&lt;/li>
-&lt;/ol>
-&lt;p>Each option has its own &lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/concepts-design-public-internet-access">advantages and disadvantages&lt;/a> and is summarized below.&lt;/p>
-&lt;h3 id="microsoft-managed-snat">Microsoft-managed SNAT&lt;/h3>
-&lt;p>The Microsoft-managed SNAT option (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-managed-snat-for-workloads">doc.&lt;/a>) is the easiest and cost-effective option for &lt;strong>outbound&lt;/strong> (only) &lt;strong>connectivity&lt;/strong> as the public IP addresses are fully managed by Microsoft &lt;strong>free of charge&lt;/strong>.&lt;/p>
-&lt;p>In this scenario, 2 public IPs are used and rotated to provide outbound connectivity to the Azure VMware Solution workloads with up to 128 000 concurrent connections.&lt;/p>
-&lt;p>This comes with the following limitations:&lt;/p>
-&lt;ul>
-&lt;li>No inbound connectivity&lt;/li>
-&lt;li>No control of outbound SNAT rules&lt;/li>
-&lt;li>No connection logs&lt;/li>
-&lt;li>Hard limit of 128 000 concurrent connections&lt;/li>
-&lt;/ul>
-&lt;h3 id="advertise-a-default-route">Advertise a default route&lt;/h3>
-&lt;p>The second option for Internet connectivity in Azure VMware Solution is based on the default route advertisement from another component in the Azure infrastructure (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/disable-internet-access">doc.&lt;/a>).&lt;/p>
-&lt;p>This advertisement can be done using:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/firewall/overview">Azure Firewall&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about">Azure vWAN&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/dmz/nva-ha">Third-party Network Virtual Appliance&lt;/a> (NVA)&lt;/li>
-&lt;li>A routing component deployed on-premises&lt;/li>
-&lt;/ul>
-&lt;p>If no default-route is advertised to AVS, the VMs will not be able to access the internet: this option is also the one used to &lt;strong>disable internet access on AVS deployment&lt;/strong>.&lt;/p>
-&lt;p>This option could provide inbound connectivity, control of SNAT and DNAT rules, connections logs but is more complex to deploy and will involve additional charges (for public IP addresses, Firewall or routing devices etc.)&lt;/p>
-&lt;h3 id="public-ip-address-published-down-to-the-nsx-t-edge">Public IP address published down to the NSX-T Edge&lt;/h3>
-&lt;p>What was recently announced as a new GA feature in Azure VMware Solution is the publication of public IP address(es) down to the NSX-T Edge (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge">doc.&lt;/a>). This is the third option for Internet connectivity in Azure VMware Solution and it provides the best of the 2 previous options.&lt;/p>
-&lt;ul>
-&lt;li>Inbound and outbound connectivity&lt;/li>
-&lt;li>Control of SNAT and DNAT rules&lt;/li>
-&lt;li>Connection logs&lt;/li>
-&lt;li>No additional components to deploy (Azure Firewall, Azure vWAN, third-party NVA)&lt;/li>
-&lt;/ul>
-&lt;p>On top of this, this new feature also enables:&lt;/p>
-&lt;ul>
-&lt;li>A unified experience based on AVS native components only: Azure Resource Manager and NSX-T&lt;/li>
-&lt;li>The ability to receive up to 64 public IPs (soft limit)
-&lt;ul>
-&lt;li>This quota can be increased by request to 1000s of Public IPs allocated if required&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>DDoS Security protection against network traffic in and out of the Internet.&lt;/li>
-&lt;li>HCX Migration support over the Public Internet.&lt;/li>
-&lt;/ul>
-&lt;h4 id="pricing-considerations">Pricing considerations&lt;/h4>
-&lt;p>With this new feature, Public IP addresses published for an AVS instance are billed separately from the AVS instance itself as IP addresses used for other Azure purposes.&lt;/p>
-&lt;p>The pricing details are explained here: &lt;a href="https://azure.microsoft.com/en-us/pricing/details/ip-addresses/">IP Addresses pricing&lt;/a> and to summarize it:&lt;/p>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Type&lt;/th>
-&lt;th>Standard (ARM)&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Public IP prefix (block of addresses)&lt;/td>
-&lt;td>$.006 per IP per hour&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;div class="notices info">
-&lt;div class="label">Public IP addresses pricing&lt;/div>
-&lt;p>Always check the &lt;a href="https://azure.microsoft.com/en-us/pricing/details/ip-addresses/">pricing details from the official Azure documentation&lt;/a> before you purchase an IP address. The above table is only an extract at the time of this writing.&lt;/p>
-&lt;/div>
-&lt;h2 id="reserve-public-ip-addresses-for-azure-vmware-solution">Reserve public IP addresses for Azure VMware Solution&lt;/h2>
-&lt;p>Since the publication of the new feature providing public IPs on NSX-T Edge, a new section &lt;em>Internet Connectivity&lt;/em> is available in the Azure portal to manage AVS internet access options.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id="other-considerations"&gt;Other considerations&lt;/h2&gt;
+&lt;h3 id="security-recommendations"&gt;Security recommendations&lt;/h3&gt;
+&lt;p&gt;With multiple routing devices (Tier-1 gateways) deployed behind the NVA, it is important to ensure that the NVA is not bypassed by the traffic. It is recommended to consider blocking &lt;a href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Redirect"&gt;ICMP redirects&lt;/a&gt; at the distributed firewall level and to configure the NVA to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ignore ICMP redirects&lt;/li&gt;
+&lt;li&gt;Not send ICMP redirects&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Introducing new static routes may also lead to traffic routing bypassing the NVA. It is important to ensure a proper configuration of the static routes in the Tier-1 Gateways.&lt;/p&gt;
+&lt;h3 id="nva-high-availability"&gt;NVA high availability&lt;/h3&gt;
+&lt;p&gt;Here I only demonstrated the capacity to architect and organize traffic flow, to be filtered by a single NVA instance. In a production environment, it is important to consider the high availability of the NVA. This can be achieved by deploying multiple NVA instances and consider VRRP (Virtual Router Redundancy Protocol) grouping and load-balancing to ensure the high availability of the NVA.&lt;/p&gt;
+&lt;h3 id="known-limitations"&gt;Known limitations&lt;/h3&gt;
+&lt;p&gt;A well-known limitation of this design topology is about HCX and the &lt;a href="https://docs.vmware.com/en/VMware-HCX/4.6/hcx-user-guide/GUID-0E254D74-60A9-479C-825D-F373C41F40BC.html"&gt;Mobility Optimized Network&lt;/a&gt; (MON) were the behavior can be hard to predict. This is a reason &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/network-hub-spoke#third-party-nva-integration-in-avs"&gt;Mobility Optimized Network is not supported by Microsoft in AVS with a third party NVA setup&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Azure VMware Solution – Use public IP on NSX-T Edge</title><link>https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/</link><pubDate>Wed, 17 Aug 2022 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2022-08-12-azure-vmware-solution-public-ip-on-nsx-edge/</guid><description>
+&lt;p&gt;A few days ago, Microsoft released a new feature for Azure VMware Solution: &lt;em&gt;&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge"&gt;Enable Public IP to the NSX Edge&lt;/a&gt;&lt;/em&gt;. I take the opportunity to review this new feature and the other options available to provide Internet connectivity to your Azure VMware Solution (both for In or Out-bound traffic).&lt;/p&gt;
+&lt;h2 id="internet-access-options-for-azure-vmware-solution"&gt;Internet access options for Azure VMware solution&lt;/h2&gt;
+&lt;p&gt;To provide internet access (inbound and/outbound) to an Azure VMware Solution deployment, 3 options are available:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Use a Microsoft-managed SNAT (outbound connectivity only) (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-managed-snat-for-workloads"&gt;doc.&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Advertise a default route using Azure Firewall, Azure vWAN or a third-party Network Virtual Appliance (NVA) (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/disable-internet-access"&gt;doc.&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Use Public IP address(es) published down to the NSX-T Edge (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge"&gt;doc.&lt;/a&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Each option has its own &lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/concepts-design-public-internet-access"&gt;advantages and disadvantages&lt;/a&gt; and is summarized below.&lt;/p&gt;
+&lt;h3 id="microsoft-managed-snat"&gt;Microsoft-managed SNAT&lt;/h3&gt;
+&lt;p&gt;The Microsoft-managed SNAT option (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-managed-snat-for-workloads"&gt;doc.&lt;/a&gt;) is the easiest and cost-effective option for &lt;strong&gt;outbound&lt;/strong&gt; (only) &lt;strong&gt;connectivity&lt;/strong&gt; as the public IP addresses are fully managed by Microsoft &lt;strong&gt;free of charge&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In this scenario, 2 public IPs are used and rotated to provide outbound connectivity to the Azure VMware Solution workloads with up to 128 000 concurrent connections.&lt;/p&gt;
+&lt;p&gt;This comes with the following limitations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;No inbound connectivity&lt;/li&gt;
+&lt;li&gt;No control of outbound SNAT rules&lt;/li&gt;
+&lt;li&gt;No connection logs&lt;/li&gt;
+&lt;li&gt;Hard limit of 128 000 concurrent connections&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="advertise-a-default-route"&gt;Advertise a default route&lt;/h3&gt;
+&lt;p&gt;The second option for Internet connectivity in Azure VMware Solution is based on the default route advertisement from another component in the Azure infrastructure (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/disable-internet-access"&gt;doc.&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;This advertisement can be done using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.microsoft.com/en-us/azure/firewall/overview"&gt;Azure Firewall&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about"&gt;Azure vWAN&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/dmz/nva-ha"&gt;Third-party Network Virtual Appliance&lt;/a&gt; (NVA)&lt;/li&gt;
+&lt;li&gt;A routing component deployed on-premises&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If no default-route is advertised to AVS, the VMs will not be able to access the internet: this option is also the one used to &lt;strong&gt;disable internet access on AVS deployment&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;This option could provide inbound connectivity, control of SNAT and DNAT rules, connections logs but is more complex to deploy and will involve additional charges (for public IP addresses, Firewall or routing devices etc.)&lt;/p&gt;
+&lt;h3 id="public-ip-address-published-down-to-the-nsx-t-edge"&gt;Public IP address published down to the NSX-T Edge&lt;/h3&gt;
+&lt;p&gt;What was recently announced as a new GA feature in Azure VMware Solution is the publication of public IP address(es) down to the NSX-T Edge (&lt;a href="https://docs.microsoft.com/en-us/azure/azure-vmware/enable-public-ip-nsx-edge"&gt;doc.&lt;/a&gt;). This is the third option for Internet connectivity in Azure VMware Solution and it provides the best of the 2 previous options.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Inbound and outbound connectivity&lt;/li&gt;
+&lt;li&gt;Control of SNAT and DNAT rules&lt;/li&gt;
+&lt;li&gt;Connection logs&lt;/li&gt;
+&lt;li&gt;No additional components to deploy (Azure Firewall, Azure vWAN, third-party NVA)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;On top of this, this new feature also enables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A unified experience based on AVS native components only: Azure Resource Manager and NSX-T&lt;/li&gt;
+&lt;li&gt;The ability to receive up to 64 public IPs (soft limit)
+&lt;ul&gt;
+&lt;li&gt;This quota can be increased by request to 1000s of Public IPs allocated if required&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;DDoS Security protection against network traffic in and out of the Internet.&lt;/li&gt;
+&lt;li&gt;HCX Migration support over the Public Internet.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="pricing-considerations"&gt;Pricing considerations&lt;/h4&gt;
+&lt;p&gt;With this new feature, Public IP addresses published for an AVS instance are billed separately from the AVS instance itself as IP addresses used for other Azure purposes.&lt;/p&gt;
+&lt;p&gt;The pricing details are explained here: &lt;a href="https://azure.microsoft.com/en-us/pricing/details/ip-addresses/"&gt;IP Addresses pricing&lt;/a&gt; and to summarize it:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Standard (ARM)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Public IP prefix (block of addresses)&lt;/td&gt;
+&lt;td&gt;$.006 per IP per hour&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="notices info"&gt;
+&lt;div class="label"&gt;Public IP addresses pricing&lt;/div&gt;
+&lt;p&gt;Always check the &lt;a href="https://azure.microsoft.com/en-us/pricing/details/ip-addresses/"&gt;pricing details from the official Azure documentation&lt;/a&gt; before you purchase an IP address. The above table is only an extract at the time of this writing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="reserve-public-ip-addresses-for-azure-vmware-solution"&gt;Reserve public IP addresses for Azure VMware Solution&lt;/h2&gt;
+&lt;p&gt;Since the publication of the new feature providing public IPs on NSX-T Edge, a new section &lt;em&gt;Internet Connectivity&lt;/em&gt; is available in the Azure portal to manage AVS internet access options.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="AVS Internet Connectivity section in Azure portal"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/internet-connectivity-section.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>To enable internet access with public IPs on NSX-T Edge, at least one public IP block is needed. You can create one by providing a name and the number of IPs you want to allocate.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;To enable internet access with public IPs on NSX-T Edge, at least one public IP block is needed. You can create one by providing a name and the number of IPs you want to allocate.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Create Public IPs block"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/create-ip-block.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>When the block request is submitted, you can save the new internet access settings. The block will be created and the IPs will be allocated in the background while the block is advertised to the AVS deployment.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;When the block request is submitted, you can save the new internet access settings. The block will be created and the IPs will be allocated in the background while the block is advertised to the AVS deployment.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Save the new internet connectivity option"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/set-internet-option.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>It may take around 10 to 15 minutes to complete the new configuration. If internet access was already enable on the AVS deployment, a downtime is expected during the re-configuration and NSX-T configuration will be required.&lt;/p>
-&lt;p>When the configuration is completed, the new block will be available in the list of public IP blocks:&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;It may take around 10 to 15 minutes to complete the new configuration. If internet access was already enable on the AVS deployment, a downtime is expected during the re-configuration and NSX-T configuration will be required.&lt;/p&gt;
+&lt;p&gt;When the configuration is completed, the new block will be available in the list of public IP blocks:&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="List of public IP spaces provisioned for the current AVS instance"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/public-ip-spaces.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h2 id="enable-outbound-internet-access-using-snat">Enable outbound internet access using SNAT&lt;/h2>
-&lt;p>Enabling outbound internet access requires to configure (at least) a SNAT rule on the NSX-T T1 router.&lt;/p>
-&lt;ol>
-&lt;li>Logging to NSX-T manager&lt;/li>
-&lt;li>In the &lt;em>networking&lt;/em> tab, access to the &lt;em>NAT&lt;/em> section&lt;/li>
-&lt;li>Select the appropriate T1 router to provision the SNAT rule on&lt;/li>
-&lt;li>Create a new SNAT rule with name, and an IP address from the provisioned block to use for outbound connectivity&lt;/li>
-&lt;li>Save&lt;/li>
-&lt;/ol>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id="enable-outbound-internet-access-using-snat"&gt;Enable outbound internet access using SNAT&lt;/h2&gt;
+&lt;p&gt;Enabling outbound internet access requires to configure (at least) a SNAT rule on the NSX-T T1 router.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Logging to NSX-T manager&lt;/li&gt;
+&lt;li&gt;In the &lt;em&gt;networking&lt;/em&gt; tab, access to the &lt;em&gt;NAT&lt;/em&gt; section&lt;/li&gt;
+&lt;li&gt;Select the appropriate T1 router to provision the SNAT rule on&lt;/li&gt;
+&lt;li&gt;Create a new SNAT rule with name, and an IP address from the provisioned block to use for outbound connectivity&lt;/li&gt;
+&lt;li&gt;Save&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Create a NSX-T SNAT rule to enable outbound internet connectivity"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/create-nsx-snat.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;div class="notices info">
-&lt;div class="label">Firewall configuration&lt;/div>
-&lt;p>Depending on the firewall configuration on NSX-T, you may have to create firewall rules to allow the traffic to pass through.&lt;/p>
-&lt;/div>
-&lt;h2 id="enable-inbound-internet-access">Enable inbound internet access&lt;/h2>
-&lt;h3 id="inbound-connectivity-with-dnat">Inbound connectivity with DNAT&lt;/h3>
-&lt;p>The inbound internet access could rely on a DNAT rule, forwarding the traffic from the public IP address to the internal IP address of the workload (either a VM or a network service).&lt;/p>
-&lt;ol>
-&lt;li>Logging to NSX-T manager&lt;/li>
-&lt;li>In the &lt;em>networking&lt;/em> tab, access to the &lt;em>NAT&lt;/em> section&lt;/li>
-&lt;li>Select the appropriate T1 router to provision the DNAT rule on&lt;/li>
-&lt;li>Provide a name, a public IP address from the provisioned block and an internal IP address to forward the traffic to&lt;/li>
-&lt;li>Save&lt;/li>
-&lt;/ol>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class="notices info"&gt;
+&lt;div class="label"&gt;Firewall configuration&lt;/div&gt;
+&lt;p&gt;Depending on the firewall configuration on NSX-T, you may have to create firewall rules to allow the traffic to pass through.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="enable-inbound-internet-access"&gt;Enable inbound internet access&lt;/h2&gt;
+&lt;h3 id="inbound-connectivity-with-dnat"&gt;Inbound connectivity with DNAT&lt;/h3&gt;
+&lt;p&gt;The inbound internet access could rely on a DNAT rule, forwarding the traffic from the public IP address to the internal IP address of the workload (either a VM or a network service).&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Logging to NSX-T manager&lt;/li&gt;
+&lt;li&gt;In the &lt;em&gt;networking&lt;/em&gt; tab, access to the &lt;em&gt;NAT&lt;/em&gt; section&lt;/li&gt;
+&lt;li&gt;Select the appropriate T1 router to provision the DNAT rule on&lt;/li&gt;
+&lt;li&gt;Provide a name, a public IP address from the provisioned block and an internal IP address to forward the traffic to&lt;/li&gt;
+&lt;li&gt;Save&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Create a NSX-T DNAT rule to enable inbound internet connectivity"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/create-nsx-dnat.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;div class="notices info">
-&lt;div class="label">Firewall configuration&lt;/div>
-&lt;p>Depending on the firewall configuration on NSX-T, you may have to create firewall rules to allow the traffic to pass through.&lt;/p>
-&lt;/div>
-&lt;h3 id="inbound-connectivity-with-dnat-and-port-redirection">Inbound connectivity with DNAT and port redirection&lt;/h3>
-&lt;p>With the DNAT rule, you can also redirect traffic to a different port. For example, you can redirect traffic from the public IP address on port 80 to a different port on the internal workload, like 8000.&lt;/p>
-&lt;p>For this, you need to specify a &lt;em>service&lt;/em> matching the port of the internal workload during the DNAT rule creation (8000 in our example).&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class="notices info"&gt;
+&lt;div class="label"&gt;Firewall configuration&lt;/div&gt;
+&lt;p&gt;Depending on the firewall configuration on NSX-T, you may have to create firewall rules to allow the traffic to pass through.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h3 id="inbound-connectivity-with-dnat-and-port-redirection"&gt;Inbound connectivity with DNAT and port redirection&lt;/h3&gt;
+&lt;p&gt;With the DNAT rule, you can also redirect traffic to a different port. For example, you can redirect traffic from the public IP address on port 80 to a different port on the internal workload, like 8000.&lt;/p&gt;
+&lt;p&gt;For this, you need to specify a &lt;em&gt;service&lt;/em&gt; matching the port of the internal workload during the DNAT rule creation (8000 in our example).&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Creation of a dev-http service matching port 8000"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/dev-http-service.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>Then to specified as the Translated Port, the port exposed on the public IP address (80 in our example).&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Then to specified as the Translated Port, the port exposed on the public IP address (80 in our example).&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Create a NSX-T DNAT rule to enable inbound internet connectivity with port redirection"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/create-nsx-dnat-with-port-redirect.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h3 id="inbound-connectivity-using-nsx-t-load-balancer">Inbound connectivity using NSX-T Load Balancer&lt;/h3>
-&lt;p>As public IP address can now land directly on the NSX-T edge, it is possible to setup a NSX-T &lt;strong>Load Balancer&lt;/strong> to provide inbound connectivity to the AVS workloads.&lt;/p>
-&lt;p>First step is to create a Load Balancer service, attached to the NSX-T T1 gateway and to specify a sizing.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id="inbound-connectivity-using-nsx-t-load-balancer"&gt;Inbound connectivity using NSX-T Load Balancer&lt;/h3&gt;
+&lt;p&gt;As public IP address can now land directly on the NSX-T edge, it is possible to setup a NSX-T &lt;strong&gt;Load Balancer&lt;/strong&gt; to provide inbound connectivity to the AVS workloads.&lt;/p&gt;
+&lt;p&gt;First step is to create a Load Balancer service, attached to the NSX-T T1 gateway and to specify a sizing.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Load Balancer service creation"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/load-balancer-1.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>Second step is to create a &lt;em>Virtual Server&lt;/em>, attached to the Load Balancer service and to specify the port and the IP address of the workload.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Second step is to create a &lt;em&gt;Virtual Server&lt;/em&gt;, attached to the Load Balancer service and to specify the port and the IP address of the workload.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Creation of the Virtual Server"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/load-balancer-2.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>Then &lt;em>Server Pool&lt;/em> is created and attached to the &lt;em>virtual server&lt;/em>. It contains a list of workers hosting the load-balancer application.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Then &lt;em&gt;Server Pool&lt;/em&gt; is created and attached to the &lt;em&gt;virtual server&lt;/em&gt;. It contains a list of workers hosting the load-balancer application.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Server Pool creation"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/load-balancer-3.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>Last but not least: an &lt;em>Active Monitor&lt;/em> is created to monitor the &lt;em>Server Pool&lt;/em>.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Last but not least: an &lt;em&gt;Active Monitor&lt;/em&gt; is created to monitor the &lt;em&gt;Server Pool&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Active monitor creation"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-public-ip/load-balancer-4.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h2 id="conclusion">Conclusion&lt;/h2>
-&lt;p>With the new &lt;em>Public IP address down to the NSX-T edge&lt;/em> feature now available for AVS, new capabilities are available to manage the internet connectivity of the AVS workloads. One of the most important advantages is the ability to rely on NSX-T components to configure and securise both inbound and outbound internet connectivity. It is also possible to directly use public IP addresses with NSX-T services like Load Balancer or VPN.&lt;/p>
-&lt;p>Of course, this setup will not satisfy all the thinkable internet connectivity requirements but it offers a new set of possibilities and is a real asset to consider to host internet-facing applications or to control outgoing internet connections.&lt;/p>
-&lt;h3 id="credits">Credits&lt;/h3>
-&lt;p>Photo by &lt;a href="https://unsplash.com/@clementduguerre?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Clément Duguerre&lt;/a> on &lt;a href="https://unsplash.com/s/photos/pyrenee?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash&lt;/a>&lt;/p></description></item></channel></rss>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;With the new &lt;em&gt;Public IP address down to the NSX-T edge&lt;/em&gt; feature now available for AVS, new capabilities are available to manage the internet connectivity of the AVS workloads. One of the most important advantages is the ability to rely on NSX-T components to configure and securise both inbound and outbound internet connectivity. It is also possible to directly use public IP addresses with NSX-T services like Load Balancer or VPN.&lt;/p&gt;
+&lt;p&gt;Of course, this setup will not satisfy all the thinkable internet connectivity requirements but it offers a new set of possibilities and is a real asset to consider to host internet-facing applications or to control outgoing internet connections.&lt;/p&gt;
+&lt;h3 id="credits"&gt;Credits&lt;/h3&gt;
+&lt;p&gt;Photo by &lt;a href="https://unsplash.com/@clementduguerre?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"&gt;Clément Duguerre&lt;/a&gt; on &lt;a href="https://unsplash.com/s/photos/pyrenee?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"&gt;Unsplash&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

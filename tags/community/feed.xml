@@ -1,84 +1,87 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Community on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/community/</link><description>Recent content in Community on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sat, 28 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/community/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMUG Paris, Septembre 2019, Slides de notre présentation vRO</title><link>https://vuptime.io/post/2019-09-28-vmug-paris-presentation-vro/</link><pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/09/28/vmug-paris-presentation-vro/</guid><description>
-&lt;p>Une nouvelle édition du vMUG Paris s'achevait jeudi soir autour d'une vBeer méritée par tous:&lt;/p>
-&lt;ul>
-&lt;li>Les &lt;strong>organisateurs&lt;/strong> tout d'abord: merci à eux pour cet évènement très réussi une nouvelle fois !&lt;/li>
-&lt;li>Les &lt;strong>orateurs&lt;/strong>, qui nous ont fait l'honneur de leur présence, de leur temps et de leur savoir.&lt;/li>
-&lt;li>Le public, qui avait passé une journée bien chargée !&lt;/li>
-&lt;li>Les sponsors pour leur soutien.&lt;/li>
-&lt;li>Mon employeur: &lt;strong>SII Group&lt;/strong> qui nous permet de prendre part à ce type d'évènement.&lt;/li>
-&lt;/ul>
-&lt;blockquote>
-&lt;p>Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p>&lt;/blockquote>
-&lt;p>&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png">&lt;figcaption>
-&lt;h4>Logo vMUG France&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-{:width=&amp;quot;200px&amp;quot;}&lt;/p>
-&lt;p>&lt;a href="https://vuptime.io/about/#aharlaut">@Antoine_hlt&lt;/a> et &lt;a href="https://vuptime.io/about/#lrivallain">moi-même&lt;/a> présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em>vRealize Orchestrator&lt;/em>. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/">présentation que j'avais réalisé à Rennes&lt;/a> il y a quelques mois à l'occasion du &lt;em>meet&amp;amp;geek&lt;/em> organisé à &lt;strong>SII Ouest&lt;/strong>.&lt;/p>
-&lt;p>Nous avions aussi préparé une petite démonstration basé sur le déploiement d'un noeud &lt;em>Kubernetes&lt;/em>.&lt;/p>
-&lt;blockquote>
-&lt;p>Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p>&lt;/blockquote>
-&lt;p>Et nous avions apporté avec nous, un &lt;em>RaspberryPi&lt;/em> connecté à quelques leds de couleur permettant de suivre visuellement, l'état du workflow. L'objet a succité un peu d'amusement: c'était le but.&lt;/p>
-&lt;p>Un merci tout spécial à &lt;a href="https://twitter.com/ErikBussink">Erik Bussink&lt;/a>, venu du pays du fromage et du chocolat, qui a offert à un des spectateurs, un kit &lt;em>RaspberryPi 3b&lt;/em> avec boitier et alimentation POE.&lt;/p>
-&lt;p>Les sources de la présentation sont comme d'habitude, sur github: &lt;a href="https://vupti.me/vmug2019-src">vupti.me/vmug2019-src&lt;/a> et la présentation elle-même, si dessous, ou à l'adresse suivante: &lt;a href="https://vupti.me/vmug2019">vupti.me/vmug2019&lt;/a>.&lt;/p>
-&lt;div>
-&lt;iframe width="100%" height="500" src="https://vupti.me/vmug2019" style="border: 1px solid grey;">&lt;/iframe>
-&lt;/div>
-&lt;p>Quelques photos de la journée:&lt;/p>
-&lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">Last &lt;a href="https://twitter.com/VMUGFR?ref_src=twsrc%5Etfw">@VMUGFR&lt;/a> session Ludovic and Antoine &lt;a href="https://twitter.com/hashtag/vRealizeOrchestrator?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRealizeOrchestrator&lt;/a> can do all, even taking care of &lt;a href="https://twitter.com/hashtag/kubernetes?src=hash&amp;amp;ref_src=twsrc%5Etfw">#kubernetes&lt;/a> &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> &lt;a href="https://t.co/LeGpJWR3YG">pic.twitter.com/LeGpJWR3YG&lt;/a>&lt;/p>&amp;mdash; Erik Bussink (@ErikBussink) &lt;a href="https://twitter.com/ErikBussink/status/1177218278101606401?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
-&lt;blockquote class="twitter-tweet">&lt;p lang="fr" dir="ltr">[REX vRO] Dernier talk de la journée avec &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &amp;amp; &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw">@antoine_hlt&lt;/a> autour de l’&lt;a href="https://twitter.com/hashtag/orchestration?src=hash&amp;amp;ref_src=twsrc%5Etfw">#orchestration&lt;/a> !&lt;br> &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vRO&lt;/a> &lt;a href="https://twitter.com/hashtag/VMware?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMware&lt;/a> &lt;a href="https://twitter.com/GroupeSII?ref_src=twsrc%5Etfw">@GroupeSII&lt;/a> &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> &lt;a href="https://t.co/OQ39Ka11ux">pic.twitter.com/OQ39Ka11ux&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177225744046526464?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
-&lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">[SUPER TALK] Special guest for our &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 2019, &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> talk us about “vSphere ESXi past, present and future” Are you ready ? &lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/MyVMUG?ref_src=twsrc%5Etfw">@MyVMUG&lt;/a> &lt;a href="https://twitter.com/VMware?ref_src=twsrc%5Etfw">@VMware&lt;/a> &lt;a href="https://twitter.com/DuncanYB?ref_src=twsrc%5Etfw">@DuncanYB&lt;/a> &lt;a href="https://twitter.com/FrankDenneman?ref_src=twsrc%5Etfw">@FrankDenneman&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/hashtag/vExpert?src=hash&amp;amp;ref_src=twsrc%5Etfw">#vExpert&lt;/a> &lt;a href="https://t.co/8fPwW4iuUS">pic.twitter.com/8fPwW4iuUS&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177148685031002112?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
-&lt;blockquote class="twitter-tweet">&lt;p lang="en" dir="ltr">&lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw">#VMUGFR&lt;/a> 😎🤟😜Thank you to sponsors, speakers and vmuggers for making our event possible ! Amazing day with amazing people 😘&lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw">@VMware_Fr&lt;/a> &lt;a href="https://twitter.com/ovh_fr?ref_src=twsrc%5Etfw">@ovh_fr&lt;/a> &lt;a href="https://twitter.com/woueb?ref_src=twsrc%5Etfw">@woueb&lt;/a> &lt;a href="https://twitter.com/cqchu?ref_src=twsrc%5Etfw">@cqchu&lt;/a> &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw">@NHagoort&lt;/a> &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw">@CormacJHogan&lt;/a> &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw">@antoine_hlt&lt;/a> &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw">@lrivallain&lt;/a> &lt;a href="https://twitter.com/erwanquelin?ref_src=twsrc%5Etfw">@erwanquelin&lt;/a> &lt;a href="https://twitter.com/Kevin_Pcc_ovh?ref_src=twsrc%5Etfw">@Kevin_Pcc_ovh&lt;/a> &lt;a href="https://twitter.com/Ash2501?ref_src=twsrc%5Etfw">@Ash2501&lt;/a> &lt;a href="https://twitter.com/tonton_hub?ref_src=twsrc%5Etfw">@tonton_hub&lt;/a> &lt;a href="https://twitter.com/Gso_ski?ref_src=twsrc%5Etfw">@Gso_ski&lt;/a> &lt;a href="https://t.co/a6dV59yUcR">pic.twitter.com/a6dV59yUcR&lt;/a>&lt;/p>&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177250467535040512?ref_src=twsrc%5Etfw">September 26, 2019&lt;/a>&lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
-&lt;p>Et parce que je le trouve vraiment très beau, le logo de cette année:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/fr-mug-09-2019-paris_logo.jpg">&lt;figcaption>
-&lt;h4>fr-mug-09-2019-paris_logo&lt;/h4>
-&lt;/figcaption>
-&lt;/figure></description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>https://vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/09/20/frenchvmug-reboot-paris/</guid><description>
-&lt;blockquote>
-&lt;p>As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p>&lt;/blockquote>
-&lt;p>Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;amp;Home=%2fcommunities%2flocalcommunityhome">VMUG France&lt;/a> dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p>
-&lt;p>L'événènement est à présent orchestré (et bien orchestré!) par &lt;a href="https://twitter.com/Noham_m">Noham Medyouni&lt;/a> (Dell-EMC), &lt;a href="https://twitter.com/fredg_work">Fréderic Giovannacci&lt;/a> (SIB) et &lt;a href="https://twitter.com/notmg">Matthieu Gioia&lt;/a> (consultant indep.) et pour ce RDV parisien de rentrée, 2 invités de marque étaient présents:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://twitter.com/DuncanYB">Duncan Epping&lt;/a>: Chief Technologist HCI @VMware, Auteur du blog &lt;a href="http://yellow-bricks.com">Yellow Briks&lt;/a>, Coauteur de la &lt;em>bible&lt;/em> &lt;code>Clustering Deepdive&lt;/code>.&lt;/li>
-&lt;li>&lt;a href="https://twitter.com/FrankDenneman">Franck Denneman&lt;/a>: coauteur de &lt;em>l'Ancien Testament&lt;/em> &lt;code>Host Deepdive&lt;/code>, du Nouveau: &lt;code>Clustering Deepdive&lt;/code>.&lt;/li>
-&lt;/ul>
-&lt;h2 id="ovh">OVH&lt;/h2>
-&lt;p>Cette journée a commencé par une présentation d'OVH et de son offre de cloud privé: &lt;em>SDDC&lt;/em>.&lt;/p>
-&lt;p>OVH dans son actualité récente a notamment inauguré une nouvelle usine d'assemblage de serveurs à Croix, avec une capacité annuelle de production de 400 000 serveurs. Autant dire qu'ils voient grand et que leur appétit est grand sur le marché du Cloud Computing.&lt;/p>
-&lt;p>Coté &lt;em>Private Cloud/SDDC&lt;/em> (souvenirs, souvenirs!), l'offre s'étoffe de nouveautés:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>vSAN&lt;/strong> sera certainement annoncé plus officiellement lors du Summit (mi-Octobre) avec, côté technique, du full MVNE et du vSAN en version 6.6. De ce que j'ai pu avoir comme info en off, le client sera assez libre de configurer comme il le souhaite de nombreux paramètres du cluster.&lt;/li>
-&lt;li>Des nouveauté coté &lt;strong>sécurité&lt;/strong> avec la future possibilité de bénéficier des fonctions de chiffrement de l'écosystème vSphere via son propre HSM, ou encore, d'attacher son propre domaine Active Directory à l'authentification du produit.&lt;/li>
-&lt;/ul>
-&lt;p>Visiblement, les liens entre OVH et VMware sont forts (en témoignait déjà le rachat de vCloud Air par OVH il y a presque 2 ans) et cela se voit: OVH a été primé 7x comme meilleur partenaire VMware au cours des 9 dernières années.&lt;/p>
-&lt;p>Enfin, c'est plus anecdotique mais intéressant à savoir, OVH, envisage de proposer des ressources (sans SLA et limitées dans le temps) aux membres de la communauté VMUG et vExpert! A suivre.&lt;/p>
-&lt;h2 id="duncan-epping-révolution-de-lit">Duncan Epping, révolution de l'IT&lt;/h2>
-&lt;p>Duncan a ensuite embrayé pour parler des évolutions actuelles et pré-senties du marché de l'IT.&lt;/p>
-&lt;p>Si on estime que dans les 5 ans à venir, plus d'applications seront créées et déployées qu'au cours des 40 dernières années: en effet on remarque que l'accélération sera dure à encaisser avec des pratiques d'il y a 10 ans. VMware essaye de son coté, d'apporter des solutions et de simplifier le travail de ses utilisateurs dans ses nouvelles et futures releases.&lt;/p>
-&lt;p>Nous avons notamment pu voir une démonstration de l'interface HTML5 de vSphere 6.7u1 avec un nouveau wizard de configuration de Cluster: qui n'a pas rêvé de configurer son cluster, avec vSAN, dvSwitch etc. en quelques clicks seulement? Et envoyer une support-request (les fameuses SR, un peu fastidieuses à remplir), directement depuis le vCenter concerné? Bientôt (on attend la GA), ça sera faisable!&lt;/p>
-&lt;p>Puis il a abordé les Tech Preview en cours sur 2 sujets:&lt;/p>
-&lt;ul>
-&lt;li>&lt;em>Native Vsan data protection&lt;/em> qui permet de remplacer une solution de backup et d'exporter, au besoin, et selon ses politiques, les données sur du stockage distant, incluant quelques providers clouds.&lt;/li>
-&lt;li>&lt;em>vSan file services&lt;/em> ou l'arrivée de la consommation du vSAN dans les guestOS au travers d'une appliance conçue pour être simple à déployer, résiliente, auto-managée, distribuée, compatible object-storage etc.&lt;/li>
-&lt;/ul>
-&lt;p>Autant dire que ça donne trèèèèès envie de tester tout ça et de l'envisager en production chez nos clients.&lt;/p>
-&lt;h2 id="franck-denneman-compute-deep-dive">Franck Denneman, Compute Deep Dive&lt;/h2>
-&lt;p>Autant le dire directement: on passe du coté DUR du compute quand on échange avec Franck et pourtant, ça semble couler de source tellement la pédagogie est efficace.&lt;/p>
-&lt;p>Sa présentation a notamment été un rappel de quelques notions expliquées dans son bouquin: &lt;code>Host Deepdive&lt;/code> (que je recommande chaudement) comme l'impact de la configuration hardware (sockets, DIMM, NUMA, channel etc.) de vos hosts. Et celui de la configuration de paramètres de VM sur les performances: nombre de &lt;em>cores per socket&lt;/em> ou encore la configuration (sensible!) du mode &lt;em>cpu latency sensitivity: high&lt;/em> sur le workload d'une infrastructure.&lt;/p>
-&lt;p>Hyper intéressant !&lt;/p>
-&lt;h2 id="autres-présentations">Autres présentations&lt;/h2>
-&lt;p>Je ne m'étendrais pas sur les autres présentations (Rubrik, NetApp, PureStorage et Zerto) qui étaient très intéressantes elles aussi mais un peu plus commerciales et vastes.&lt;/p>
-&lt;h2 id="surprises">Surprises&lt;/h2>
-&lt;p>Et comme si un VMUG avec de super guests ne suffisait pas, 2 grosses surprises sont intervenues au cours de la journée:&lt;/p>
-&lt;ul>
-&lt;li>La venue de Yoann Le Névé, cofondateur du 2ème festival de France, le HellFest. Quelques collègues Nantais en ont presque fait un QG et visiblement les liens sont forts puisque des places pour la prochaine édition ont été offertes aux participants par tirage au sort !&lt;/li>
-&lt;li>L'intervention d'Oles (Octave Klaba) (&lt;em>mon ex boss&lt;/em>), qu'on ne présente plus et qui a pu rappeler tout le bien qu'il pensait des liens qu'il entretient avec VMware, et de ses équipes des projets de cloud privé. Toujours dans son style décontracté et inimitable!&lt;/li>
-&lt;/ul>
-&lt;h2 id="conclusion">Conclusion&lt;/h2>
-&lt;p>Je crois que l'enthousiasme autour de cet évent se lit dans le billet ci-dessus mais au cas où, je le dis explicitement: &lt;em>à refaire&lt;/em>. Un grand merci aux organisateurs pour cette très belle journée (et ce sublime T-shirt).&lt;/p>
-&lt;p>Merci aussi à SII, mon employeur, qui m'a permi d'assister à cet event!&lt;/p>
-&lt;p>Et la photo de famille:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/frvmug-09-2018-paris.jpg">&lt;figcaption>
-&lt;h4>Photo de famille&lt;/h4>
-&lt;/figcaption>
-&lt;/figure></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Community on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/community/</link><description>Recent content in Community on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Sat, 28 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/community/feed.xml" rel="self" type="application/rss+xml"/><item><title>VMUG Paris, Septembre 2019, Slides de notre présentation vRO</title><link>https://vuptime.io/post/2019-09-28-vmug-paris-presentation-vro/</link><pubDate>Sat, 28 Sep 2019 00:00:00 +0000</pubDate><guid>https://vuptime.io/2019/09/28/vmug-paris-presentation-vro</guid><description>
+&lt;p&gt;Une nouvelle édition du vMUG Paris s'achevait jeudi soir autour d'une vBeer méritée par tous:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Les &lt;strong&gt;organisateurs&lt;/strong&gt; tout d'abord: merci à eux pour cet évènement très réussi une nouvelle fois !&lt;/li&gt;
+&lt;li&gt;Les &lt;strong&gt;orateurs&lt;/strong&gt;, qui nous ont fait l'honneur de leur présence, de leur temps et de leur savoir.&lt;/li&gt;
+&lt;li&gt;Le public, qui avait passé une journée bien chargée !&lt;/li&gt;
+&lt;li&gt;Les sponsors pour leur soutien.&lt;/li&gt;
+&lt;li&gt;Mon employeur: &lt;strong&gt;SII Group&lt;/strong&gt; qui nous permet de prendre part à ce type d'évènement.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: Il semblerait que certains aient continué les vBeers jusque dans le train ;-)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;figure&gt;&lt;img src="https://vuptime.io/images/frvmug-09-2019-paris.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Logo vMUG France&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+{:width=&amp;quot;200px&amp;quot;}&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://vuptime.io/about/#aharlaut"&gt;@Antoine_hlt&lt;/a&gt; et &lt;a href="https://vuptime.io/about/#lrivallain"&gt;moi-même&lt;/a&gt; présentions en fin d'après midi, un produit mal connu du portfolio VMware: &lt;em&gt;vRealize Orchestrator&lt;/em&gt;. Pour ne rien cacher, la présentation était l'argement inspirée de la &lt;a href="https://vuptime.io/2019/03/08/vmug-france-meetandgeek-rennes-bilan/"&gt;présentation que j'avais réalisé à Rennes&lt;/a&gt; il y a quelques mois à l'occasion du &lt;em&gt;meet&amp;amp;geek&lt;/em&gt; organisé à &lt;strong&gt;SII Ouest&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Nous avions aussi préparé une petite démonstration basé sur le déploiement d'un noeud &lt;em&gt;Kubernetes&lt;/em&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Apparté: Tout le monde a évoqué K8S dans sa présentation Jeudi je crois bien!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Et nous avions apporté avec nous, un &lt;em&gt;RaspberryPi&lt;/em&gt; connecté à quelques leds de couleur permettant de suivre visuellement, l'état du workflow. L'objet a succité un peu d'amusement: c'était le but.&lt;/p&gt;
+&lt;p&gt;Un merci tout spécial à &lt;a href="https://twitter.com/ErikBussink"&gt;Erik Bussink&lt;/a&gt;, venu du pays du fromage et du chocolat, qui a offert à un des spectateurs, un kit &lt;em&gt;RaspberryPi 3b&lt;/em&gt; avec boitier et alimentation POE.&lt;/p&gt;
+&lt;p&gt;Les sources de la présentation sont comme d'habitude, sur github: &lt;a href="https://vupti.me/vmug2019-src"&gt;vupti.me/vmug2019-src&lt;/a&gt; et la présentation elle-même, si dessous, ou à l'adresse suivante: &lt;a href="https://vupti.me/vmug2019"&gt;vupti.me/vmug2019&lt;/a&gt;.&lt;/p&gt;
+&lt;div&gt;
+&lt;iframe width="100%" height="500" src="https://vupti.me/vmug2019" style="border: 1px solid grey;"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;p&gt;Quelques photos de la journée:&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;Last &lt;a href="https://twitter.com/VMUGFR?ref_src=twsrc%5Etfw"&gt;@VMUGFR&lt;/a&gt; session Ludovic and Antoine &lt;a href="https://twitter.com/hashtag/vRealizeOrchestrator?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#vRealizeOrchestrator&lt;/a&gt; can do all, even taking care of &lt;a href="https://twitter.com/hashtag/kubernetes?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#kubernetes&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#vRO&lt;/a&gt; &lt;a href="https://t.co/LeGpJWR3YG"&gt;pic.twitter.com/LeGpJWR3YG&lt;/a&gt;&lt;/p&gt;&amp;mdash; Erik Bussink (@ErikBussink) &lt;a href="https://twitter.com/ErikBussink/status/1177218278101606401?ref_src=twsrc%5Etfw"&gt;September 26, 2019&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="fr" dir="ltr"&gt;[REX vRO] Dernier talk de la journée avec &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw"&gt;@lrivallain&lt;/a&gt; &amp;amp; &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw"&gt;@antoine_hlt&lt;/a&gt; autour de l’&lt;a href="https://twitter.com/hashtag/orchestration?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#orchestration&lt;/a&gt; !&lt;br&gt; &lt;a href="https://twitter.com/hashtag/vRO?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#vRO&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/VMware?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#VMware&lt;/a&gt; &lt;a href="https://twitter.com/GroupeSII?ref_src=twsrc%5Etfw"&gt;@GroupeSII&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#VMUGFR&lt;/a&gt; &lt;a href="https://t.co/OQ39Ka11ux"&gt;pic.twitter.com/OQ39Ka11ux&lt;/a&gt;&lt;/p&gt;&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177225744046526464?ref_src=twsrc%5Etfw"&gt;September 26, 2019&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;[SUPER TALK] Special guest for our &lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#VMUGFR&lt;/a&gt; 2019, &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw"&gt;@NHagoort&lt;/a&gt; talk us about “vSphere ESXi past, present and future” Are you ready ? &lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw"&gt;@VMware_Fr&lt;/a&gt; &lt;a href="https://twitter.com/MyVMUG?ref_src=twsrc%5Etfw"&gt;@MyVMUG&lt;/a&gt; &lt;a href="https://twitter.com/VMware?ref_src=twsrc%5Etfw"&gt;@VMware&lt;/a&gt; &lt;a href="https://twitter.com/DuncanYB?ref_src=twsrc%5Etfw"&gt;@DuncanYB&lt;/a&gt; &lt;a href="https://twitter.com/FrankDenneman?ref_src=twsrc%5Etfw"&gt;@FrankDenneman&lt;/a&gt; &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw"&gt;@CormacJHogan&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/vExpert?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#vExpert&lt;/a&gt; &lt;a href="https://t.co/8fPwW4iuUS"&gt;pic.twitter.com/8fPwW4iuUS&lt;/a&gt;&lt;/p&gt;&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177148685031002112?ref_src=twsrc%5Etfw"&gt;September 26, 2019&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;&lt;a href="https://twitter.com/hashtag/VMUGFR?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#VMUGFR&lt;/a&gt; 😎🤟😜Thank you to sponsors, speakers and vmuggers for making our event possible ! Amazing day with amazing people 😘&lt;a href="https://twitter.com/VMware_Fr?ref_src=twsrc%5Etfw"&gt;@VMware_Fr&lt;/a&gt; &lt;a href="https://twitter.com/ovh_fr?ref_src=twsrc%5Etfw"&gt;@ovh_fr&lt;/a&gt; &lt;a href="https://twitter.com/woueb?ref_src=twsrc%5Etfw"&gt;@woueb&lt;/a&gt; &lt;a href="https://twitter.com/cqchu?ref_src=twsrc%5Etfw"&gt;@cqchu&lt;/a&gt; &lt;a href="https://twitter.com/NHagoort?ref_src=twsrc%5Etfw"&gt;@NHagoort&lt;/a&gt; &lt;a href="https://twitter.com/CormacJHogan?ref_src=twsrc%5Etfw"&gt;@CormacJHogan&lt;/a&gt; &lt;a href="https://twitter.com/antoine_hlt?ref_src=twsrc%5Etfw"&gt;@antoine_hlt&lt;/a&gt; &lt;a href="https://twitter.com/lrivallain?ref_src=twsrc%5Etfw"&gt;@lrivallain&lt;/a&gt; &lt;a href="https://twitter.com/erwanquelin?ref_src=twsrc%5Etfw"&gt;@erwanquelin&lt;/a&gt; &lt;a href="https://twitter.com/Kevin_Pcc_ovh?ref_src=twsrc%5Etfw"&gt;@Kevin_Pcc_ovh&lt;/a&gt; &lt;a href="https://twitter.com/Ash2501?ref_src=twsrc%5Etfw"&gt;@Ash2501&lt;/a&gt; &lt;a href="https://twitter.com/tonton_hub?ref_src=twsrc%5Etfw"&gt;@tonton_hub&lt;/a&gt; &lt;a href="https://twitter.com/Gso_ski?ref_src=twsrc%5Etfw"&gt;@Gso_ski&lt;/a&gt; &lt;a href="https://t.co/a6dV59yUcR"&gt;pic.twitter.com/a6dV59yUcR&lt;/a&gt;&lt;/p&gt;&amp;mdash; VMUG France (@VMUGFR) &lt;a href="https://twitter.com/VMUGFR/status/1177250467535040512?ref_src=twsrc%5Etfw"&gt;September 26, 2019&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;Et parce que je le trouve vraiment très beau, le logo de cette année:&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/fr-mug-09-2019-paris_logo.jpg"&gt;&lt;figcaption&gt;
+&lt;h4&gt;fr-mug-09-2019-paris_logo&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;</description></item><item><title>Reboot French VMUG, Paris, Septembre 2018</title><link>https://vuptime.io/post/2018-09-20-frenchvmug-reboot-paris/</link><pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate><guid>https://vuptime.io/2018/09/20/frenchvmug-reboot-paris</guid><description>
+&lt;blockquote&gt;
+&lt;p&gt;As an exception, I will post this article in French only as its subject is the French VMUG edition. Sorry for english speaking people.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Aujourd'hui avait lieu la reboot-edition du &lt;a href="https://community.vmug.com/events/event-description?CalendarEventKey=a806468f-34a7-407d-8526-8d93617b3442&amp;amp;CommunityKey=bba8d80d-5f53-404f-94ea-0009187683ae&amp;amp;Home=%2fcommunities%2flocalcommunityhome"&gt;VMUG France&lt;/a&gt; dans les (tout neufs!) locaux parisiens d'OVH.&lt;/p&gt;
+&lt;p&gt;L'événènement est à présent orchestré (et bien orchestré!) par &lt;a href="https://twitter.com/Noham_m"&gt;Noham Medyouni&lt;/a&gt; (Dell-EMC), &lt;a href="https://twitter.com/fredg_work"&gt;Fréderic Giovannacci&lt;/a&gt; (SIB) et &lt;a href="https://twitter.com/notmg"&gt;Matthieu Gioia&lt;/a&gt; (consultant indep.) et pour ce RDV parisien de rentrée, 2 invités de marque étaient présents:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/DuncanYB"&gt;Duncan Epping&lt;/a&gt;: Chief Technologist HCI @VMware, Auteur du blog &lt;a href="http://yellow-bricks.com"&gt;Yellow Briks&lt;/a&gt;, Coauteur de la &lt;em&gt;bible&lt;/em&gt; &lt;code&gt;Clustering Deepdive&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/FrankDenneman"&gt;Franck Denneman&lt;/a&gt;: coauteur de &lt;em&gt;l'Ancien Testament&lt;/em&gt; &lt;code&gt;Host Deepdive&lt;/code&gt;, du Nouveau: &lt;code&gt;Clustering Deepdive&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="ovh"&gt;OVH&lt;/h2&gt;
+&lt;p&gt;Cette journée a commencé par une présentation d'OVH et de son offre de cloud privé: &lt;em&gt;SDDC&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;OVH dans son actualité récente a notamment inauguré une nouvelle usine d'assemblage de serveurs à Croix, avec une capacité annuelle de production de 400 000 serveurs. Autant dire qu'ils voient grand et que leur appétit est grand sur le marché du Cloud Computing.&lt;/p&gt;
+&lt;p&gt;Coté &lt;em&gt;Private Cloud/SDDC&lt;/em&gt; (souvenirs, souvenirs!), l'offre s'étoffe de nouveautés:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;vSAN&lt;/strong&gt; sera certainement annoncé plus officiellement lors du Summit (mi-Octobre) avec, côté technique, du full MVNE et du vSAN en version 6.6. De ce que j'ai pu avoir comme info en off, le client sera assez libre de configurer comme il le souhaite de nombreux paramètres du cluster.&lt;/li&gt;
+&lt;li&gt;Des nouveauté coté &lt;strong&gt;sécurité&lt;/strong&gt; avec la future possibilité de bénéficier des fonctions de chiffrement de l'écosystème vSphere via son propre HSM, ou encore, d'attacher son propre domaine Active Directory à l'authentification du produit.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Visiblement, les liens entre OVH et VMware sont forts (en témoignait déjà le rachat de vCloud Air par OVH il y a presque 2 ans) et cela se voit: OVH a été primé 7x comme meilleur partenaire VMware au cours des 9 dernières années.&lt;/p&gt;
+&lt;p&gt;Enfin, c'est plus anecdotique mais intéressant à savoir, OVH, envisage de proposer des ressources (sans SLA et limitées dans le temps) aux membres de la communauté VMUG et vExpert! A suivre.&lt;/p&gt;
+&lt;h2 id="duncan-epping-révolution-de-lit"&gt;Duncan Epping, révolution de l'IT&lt;/h2&gt;
+&lt;p&gt;Duncan a ensuite embrayé pour parler des évolutions actuelles et pré-senties du marché de l'IT.&lt;/p&gt;
+&lt;p&gt;Si on estime que dans les 5 ans à venir, plus d'applications seront créées et déployées qu'au cours des 40 dernières années: en effet on remarque que l'accélération sera dure à encaisser avec des pratiques d'il y a 10 ans. VMware essaye de son coté, d'apporter des solutions et de simplifier le travail de ses utilisateurs dans ses nouvelles et futures releases.&lt;/p&gt;
+&lt;p&gt;Nous avons notamment pu voir une démonstration de l'interface HTML5 de vSphere 6.7u1 avec un nouveau wizard de configuration de Cluster: qui n'a pas rêvé de configurer son cluster, avec vSAN, dvSwitch etc. en quelques clicks seulement? Et envoyer une support-request (les fameuses SR, un peu fastidieuses à remplir), directement depuis le vCenter concerné? Bientôt (on attend la GA), ça sera faisable!&lt;/p&gt;
+&lt;p&gt;Puis il a abordé les Tech Preview en cours sur 2 sujets:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Native Vsan data protection&lt;/em&gt; qui permet de remplacer une solution de backup et d'exporter, au besoin, et selon ses politiques, les données sur du stockage distant, incluant quelques providers clouds.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;vSan file services&lt;/em&gt; ou l'arrivée de la consommation du vSAN dans les guestOS au travers d'une appliance conçue pour être simple à déployer, résiliente, auto-managée, distribuée, compatible object-storage etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Autant dire que ça donne trèèèèès envie de tester tout ça et de l'envisager en production chez nos clients.&lt;/p&gt;
+&lt;h2 id="franck-denneman-compute-deep-dive"&gt;Franck Denneman, Compute Deep Dive&lt;/h2&gt;
+&lt;p&gt;Autant le dire directement: on passe du coté DUR du compute quand on échange avec Franck et pourtant, ça semble couler de source tellement la pédagogie est efficace.&lt;/p&gt;
+&lt;p&gt;Sa présentation a notamment été un rappel de quelques notions expliquées dans son bouquin: &lt;code&gt;Host Deepdive&lt;/code&gt; (que je recommande chaudement) comme l'impact de la configuration hardware (sockets, DIMM, NUMA, channel etc.) de vos hosts. Et celui de la configuration de paramètres de VM sur les performances: nombre de &lt;em&gt;cores per socket&lt;/em&gt; ou encore la configuration (sensible!) du mode &lt;em&gt;cpu latency sensitivity: high&lt;/em&gt; sur le workload d'une infrastructure.&lt;/p&gt;
+&lt;p&gt;Hyper intéressant !&lt;/p&gt;
+&lt;h2 id="autres-présentations"&gt;Autres présentations&lt;/h2&gt;
+&lt;p&gt;Je ne m'étendrais pas sur les autres présentations (Rubrik, NetApp, PureStorage et Zerto) qui étaient très intéressantes elles aussi mais un peu plus commerciales et vastes.&lt;/p&gt;
+&lt;h2 id="surprises"&gt;Surprises&lt;/h2&gt;
+&lt;p&gt;Et comme si un VMUG avec de super guests ne suffisait pas, 2 grosses surprises sont intervenues au cours de la journée:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;La venue de Yoann Le Névé, cofondateur du 2ème festival de France, le HellFest. Quelques collègues Nantais en ont presque fait un QG et visiblement les liens sont forts puisque des places pour la prochaine édition ont été offertes aux participants par tirage au sort !&lt;/li&gt;
+&lt;li&gt;L'intervention d'Oles (Octave Klaba) (&lt;em&gt;mon ex boss&lt;/em&gt;), qu'on ne présente plus et qui a pu rappeler tout le bien qu'il pensait des liens qu'il entretient avec VMware, et de ses équipes des projets de cloud privé. Toujours dans son style décontracté et inimitable!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Je crois que l'enthousiasme autour de cet évent se lit dans le billet ci-dessus mais au cas où, je le dis explicitement: &lt;em&gt;à refaire&lt;/em&gt;. Un grand merci aux organisateurs pour cette très belle journée (et ce sublime T-shirt).&lt;/p&gt;
+&lt;p&gt;Merci aussi à SII, mon employeur, qui m'a permi d'assister à cet event!&lt;/p&gt;
+&lt;p&gt;Et la photo de famille:&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/frvmug-09-2018-paris.jpg"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Photo de famille&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;</description></item></channel></rss>

@@ -1,274 +1,278 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Firewall on vUptime.io - Cloud builder(s)</title><link>https://vuptime.io/tags/firewall/</link><description>Recent content in Firewall on vUptime.io - Cloud builder(s)</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Ludovic Rivallain and blog co-authors</copyright><lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vuptime.io/tags/firewall/feed.xml" rel="self" type="application/rss+xml"/><item><title>Third-party firewall NVA in Azure VMware Solution NSX-T deployment</title><link>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</link><pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate><guid>https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/</guid><description>
-&lt;p>In a previous series of blog posts (posts: &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/">1&lt;/a>, &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/">2&lt;/a> &amp;amp; &lt;a href="https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/">3&lt;/a>), we covered the deployment of a third-party firewall Network Virtual Appliance (NVA) in Azure to integrate an Azure VMware Solution (AVS) deployment in a Hub&amp;amp;Spoke network topology. This setup enable traffic filtering for &lt;em>ingress&lt;/em> and &lt;em>egress&lt;/em> traffic &lt;em>to&lt;/em> and &lt;em>from&lt;/em> the AVS environment (N/S) but do not provide any filtering between AVS workloads (E/W). The recommended way to achieve this is to rely on the NSX-T distributed firewall capabilities.&lt;/p>
-&lt;p>In this blog post, we will cover the deployment of a third-party firewall NVA in an AVS SDDC itself to provide traffic filtering between AVS workloads without relying on the NSX-T distributed firewall capabilities.&lt;/p>
-&lt;p>I will not discuss here the reasons to deploy a 3&lt;sup>rd&lt;/sup> firewall NVA in AVS SDDC. I will just mention that this is a common request from customers that want to continue using the same firewall technology in AVS that they have been using for an on-premises datacenter.&lt;/p>
-&lt;p>This topic was also covered by several colleagues of mine in previous blog posts:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://techcommunity.microsoft.com/t5/azure-migration-and/firewall-integration-in-azure-vmware-solution/ba-p/2254961">Third-party firewall NVA in Azure VMware Solution&lt;/a> by &lt;a href="https://techcommunity.microsoft.com/t5/user/viewprofilepage/user-id/704914">Amit Aneja&lt;/a> (Microsoft).&lt;/li>
-&lt;li>&lt;a href="https://vskeeball.com/2022/03/28/third-party-firewalls-in-avs/">Third Party Firewalls in AVS&lt;/a> by &lt;a href="https://www.linkedin.com/in/kenyonhensler/">Kenyon Hensler&lt;/a> (Microsoft).&lt;/li>
-&lt;li>&lt;a href="https://www.virtualworkloads.com/2020/07/azure-vmware-solution-connecting-3rd-party-networking-and-security-platforms/">Azure VMware Solution: Connecting 3rd Party Networking and Security Platforms&lt;/a> By: &lt;a href="https://www.linkedin.com/in/vcdx076/">Gourav Bhardwaj&lt;/a> (VMware), &lt;a href="https://www.virtualworkloads.com/author/trevordavis/">Trevor Davis&lt;/a> (Microsoft) and &lt;a href="https://www.linkedin.com/in/jjtm/">Jeffrey Moore&lt;/a> (VMware).&lt;/li>
-&lt;/ul>
-&lt;p>I will try to provide some details to help in the deployment of a such solution.&lt;/p>
-&lt;h2 id="default-avs-topology">Default AVS topology&lt;/h2>
-&lt;p>By default, an AVS SDDC is deployed with preprovisioned NSX-T Tier-0 and Tier-1 Gateways. The Tier-0 Gateway is used to connect the AVS SDDC to &lt;em>Top-of-rack&lt;/em> and Azure SDN, and is fully Microsoft-managed. The default Tier-1 Gateway can be used to deploy network segments and is customer-managed. Customers can also create more Tier-1 Gateways if needed.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+&lt;p&gt;In a previous series of blog posts (posts: &lt;a href="https://vuptime.io/post/2023-02-22-mockup-avs-in-hub-and-spoke-topology-part1/"&gt;1&lt;/a&gt;, &lt;a href="https://vuptime.io/post/2023-02-28-mockup-avs-in-hub-and-spoke-topology-part2/"&gt;2&lt;/a&gt; &amp;amp; &lt;a href="https://vuptime.io/post/2023-03-07-mockup-avs-in-hub-and-spoke-topology-part3/"&gt;3&lt;/a&gt;), we covered the deployment of a third-party firewall Network Virtual Appliance (NVA) in Azure to integrate an Azure VMware Solution (AVS) deployment in a Hub&amp;amp;Spoke network topology. This setup enable traffic filtering for &lt;em&gt;ingress&lt;/em&gt; and &lt;em&gt;egress&lt;/em&gt; traffic &lt;em&gt;to&lt;/em&gt; and &lt;em&gt;from&lt;/em&gt; the AVS environment (N/S) but do not provide any filtering between AVS workloads (E/W). The recommended way to achieve this is to rely on the NSX-T distributed firewall capabilities.&lt;/p&gt;
+&lt;p&gt;In this blog post, we will cover the deployment of a third-party firewall NVA in an AVS SDDC itself to provide traffic filtering between AVS workloads without relying on the NSX-T distributed firewall capabilities.&lt;/p&gt;
+&lt;p&gt;I will not discuss here the reasons to deploy a 3&lt;sup&gt;rd&lt;/sup&gt; firewall NVA in AVS SDDC. I will just mention that this is a common request from customers that want to continue using the same firewall technology in AVS that they have been using for an on-premises datacenter.&lt;/p&gt;
+&lt;p&gt;This topic was also covered by several colleagues of mine in previous blog posts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://techcommunity.microsoft.com/t5/azure-migration-and/firewall-integration-in-azure-vmware-solution/ba-p/2254961"&gt;Third-party firewall NVA in Azure VMware Solution&lt;/a&gt; by &lt;a href="https://techcommunity.microsoft.com/t5/user/viewprofilepage/user-id/704914"&gt;Amit Aneja&lt;/a&gt; (Microsoft).&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://vskeeball.com/2022/03/28/third-party-firewalls-in-avs/"&gt;Third Party Firewalls in AVS&lt;/a&gt; by &lt;a href="https://www.linkedin.com/in/kenyonhensler/"&gt;Kenyon Hensler&lt;/a&gt; (Microsoft).&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.virtualworkloads.com/2020/07/azure-vmware-solution-connecting-3rd-party-networking-and-security-platforms/"&gt;Azure VMware Solution: Connecting 3rd Party Networking and Security Platforms&lt;/a&gt; By: &lt;a href="https://www.linkedin.com/in/vcdx076/"&gt;Gourav Bhardwaj&lt;/a&gt; (VMware), &lt;a href="https://www.virtualworkloads.com/author/trevordavis/"&gt;Trevor Davis&lt;/a&gt; (Microsoft) and &lt;a href="https://www.linkedin.com/in/jjtm/"&gt;Jeffrey Moore&lt;/a&gt; (VMware).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I will try to provide some details to help in the deployment of a such solution.&lt;/p&gt;
+&lt;h2 id="default-avs-topology"&gt;Default AVS topology&lt;/h2&gt;
+&lt;p&gt;By default, an AVS SDDC is deployed with preprovisioned NSX-T Tier-0 and Tier-1 Gateways. The Tier-0 Gateway is used to connect the AVS SDDC to &lt;em&gt;Top-of-rack&lt;/em&gt; and Azure SDN, and is fully Microsoft-managed. The default Tier-1 Gateway can be used to deploy network segments and is customer-managed. Customers can also create more Tier-1 Gateways if needed.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="AVS default topology"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-default-topology.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h2 id="challenges-of-inserting-a-third-party-firewall-nva-in-avs-sddc">Challenges of inserting a third-party firewall NVA in AVS SDDC&lt;/h2>
-&lt;p>The first limit to understand with 3&lt;sup>rd&lt;/sup> party NVA insertion in AVS SDDC is that it is not possible to rely on &lt;a href="https://docs.vmware.com/en/VMware-NSX/4.1/administration/GUID-891363D9-D7D6-418B-9C81-33F2A42EA665.html">NSX-T &lt;em>Service Insertion&lt;/em>&lt;/a> capabilities. This limit is mostly driven by the &amp;quot;&lt;em>managed&lt;/em>&amp;quot; nature of Azure VMware Solution.&lt;/p>
-&lt;p>A second limit to consider it that 3&lt;sup>rd&lt;/sup> party NVA deployed in the AVS SDDC are limited by the number of virtual network interfaces that can be attached to a single VM. With only 10 NICs available per Virtual Machine, it is not possible to directly connect an NVA to a deployment with more than 9 workload segments.&lt;/p>
-&lt;p>A possible mitigation is to use a &lt;em>Transit Segment&lt;/em>. This &lt;em>Transit Segment&lt;/em> will be connected to additional Tier-1 Gateway and will be used to route traffic between the NVA and the workload segments via additional Tier-1 Gateways. In this topology, the new limit will be based on the maximum number of Tier-1 Gateways that can be deployed in an AVS SDDC and/or the size of the transit subnet address plan. This enables provisioning 100s of workload segments if needed.&lt;/p>
-&lt;h2 id="layered-network-topology">Layered network topology&lt;/h2>
-&lt;p>In order to deploy a third-party firewall NVA in an AVS SDDC, we will need to deploy a layered network topology. This topology will be composed of 3 layers:&lt;/p>
-&lt;ul>
-&lt;li>A &lt;strong>Root-segment&lt;/strong>, connected to the first layer of Tier-1 gateway (like the one deployed by default) and to the NVA uplink.&lt;/li>
-&lt;li>One or more &lt;strong>Transit-segment&lt;/strong>, connected to the NVA downlink(s) and a second layer of Tier-1 gateways&lt;/li>
-&lt;li>Workload-segments where the Virtual Machines will be deployed.&lt;/li>
-&lt;/ul>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id="challenges-of-inserting-a-third-party-firewall-nva-in-avs-sddc"&gt;Challenges of inserting a third-party firewall NVA in AVS SDDC&lt;/h2&gt;
+&lt;p&gt;The first limit to understand with 3&lt;sup&gt;rd&lt;/sup&gt; party NVA insertion in AVS SDDC is that it is not possible to rely on &lt;a href="https://docs.vmware.com/en/VMware-NSX/4.1/administration/GUID-891363D9-D7D6-418B-9C81-33F2A42EA665.html"&gt;NSX-T &lt;em&gt;Service Insertion&lt;/em&gt;&lt;/a&gt; capabilities. This limit is mostly driven by the &amp;quot;&lt;em&gt;managed&lt;/em&gt;&amp;quot; nature of Azure VMware Solution.&lt;/p&gt;
+&lt;p&gt;A second limit to consider it that 3&lt;sup&gt;rd&lt;/sup&gt; party NVA deployed in the AVS SDDC are limited by the number of virtual network interfaces that can be attached to a single VM. With only 10 NICs available per Virtual Machine, it is not possible to directly connect an NVA to a deployment with more than 9 workload segments.&lt;/p&gt;
+&lt;p&gt;A possible mitigation is to use a &lt;em&gt;Transit Segment&lt;/em&gt;. This &lt;em&gt;Transit Segment&lt;/em&gt; will be connected to additional Tier-1 Gateway and will be used to route traffic between the NVA and the workload segments via additional Tier-1 Gateways. In this topology, the new limit will be based on the maximum number of Tier-1 Gateways that can be deployed in an AVS SDDC and/or the size of the transit subnet address plan. This enables provisioning 100s of workload segments if needed.&lt;/p&gt;
+&lt;h2 id="layered-network-topology"&gt;Layered network topology&lt;/h2&gt;
+&lt;p&gt;In order to deploy a third-party firewall NVA in an AVS SDDC, we will need to deploy a layered network topology. This topology will be composed of 3 layers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A &lt;strong&gt;Root-segment&lt;/strong&gt;, connected to the first layer of Tier-1 gateway (like the one deployed by default) and to the NVA uplink.&lt;/li&gt;
+&lt;li&gt;One or more &lt;strong&gt;Transit-segment&lt;/strong&gt;, connected to the NVA downlink(s) and a second layer of Tier-1 gateways&lt;/li&gt;
+&lt;li&gt;Workload-segments where the Virtual Machines will be deployed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="AVS layered topology"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-layered-topology.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h3 id="transit-segment-or-transit-segments">Transit-segment or Transit-segment&lt;u>s&lt;/u>&lt;/h3>
-&lt;p>There are two possible strategies regarding the number of &lt;em>Transit-segment&lt;/em> to deploy:&lt;/p>
-&lt;ol>
-&lt;li>Using multiple &lt;em>Transit-segments&lt;/em> enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li>
-&lt;/ol>
-&lt;ul>
-&lt;li>This setup will provide scalability &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1">but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a>.&lt;/li>
-&lt;li>This setup can be more complex to maintain and will have scalability limit if E/W traffic filtering at NVA level, is required.&lt;/li>
-&lt;/ul>
-&lt;ol start="2">
-&lt;li>Using a single &lt;em>Transit-segment&lt;/em> enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#east-west-inter-segment-traffic-different-tier-1">dedicate 1 Tier-1 gateway per workload segment&lt;/a>.&lt;/li>
-&lt;/ol>
-&lt;ul>
-&lt;li>This &amp;quot;1 Tier-1 gateway per workload segment&amp;quot; setup will mitigate the issue mentioned above regarding the filtering of E/W traffic.&lt;/li>
-&lt;li>This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#security-recommendations">Security recommendations&lt;/a> section.&lt;/li>
-&lt;li>Scalability is limited to &lt;em>Transit&lt;/em> subnet size: a proper planning is required to not run out of IP addresses.&lt;/li>
-&lt;/ul>
-&lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: In this blog post, I will try to illustrate the two strategies.&lt;/p>&lt;/blockquote>
-&lt;h3 id="static-routes">Static routes&lt;/h3>
-&lt;p>In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Gateway/Device&lt;/th>
-&lt;th>Route&lt;/th>
-&lt;th>Next Hop&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>Root Tier-1&lt;/td>
-&lt;td>workload segments&lt;/td>
-&lt;td>NVA&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>Workload Tier-1s&lt;/td>
-&lt;td>default route (0/0)&lt;/td>
-&lt;td>NVA&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>NVA&lt;/td>
-&lt;td>workload segments&lt;/td>
-&lt;td>Workload Tier-1&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>Here is an example, applied to my lab environment:&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id="transit-segment-or-transit-segments"&gt;Transit-segment or Transit-segment&lt;u&gt;s&lt;/u&gt;&lt;/h3&gt;
+&lt;p&gt;There are two possible strategies regarding the number of &lt;em&gt;Transit-segment&lt;/em&gt; to deploy:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Using multiple &lt;em&gt;Transit-segments&lt;/em&gt; enable to deploy up to 8 additional Tier-1 gateways. Each Tier-1 gateway can be link to up to 1000 workload segments.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;This setup will provide scalability &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#traffic-flow-analysis#east-west-inter-segment-traffic-same-tier-1"&gt;but the segments attached to a single Tier-1 gateway will not go through the NVA to communicate with each other&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;This setup can be more complex to maintain and will have scalability limit if E/W traffic filtering at NVA level, is required.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;Using a single &lt;em&gt;Transit-segment&lt;/em&gt; enable the deployment of more Tier-1 gateways (100s) and to &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#east-west-inter-segment-traffic-different-tier-1"&gt;dedicate 1 Tier-1 gateway per workload segment&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;This &amp;quot;1 Tier-1 gateway per workload segment&amp;quot; setup will mitigate the issue mentioned above regarding the filtering of E/W traffic.&lt;/li&gt;
+&lt;li&gt;This setup may also introduce security concerns to consider as the one mentioned in the &lt;a href="https://vuptime.io/post/2023-07-24-third-party-nva-in-avs-nsxt/#security-recommendations"&gt;Security recommendations&lt;/a&gt; section.&lt;/li&gt;
+&lt;li&gt;Scalability is limited to &lt;em&gt;Transit&lt;/em&gt; subnet size: a proper planning is required to not run out of IP addresses.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: In this blog post, I will try to illustrate the two strategies.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="static-routes"&gt;Static routes&lt;/h3&gt;
+&lt;p&gt;In order to route traffic between the different segments, we will need to configure static routes in the Tier-1 Gateways. The following table provides an overview of the static routes that will need to be configured in the Tier-1 Gateways.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Gateway/Device&lt;/th&gt;
+&lt;th&gt;Route&lt;/th&gt;
+&lt;th&gt;Next Hop&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Root Tier-1&lt;/td&gt;
+&lt;td&gt;workload segments&lt;/td&gt;
+&lt;td&gt;NVA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Workload Tier-1s&lt;/td&gt;
+&lt;td&gt;default route (0/0)&lt;/td&gt;
+&lt;td&gt;NVA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NVA&lt;/td&gt;
+&lt;td&gt;workload segments&lt;/td&gt;
+&lt;td&gt;Workload Tier-1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Here is an example, applied to my lab environment:&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Static routes to configure"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-static-routes.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h3 id="traffic-flow-analysis">Traffic flow analysis&lt;/h3>
-&lt;h4 id="intra-segment-traffic">Intra-segment traffic&lt;/h4>
-&lt;p>As you may already imagine, the traffic flow for Virtual Machines deployed in the same workload segment will not be impacted by the NVA insertion. The traffic will be routed directly between the Virtual Machines at the L2 level.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id="traffic-flow-analysis"&gt;Traffic flow analysis&lt;/h3&gt;
+&lt;h4 id="intra-segment-traffic"&gt;Intra-segment traffic&lt;/h4&gt;
+&lt;p&gt;As you may already imagine, the traffic flow for Virtual Machines deployed in the same workload segment will not be impacted by the NVA insertion. The traffic will be routed directly between the Virtual Machines at the L2 level.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Traffic flow between VMs in the same segment"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-intra-segment.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;blockquote>
-&lt;p>&lt;strong>Note&lt;/strong>: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
-&lt;h4 id="east-west-inter-segment-traffic-same-tier-1">East-West, Inter-segment traffic, same Tier-1&lt;/h4>
-&lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Still it is possible to filter the traffic between the Virtual Machines in the same segment by leveraging on the &lt;strong&gt;NSX-T Distributed Firewall&lt;/strong&gt; capabilities.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="east-west-inter-segment-traffic-same-tier-1"&gt;East-West, Inter-segment traffic, same Tier-1&lt;/h4&gt;
+&lt;p&gt;The traffic flow between Virtual Machines deployed in different workload segments connected to the same Tier-1 Gateway will also, not be impacted by the NVA insertion and the traffic will only pass through the Tier-1 gateway.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Traffic flow between VMs in different segments, same T1"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-side-to-side-segments.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;blockquote>
-&lt;p>To filter this kind of network traffic, you can either rely on the &lt;strong>NSX-T Distributed Firewall&lt;/strong> or &lt;strong>Gateway Firewall&lt;/strong> capabilities.&lt;/p>&lt;/blockquote>
-&lt;h4 id="east-west-inter-segment-traffic-different-tier-1">East-West, Inter-segment traffic, different Tier-1&lt;/h4>
-&lt;p>The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;To filter this kind of network traffic, you can either rely on the &lt;strong&gt;NSX-T Distributed Firewall&lt;/strong&gt; or &lt;strong&gt;Gateway Firewall&lt;/strong&gt; capabilities.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="east-west-inter-segment-traffic-different-tier-1"&gt;East-West, Inter-segment traffic, different Tier-1&lt;/h4&gt;
+&lt;p&gt;The traffic flow between Virtual Machines deployed in different workload segments connected to different Tier-1 Gateways will be impacted by the NVA insertion. The traffic will be routed via the NVA and the Tier-1 Gateways.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Traffic flow between VMs in different segments, different T1"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-segment-to-segment-through-fw.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;p>This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p>
-&lt;blockquote>
-&lt;p>In order to generalize this configuration, we will need to deploy a &lt;strong>Tier-1 Gateway per workload segment&lt;/strong>.&lt;/p>&lt;/blockquote>
-&lt;h4 id="north-south-traffic">North-South traffic&lt;/h4>
-&lt;p>North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p>
-&lt;ul>
-&lt;li>Azure based resources&lt;/li>
-&lt;li>On-premises resources via ExpressRoute or VPN&lt;/li>
-&lt;li>Internet&lt;/li>
-&lt;/ul>
-&lt;p>&lt;figure>
-&lt;picture>
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;This is the most representative configuration of the traffic flow that we want to achieve with the NVA insertion.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In order to generalize this configuration, we will need to deploy a &lt;strong&gt;Tier-1 Gateway per workload segment&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="north-south-traffic"&gt;North-South traffic&lt;/h4&gt;
+&lt;p&gt;North-South traffic will also be impacted by the NVA insertion. The traffic will be routed via the NVA to reach all the targets on the north-side of the NVA. Either Virtual Machines deployed directly on the south-side of the default Tier-0/Tier-1 Gateways or other targets reachable via the default Tier-0/Tier-1 Gateways like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Azure based resources&lt;/li&gt;
+&lt;li&gt;On-premises resources via ExpressRoute or VPN&lt;/li&gt;
+&lt;li&gt;Internet&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+&lt;picture&gt;
 &lt;img
 loading="lazy"
 decoding="async"
 alt="Traffic flow between VMs in different segments, different T1"
 class="image_figure image_internal image_unprocessed"
 src="https://vuptime.io/images/avs-3rd-party-nva-nsx/nsxtwith3rdpartyfw-network-flows-north-south-connectivity.png"
-/>
-&lt;/picture>
-&lt;/figure>
-&lt;/p>
-&lt;h2 id="other-considerations">Other considerations&lt;/h2>
-&lt;h3 id="security-recommendations">Security recommendations&lt;/h3>
-&lt;p>With multiple routing devices (Tier-1 gateways) deployed behind the NVA, it is important to ensure that the NVA is not bypassed by the traffic. It is recommended to consider blocking &lt;a href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Redirect">ICMP redirects&lt;/a> at the distributed firewall level and to configure the NVA to:&lt;/p>
-&lt;ul>
-&lt;li>Ignore ICMP redirects&lt;/li>
-&lt;li>Not send ICMP redirects&lt;/li>
-&lt;/ul>
-&lt;p>Introducing new static routes may also lead to traffic routing bypassing the NVA. It is important to ensure a proper configuration of the static routes in the Tier-1 Gateways.&lt;/p>
-&lt;h3 id="nva-high-availability">NVA high availability&lt;/h3>
-&lt;p>Here I only demonstrated the capacity to architect and organize traffic flow, to be filtered by a single NVA instance. In a production environment, it is important to consider the high availability of the NVA. This can be achieved by deploying multiple NVA instances and consider VRRP (Virtual Router Redundancy Protocol) grouping and load-balancing to ensure the high availability of the NVA.&lt;/p>
-&lt;h3 id="known-limitations">Known limitations&lt;/h3>
-&lt;p>A well-known limitation of this design topology is about HCX and the &lt;a href="https://docs.vmware.com/en/VMware-HCX/4.6/hcx-user-guide/GUID-0E254D74-60A9-479C-825D-F373C41F40BC.html">Mobility Optimized Network&lt;/a> (MON) were the behavior can be hard to predict. This is a reason &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/network-hub-spoke#third-party-nva-integration-in-avs">Mobility Optimized Network is not supported by Microsoft in AVS with a third party NVA setup&lt;/a>.&lt;/p></description></item><item><title>Nested VMware ESXi with virtualbox - Your first nested-virtual-machine</title><link>https://vuptime.io/post/2015-02-10-nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</link><pubDate>Tue, 10 Feb 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/02/10/nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</guid><description>
-&lt;p>Now that we've seen &lt;a href="https://vuptime.io/2015/01/25/nested-esxi-virtualbox/" title="Nested ESXi on Virtualbox">how to create a nested-ESXi&lt;/a> on virtualbox, we may need to have some content in order to test commands of procedures.&lt;/p>
-&lt;h2 id="local-datastore">Local datastore&lt;/h2>
-&lt;h3 id="disk-creation">Disk creation&lt;/h3>
-&lt;p>To create a local datastore, you'll have to add a new virtual disk to your nested ESXi:&lt;/p>
-&lt;p>First step is to create a SATA disk controller:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png">&lt;figcaption>
-&lt;h4>Add a SATA controller&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Next, create a new disk on the SATA controller:&lt;/p>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png">&lt;figcaption>
-&lt;h4>Add a new disk&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>I've choose to set:&lt;/p>
-&lt;ul>
-&lt;li>vmdk file type&lt;/li>
-&lt;li>10GB&lt;/li>
-&lt;li>Dynamic allocation&lt;/li>
-&lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png">&lt;figcaption>
-&lt;h4>My additional disk settings&lt;/h4>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>When the vdisk is connected, ESXi started, get it's name before creating a VMFS file system. Name should be something close to &lt;code>_/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBxcxxxxxxxxxxxxxxx__&lt;/code>&lt;/p>
-&lt;p>Here is a tip to only get un-partitionned disks locally connected to the ESXi:&lt;/p>
-&lt;pre>&lt;code>$ fdisk -l | grep partition
+/&gt;
+&lt;/picture&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id="other-considerations"&gt;Other considerations&lt;/h2&gt;
+&lt;h3 id="security-recommendations"&gt;Security recommendations&lt;/h3&gt;
+&lt;p&gt;With multiple routing devices (Tier-1 gateways) deployed behind the NVA, it is important to ensure that the NVA is not bypassed by the traffic. It is recommended to consider blocking &lt;a href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Redirect"&gt;ICMP redirects&lt;/a&gt; at the distributed firewall level and to configure the NVA to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ignore ICMP redirects&lt;/li&gt;
+&lt;li&gt;Not send ICMP redirects&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Introducing new static routes may also lead to traffic routing bypassing the NVA. It is important to ensure a proper configuration of the static routes in the Tier-1 Gateways.&lt;/p&gt;
+&lt;h3 id="nva-high-availability"&gt;NVA high availability&lt;/h3&gt;
+&lt;p&gt;Here I only demonstrated the capacity to architect and organize traffic flow, to be filtered by a single NVA instance. In a production environment, it is important to consider the high availability of the NVA. This can be achieved by deploying multiple NVA instances and consider VRRP (Virtual Router Redundancy Protocol) grouping and load-balancing to ensure the high availability of the NVA.&lt;/p&gt;
+&lt;h3 id="known-limitations"&gt;Known limitations&lt;/h3&gt;
+&lt;p&gt;A well-known limitation of this design topology is about HCX and the &lt;a href="https://docs.vmware.com/en/VMware-HCX/4.6/hcx-user-guide/GUID-0E254D74-60A9-479C-825D-F373C41F40BC.html"&gt;Mobility Optimized Network&lt;/a&gt; (MON) were the behavior can be hard to predict. This is a reason &lt;a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/azure-vmware/network-hub-spoke#third-party-nva-integration-in-avs"&gt;Mobility Optimized Network is not supported by Microsoft in AVS with a third party NVA setup&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Nested VMware ESXi with virtualbox - Your first nested-virtual-machine</title><link>https://vuptime.io/post/2015-02-10-nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine/</link><pubDate>Tue, 10 Feb 2015 00:00:00 +0000</pubDate><guid>https://vuptime.io/2015/02/10/nested-vmware-esxi-virtualbox-your-first-nested-virtual-machine</guid><description>
+&lt;p&gt;Now that we've seen &lt;a href="https://vuptime.io/2015/01/25/nested-esxi-virtualbox/" title="Nested ESXi on Virtualbox"&gt;how to create a nested-ESXi&lt;/a&gt; on virtualbox, we may need to have some content in order to test commands of procedures.&lt;/p&gt;
+&lt;h2 id="local-datastore"&gt;Local datastore&lt;/h2&gt;
+&lt;h3 id="disk-creation"&gt;Disk creation&lt;/h3&gt;
+&lt;p&gt;To create a local datastore, you'll have to add a new virtual disk to your nested ESXi:&lt;/p&gt;
+&lt;p&gt;First step is to create a SATA disk controller:&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine01.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Add a SATA controller&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Next, create a new disk on the SATA controller:&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine02.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;Add a new disk&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;I've choose to set:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;vmdk file type&lt;/li&gt;
+&lt;li&gt;10GB&lt;/li&gt;
+&lt;li&gt;Dynamic allocation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachine03.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;My additional disk settings&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;When the vdisk is connected, ESXi started, get it's name before creating a VMFS file system. Name should be something close to &lt;code&gt;_/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBxcxxxxxxxxxxxxxxx__&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here is a tip to only get un-partitionned disks locally connected to the ESXi:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ fdisk -l | grep partition
 Disk /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__ doesn't contain a valid partition table
-&lt;/code>&lt;/pre>
-&lt;h3 id="disk-partition">Disk partition&lt;/h3>
-&lt;p>When the new disk is located on the &lt;code>/dev/disks/&lt;/code>, check the partition table:&lt;/p>
-&lt;pre>&lt;code>$ partedUtil get /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id="disk-partition"&gt;Disk partition&lt;/h3&gt;
+&lt;p&gt;When the new disk is located on the &lt;code&gt;/dev/disks/&lt;/code&gt;, check the partition table:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ partedUtil get /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_
 1305 255 63 20971520
-&lt;/code>&lt;/pre>
-&lt;p>This indicates that there is no partition on this disk and every sector is free space.&lt;/p>
-&lt;p>We also need the number of sector on the disk. This information is the last number of the previous command: 20971520 here.&lt;/p>
-&lt;p>Then we can create the first partition.&lt;/p>
-&lt;pre>&lt;code>$ partedUtil set &amp;quot;/vmfs/devices/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_&amp;quot; &amp;quot;1 128 20971519 251 0&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This indicates that there is no partition on this disk and every sector is free space.&lt;/p&gt;
+&lt;p&gt;We also need the number of sector on the disk. This information is the last number of the previous command: 20971520 here.&lt;/p&gt;
+&lt;p&gt;Then we can create the first partition.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ partedUtil set &amp;quot;/vmfs/devices/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_&amp;quot; &amp;quot;1 128 20971519 251 0&amp;quot;
 0 0 0 0
 1 128 20971519 251 0
-&lt;/code>&lt;/pre>
-&lt;p>In this example, we create a partition number 1, starting at sector 128 and ending at sector 20971519 (20971520-1), with type 251 = 0xFB.&lt;/p>
-&lt;p>And we can check the result:&lt;/p>
-&lt;pre>&lt;code>$ partedUtil get /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this example, we create a partition number 1, starting at sector 128 and ending at sector 20971519 (20971520-1), with type 251 = 0xFB.&lt;/p&gt;
+&lt;p&gt;And we can check the result:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ partedUtil get /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VBbc7a87cf2D7739136a_
 1305 255 63 20971520
 1 128 20971519 251 0
-&lt;/code>&lt;/pre>
-&lt;p>Now we have a free partition ! And we can apply a vmfs5 file-system:&lt;/p>
-&lt;pre>&lt;code>$ vmkfstools -C vmfs5 -b 1m -S LocalDatastore_001 /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have a free partition ! And we can apply a vmfs5 file-system:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vmkfstools -C vmfs5 -b 1m -S LocalDatastore_001 /dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1
 create fs deviceName:'/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1', fsShortName:'vmfs5', fsName:'LocalDatastore_001'
 deviceFullPath:/dev/disks/t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1 deviceFile:t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1
 VMFS5 file system creation is deprecated on a BIOS/MBR partition on device 't10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1'
 Checking if remote hosts are using this device as a valid file system. This may take a few seconds...
 Creating vmfs5 file system on &amp;quot;t10.ATA_____VBOX_HARDDISK___________________________VB_VBxcxxxxxxxxxxxxxxx__:1&amp;quot; with blockSize 1048576 and volume label &amp;quot;LocalDatastore_001&amp;quot;.
 Successfully created new volume: 54d15e2c-eeeeeeee-9cff-080027b1c126
-&lt;/code>&lt;/pre>
-&lt;p>In this case, we create a vmfs5 datastore, with &lt;code>LocalDatastore_001&lt;/code> name and 1Mb block size.&lt;/p>
-&lt;p>And to check that datastore is ready:&lt;/p>
-&lt;pre>&lt;code>$ esxcli storage filesystem list
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this case, we create a vmfs5 datastore, with &lt;code&gt;LocalDatastore_001&lt;/code&gt; name and 1Mb block size.&lt;/p&gt;
+&lt;p&gt;And to check that datastore is ready:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ esxcli storage filesystem list
 Mount Point Volume Name UUID Mounted Type Size Free
 ------------------------------------------------- ------------------ ----------------------------------- ------- ------ ----------- ----------
 /vmfs/volumes/54d15e2c-eeeeeeee-9cff-080027b1c126 LocalDatastore_001 54d15e2c-eeeeeeee-9cff-080027b1c126 true VMFS-5 10468982784 9545187328
-&lt;/code>&lt;/pre>
-&lt;p>We are now ready to create VM.&lt;/p>
-&lt;h2 id="dummy-virtual-machine">Dummy virtual machine&lt;/h2>
-&lt;p>Sometimes, you may need to have empty, but working, virtual machines for testing. The following command create a dummy VM named &lt;em>TestVM&lt;/em> and stored on the local datastore:&lt;/p>
-&lt;pre>&lt;code>$ vim-cmd vmsvc/createdummyvm testVM [LocalDatastore_001]/testVM/testVM.vmx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We are now ready to create VM.&lt;/p&gt;
+&lt;h2 id="dummy-virtual-machine"&gt;Dummy virtual machine&lt;/h2&gt;
+&lt;p&gt;Sometimes, you may need to have empty, but working, virtual machines for testing. The following command create a dummy VM named &lt;em&gt;TestVM&lt;/em&gt; and stored on the local datastore:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vim-cmd vmsvc/createdummyvm testVM [LocalDatastore_001]/testVM/testVM.vmx
 1
-&lt;/code>&lt;/pre>
-&lt;p>Checking:&lt;/p>
-&lt;pre>&lt;code>$ vim-cmd vmsvc/getallvms
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Checking:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vim-cmd vmsvc/getallvms
 Vmid Name File Guest OS Version Annotation
 1 testVM [LocalDatastore_001] testVM/testVM.vmx otherGuest vmx-10
-&lt;/code>&lt;/pre>
-&lt;p>Houra !&lt;/p>
-&lt;p>Now we can play with this VM:&lt;/p>
-&lt;p>Starting the VM:&lt;/p>
-&lt;pre>&lt;code>$ vim-cmd vmsvc/power.on 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Houra !&lt;/p&gt;
+&lt;p&gt;Now we can play with this VM:&lt;/p&gt;
+&lt;p&gt;Starting the VM:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vim-cmd vmsvc/power.on 1
 Powering on VM:
-&lt;/code>&lt;/pre>
-&lt;p>Get runtime informations about the running VM:&lt;/p>
-&lt;pre>&lt;code>$ vim-cmd vmsvc/get.runtime 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Get runtime informations about the running VM:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vim-cmd vmsvc/get.runtime 1
 Runtime information
 (vim.vm.RuntimeInfo) {
 dynamicType = &amp;lt;unset&amp;gt;,
@@ -326,13 +330,13 @@ value = &amp;quot;Bool:Min:1&amp;quot;,
 ],
 vFlashCacheAllocation = 0,
 }
-&lt;/code>&lt;/pre>
-&lt;p>Power-off:&lt;/p>
-&lt;pre>&lt;code>$ vim-cmd vmsvc/power.off 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Power-off:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vim-cmd vmsvc/power.off 1
 Powering off VM:
-&lt;/code>&lt;/pre>
-&lt;p>Get informations about the datastore location of VM:&lt;/p>
-&lt;pre>&lt;code>$ vim-cmd vmsvc/get.datastores 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Get informations about the datastore location of VM:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vim-cmd vmsvc/get.datastores 1
 name LocalDatastore_001
 url /vmfs/volumes/54d15e2c-eeeeeeee-9cff-080027b1c126
 capacity 10468982784
@@ -340,24 +344,24 @@ freeSpace 9544138752
 accessible 1
 type VMFS
 multipleHostAccess &amp;lt;unset&amp;gt;
-&lt;/code>&lt;/pre>
-&lt;h2 id="imported-virtual-machine">Imported virtual machine&lt;/h2>
-&lt;p>A dummy VM is usefull to test ESXi command line tools, but in some case you may want to test more complex VM settings. In that case, you can import an existing VM to your ESXi and run it.&lt;/p>
-&lt;h3 id="prerequisites">Prerequisites&lt;/h3>
-&lt;p>Create a virtual machine on virtual box with :&lt;/p>
-&lt;ul>
-&lt;li>SCSI/LsiLogic controller for main storage&lt;/li>
-&lt;li>Bridged network connection (keep in mind the used mac address)&lt;/li>
-&lt;li>Fixed IP settings&lt;/li>
-&lt;/ul>
-&lt;p>You'll also need the ovftools installed on your system: &lt;a href="https://www.vmware.com/support/developer/ovf/" title="Install OVFtools">see instructions on VMware website&lt;/a>&lt;/p>
-&lt;h3 id="export">Export&lt;/h3>
-&lt;p>To export a virtual machine on virtualbox you can use the File/Export menu or the following command line:&lt;/p>
-&lt;pre>&lt;code>$ vboxmanage export CentosTest -o CentosTest.ova
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id="imported-virtual-machine"&gt;Imported virtual machine&lt;/h2&gt;
+&lt;p&gt;A dummy VM is usefull to test ESXi command line tools, but in some case you may want to test more complex VM settings. In that case, you can import an existing VM to your ESXi and run it.&lt;/p&gt;
+&lt;h3 id="prerequisites"&gt;Prerequisites&lt;/h3&gt;
+&lt;p&gt;Create a virtual machine on virtual box with :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SCSI/LsiLogic controller for main storage&lt;/li&gt;
+&lt;li&gt;Bridged network connection (keep in mind the used mac address)&lt;/li&gt;
+&lt;li&gt;Fixed IP settings&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You'll also need the ovftools installed on your system: &lt;a href="https://www.vmware.com/support/developer/ovf/" title="Install OVFtools"&gt;see instructions on VMware website&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="export"&gt;Export&lt;/h3&gt;
+&lt;p&gt;To export a virtual machine on virtualbox you can use the File/Export menu or the following command line:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vboxmanage export CentosTest -o CentosTest.ova
 0%...10%...
-&lt;/code>&lt;/pre>
-&lt;p>Next operation is to convert the .ova file to a &lt;code>.vmx&lt;/code> one that can be used on ESXi:&lt;/p>
-&lt;pre>&lt;code>$ ovftool --lax CentosTest.ova CentosTest.vmx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next operation is to convert the .ova file to a &lt;code&gt;.vmx&lt;/code&gt; one that can be used on ESXi:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ovftool --lax CentosTest.ova CentosTest.vmx
 Opening OVA source: CentosTest.ova
 Opening VMX target: CentosTest.vmx
 Warning:
@@ -368,17 +372,17 @@ Warning:
 - No manifest entry found for: 'CentosTest-disk1.vmdk'.
 - No manifest file found.
 Completed successfully
-&lt;/code>&lt;/pre>
-&lt;p>Now we have a &lt;code>.vmx&lt;/code> and its &lt;code>.vmdk&lt;/code> file:&lt;/p>
-&lt;pre>&lt;code>$ du -ch *
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have a &lt;code&gt;.vmx&lt;/code&gt; and its &lt;code&gt;.vmdk&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ du -ch *
 976M CentosTest-disk1.vmdk
 402M CentosTest.ova
 12K CentosTest.vmx
 1,4G total
-&lt;/code>&lt;/pre>
-&lt;h3 id="import">Import&lt;/h3>
-&lt;p>To import the vmx&amp;amp;vmdk file as a VM to our nested ESXi we also use the ovftool:&lt;/p>
-&lt;pre>&lt;code>$ ovftool \
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id="import"&gt;Import&lt;/h3&gt;
+&lt;p&gt;To import the vmx&amp;amp;vmdk file as a VM to our nested ESXi we also use the ovftool:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ovftool \
 --name=&amp;quot;CentosTest&amp;quot; \
 -dm=thin -ds=LocalDatastore_001 \
 --net:&amp;quot;bridged&amp;quot;=&amp;quot;VM Network&amp;quot; \
@@ -393,46 +397,46 @@ Warning:
 Deploying to VI: vi://root@192.168.1.16:443/
 Transfer Completed
 Completed successfully
-&lt;/code>&lt;/pre>
-&lt;p>This command will import the virtual machine on ESXi with following settings:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>-dm=thin&lt;/code> : force to use thin provisioning method for disk&lt;/li>
-&lt;li>&lt;code>-ds=LocalDatastore_001&lt;/code> : target datastore&lt;/li>
-&lt;li>&lt;code>--net:&amp;quot;bridged&amp;quot;=&amp;quot;VM Network&amp;quot;&lt;/code> : Map the bridged network to the &lt;code>VM Network&lt;/code> one on ESXi&lt;/li>
-&lt;/ul>
-&lt;p>We can check the import from the ESXi shell:&lt;/p>
-&lt;pre>&lt;code>$ vim-cmd vmsvc/getallvms
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This command will import the virtual machine on ESXi with following settings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-dm=thin&lt;/code&gt; : force to use thin provisioning method for disk&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-ds=LocalDatastore_001&lt;/code&gt; : target datastore&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--net:&amp;quot;bridged&amp;quot;=&amp;quot;VM Network&amp;quot;&lt;/code&gt; : Map the bridged network to the &lt;code&gt;VM Network&lt;/code&gt; one on ESXi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can check the import from the ESXi shell:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vim-cmd vmsvc/getallvms
 Vmid Name File Guest OS Version Annotation
 2 CentosTest [LocalDatastore_001] CentosTest/CentosTest.vmx otherLinuxGuest vmx-10
-&lt;/code>&lt;/pre>
-&lt;h3 id="enable-network-from-nested-vm">Enable network from nested-VM&lt;/h3>
-&lt;p>To keep the mac address you already set in virtualBox:&lt;/p>
-&lt;pre>&lt;code>$ sed -i &amp;quot;s/ethernet0\.addressType \= \&amp;quot;generated\&amp;quot;/ethernet0\.addressType \= \&amp;quot;static\&amp;quot;/g&amp;quot; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id="enable-network-from-nested-vm"&gt;Enable network from nested-VM&lt;/h3&gt;
+&lt;p&gt;To keep the mac address you already set in virtualBox:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sed -i &amp;quot;s/ethernet0\.addressType \= \&amp;quot;generated\&amp;quot;/ethernet0\.addressType \= \&amp;quot;static\&amp;quot;/g&amp;quot; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
 echo &amp;quot;ethernet0.address=\&amp;quot;08:00:27:47:76:67\&amp;quot;&amp;quot; &amp;gt;&amp;gt; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
-&lt;/code>&lt;/pre>
-&lt;p>If you powerOn the VM now, you'll not be able to join it on the network from another computer than the nested ESXi. This limitation is link to the nested ESXi VM configuration. You'll need to enable &amp;quot;promiscuous mode&amp;quot; on the ESXi VM. By command line:&lt;/p>
-&lt;pre>&lt;code>$ vboxmanage controlvm NestedESXi nicpromisc1 allow-all
-&lt;/code>&lt;/pre>
-&lt;p>With a poweredOn VM On ESXi you should now be able to join the LAN or to join nested VM from LAN too.&lt;/p>
-&lt;h2 id="add-vnc-support-to-vm">Add VNC support to VM&lt;/h2>
-&lt;p>If you want to be able to get a view or access to virtual machine, you have to setup VNC access on VM and on ESXi firewall.&lt;/p>
-&lt;h3 id="vm-setup-for-vnc">VM setup for VNC&lt;/h3>
-&lt;p>First step is to edit the VM vmx file to add some informations (&lt;em>VM needs to be powered-off&lt;/em>):&lt;/p>
-&lt;pre>&lt;code>$ echo &amp;quot;RemoteDisplay.vnc.enabled = \&amp;quot;true\&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you powerOn the VM now, you'll not be able to join it on the network from another computer than the nested ESXi. This limitation is link to the nested ESXi VM configuration. You'll need to enable &amp;quot;promiscuous mode&amp;quot; on the ESXi VM. By command line:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vboxmanage controlvm NestedESXi nicpromisc1 allow-all
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With a poweredOn VM On ESXi you should now be able to join the LAN or to join nested VM from LAN too.&lt;/p&gt;
+&lt;h2 id="add-vnc-support-to-vm"&gt;Add VNC support to VM&lt;/h2&gt;
+&lt;p&gt;If you want to be able to get a view or access to virtual machine, you have to setup VNC access on VM and on ESXi firewall.&lt;/p&gt;
+&lt;h3 id="vm-setup-for-vnc"&gt;VM setup for VNC&lt;/h3&gt;
+&lt;p&gt;First step is to edit the VM vmx file to add some informations (&lt;em&gt;VM needs to be powered-off&lt;/em&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ echo &amp;quot;RemoteDisplay.vnc.enabled = \&amp;quot;true\&amp;quot;
 RemoteDisplay.vnc.port = \&amp;quot;5800\&amp;quot;
 RemoteDisplay.vnc.password = \&amp;quot;125678\&amp;quot; \
 RemoteDisplay.vnc.keymap = \&amp;quot;fr\&amp;quot;&amp;quot; &amp;gt;&amp;gt; /vmfs/volumes/LocalDatastore_001/CentosTest/CentosTest.vmx
-&lt;/code>&lt;/pre>
-&lt;p>Now we reload VM config file :&lt;/p>
-&lt;pre>&lt;code>$ vim-cmd vmsvc/reload 2
-&lt;/code>&lt;/pre>
-&lt;p>You can start/stop/do-everything-you-want on your newly imported VM !&lt;/p>
-&lt;h3 id="firewall-configuration-for-vnc">Firewall configuration for VNC&lt;/h3>
-&lt;p>We create a folder on our Datastore to store the FW configuration files:&lt;/p>
-&lt;pre>&lt;code>$ mkdir /vmfs/volumes/LocalDatastore_001/firewall/
-&lt;/code>&lt;/pre>
-&lt;p>And we create our first firewall custom script:&lt;/p>
-&lt;pre>&lt;code>$ echo &amp;quot;&amp;lt;!-- Custom firewall configuration information --&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we reload VM config file :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ vim-cmd vmsvc/reload 2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can start/stop/do-everything-you-want on your newly imported VM !&lt;/p&gt;
+&lt;h3 id="firewall-configuration-for-vnc"&gt;Firewall configuration for VNC&lt;/h3&gt;
+&lt;p&gt;We create a folder on our Datastore to store the FW configuration files:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ mkdir /vmfs/volumes/LocalDatastore_001/firewall/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And we create our first firewall custom script:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ echo &amp;quot;&amp;lt;!-- Custom firewall configuration information --&amp;gt;
 &amp;lt;ConfigRoot&amp;gt;
 &amp;lt;!-- VNC --&amp;gt;
 &amp;lt;service id='0038'&amp;gt;
@@ -450,35 +454,35 @@ RemoteDisplay.vnc.keymap = \&amp;quot;fr\&amp;quot;&amp;quot; &amp;gt;&amp;gt; /
 &amp;lt;required&amp;gt;false&amp;lt;/required&amp;gt;
 &amp;lt;/service&amp;gt;
 &amp;lt;/ConfigRoot&amp;gt;&amp;quot; &amp;gt; /vmfs/volumes/LocalDatastore_001/VPNtoVM.xml
-&lt;/code>&lt;/pre>
-&lt;p>This will create a new set of rules and rules for opening TCP ports 5800 to 5999 for VNC usage.&lt;/p>
-&lt;p>Then we test our configuration file:&lt;/p>
-&lt;pre>&lt;code>$ cp /vmfs/volumes/LocalDatastore_001/firewall/*.xml /etc/vmware/firewall/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This will create a new set of rules and rules for opening TCP ports 5800 to 5999 for VNC usage.&lt;/p&gt;
+&lt;p&gt;Then we test our configuration file:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cp /vmfs/volumes/LocalDatastore_001/firewall/*.xml /etc/vmware/firewall/
 $ esxcli network firewall refresh
 $ esxcli network firewall ruleset list | grep VNC
 VNC true
 $ esxcli network firewall ruleset rule list | grep VNC
 VNC Inbound TCP Dst 1234 1234
-&lt;/code>&lt;/pre>
-&lt;p>It seems OK but if you reboot the ESXi, these changes will be lost. In order to keep them working, we use the &lt;code>/etc/rc.local.d/local.sh&lt;/code> script to copy and refresh rules on starting process:&lt;/p>
-&lt;pre>&lt;code>$ echo &amp;quot;$(cat /etc/rc.local.d/local.sh | grep -v exit)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It seems OK but if you reboot the ESXi, these changes will be lost. In order to keep them working, we use the &lt;code&gt;/etc/rc.local.d/local.sh&lt;/code&gt; script to copy and refresh rules on starting process:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ echo &amp;quot;$(cat /etc/rc.local.d/local.sh | grep -v exit)
 # Copy custom firewall configurations
 cp /vmfs/volumes/LocalDatastore_001/firewall/*.xml /etc/vmware/firewall/
 esxcli network firewall refresh
 exit 0&amp;quot; &amp;gt; /etc/rc.local.d/local.sh
-&lt;/code>&lt;/pre>
-&lt;p>And if you need to be more restrictive about the authorized IP address:&lt;/p>
-&lt;pre>&lt;code>$ esxcli network firewall ruleset set --allowed-all false --ruleset-id=VNC
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And if you need to be more restrictive about the authorized IP address:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ esxcli network firewall ruleset set --allowed-all false --ruleset-id=VNC
 $ esxcli network firewall ruleset allowedip add --ip-address=192.168.1.0/24 --ruleset-id=VNC
-&lt;/code>&lt;/pre>
-&lt;p>... to only accept IP address from a subnet to access to VNC features.&lt;/p>
-&lt;p>And you just need a VNC client software to access to your VM console with following settings:&lt;/p>
-&lt;ul>
-&lt;li>server IP : ip of your nested ESXi&lt;/li>
-&lt;li>server port : port you choose for VNC settings on the VM&lt;/li>
-&lt;li>password : VNC password on VM settings&lt;/li>
-&lt;/ul>
-&lt;figure>&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png">&lt;figcaption>
-&lt;h4>VNC access to a virtual machine&lt;/h4>
-&lt;/figcaption>
-&lt;/figure></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;... to only accept IP address from a subnet to access to VNC features.&lt;/p&gt;
+&lt;p&gt;And you just need a VNC client software to access to your VM console with following settings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;server IP : ip of your nested ESXi&lt;/li&gt;
+&lt;li&gt;server port : port you choose for VNC settings on the VM&lt;/li&gt;
+&lt;li&gt;password : VNC password on VM settings&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure&gt;&lt;img src="https://vuptime.io/images/NestedVirtualMachine/NestedVirtualMachineVNC.png"&gt;&lt;figcaption&gt;
+&lt;h4&gt;VNC access to a virtual machine&lt;/h4&gt;
+&lt;/figcaption&gt;
+&lt;/figure&gt;</description></item></channel></rss>
