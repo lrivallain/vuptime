@@ -21,8 +21,8 @@ languageMenuName: "\U0001F310"
 iconsDir: icons/
 author:
   photo: icons/favicon_500px.png
-#   homepage: https://ludovic.rivallain.fr
-#  name: Ludovic Rivallain
+  homepage: https://ludovic.rivallain.fr
+  name: Ludovic Rivallain
 customCSS:
 - css/custom.css
 # Copyrighted since
