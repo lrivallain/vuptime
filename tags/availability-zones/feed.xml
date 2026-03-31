@@ -177,7 +177,7 @@ src="https://vuptime.io/images/az-scout/architecture.svg"
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="ln"&gt;1&lt;/span&gt;&lt;span class="cl"&gt;az-scout create-plugin
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This launches an interactive wizard that will asks for a plugin name, slug, package name, and GitHub repository details, then generates a complete project structure with routing, MCP tools, UI tab, tests, CI workflows, and proper packaging.&lt;/p&gt;
 &lt;h2 id="existing-plugins"&gt;Existing plugins&lt;/h2&gt;
-&lt;p&gt;Several plugins already extend az-scout's capabilities:&lt;/p&gt;
+&lt;p&gt;Several plugins already extend az-scout's capabilities and the installation is simplified by a Plugin Manager UI that lists installed and recommended plugins with one-click installation:&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
 &lt;picture&gt;
 &lt;img
@@ -215,11 +215,16 @@ src="https://vuptime.io/images/az-scout/plugin-manager.png"
 &lt;td&gt;On-Demand Capacity Reservation (ODCR) coverage analysis — identify VMs at risk of allocation failure&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;a href="https://github.com/az-scout/az-scout-plugin-avs-rvtools-analyser"&gt;az-scout-plugin-avs-rvtools-analyser&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Azure VMware Solution (AVS) migration risk analysis from RVTools Excel exports.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;a href="https://github.com/az-scout/az-scout-plugin-strategy-advisor"&gt;az-scout-plugin-strategy-advisor&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;&lt;em&gt;(WIP)&lt;/em&gt; Multi-region capacity strategy recommendation engine&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;p&gt;You can explore the plugin catalog from this page: &lt;strong&gt;&lt;a href="https://docs.az-scout.com/catalog"&gt;docs.az-scout.com/catalog&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;
 &lt;div class="notices info"&gt;
 &lt;div class="label"&gt;Coming soon&lt;/div&gt;
 &lt;p&gt;Future blog posts will dive into each plugin individually, covering their implementation details, Azure API integration patterns, and how they leverage the plugin architecture.&lt;/p&gt;
@@ -295,6 +300,7 @@ src="https://vuptime.io/images/az-scout/plugin-ai-integration.svg"
 &lt;li&gt;&lt;strong&gt;Documentation:&lt;/strong&gt; &lt;a href="https://docs.az-scout.com"&gt;docs.az-scout.com&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;GitHub:&lt;/strong&gt; &lt;a href="https://github.com/az-scout/az-scout"&gt;github.com/az-scout/az-scout&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;PyPI:&lt;/strong&gt; &lt;a href="https://pypi.org/project/az-scout/"&gt;pypi.org/project/az-scout&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plugin Catalog:&lt;/strong&gt; &lt;a href="https://docs.az-scout.com/catalog"&gt;docs.az-scout.com/catalog&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Start your plugin adventure:&lt;/strong&gt; it is as simple as &lt;code&gt;az-scout create-plugin&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="notices warning"&gt;
