@@ -135,7 +135,7 @@ This launches an interactive wizard that will asks for a plugin name, slug, pack
 
 ## Existing plugins
 
-Several plugins already extend az-scout's capabilities:
+Several plugins already extend az-scout's capabilities and the installation is simplified by a Plugin Manager UI that lists installed and recommended plugins with one-click installation:
 
 ![Plugin Manager UI showing installed and recommended plugins](/images/az-scout/plugin-manager.png)
 
@@ -145,7 +145,10 @@ Several plugins already extend az-scout's capabilities:
 | [az-scout-plugin-latency-stats](https://github.com/az-scout/az-scout-plugin-latency-stats) | Inter-region and Inter-zones latency statistics — World map with pairwise RTT between Azure regions |
 | [az-scout-plugin-avs-sku](https://github.com/az-scout/az-scout-plugin-avs-sku) | Azure VMware Solution (AVS) SKU exploration with regional pricing and generation compatibility |
 | [az-scout-plugin-odcr-coverage](https://github.com/az-scout/az-scout-plugin-odcr-coverage) | On-Demand Capacity Reservation (ODCR) coverage analysis — identify VMs at risk of allocation failure |
+| [az-scout-plugin-avs-rvtools-analyser](https://github.com/az-scout/az-scout-plugin-avs-rvtools-analyser) | Azure VMware Solution (AVS) migration risk analysis from RVTools Excel exports. |
 | [az-scout-plugin-strategy-advisor](https://github.com/az-scout/az-scout-plugin-strategy-advisor) | *(WIP)* Multi-region capacity strategy recommendation engine |
+
+You can explore the plugin catalog from this page: **[docs.az-scout.com/catalog](https://docs.az-scout.com/catalog)**.
 
 {{% notice info "Coming soon" %}}
 Future blog posts will dive into each plugin individually, covering their implementation details, Azure API integration patterns, and how they leverage the plugin architecture.
@@ -222,6 +225,7 @@ Each plugin can contribute to the AI integration by providing:
 * **Documentation:** [docs.az-scout.com](https://docs.az-scout.com)
 * **GitHub:** [github.com/az-scout/az-scout](https://github.com/az-scout/az-scout)
 * **PyPI:** [pypi.org/project/az-scout](https://pypi.org/project/az-scout/)
+* **Plugin Catalog:** [docs.az-scout.com/catalog](https://docs.az-scout.com/catalog)
 * **Start your plugin adventure:** it is as simple as `az-scout create-plugin`
 
 {{% notice warning "Disclaimer" %}}
