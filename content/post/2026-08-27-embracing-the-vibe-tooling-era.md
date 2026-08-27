@@ -15,7 +15,6 @@ tags:
 thumbnail: /images/vibe-tooling/thumbnail.png
 featureImage: /images/vibe-tooling/hero.png
 toc: true
-draft: true
 ---
 
 **For once, this post won't be technical — it's more of a step-back piece.** In the AI era, a lot of things have accelerated dramatically and, from where I stand in particular, I'm seeing a new trend I wanted to share a few thoughts about. I've called that trend "vibe tooling". What follows applies mostly to the IT and cloud world I work in, but I wouldn't be surprised to see the trend spill over into other fields little by little.
