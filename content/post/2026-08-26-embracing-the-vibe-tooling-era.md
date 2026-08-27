@@ -3,7 +3,7 @@ title: "Embracing the vibe tooling era"
 date: "2026-08-26"
 author: lrivallain
 author_name: Ludovic Rivallain
-description: "Why the answer to fifteen personal tools isn't a sixteenth."
+description: "Why the answer to fourteen personal tools isn't a fifteenth."
 categories:
 - Thoughts
 tags:
@@ -164,7 +164,7 @@ There is also a risk that gets talked about less, and which strikes me as more s
 
 Our tools have always served that purpose: turning what we have learned into something we will never have to learn again. What generative AI changed isn't the nature of the mechanism — it's its speed, and the number of people able to operate it.
 
-Faced with this bloom, the convergence reflex fires at every level. It's understandable: proliferation is uncomfortable, hard to map, to secure, to justify. But wanting to bring everything back to a single tool means taking away from the mechanism the very thing that makes it work: the proximity between the person who has the problem and the person who builds the answer. And more often than not, the attempt to unify fifteen tools simply produces a sixteenth — the famous [XKCD 927](https://xkcd.com/927/).
+Faced with this bloom, the convergence reflex fires at every level. It's understandable: proliferation is uncomfortable, hard to map, to secure, to justify. But wanting to bring everything back to a single tool means taking away from the mechanism the very thing that makes it work: the proximity between the person who has the problem and the person who builds the answer. And more often than not, the attempt to unify fourteen tools simply produces a fifteenth — the famous [XKCD 927](https://xkcd.com/927/).
 
 So the right question isn't "how many tools?", but "who has the mandate to impose one?".
 
