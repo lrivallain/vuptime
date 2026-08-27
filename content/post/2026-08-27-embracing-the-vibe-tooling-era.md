@@ -1,6 +1,6 @@
 ---
 title: "Embracing the vibe tooling era"
-date: "2026-08-26"
+date: "2026-08-27"
 author: lrivallain
 author_name: Ludovic Rivallain
 description: "Why the answer to fourteen personal tools isn't a fifteenth."
